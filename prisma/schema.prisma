@@ -17,12 +17,34 @@ enum Role {
   STOCK_MANAGER // manager stock management system
 }
 
-model barangay {
+model Barangay {
   id        String   @id @unique @default(cuid())
   name      String?
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
-  users      User[]
+  users     User[]
+  item      Item[]
+}
+
+enum SystemType {
+  MEDIWISE
+  SMS
+}
+
+model Item {
+  id          String     @id @default(cuid())
+  description String?    @db.VarChar(255)
+  name        String?    @db.VarChar(255)
+  quantity    Int?       @db.Int
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @default(now()) @updatedAt
+  barangay_id String?
+  barangay    Barangay?  @relation(fields: [barangay_id], references: [id])
+  systemType  SystemType
+  request_id  Int?
+  isArchive   Boolean    @default(false)
+  // request          requests?          @relation(fields: [request_id], references: [id])
+  // appointment_item appointment_item[]
 }
 
 model User {
@@ -39,7 +61,7 @@ model User {
   updatedAt      DateTime  @updatedAt
 
   barangay_id String?
-  barangay    barangay? @relation(fields: [barangay_id], references: [id])
+  barangay    Barangay? @relation(fields: [barangay_id], references: [id])
 
   accounts Account[]
   sessions Session[]
