@@ -17,18 +17,24 @@ enum Role {
   STOCK_MANAGER // manager stock management system
 }
 
+enum SystemType { // to filter the item
+  MEDIWISE
+  SMS
+}
+
+enum AppoinmentStatus { // appointment statuses
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
 model Barangay {
   id        String   @id @unique @default(cuid())
   name      String?
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
   users     User[]
-  item      Item[]
-}
-
-enum SystemType {
-  MEDIWISE
-  SMS
+  items     Item[]
 }
 
 model Item {
@@ -43,8 +49,6 @@ model Item {
   systemType  SystemType
   request_id  Int?
   isArchive   Boolean    @default(false)
-  // request          requests?          @relation(fields: [request_id], references: [id])
-  // appointment_item appointment_item[]
 }
 
 model User {
@@ -63,11 +67,27 @@ model User {
   barangay_id String?
   barangay    Barangay? @relation(fields: [barangay_id], references: [id])
 
-  accounts Account[]
-  sessions Session[]
-  profile  Profile?
+  accounts             Account[]
+  sessions             Session[]
+  profile              Profile?
+  patient_appointments Appointment[] @relation("patient")
+  doctor_appointments  Appointment[] @relation("doctor")
 
   @@index([id])
+}
+
+model Appointment {
+  id String @id @unique @default(cuid())
+  title             String           @db.VarChar(255)
+  doctorId          String?
+  doctor            User?            @relation(name: "doctor", fields: [doctorId], references: [id])
+  patientId         String?
+  patient           User?            @relation(name: "patient", fields: [patientId], references: [id])
+  date              DateTime
+  status            AppoinmentStatus @default(PENDING)
+  image_path        String?
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @default(now()) @updatedAt
 }
 
 enum Gender {
