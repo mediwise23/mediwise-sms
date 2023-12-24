@@ -11,7 +11,9 @@ const page = () => {
         <div className=" w-[75%] flex justify-between gap-x-10 items-center clip-path:polygon(0%_0%,100%_0%,100%_100%)">
           <img src="/images/Clogo.png" alt="" />
           <div className="flex flex-col w-[60%] gap-y-10  ">
-            <h1 className="font-bold text-[40px] uppercase">A path to a better health</h1>
+            <h1 className="font-bold text-[40px] uppercase">
+              A path to a better health
+            </h1>
             <p className="text-zinc-500 text-md">
               A platform gives healthcare providers the tools they need to
               manage medical inventory effectively, ensuring that patients get
@@ -83,11 +85,23 @@ const page = () => {
         </div>
       </section>
 
-      <section className="bg-[#c5ebd3] w-full p-10 h-[600px] flex items-center relative" id="contact-us" style={{
-        clipPath:"polygon(0 0, 100% 3%, 100% 100%, 0 98%)"
-      }} >
-        <img src="/images/contact2.png" className="absolute top-0 left-0  w-[500px]" alt="" />
-        <img src="/images/contact4.png" className="absolute bottom-0 right-0 w-[500px]" alt="" />
+      <section
+        className="bg-[#c5ebd3] w-full p-10 h-[600px] flex items-center relative"
+        id="contact-us"
+        style={{
+          clipPath: "polygon(0 0, 100% 3%, 100% 100%, 0 98%)",
+        }}
+      >
+        <img
+          src="/images/contact2.png"
+          className="absolute top-0 left-0  w-[500px]"
+          alt=""
+        />
+        <img
+          src="/images/contact4.png"
+          className="absolute bottom-0 right-0 w-[500px]"
+          alt=""
+        />
         <div className="flex flex-col gap-y-10 w-[50%] mx-auto">
           <h1 className="text-3xl uppercase text-center">
             C o n t a c t &nbsp; U s
