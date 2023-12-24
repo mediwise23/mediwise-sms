@@ -44,10 +44,10 @@ model Item {
   quantity    Int?       @db.Int
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @default(now()) @updatedAt
-  barangay_id String?
-  barangay    Barangay?  @relation(fields: [barangay_id], references: [id])
+  barangayId String?
+  barangay    Barangay?  @relation(fields: [barangayId], references: [id])
   systemType  SystemType
-  request_id  Int?
+  requestId  Int?
   isArchive   Boolean    @default(false)
 }
 
@@ -64,8 +64,8 @@ model User {
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 
-  barangay_id String?
-  barangay    Barangay? @relation(fields: [barangay_id], references: [id])
+  barangayId String?
+  barangay    Barangay? @relation(fields: [barangayId], references: [id])
 
   accounts             Account[]
   sessions             Session[]

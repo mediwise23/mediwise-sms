@@ -11,8 +11,8 @@ const page = () => {
         <div className=" w-[75%] flex justify-between gap-x-10 items-center clip-path:polygon(0%_0%,100%_0%,100%_100%)">
           <img src="/images/Clogo.png" alt="" />
           <div className="flex flex-col w-[60%] gap-y-10  ">
-            <h1 className="font-bold text-[40px]">A path to a better health</h1>
-            <p className="text-zinc-500">
+            <h1 className="font-bold text-[40px] uppercase">A path to a better health</h1>
+            <p className="text-zinc-500 text-md">
               A platform gives healthcare providers the tools they need to
               manage medical inventory effectively, ensuring that patients get
               the treatment they deserve, when they need it.
@@ -28,7 +28,7 @@ const page = () => {
       </section>
       <section
         id="about-us"
-        className="w-full flex justify-center p-10 h-[700px]"
+        className="w-full flex justify-center p-10 h-[700px] "
       >
         <div className=" w-[75%] flex flex-row-reverse gap-x-10 items-center">
           <img
@@ -37,10 +37,10 @@ const page = () => {
             alt=""
           />
           <div className="flex flex-col w-[50%] gap-y-10">
-            <h1 className="font-bold text-[25px]">
+            <h1 className="font-bold text-[40px] uppercase">
               Find Out A Little More About Us
             </h1>
-            <p className="text-zinc-500">
+            <p className="text-zinc-500 text-md">
               MediWise, a meticulously designed web-based and mobile
               application, is tailor-made for use by the City Health Department
               and Barangays. This essential intermediary platform fosters
@@ -61,7 +61,7 @@ const page = () => {
       </section>
 
       <section className=" w-[75%] flex flex-col " id="guidelines">
-        <h1 className="text-center text-3xl font-semibold my-20">
+        <h1 className="text-center text-[25px] font-semibold my-20 uppercase">
           A Few Guidelines On How To Use It
         </h1>
 
@@ -109,13 +109,6 @@ const page = () => {
             </div>
           </div>
         </div>
-
-        {/* <div className="flex justify-between">
-          <div className="Phone">
-            <h3 className="font-semibold">Phone</h3>
-            <p>+639157358899 / (044) 305 2370</p>
-          </div>
-        </div> */}
       </section>
     </div>
   );
