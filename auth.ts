@@ -103,7 +103,7 @@ export const authOptions: AuthOptions = {
     return session
     },
     signIn(params) {
-      // params.user.role = localStorage.getItem('roleToSignin');
+      params.user.role = "DOCTOR";
       return true
     },
 
