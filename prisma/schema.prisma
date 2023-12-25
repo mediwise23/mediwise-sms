@@ -60,7 +60,7 @@ model User {
   emailVerified  DateTime?
   image          String?
   hashedPassword String?
-  role           Role
+  role           Role?
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 

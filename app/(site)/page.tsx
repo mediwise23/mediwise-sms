@@ -1,9 +1,11 @@
 import { Button } from "@/components/ui/button";
 import React from "react";
+import Navbar from "./components/Navbar";
 
 const page = () => {
   return (
-    <div className="flex flex-col  w-full mx-auto items-center mt-20 gap-y-40">
+    <div className="flex flex-col  w-full mx-auto items-center gap-y-40">
+      <Navbar />
       <section
         className="w-full flex justify-center p-10 h-[700px] bg-zinc-50"
         id="home"

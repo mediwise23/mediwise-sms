@@ -3,6 +3,7 @@ import NextAuth, { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProviders from "next-auth/providers/google";
 import GithubProviders from "next-auth/providers/github";
+import FacebookProviders from "next-auth/providers/facebook";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
 import prisma from "@/lib/prisma";
@@ -10,13 +11,32 @@ import prisma from "@/lib/prisma";
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
+    FacebookProviders({
+      clientId: process.env.FACEBOOK_CLIENT_ID as string,
+      clientSecret: process.env.FACEBOOK_CLIENT_SECRETS as string,
+      authorization: {
+        params: {
+          role: "PATIENT" || "ADMIN"
+        },
+      },
+    }),
       GithubProviders({
         clientId: process.env.GITHUB_CLIENT_ID as string,
         clientSecret: process.env.GITHUB_CLIENT_SECRETS as string,
+        authorization: {
+          params: {
+            role: "PATIENT" || "ADMIN"
+          }
+        }
       }),
       GoogleProviders({
         clientId: process.env.GOOGLE_CLIENT_ID as string,
         clientSecret: process.env.GOOGLE_CLIENT_SECRETS as string,
+        authorization: {
+          params: {
+            role: "PATIENT" || "ADMIN"
+          }
+        }
       }),
 
     CredentialsProvider({
@@ -72,14 +92,21 @@ export const authOptions: AuthOptions = {
         // token.role = user.role;
         // token.departmentId = user.departmentId;
       }
+      console.log( "jwt", token, user)
       return token;
     },
     session({ session, token }) {
     //   session.user.role = token.role;
     //   session.user.departmentId = token.departmentId;
+    console.log("session", session, token)
     //   return session;
     return session
     },
+    signIn(params) {
+      // params.user.role = localStorage.getItem('roleToSignin');
+      return true
+    },
+
   },
   pages: {
     signIn: "/",

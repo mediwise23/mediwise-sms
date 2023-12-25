@@ -25,13 +25,15 @@ import { useModal } from "@/hooks/useModalStore";
 import { useMutateProcessor } from "@/hooks/useTanstackQuery";
 import toast from "react-hot-toast";
 import { LoginUserSchema, LoginUserSchemaType } from "@/schema/user";
-import { BsGithub, BsGoogle } from "react-icons/bs";
+import { BsFacebook, BsGithub, BsGoogle } from "react-icons/bs";
+import { IconType } from "react-icons";
+import { signIn, signOut, useSession } from "next-auth/react";
+import { CookingPot } from "lucide-react";
 
 const MediwiseLoginModal = () => {
   const { isOpen, type, onClose, data } = useModal();
   const isModalOpen = isOpen && type === "mediwiseLogin";
   const [loading, setLoading] = useState(false);
-
   const onHandleClose = () => {
     onClose();
   };
@@ -45,6 +47,9 @@ const MediwiseLoginModal = () => {
     mode: "all",
   });
 
+  const {data: session} = useSession()
+
+  console.log(session)
   type variant = "LOGIN" | "REGISTER";
   const [variants, setVariants] = useState<variant>("LOGIN");
 
@@ -89,7 +94,7 @@ const MediwiseLoginModal = () => {
 
   const socialActions = async (action: string) => {
     try {
-      const response = await signIn(action, { redirect: false });
+      const response = await signIn(action, { redirect: false, }, {role: "PATIENT"});
 
       if (response?.error) {
         toast.error("invalid credentials");
@@ -210,9 +215,13 @@ const MediwiseLoginModal = () => {
             </div>
 
             <div className="mt-6 flex gap-2">
-              <AuthSocialButton
+            <AuthSocialButton
                 icon={BsGithub}
                 onClick={() => socialActions("github")}
+              />
+              <AuthSocialButton
+                icon={BsFacebook}
+                onClick={() => socialActions("facebook")}
               />
               <AuthSocialButton
                 icon={BsGoogle}
@@ -228,8 +237,7 @@ const MediwiseLoginModal = () => {
 
 export default MediwiseLoginModal;
 
-import { IconType } from "react-icons";
-import { signIn } from "next-auth/react";
+
 
 type AuthSocialButtonProps = {
   icon: IconType;
