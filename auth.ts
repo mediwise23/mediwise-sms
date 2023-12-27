@@ -27,7 +27,8 @@ export const authOptions: AuthOptions = {
           params: {
             role: "PATIENT" || "ADMIN"
           }
-        }
+        },
+             
       }),
       GoogleProviders({
         clientId: process.env.GOOGLE_CLIENT_ID as string,
@@ -36,7 +37,7 @@ export const authOptions: AuthOptions = {
           params: {
             role: "PATIENT" || "ADMIN"
           }
-        }
+        },
       }),
 
     CredentialsProvider({
@@ -103,9 +104,10 @@ export const authOptions: AuthOptions = {
     return session
     },
     signIn(params) {
-      params.user.role = "DOCTOR";
+      params.user.role = "PATIENT"
       return true
     },
+    
 
   },
   pages: {

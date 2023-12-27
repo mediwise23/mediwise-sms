@@ -1,12 +1,11 @@
 import React from 'react'
-import AppointmentsClient from './components/AppointmentsClient'
+import HistoryClient from './components/HistoryClient'
 
 const page = () => {
-
   return (
     <div className='h-full'>
-      <AppointmentsClient />
-    </div>
+    <HistoryClient />
+  </div>
   )
 }
 

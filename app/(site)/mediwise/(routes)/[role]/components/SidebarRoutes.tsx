@@ -10,6 +10,7 @@ import {
   TableProperties,
   Users,
   Megaphone,
+  History,
 } from "lucide-react";
 import { MdHive } from "react-icons/md";
 import { SidebarItem } from "./SidebarItem";
@@ -66,12 +67,18 @@ const routesList: routeListType[] = [
     href: "/schedules",
     roles: ["ALL"],
   },
-//   {
-//     icon: MdHive,
-//     label: "CitZen",
-//     href: "/forums",
-//     roles: ["ALL"],
-//   },
+  {
+    icon: CalendarDays,
+    label: "Appointments",
+    href: "/appointments",
+    roles: ["ALL"],
+  },
+  {
+    icon: History,
+    label: "History",
+    href: "/history",
+    roles: ["ALL"],
+  },
 //   {
 //     icon: MessageCircle,
 //     label: "Message",

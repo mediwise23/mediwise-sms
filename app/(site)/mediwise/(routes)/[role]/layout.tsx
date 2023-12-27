@@ -1,4 +1,4 @@
-import Sidebar from "./[role]/components/Sidebar";
+import Sidebar from "./components/Sidebar";
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
   return (
