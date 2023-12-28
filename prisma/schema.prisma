@@ -17,38 +17,46 @@ enum Role {
   STOCK_MANAGER // manager stock management system
 }
 
-enum SystemType { // to filter the item
-  MEDIWISE
-  SMS
-}
-
-enum AppoinmentStatus { // appointment statuses
+enum AppoinmentStatus {
   PENDING
   ACCEPTED
   REJECTED
+  COMPLETED
+  CANCELLED
 }
 
 model Barangay {
-  id        String   @id @unique @default(cuid())
+  id        String     @id @unique @default(cuid())
   name      String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @default(now()) @updatedAt
   users     User[]
-  items     Item[]
+  items     BrgyItem[]
 }
 
-model Item {
-  id          String     @id @default(cuid())
-  description String?    @db.VarChar(255)
-  name        String?    @db.VarChar(255)
-  quantity    Int?       @db.Int
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @default(now()) @updatedAt
-  barangay_id String?
-  barangay    Barangay?  @relation(fields: [barangay_id], references: [id])
-  systemType  SystemType
-  request_id  Int?
-  isArchive   Boolean    @default(false)
+model SmsItem {
+  id          String   @id @default(cuid())
+  description String?  @db.VarChar(255)
+  name        String?  @db.VarChar(255)
+  stock       Int?     @db.Int
+  unit        String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+  isArchive   Boolean  @default(false)
+}
+
+model BrgyItem {
+  id          String    @id @default(cuid())
+  description String?   @db.VarChar(255)
+  name        String?   @db.VarChar(255)
+  stock       Int?      @db.Int
+  unit        String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now()) @updatedAt
+  barangayId  String?
+  barangay    Barangay? @relation(fields: [barangayId], references: [id])
+  requestId   String?
+  isArchive   Boolean   @default(false)
 }
 
 model User {
@@ -60,12 +68,12 @@ model User {
   emailVerified  DateTime?
   image          String?
   hashedPassword String?
-  role           Role
+  role           Role      @default(PATIENT)
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 
-  barangay_id String?
-  barangay    Barangay? @relation(fields: [barangay_id], references: [id])
+  barangayId String?
+  barangay   Barangay? @relation(fields: [barangayId], references: [id])
 
   accounts             Account[]
   sessions             Session[]
@@ -77,17 +85,17 @@ model User {
 }
 
 model Appointment {
-  id String @id @unique @default(cuid())
-  title             String           @db.VarChar(255)
-  doctorId          String?
-  doctor            User?            @relation(name: "doctor", fields: [doctorId], references: [id])
-  patientId         String?
-  patient           User?            @relation(name: "patient", fields: [patientId], references: [id])
-  date              DateTime
-  status            AppoinmentStatus @default(PENDING)
-  image_path        String?
-  createdAt         DateTime         @default(now())
-  updatedAt         DateTime         @default(now()) @updatedAt
+  id         String           @id @unique @default(cuid())
+  title      String           @db.VarChar(255)
+  doctorId   String?
+  doctor     User?            @relation(name: "doctor", fields: [doctorId], references: [id])
+  patientId  String?
+  patient    User?            @relation(name: "patient", fields: [patientId], references: [id])
+  date       DateTime
+  status     AppoinmentStatus @default(PENDING)
+  image_path String?
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @default(now()) @updatedAt
 }
 
 enum Gender {
