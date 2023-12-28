@@ -68,18 +68,34 @@ export const RegisterUserSchema = UserSchema.pick({
   role: true,
 }).extend({
   email: z.string().min(1).max(255).email("Invalid email"),
-  password: z.string().min(1).max(50),
   role: z.nativeEnum(Role),
   firstname: z.string().min(1).max(50),
-  middlename: z.string().min(1).max(50),
+  middlename: z.string().optional(),
   lastname: z.string().min(1).max(50),
-  suffix: z.string().min(1).max(50),
+  suffix: z.string().optional(),
   gender: z.nativeEnum(Gender),
-  dateOfBirth: z.date(),
+  dateOfBirth: z.string(),
   homeNo: z.string().min(1).max(50),
   street: z.string().min(1).max(50),
   barangay: z.string().min(1).max(50),
+  zip:z.string(),
   city: z.string().min(1).max(50),
-  province: z.string().min(1).max(50),
   contactNo: z.string().min(1).max(50),
-});
+  password: z
+  .string()
+  .refine(
+    (value) =>
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/.test(
+        value
+      ),
+    "Must contain 8 Characters, one uppercase, lowercase, one number and one special case character"
+  ),
+confirmPassword:z.string(),
+})
+.refine((data) => data.password === data.confirmPassword, {
+      message: "Passwords don't match",
+      path: ["confirmPassword"],
+})
+
+export type UserSchemaType = z.infer<typeof UserSchema>
+export type RegisterUserSchemaType = z.infer<typeof RegisterUserSchema>

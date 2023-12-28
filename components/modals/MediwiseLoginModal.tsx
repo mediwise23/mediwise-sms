@@ -29,7 +29,7 @@ import { BsFacebook, BsGithub, BsGoogle } from "react-icons/bs";
 import { IconType } from "react-icons";
 import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
-
+import { useRouter } from "next/navigation";
 const MediwiseLoginModal = () => {
   const { isOpen, type, onClose, data } = useModal();
   const isModalOpen = isOpen && type === "mediwiseLogin";
@@ -48,7 +48,6 @@ const MediwiseLoginModal = () => {
 
   const { data: session } = useSession();
 
-  console.log(session);
   type variant = "LOGIN" | "REGISTER";
   const [variants, setVariants] = useState<variant>("LOGIN");
 
@@ -111,6 +110,8 @@ const MediwiseLoginModal = () => {
     } finally {
     }
   };
+
+  const router = useRouter();
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onHandleClose}>
@@ -203,7 +204,15 @@ const MediwiseLoginModal = () => {
             </DialogFooter>
             <span className="text-sm text-center text-zinc-500">
               Don't have an account?{" "}
-              <Link href={"/register"} className="underline">Sign up here</Link>{" "}
+              <span
+                onClick={() => {
+                  onHandleClose();
+                  router.push("/mediwise/register");
+                }}
+                className="underline"
+              >
+                Sign up here
+              </span>{" "}
             </span>
           </form>
         </Form>
