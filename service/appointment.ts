@@ -42,7 +42,7 @@ export const createAppointment = async ({
   patientId: string;
   date: Date;
   status: AppoinmentStatus;
-  image_path: string | undefined;
+  image_path?: string;
 }) => {
   return await prisma.appointment.create({
     data: {
@@ -67,12 +67,12 @@ export const updateAppointmentById = async ({
   image_path,
 }: {
   id: string;
-  title: string | undefined;
-  doctorId: string | undefined;
-  patientId: string | undefined;
-  date: Date | undefined;
-  status: AppoinmentStatus | undefined;
-  image_path: string | undefined;
+  title?: string;
+  doctorId?: string;
+  patientId?: string;
+  date?: Date;
+  status?: AppoinmentStatus;
+  image_path?: string;
 }) => {
   return await prisma.appointment.update({
     where: {
@@ -97,5 +97,3 @@ export const deleteAppointmentById = async ({ id }: { id: string }) => {
     },
   });
 };
-
-
