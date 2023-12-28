@@ -16,29 +16,28 @@ export const authOptions: AuthOptions = {
       clientSecret: process.env.FACEBOOK_CLIENT_SECRETS as string,
       authorization: {
         params: {
-          role: "PATIENT" || "ADMIN"
+          role: "PATIENT" || "ADMIN",
         },
       },
     }),
-      GithubProviders({
-        clientId: process.env.GITHUB_CLIENT_ID as string,
-        clientSecret: process.env.GITHUB_CLIENT_SECRETS as string,
-        authorization: {
-          params: {
-            role: "PATIENT" || "ADMIN"
-          }
+    GithubProviders({
+      clientId: process.env.GITHUB_CLIENT_ID as string,
+      clientSecret: process.env.GITHUB_CLIENT_SECRETS as string,
+      authorization: {
+        params: {
+          role: "PATIENT" || "ADMIN",
         },
-             
-      }),
-      GoogleProviders({
-        clientId: process.env.GOOGLE_CLIENT_ID as string,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRETS as string,
-        authorization: {
-          params: {
-            role: "PATIENT" || "ADMIN"
-          }
+      },
+    }),
+    GoogleProviders({
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRETS as string,
+      authorization: {
+        params: {
+          role: "PATIENT" || "ADMIN",
         },
-      }),
+      },
+    }),
 
     CredentialsProvider({
       name: "credentials",
@@ -88,27 +87,37 @@ export const authOptions: AuthOptions = {
   ],
   callbacks: {
     // Ref: https://authjs.dev/guides/basics/role-based-access-control#with-jwt
+    /* comment ko muna start */
+    // jwt({ token, user }) {
+    //   if (user) {
+    //     // token.role = user.role;
+    //     // token.departmentId = user.departmentId;
+    //   }
+    //   console.log("jwt", token, user);
+    //   return token;
+    // },
+    // session({ session, token }) {
+    //   //   session.user.role = token.role;
+    //   //   session.user.departmentId = token.departmentId;
+    //   console.log("session", session, token);
+    //   //   return session;
+    //   return session;
+    // },
+    /* comment ko muna end */
     jwt({ token, user }) {
       if (user) {
-        // token.role = user.role;
-        // token.departmentId = user.departmentId;
+        token.role = user.role;
       }
-      console.log( "jwt", token, user)
       return token;
     },
     session({ session, token }) {
-    //   session.user.role = token.role;
-    //   session.user.departmentId = token.departmentId;
-    console.log("session", session, token)
-    //   return session;
-    return session
+      session.user.role = token.role;
+      return session;
     },
     signIn(params) {
-      params.user.role = "PATIENT"
-      return true
+      params.user.role = "PATIENT";
+      return true;
     },
-    
-
   },
   pages: {
     signIn: "/",
