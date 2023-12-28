@@ -2,7 +2,7 @@ import {
   AppointmentGetQuerySchema,
   CreateAppointmentSchema,
 } from "@/schema/appointment";
-import { createAppointment, getAppointments } from "@/service/appoinment";
+import { createAppointment, getAppointments } from "@/service/appointment";
 import { getQueryParams } from "@/service/params";
 import { NextRequest, NextResponse } from "next/server";
 
