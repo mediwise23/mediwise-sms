@@ -1,6 +1,5 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -18,12 +17,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
+import { useModal } from "@/hooks/useModalStore";
 import { useMutateProcessor } from "@/hooks/useTanstackQuery";
 import {
-  LoginUserSchemaType,
   RegisterUserSchema,
   RegisterUserSchemaType,
-  UserSchemaType,
 } from "@/schema/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -32,6 +30,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 const RegisterForm = () => {
   const [step, setStep] = useState(1);
+  const {onOpen} = useModal()
   const form = useForm<RegisterUserSchemaType>({
     resolver: zodResolver(RegisterUserSchema),
     defaultValues: {
@@ -456,14 +455,12 @@ const RegisterForm = () => {
           </section>
 
           <div className="flex mt-10 w-full gap-x-5 justify-between">
-
-            
-          {step === 1 && (
+            {step === 1 && (
               <>
                 <Button
                   type="button"
                   className="mr-auto"
-                  onClick={() => router.replace('/mediwise')}
+                  onClick={() => router.replace("/mediwise")}
                 >
                   Cancel
                 </Button>
@@ -492,8 +489,20 @@ const RegisterForm = () => {
                 </Button>
               </>
             )}
-
           </div>
+
+          <span className="text-sm text-center text-zinc-500">
+           Already have an account?
+            <span
+              onClick={() => {
+                router.push("/mediwise");
+                onOpen('mediwiseLogin')
+              }}
+              className="underline cursor-pointer"
+            >
+              Sign in here
+            </span>
+          </span>
         </form>
       </Form>
     </div>
