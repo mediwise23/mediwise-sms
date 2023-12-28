@@ -1,6 +1,8 @@
 import { User, Role } from "@prisma/client";
 import { z } from "zod";
 
+export type LoginUserSchemaType = z.infer<typeof LoginUserSchema>;
+
 export const allowedUserFields = {
   profile: true,
   name: true,
@@ -55,12 +57,17 @@ export const UserSchema = z.object({
 
 export const LoginUserSchema = UserSchema.pick({
   email: true,
-  hashedPassword: true
-}).
-extend({
+  hashedPassword: true,
+}).extend({
   email: z.string().min(1, "Required").email("Invalid email"),
-  hashedPassword: z.string().min(1, "Required")
-})
+  hashedPassword: z.string().min(1, "Required"),
+});
 
-export type LoginUserSchemaType = z.infer<typeof LoginUserSchema>
-
+export const RegisterUserSchema = UserSchema.pick({
+  email: true,
+  role: true,
+}).extend({
+  email: z.string().min(1).max(255).email("Invalid email"),
+  password: z.string().min(1).max(50),
+  role: z.nativeEnum(Role),
+});

@@ -33,22 +33,19 @@ export async function GET(req: NextRequest, { params }: { params: {} }) {
 
 export async function POST(req: NextRequest, { params }: { params: {} }) {
   try {
-    const result = await CreateAppointmentSchema.safeParseAsync(
-      await req.json()
-    );
+    const body = await CreateAppointmentSchema.safeParseAsync(await req.json());
 
-    if (!result.success) {
+    if (!body.success) {
       return NextResponse.json(
         {
-          errors: result.error.flatten().fieldErrors,
+          errors: body.error.flatten().fieldErrors,
           message: "Invalid body parameters",
         },
         { status: 400 }
       );
     }
 
-    const { title, doctorId, patientId, date, status, image_path } =
-      result.data;
+    const { title, doctorId, patientId, date, status, image_path } = body.data;
 
     const appointment = await createAppointment({
       title,
