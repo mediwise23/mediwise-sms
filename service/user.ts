@@ -62,23 +62,21 @@ export const createUser = async ({
   street,
   barangay,
   city,
-  province,
   contactNo,
 }: {
   email: string;
   hashedPassword: string;
   role: Role;
   firstname: string;
-  middlename: string;
+  middlename: string | undefined;
   lastname: string;
-  suffix: string;
+  suffix: string | undefined;
   gender: Gender;
   dateOfBirth: Date;
   homeNo: string;
   street: string;
   barangay: string;
   city: string;
-  province: string;
   contactNo: string;
 }) => {
   return await prisma.user.create({
@@ -98,7 +96,6 @@ export const createUser = async ({
           street,
           barangay,
           city,
-          province,
           contactNo,
         },
       },

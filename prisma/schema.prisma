@@ -120,9 +120,9 @@ model Profile {
   street      String?
   barangay    String?
   city        String?
-  province    String?
+  // province    String?
   contactNo   String?
-
+  zip String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
