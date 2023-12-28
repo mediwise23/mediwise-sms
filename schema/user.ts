@@ -1,4 +1,4 @@
-import { User, Role } from "@prisma/client";
+import { User, Role, Gender } from "@prisma/client";
 import { z } from "zod";
 
 export type LoginUserSchemaType = z.infer<typeof LoginUserSchema>;
@@ -70,4 +70,16 @@ export const RegisterUserSchema = UserSchema.pick({
   email: z.string().min(1).max(255).email("Invalid email"),
   password: z.string().min(1).max(50),
   role: z.nativeEnum(Role),
+  firstname: z.string().min(1).max(50),
+  middlename: z.string().min(1).max(50),
+  lastname: z.string().min(1).max(50),
+  suffix: z.string().min(1).max(50),
+  gender: z.nativeEnum(Gender),
+  dateOfBirth: z.date(),
+  homeNo: z.string().min(1).max(50),
+  street: z.string().min(1).max(50),
+  barangay: z.string().min(1).max(50),
+  city: z.string().min(1).max(50),
+  province: z.string().min(1).max(50),
+  contactNo: z.string().min(1).max(50),
 });
