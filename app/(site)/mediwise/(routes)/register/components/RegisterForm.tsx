@@ -19,7 +19,12 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
 import { useMutateProcessor } from "@/hooks/useTanstackQuery";
-import { LoginUserSchemaType, RegisterUserSchema, RegisterUserSchemaType, UserSchemaType } from "@/schema/user";
+import {
+  LoginUserSchemaType,
+  RegisterUserSchema,
+  RegisterUserSchemaType,
+  UserSchemaType,
+} from "@/schema/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -32,44 +37,42 @@ const RegisterForm = () => {
     defaultValues: {
       city: "Caloocan",
       zip: "1400",
-      role:'PATIENT'
+      role: "PATIENT",
     },
     mode: "all",
   });
 
-  const router = useRouter()
- const register = useMutateProcessor<RegisterUserSchemaType, string>({
-  url: '/auth/register',
-  key:['register'],
-  method:'POST',
- })
- const { toast } = useToast()
+  const router = useRouter();
+  const register = useMutateProcessor<RegisterUserSchemaType, string>({
+    url: "/auth/register",
+    key: ["register"],
+    method: "POST",
+  });
+  const { toast } = useToast();
   const onSubmit: SubmitHandler<RegisterUserSchemaType> = (values) => {
-    console.log(values)
+    console.log(values);
 
-    register.mutate(values,
-      {
-        onSuccess(data, variables, context) {
-          toast({
-            title: 'Registered successful',
-            description: data
-          });
+    register.mutate(values, {
+      onSuccess(data, variables, context) {
+        toast({
+          title: "Registered successful",
+          description: data,
+        });
 
-          setTimeout(() => {
-            router.push('/mediwise')
-          }, 2000)
-        },
-        onError(error, variables, context) {
-          console.error(error)
+        setTimeout(() => {
+          router.push("/mediwise");
+        }, 2000);
+      },
+      onError(error, variables, context) {
+        console.error(error);
 
-          toast({
-            title: 'Registered failed',
-            description: 'Email already used',
-            variant:'destructive'
-          });
-        },
-      }
-    )
+        toast({
+          title: "Registered failed",
+          description: "Email already used",
+          variant: "destructive",
+        });
+      },
+    });
   };
 
   return (
@@ -79,17 +82,19 @@ const RegisterForm = () => {
           src="/images/BGPNU.jpeg"
           alt=""
           className="w-full h-full object-cover"
-          />
+        />
       </section>
       <Form {...form}>
         <form
           className="flex flex-col flex-1 px-10 py-5 bg-white"
           onSubmit={form.handleSubmit(onSubmit)}
-          >
+        >
           <h1 className="text-3xl font-semibold ">Create a free account</h1>
 
-          <h2 className="font-semibold mt-10">{step === 1 ? "Personal Information" : "Account Information"}</h2>
-          
+          <h2 className="font-semibold mt-10">
+            {step === 1 ? "Personal Information" : "Account Information"}
+          </h2>
+
           {/* slider */}
           <section className="flex h-full overflow-x-auto mt-10">
             {step === 1 && (
@@ -109,12 +114,12 @@ const RegisterForm = () => {
                             type="text"
                             placeholder={`Enter firstname`}
                             {...field}
-                            />
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
-                    />
+                  />
 
                   <FormField
                     control={form.control}
@@ -130,12 +135,12 @@ const RegisterForm = () => {
                             type="text"
                             placeholder={`Enter middlename`}
                             {...field}
-                            />
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
-                    />
+                  />
                 </div>
 
                 <div className="flex justify-evenly gap-x-3">
@@ -153,12 +158,12 @@ const RegisterForm = () => {
                             type="text"
                             placeholder={`Enter Lastname`}
                             {...field}
-                            />
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
-                    />
+                  />
 
                   <FormField
                     control={form.control}
@@ -174,12 +179,12 @@ const RegisterForm = () => {
                             type="text"
                             placeholder={`Enter Suffix`}
                             {...field}
-                            />
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
-                    />
+                  />
                 </div>
 
                 <div className="flex justify-evenly gap-x-3">
@@ -202,18 +207,20 @@ const RegisterForm = () => {
                         <FormMessage />
                       </FormItem>
                     )}
-                    />
+                  />
 
                   <FormField
                     control={form.control}
                     name="gender"
                     render={({ field }) => (
                       <FormItem className="w-full">
-                        <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">Gender</FormLabel>
+                        <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                          Gender
+                        </FormLabel>
                         <Select
                           onValueChange={field.onChange}
                           defaultValue={field.value}
-                          >
+                        >
                           <FormControl>
                             <SelectTrigger className="focus-visible:ring-0  focus-visible:ring-offset-0">
                               <SelectValue placeholder="Select a gender" />
@@ -227,7 +234,7 @@ const RegisterForm = () => {
                         <FormMessage />
                       </FormItem>
                     )}
-                    />
+                  />
                 </div>
                 <div className="flex justify-evenly gap-x-3">
                   <FormField
@@ -449,6 +456,28 @@ const RegisterForm = () => {
           </section>
 
           <div className="flex mt-10 w-full gap-x-5 justify-between">
+
+            
+          {step === 1 && (
+              <>
+                <Button
+                  type="button"
+                  className="mr-auto"
+                  onClick={() => router.replace('/mediwise')}
+                >
+                  Cancel
+                </Button>
+
+                <Button
+                  type="button"
+                  className="ml-auto"
+                  onClick={() => setStep(2)}
+                >
+                  Next
+                </Button>
+              </>
+            )}
+
             {step === 2 && (
               <>
                 <Button
@@ -464,15 +493,6 @@ const RegisterForm = () => {
               </>
             )}
 
-            {step === 1 && (
-              <Button
-                type="button"
-                className="ml-auto"
-                onClick={() => setStep(2)}
-              >
-                Next
-              </Button>
-            )}
           </div>
         </form>
       </Form>

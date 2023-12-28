@@ -209,7 +209,7 @@ const MediwiseLoginModal = () => {
                   onHandleClose();
                   router.push("/mediwise/register");
                 }}
-                className="underline"
+                className="underline cursor-pointer"
               >
                 Sign up here
               </span>{" "}
