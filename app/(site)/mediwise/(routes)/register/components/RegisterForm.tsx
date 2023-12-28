@@ -292,7 +292,7 @@ const RegisterForm = () => {
                         <FormControl>
                           <Input
                             className="focus-visible:ring-0  focus-visible:ring-offset-0"
-                            type="text"
+                            type="number"
                             placeholder={`Enter contact number`}
                             {...field}
                           />
