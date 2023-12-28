@@ -3,6 +3,7 @@ import { z } from "zod";
 
 export type TAppointment = z.infer<typeof AppointmentSchema>;
 export type TCreateAppointment = z.infer<typeof CreateAppointmentSchema>;
+export type TUpdateAppointment = z.infer<typeof UpdateAppointmentSchema>;
 
 export const AppointmentSchema = z.object({
   id: z.string(),
@@ -35,5 +36,23 @@ export const CreateAppointmentSchema = AppointmentSchema.pick({
   patientId: z.string().cuid(),
   date: z.coerce.date(),
   status: z.nativeEnum(AppoinmentStatus),
-  image_path: z.string().min(3).max(255),
+  image_path: z.string().min(3).max(255).optional(),
 });
+
+export const UpdateAppointmentSchema = AppointmentSchema.pick({
+  title: true,
+  doctorId: true,
+  patientId: true,
+  date: true,
+  status: true,
+  image_path: true,
+})
+  .extend({
+    title: z.string().min(3).max(255),
+    doctorId: z.string().cuid(),
+    patientId: z.string().cuid(),
+    date: z.coerce.date(),
+    status: z.nativeEnum(AppoinmentStatus),
+    image_path: z.string().min(3).max(255),
+  })
+  .partial();
