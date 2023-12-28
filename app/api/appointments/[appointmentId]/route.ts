@@ -3,7 +3,7 @@ import {
   deleteAppointmentById,
   getAppointmentById,
   updateAppointmentById,
-} from "@/service/appoinment";
+} from "@/service/appointment";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(

@@ -15,12 +15,28 @@ export const comparePassword = async (
   return await bcrypt.compare(password, hashedPassword);
 };
 
-const userAllowedFields = {
-  id: true,
+export const userAllowedFields = {
   email: true,
+  name: true,
+  image: true,
   role: true,
   createdAt: true,
-  updatedAt: true,
+  profile: {
+    select: {
+      firstname: true,
+      middlename: true,
+      lastname: true,
+      suffix: true,
+      gender: true,
+      dateOfBirth: true,
+      homeNo: true,
+      street: true,
+      barangay: true,
+      city: true,
+      province: true,
+      contactNo: true,
+    },
+  },
 };
 
 export const getUserById = async ({ id }: { id: string }) => {
@@ -28,7 +44,7 @@ export const getUserById = async ({ id }: { id: string }) => {
     where: {
       id,
     },
-    select: {},
+    select: userAllowedFields,
   });
 };
 
@@ -84,5 +100,6 @@ export const createUser = async ({
         },
       },
     },
+    select: userAllowedFields,
   });
 };
