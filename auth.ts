@@ -116,10 +116,10 @@ export const authOptions: AuthOptions = {
       session.user.id = token.id;
       return session;
     },
-    signIn(params) {
-      params.user.role = "PATIENT";
-      return true;
-    },
+    // signIn(params) {
+    //   params.user.role = "PATIENT";
+    //   return true;
+    // },
   },
   pages: {
     signIn: "/",

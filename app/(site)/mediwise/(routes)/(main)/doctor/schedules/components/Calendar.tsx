@@ -10,14 +10,13 @@ import {
   useMutateProcessor,
   useQueryProcessor,
 } from "@/hooks/useTanstackQuery";
-import toast from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
-import { signOut, useSession } from "next-auth/react";
 import { Role, WorkSchedule } from "@prisma/client";
+import { useToast } from "@/components/ui/use-toast";
 
 const Calendar = () => {
   const { onOpen, onClose } = useModal();
-
+  const {toast} = useToast()
   const workSchedules = useQueryProcessor<WorkSchedule[]>({url:`/work-schedules`,key:["work-schedules"]});
 
   const currentworkSchedules = typeof workSchedules.data !== "undefined" && workSchedules?.data?.length > 0
@@ -63,16 +62,22 @@ const Calendar = () => {
 
     addWorkSchedule.mutate(eventData, {
       onSuccess(data) {
-        toast.success("Work Schedule added!");
+        toast({
+          title: "Schedule added",
+          description: "Your work schedule has been added",
+        })
         onClose();
       },
       onError(error, variables, context) {
         console.error(error)
-        toast.error("Something went wrong...");
+        toast({
+          variant:'destructive',
+          title: "Something went wrong",
+          description: "Your work schedule did save",
+        })
       },
     });
   };
-
 
   const handleUpdateEvent = ({ event }: any) => {
     // const eventData = {

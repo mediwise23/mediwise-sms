@@ -32,7 +32,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 const MediwiseLoginModal = () => {
 
-
   const { isOpen, type, onClose } = useModal();
   const isModalOpen = isOpen && type === "mediwiseLogin";
   const [loading, setLoading] = useState(false);
@@ -47,8 +46,6 @@ const MediwiseLoginModal = () => {
     },
     mode: "all",
   });
-
-  const { data: session } = useSession();
 
   type variant = "LOGIN" | "REGISTER";
   const [variants, setVariants] = useState<variant>("LOGIN");

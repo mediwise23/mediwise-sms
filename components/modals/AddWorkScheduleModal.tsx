@@ -86,7 +86,7 @@ const AddWorkScheduleModal = () => {
             </DialogHeader>
             <DialogFooter className="bg-gray-100 px-6 py-4 ">
               <div className="flex items-center justify-between w-full">
-                <Button className="" onClick={onHandleClose} variant={"ghost"}>
+                <Button className="" type="button" onClick={onHandleClose} variant={"ghost"}>
                   Cancel
                 </Button>
                 <Button
