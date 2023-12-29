@@ -3,6 +3,7 @@ import "server-only";
 import prisma from "@/lib/prisma";
 import { Gender, Role } from "@prisma/client";
 import bcrypt from "bcrypt";
+import { TRegister, TUpdateProfile } from "@/schema/user";
 
 export const generateHashPassword = async (password: string) => {
   return await bcrypt.hash(password, 10);
@@ -39,12 +40,18 @@ export const userAllowedFields = {
   },
 };
 
-export const getUserById = async ({ id }: { id: string }) => {
+export const getUserById = async ({
+  id,
+  enableRawData = false,
+}: {
+  id: string;
+  enableRawData?: boolean;
+}) => {
   return await prisma.user.findUnique({
     where: {
       id,
     },
-    select: userAllowedFields,
+    select: enableRawData ? undefined : userAllowedFields,
   });
 };
 
@@ -63,9 +70,10 @@ export const createUser = async ({
   barangay,
   city,
   contactNo,
-}: {
-  email: string;
+}: Omit<TRegister, "confirmPassword" | "password"> & {
   hashedPassword: string;
+<<<<<<< HEAD
+=======
   role: Role;
   firstname: string;
   middlename: string | undefined;
@@ -78,6 +86,7 @@ export const createUser = async ({
   barangay: string;
   city: string;
   contactNo: string;
+>>>>>>> a8ed12b506e2f35f75fabe88a75042db30e37417
 }) => {
   return await prisma.user.create({
     data: {
@@ -99,6 +108,61 @@ export const createUser = async ({
           contactNo,
         },
       },
+    },
+    select: userAllowedFields,
+  });
+};
+
+export const updateProfileById = async ({
+  id,
+  firstname,
+  middlename,
+  lastname,
+  suffix,
+  gender,
+  dateOfBirth,
+  homeNo,
+  street,
+  barangay,
+  city,
+  province,
+  contactNo,
+}: TUpdateProfile & { id: string }) => {
+  return await prisma.profile.update({
+    where: {
+      id: id,
+    },
+    data: {
+      firstname,
+      middlename,
+      lastname,
+      suffix,
+      gender,
+      dateOfBirth,
+      homeNo,
+      street,
+      barangay,
+      city,
+      province,
+      contactNo,
+    },
+    select: userAllowedFields,
+  });
+};
+
+export const updateUserPasswordById = async ({
+  id,
+  hashedPassword,
+}: {
+  id: string;
+  hashedPassword: string;
+}) => {
+  return await prisma.user.update({
+    where: {
+      id: id,
+    },
+    data: {
+      hashedPassword,
     },
     select: userAllowedFields,
   });

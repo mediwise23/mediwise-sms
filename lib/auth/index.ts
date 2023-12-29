@@ -30,15 +30,21 @@ interface WithAuthHandler {
     searchParams: Record<string, string>;
     headers?: Record<string, string>;
     session: Session;
-    currentUser: User
+    currentUser?: User;
   }): Promise<Response>;
 }
 
 interface RequiredRole {
   requiredRole?: Array<Role>;
+  allowAnonymous?: boolean;
 }
 
-export const withAuth = (handler: WithAuthHandler, { requiredRole = [] }: RequiredRole = {}) => async (
+export const withAuth =
+  (
+    handler: WithAuthHandler,
+    { requiredRole = [], allowAnonymous = false }: RequiredRole = {}
+  ) =>
+  async (
     req: Request,
     { params }: { params: Record<string, string> | undefined }
   ) => {
@@ -48,6 +54,16 @@ export const withAuth = (handler: WithAuthHandler, { requiredRole = [] }: Requir
     let headers = {};
 
     session = await getSession();
+
+    if (allowAnonymous) {
+      return handler({
+        req,
+        params: params || {},
+        searchParams,
+        headers,
+        session,
+      });
+    }
 
     if (!session) {
       return new Response("Unauthorized: Login required.", {
@@ -84,7 +100,7 @@ export const withAuth = (handler: WithAuthHandler, { requiredRole = [] }: Requir
       searchParams,
       headers,
       session,
-      currentUser: user
+      currentUser: user,
     });
   };
 
