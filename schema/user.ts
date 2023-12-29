@@ -3,9 +3,9 @@ import { z } from "zod";
 
 export type TProfile = z.infer<typeof ProfileSchema>;
 export type TUser = z.infer<typeof SafeUserSchema>;
-
 export type LoginUserSchemaType = z.infer<typeof LoginUserSchema>;
 export type TRegister = z.infer<typeof RegisterUserSchema>;
+export type TUpdateProfile = z.infer<typeof UpdateProfileSchema>;
 
 export const ProfileSchema = z.object({
   id: z.string(),
@@ -91,6 +91,40 @@ export const RegisterUserSchema = UserSchema.pick({
     message: "Passwords don't match",
     path: ["confirmPassword"],
   });
+
+export const UpdateProfileSchema = ProfileSchema.pick({
+  firstname: true,
+  lastname: true,
+  middlename: true,
+  suffix: true,
+  gender: true,
+  // specialist: true,
+  // licenseNo: true,
+  dateOfBirth: true,
+  homeNo: true,
+  street: true,
+  barangay: true,
+  city: true,
+  province: true,
+  contactNo: true,
+})
+  .extend({
+    firstname: z.string().min(1).max(50),
+    lastname: z.string().min(1).max(50),
+    middlename: z.string().min(1).max(50),
+    suffix: z.string().min(1).max(50),
+    gender: z.nativeEnum(Gender),
+    // specialist: z.string().min(1).max(50),
+    // licenseNo: z.string().min(1).max(50),
+    dateOfBirth: z.coerce.date(),
+    homeNo: z.string().min(1).max(50),
+    street: z.string().min(1).max(50),
+    barangay: z.string().min(1).max(50),
+    city: z.string().min(1).max(50),
+    province: z.string().min(1).max(50),
+    contactNo: z.string().min(1).max(50),
+  })
+  .partial();
 
 // test.js
 // const z = require("zod");

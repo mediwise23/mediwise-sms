@@ -2,6 +2,9 @@ import { RegisterUserSchema } from "@/schema/user";
 import { createUser, generateHashPassword } from "@/service/user";
 import { NextRequest, NextResponse } from "next/server";
 
+/* 
+  REGISTER USER
+*/
 export async function POST(req: NextRequest, { params }: { params: {} }) {
   try {
     const body = await RegisterUserSchema.safeParseAsync(await req.json());

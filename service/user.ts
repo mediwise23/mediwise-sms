@@ -3,6 +3,7 @@ import "server-only";
 import prisma from "@/lib/prisma";
 import { Gender, Role } from "@prisma/client";
 import bcrypt from "bcrypt";
+import { TRegister, TUpdateProfile } from "@/schema/user";
 
 export const generateHashPassword = async (password: string) => {
   return await bcrypt.hash(password, 10);
@@ -64,22 +65,8 @@ export const createUser = async ({
   city,
   province,
   contactNo,
-}: {
-  email: string;
+}: Omit<TRegister, "confirmPassword" | "password"> & {
   hashedPassword: string;
-  role: Role;
-  firstname: string;
-  middlename: string;
-  lastname: string;
-  suffix: string;
-  gender: Gender;
-  dateOfBirth: Date;
-  homeNo: string;
-  street: string;
-  barangay: string;
-  city: string;
-  province: string;
-  contactNo: string;
 }) => {
   return await prisma.user.create({
     data: {
@@ -102,6 +89,43 @@ export const createUser = async ({
           contactNo,
         },
       },
+    },
+    select: userAllowedFields,
+  });
+};
+
+export const updateProfileById = async ({
+  id,
+  firstname,
+  middlename,
+  lastname,
+  suffix,
+  gender,
+  dateOfBirth,
+  homeNo,
+  street,
+  barangay,
+  city,
+  province,
+  contactNo,
+}: TUpdateProfile & { id: string }) => {
+  return await prisma.profile.update({
+    where: {
+      id: id,
+    },
+    data: {
+      firstname,
+      middlename,
+      lastname,
+      suffix,
+      gender,
+      dateOfBirth,
+      homeNo,
+      street,
+      barangay,
+      city,
+      province,
+      contactNo,
     },
     select: userAllowedFields,
   });
