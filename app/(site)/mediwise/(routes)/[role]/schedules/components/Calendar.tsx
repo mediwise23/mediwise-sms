@@ -12,38 +12,67 @@ import {
 } from "@/hooks/useTanstackQuery";
 import toast from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
-import { useSession } from "next-auth/react";
-import { Role } from "@prisma/client";
+import { signOut, useSession } from "next-auth/react";
+import { Role, WorkSchedule } from "@prisma/client";
 
 const Calendar = () => {
+  const { onOpen, onClose } = useModal();
+
+
+  const workSchedules = useQueryProcessor<WorkSchedule[]>({url:`/work-schedules`,key:["work-schedules"]});
+
+  const currentworkSchedules = typeof workSchedules.data !== "undefined" && workSchedules?.data?.length > 0
+      ? workSchedules.data.map((workSchedule) => {
+          return {
+            id: workSchedule?.id,
+            title: workSchedule?.title,
+            start: workSchedule?.start,
+            end: workSchedule?.end,
+            allDay: workSchedule?.allDay,
+          };
+        })
+      : [];
+
+
   const handleDateSelect = (selectInfo: any) => {
     const calendarApi = selectInfo;
+    console.log(calendarApi)
+    onOpen("addWorkSchedule", { calendarApi });
   };
 
-
+  type EventData = {
+    id: string;
+    title: string;
+    start: Date;
+    end: Date;
+    allDay: boolean;
+  };
+  const addWorkSchedule = useMutateProcessor({
+    url: '/work-schedules',
+    method:'POST',
+    key: ['work-schedules']
+  })
 
   const handleAddEvent = ({ event }: any) => {
-    // const eventData = {
-    //   id: event.id,
-    //   title: event.title,
-    //   description: event._def.extendedProps.description,
-    //   timeStart: event.start,
-    //   timeEnd: event.end,
-    //   allDay: event.allDay,
-    // } as EventData;
+    const eventData = {
+      id: event.id,
+      title: event.title,
+      start: event.start,
+      end: event.end,
+      allDay: event.allDay,
+    } as EventData;
 
-    // createEvent.mutate(eventData, {
-    //   onSuccess(data) {
-    //     toast.success("Event added!");
-    //     onClose();
-    //   },
-    //   onError(error, variables, context) {
-    //     toast.error("Something went wrong...");
-    //   },
-    // });
+    addWorkSchedule.mutate(eventData, {
+      onSuccess(data) {
+        toast.success("Work Schedule added!");
+        onClose();
+      },
+      onError(error, variables, context) {
+        console.error(error)
+        toast.error("Something went wrong...");
+      },
+    });
   };
-
-
 
 
   const handleUpdateEvent = ({ event }: any) => {
@@ -91,7 +120,7 @@ const Calendar = () => {
         eventBackgroundColor={"#449e65"}
         eventColor={"#449e65"}
         weekends={true}
-        // events={currentEvents}
+        events={currentworkSchedules}
         // initialEvents={currentEvents} // alternatively, use the `events` setting to fetch from a feed
         select={handleDateSelect} // adding event
         eventClick={handleEventClick} // trigger when clicking an event
