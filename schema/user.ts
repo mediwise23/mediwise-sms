@@ -2,7 +2,7 @@ import { User, Profile, Role, Gender } from "@prisma/client";
 import { z } from "zod";
 
 export type TProfile = z.infer<typeof ProfileSchema>;
-export type TUser = z.infer<typeof UserSchema>;
+export type TUser = z.infer<typeof SafeUserSchema>;
 
 export type LoginUserSchemaType = z.infer<typeof LoginUserSchema>;
 export type TRegister = z.infer<typeof RegisterUserSchema>;
@@ -42,6 +42,10 @@ export const UserSchema = z.object({
   barangayId: z.string().nullable(),
   profile: ProfileSchema.nullable(),
 }) satisfies z.ZodType<User>;
+
+const SafeUserSchema = UserSchema.omit({
+  hashedPassword: true,
+});
 
 export const LoginUserSchema = UserSchema.pick({
   email: true,
