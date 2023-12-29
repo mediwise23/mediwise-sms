@@ -4,14 +4,14 @@ import prisma from "@/lib/prisma";
 import { withAuth } from "@/lib/auth";
 import moment from "moment-timezone";
 
-export const GET = withAuth(async ({ req,currentUser }) => {
+export const GET = withAuth(async ({ req, currentUser }) => {
   const date = new Date();
   date.setDate(date.getDate() - 1);
   const today = moment.utc(date).tz("Asia/Manila").format();
   try {
     const events = await prisma.workSchedule.findMany({
       where: {
-        doctorId: currentUser.id,
+        doctorId: currentUser?.id,
         start: {
           gte: today,
         },
@@ -50,7 +50,7 @@ export const POST = withAuth(async ({ req,currentUser }) => {
           allDay,
           start,
           end,
-          doctorId: currentUser.id,
+          doctorId: currentUser?.id as string,
         },
       });
   

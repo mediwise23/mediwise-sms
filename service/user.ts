@@ -34,7 +34,6 @@ export const userAllowedFields = {
       street: true,
       barangay: true,
       city: true,
-      province: true,
       contactNo: true,
     },
   },
@@ -72,8 +71,6 @@ export const createUser = async ({
   contactNo,
 }: Omit<TRegister, "confirmPassword" | "password"> & {
   hashedPassword: string;
-<<<<<<< HEAD
-=======
   role: Role;
   firstname: string;
   middlename: string | undefined;
@@ -86,7 +83,6 @@ export const createUser = async ({
   barangay: string;
   city: string;
   contactNo: string;
->>>>>>> a8ed12b506e2f35f75fabe88a75042db30e37417
 }) => {
   return await prisma.user.create({
     data: {
@@ -143,7 +139,6 @@ export const updateProfileById = async ({
       street,
       barangay,
       city,
-      province,
       contactNo,
     },
     select: userAllowedFields,
