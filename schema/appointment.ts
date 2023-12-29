@@ -4,6 +4,7 @@ import { z } from "zod";
 export type TAppointment = z.infer<typeof AppointmentSchema>;
 export type TCreateAppointment = z.infer<typeof CreateAppointmentSchema>;
 export type TUpdateAppointment = z.infer<typeof UpdateAppointmentSchema>;
+export type TAppointmentGetQuery = z.infer<typeof AppointmentGetQuerySchema>;
 
 export const AppointmentSchema = z.object({
   id: z.string(),

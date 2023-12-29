@@ -35,10 +35,14 @@ interface WithAuthHandler {
 
 interface RequiredRole {
   requiredRole?: Array<Role>;
+  allowAnonymous?: boolean;
 }
 
 export const withAuth =
-  (handler: WithAuthHandler, { requiredRole = [] }: RequiredRole = {}) =>
+  (
+    handler: WithAuthHandler,
+    { requiredRole = [], allowAnonymous = false }: RequiredRole = {}
+  ) =>
   async (
     req: Request,
     { params }: { params: Record<string, string> | undefined }
@@ -49,6 +53,16 @@ export const withAuth =
     let headers = {};
 
     session = await getSession();
+
+    if (allowAnonymous) {
+      return handler({
+        req,
+        params: params || {},
+        searchParams,
+        headers,
+        session,
+      });
+    }
 
     if (!session) {
       return new Response("Unauthorized: Login required.", {
