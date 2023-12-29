@@ -36,7 +36,8 @@ export const ProfileSchema = z.object({
   createdAt: z.date(),
   updatedAt: z.date(),
   userId: z.string(),
-});
+  zip: z.string().nullable(),
+}) satisfies z.ZodType<Profile>;
 
 export const UserSchema = z.object({
   id: z.string(),
