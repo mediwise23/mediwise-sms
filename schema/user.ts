@@ -126,6 +126,22 @@ export const UpdateProfileSchema = ProfileSchema.pick({
   })
   .partial();
 
+export const ChangePasswordSchema = z.object({
+  oldPassword: z.string().min(1).max(50),
+  newPassword: z
+    .string()
+    .min(1)
+    .max(50)
+    .refine(
+      (value) =>
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/.test(
+          value
+        ),
+      "Password must contain 8 Characters, one uppercase, lowercase, one number and one special case character"
+    ),
+  confirmNewPassword: z.string().min(1).max(50),
+});
+
 // test.js
 // const z = require("zod");
 // const RegisterUserSchema = z

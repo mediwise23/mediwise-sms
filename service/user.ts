@@ -40,12 +40,18 @@ export const userAllowedFields = {
   },
 };
 
-export const getUserById = async ({ id }: { id: string }) => {
+export const getUserById = async ({
+  id,
+  enableRawData = false,
+}: {
+  id: string;
+  enableRawData?: boolean;
+}) => {
   return await prisma.user.findUnique({
     where: {
       id,
     },
-    select: userAllowedFields,
+    select: enableRawData ? undefined : userAllowedFields,
   });
 };
 
@@ -126,6 +132,24 @@ export const updateProfileById = async ({
       city,
       province,
       contactNo,
+    },
+    select: userAllowedFields,
+  });
+};
+
+export const updateUserPasswordById = async ({
+  id,
+  hashedPassword,
+}: {
+  id: string;
+  hashedPassword: string;
+}) => {
+  return await prisma.user.update({
+    where: {
+      id: id,
+    },
+    data: {
+      hashedPassword,
     },
     select: userAllowedFields,
   });
