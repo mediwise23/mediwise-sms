@@ -50,7 +50,6 @@ const MediwiseLoginModal = () => {
 
   const { data: session } = useSession();
 
-  console.log(session)
   type variant = "LOGIN" | "REGISTER";
   const [variants, setVariants] = useState<variant>("LOGIN");
 
@@ -59,7 +58,6 @@ const MediwiseLoginModal = () => {
     method: "POST",
     key: ["user", "create"],
   });
-
   const onSubmit: SubmitHandler<LoginUserSchemaType> = async (values) => {
     setLoading(true);
     try {
@@ -67,7 +65,6 @@ const MediwiseLoginModal = () => {
         register.mutate(values, {
           onSuccess: async () => {
             toast.success("Register Success!");
-            // void signIn("credentials", data);
           },
         });
       }
@@ -81,6 +78,7 @@ const MediwiseLoginModal = () => {
           toast.error("invalid credentials");
         }
         if (response?.ok && !response.error) {
+          router.refresh();
           toast.success("Logged In!");
         }
       }

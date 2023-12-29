@@ -18,7 +18,6 @@ import { Role, WorkSchedule } from "@prisma/client";
 const Calendar = () => {
   const { onOpen, onClose } = useModal();
 
-
   const workSchedules = useQueryProcessor<WorkSchedule[]>({url:`/work-schedules`,key:["work-schedules"]});
 
   const currentworkSchedules = typeof workSchedules.data !== "undefined" && workSchedules?.data?.length > 0

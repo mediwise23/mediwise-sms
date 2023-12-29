@@ -2,8 +2,16 @@ import { Button } from "@/components/ui/button";
 import React from "react";
 import Navbar from "../../components/Navbar";
 import Link from "next/link";
+import { getSession } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
-const page = () => {
+const page = async () => {
+
+  const session = await getSession();
+  if (session?.user) {
+    return redirect(`/mediwise/${session.user.role.toLowerCase()}/appointments`);
+  }
+
   return (
     <div className="flex flex-col  w-full mx-auto items-center gap-y-40">
       <Navbar />

@@ -65,19 +65,19 @@ const routesList: routeListType[] = [
     icon: CalendarDays,
     label: "Schedules",
     href: "/schedules",
-    roles: ["ALL"],
+    roles: ["DOCTOR"],
   },
   {
     icon: CalendarDays,
     label: "Appointments",
     href: "/appointments",
-    roles: ["ALL"],
+    roles: ["DOCTOR", "ADMIN"],
   },
   {
     icon: History,
     label: "History",
     href: "/history",
-    roles: ["ALL"],
+    roles: ["DOCTOR"],
   },
 //   {
 //     icon: MessageCircle,
@@ -100,18 +100,17 @@ const routesList: routeListType[] = [
 ];
 
 type SidebarRoutesProps = {
-  role: string;
+  role: Role;
 };
 
 export const SidebarRoutes = ({ role }: SidebarRoutesProps) => {
-  // const routes = routesList;
 
   return (
     <div className="flex flex-col w-full ">
       {routesList.map((route) => {
-        // if (!isUserAllowed(role, route.roles)) {
-        //   return null;
-        // }
+        if (!route.roles.includes(role)) {
+          return null;
+        }
         return (
           <SidebarItem
             key={route.href}
