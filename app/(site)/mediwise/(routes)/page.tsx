@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import React from "react";
-import Navbar from "../components/Navbar";
+import Navbar from "../../components/Navbar";
+import Link from "next/link";
 
 const page = () => {
   return (
@@ -21,12 +22,14 @@ const page = () => {
               manage medical inventory effectively, ensuring that patients get
               the treatment they deserve, when they need it.
             </p>
-            <Button
-              className="w-fit text-md text-primary border-primary hover:text-primary"
-              variant={"outline"}
-            >
-              Get started
-            </Button>
+            <Link href={"/mediwise/register"} className="w-fit">
+              <Button
+                variant={"outline"}
+                className="w-fit text-md text-primary border-primary hover:text-primary"
+              >
+                Get started
+              </Button>
+            </Link>
           </div>
         </div>
       </section>

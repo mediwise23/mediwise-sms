@@ -33,7 +33,6 @@ export async function POST(req: NextRequest, { params }: { params: {} }) {
       street,
       barangay,
       city,
-      province,
       contactNo,
     } = body.data;
 
@@ -50,12 +49,11 @@ export async function POST(req: NextRequest, { params }: { params: {} }) {
       lastname,
       suffix,
       gender,
-      dateOfBirth,
+      dateOfBirth: new Date(dateOfBirth),
       homeNo,
       street,
       barangay,
       city,
-      province,
       contactNo,
     });
 
