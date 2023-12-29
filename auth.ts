@@ -54,7 +54,7 @@ export const authOptions: AuthOptions = {
           You can also use the `req` object to obtain additional parameters
           (i.e., the request IP address) 
         */
-        console.log(credentials)
+        console.log(credentials);
         if (!credentials?.email || !credentials?.password) {
           throw new Error("Invalid credentials. Please fill in all fields");
         }
@@ -107,11 +107,13 @@ export const authOptions: AuthOptions = {
     jwt({ token, user }) {
       if (user) {
         token.role = user.role;
+        token.id = user.id;
       }
       return token;
     },
     session({ session, token }) {
       session.user.role = token.role;
+      session.user.id = token.id;
       return session;
     },
     signIn(params) {

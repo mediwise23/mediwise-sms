@@ -2,19 +2,19 @@ import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/auth";
 import { Role, User } from "@prisma/client";
-
-export interface Session {
-  user: {
-    email: string;
-    id: string;
-    name: string;
-    image?: string;
-    role: Role;
-  };
-}
+import { Session } from "next-auth";
+// export interface Session {
+//   user: {
+//     email: string;
+//     id: string;
+//     name: string;
+//     image?: string;
+//     role: Role;
+//   };
+// }
 
 export const getSession = async () => {
-  return getServerSession(authOptions) as Promise<Session>;
+  return await getServerSession(authOptions);
 };
 
 interface WithAuthHandler {
@@ -50,12 +50,23 @@ export const withAuth =
   ) => {
     const searchParams = getSearchParams(req);
 
-    let session: Session | undefined;
+    let session: Session | null;
     let headers = {};
 
     session = await getSession();
+    console.log("🚀 ~ file: index.ts:55 ~ session:", session);
 
     if (allowAnonymous) {
+      session = {
+        expires: "",
+        user: {
+          email: "",
+          id: "",
+          name: "",
+          role: "ANONYMOUS",
+        },
+      };
+
       return handler({
         req,
         params: params || {},
@@ -72,10 +83,9 @@ export const withAuth =
       });
     }
 
-    const user = await prisma.user.findUnique({
+    const user = await prisma.user.findFirst({
       where: {
         id: session.user.id,
-        email: session.user.email,
         role: session.user.role,
       },
     });

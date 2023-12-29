@@ -15,6 +15,7 @@ enum Role {
   PATIENT //patient in mediwise
   DOCTOR //doctor in mediwise
   STOCK_MANAGER // manager stock management system
+  ANONYMOUS // anonymous user
 }
 
 enum AppoinmentStatus {
@@ -100,12 +101,12 @@ model Appointment {
 }
 
 model WorkSchedule {
-  id         String  @id @unique @default(cuid())
+  id         String    @id @unique @default(cuid())
   title      String
-  isArchived Boolean @default(false)
-  start       DateTime?
-  end         DateTime?
-  allDay      Boolean?
+  isArchived Boolean   @default(false)
+  start      DateTime?
+  end        DateTime?
+  allDay     Boolean?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
