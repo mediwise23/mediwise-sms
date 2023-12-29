@@ -71,18 +71,6 @@ export const createUser = async ({
   contactNo,
 }: Omit<TRegister, "confirmPassword" | "password"> & {
   hashedPassword: string;
-  role: Role;
-  firstname: string;
-  middlename: string | undefined;
-  lastname: string;
-  suffix: string | undefined;
-  gender: Gender;
-  dateOfBirth: Date;
-  homeNo: string;
-  street: string;
-  barangay: string;
-  city: string;
-  contactNo: string;
 }) => {
   return await prisma.user.create({
     data: {
