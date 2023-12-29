@@ -2,11 +2,13 @@ import { create } from "zustand";
 
 export type ModalType =
   | "mediwiseLogin"
+  | "addWorkSchedule"
 // you can extend this type if you have more modal
 
 // export type ModalType = "..." | "...." | "...."
 
 type ModalData = {
+  calendarApi?: any
 };
 
 type ModalStore = {

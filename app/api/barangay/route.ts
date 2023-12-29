@@ -32,8 +32,7 @@ export async function GET(req: NextRequest, { params }: { params: {} }) {
   }
 }
 
-export const POST = withAuth(
-  async ({ req, session }) => {
+export const POST = withAuth(async ({ req, session }) => {
     try {
       const body = await CreateBarangaySchema.safeParseAsync(await req.json());
 
