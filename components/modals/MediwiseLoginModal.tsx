@@ -27,11 +27,13 @@ import toast from "react-hot-toast";
 import { LoginUserSchema, LoginUserSchemaType } from "@/schema/user";
 import { BsFacebook, BsGithub, BsGoogle } from "react-icons/bs";
 import { IconType } from "react-icons";
-import { signIn, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 const MediwiseLoginModal = () => {
-  const { isOpen, type, onClose, data } = useModal();
+
+
+  const { isOpen, type, onClose } = useModal();
   const isModalOpen = isOpen && type === "mediwiseLogin";
   const [loading, setLoading] = useState(false);
   const onHandleClose = () => {
@@ -41,13 +43,14 @@ const MediwiseLoginModal = () => {
     resolver: zodResolver(LoginUserSchema),
     defaultValues: {
       email: "",
-      hashedPassword: "",
+      password: "",
     },
     mode: "all",
   });
 
   const { data: session } = useSession();
 
+  console.log(session)
   type variant = "LOGIN" | "REGISTER";
   const [variants, setVariants] = useState<variant>("LOGIN");
 
@@ -64,15 +67,16 @@ const MediwiseLoginModal = () => {
         register.mutate(values, {
           onSuccess: async () => {
             toast.success("Register Success!");
-            void signIn("credentials", data);
+            // void signIn("credentials", data);
           },
         });
       }
       if (variants == "LOGIN") {
         const response = await signIn("credentials", {
-          ...data,
+          ...values,
           redirect: false,
         });
+
         if (response?.error) {
           toast.error("invalid credentials");
         }
@@ -162,7 +166,7 @@ const MediwiseLoginModal = () => {
             <div className="">
               <FormField
                 control={form.control}
-                name="hashedPassword"
+                name="password"
                 render={({ field }) => (
                   <FormItem className="">
                     <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">

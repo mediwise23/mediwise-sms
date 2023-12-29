@@ -5,8 +5,7 @@ import {
   } from "@tanstack/react-query";
 import Calendar from "./components/Calendar";
   const SchedulesPage = async () => {
-    // const queryClient = new QueryClient();
-    // const currentUser = await getCurrentUser();
+    const queryClient = new QueryClient();
   
     // await queryClient.prefetchQuery({
     //   queryKey: ["events"],

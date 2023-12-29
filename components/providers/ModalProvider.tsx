@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import MediwiseLoginModal from "../modals/MediwiseLoginModal";
+import AddWorkScheduleModal from "../modals/AddWorkScheduleModal";
 
 
 const ModalProvider = () => {
@@ -15,6 +16,7 @@ const ModalProvider = () => {
   return (
     <>
       <MediwiseLoginModal />
+      <AddWorkScheduleModal />
     </>
   );
 };

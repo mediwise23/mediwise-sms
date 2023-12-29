@@ -1,7 +1,7 @@
 import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/auth";
-import { Role } from "@prisma/client";
+import { Role, User } from "@prisma/client";
 
 export interface Session {
   user: {
@@ -30,6 +30,7 @@ interface WithAuthHandler {
     searchParams: Record<string, string>;
     headers?: Record<string, string>;
     session: Session;
+    currentUser?: User;
   }): Promise<Response>;
 }
 
@@ -99,6 +100,7 @@ export const withAuth =
       searchParams,
       headers,
       session,
+      currentUser: user,
     });
   };
 

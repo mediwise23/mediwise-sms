@@ -59,10 +59,9 @@ const SafeUserSchema = UserSchema.omit({
 
 export const LoginUserSchema = UserSchema.pick({
   email: true,
-  hashedPassword: true,
 }).extend({
   email: z.string().min(1, "Required").email("Invalid email"),
-  hashedPassword: z.string().min(1, "Required"),
+  password: z.string().min(1, "Required"),
 });
 
 export const RegisterUserSchema = UserSchema.pick({
