@@ -8,62 +8,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Filter, Search, UserPlus } from "lucide-react";
+import {
+  Filter,
+  GitPullRequestArrow,
+  PackageSearch,
+  Search,
+} from "lucide-react";
 import React, { useState } from "react";
 import { DataTable } from "@/components/DataTable";
 import { columns } from "./Columns";
 
-const AppointmentsClient = () => {
-  const appointments = [
+const InventoryClient = () => {
+  const items = [
     {
       id: "asdcnmmysd54ngbcfddad23231",
-      title: "General Checkup",
-      doctor: "Francis Magpayo",
-      patient: "Andrea Munoz",
-      date: new Date(),
-      status: "PENDING",
+      name: "345512",
+      stock: "Haiden",
+      barangay: "Brendon",
       createdAt: new Date(),
-    },
-
-    {
-      id: "asdcnmmysd54ngbcfddad23231",
-      title: "General Checkup",
-      doctor: "Francis Magpayo",
-      patient: "Andrea Munoz",
-      date: new Date(),
-      status: "PENDING",
-      createdAt: new Date(),
-    },
-
-
-    {
-      id: "asdc1nmmysd54ngbcfddad23231",
-      title: "Follow up Checkup",
-      doctor: "andrew belgar",
-      patient: "minet dosme",
-      date: new Date(),
-      status: "ACCEPTED",
-      createdAt: new Date(),
-    },
-
-    {
-      id: "asdcnm2mysd54ngbcfddad23231",
-      title: "General Checkup",
-      doctor: "Brenan Delikaze",
-      patient: "Joshua Vellidad",
-      date: new Date(),
-      status: "ACCEPTED",
-      createdAt: new Date(),
-    },
-
-    {
-      id: "asdcnm3mysd54ngbcfddad23231",
-      title: "Follow up Checkup",
-      doctor: "Collin Inbatera",
-      patient: "John Doe",
-      date: new Date(),
-      status: "REJECTED",
-      createdAt: new Date(),
+      action: null,
     },
   ];
   const [globalFilter, setGlobalFilter] = useState("");
@@ -74,6 +37,17 @@ const AppointmentsClient = () => {
 
   return (
     <div className="flex flex-col p-10">
+      <div className="flex justify-end gap-x-5">
+        <Button className="text-zinc-500 dark:text-white" variant={"outline"}>
+          {" "}
+          <PackageSearch className="w-5 h-5 mr-2" /> Add new item
+        </Button>
+        <Button className="text-zinc-500 dark:text-white" variant={"outline"}>
+          {" "}
+          <GitPullRequestArrow className="w-5 h-5 mr-2" /> Make a request
+        </Button>
+      </div>
+
       <div className="flex items-center gap-5 my-10">
         <div className="border flex items-center rounded-md px-2 w-full flex-1">
           <Search className="w-5 h-5 font-semibold text-zinc-500 dark:text-white" />
@@ -82,7 +56,7 @@ const AppointmentsClient = () => {
             onChange={onFilter}
             type="text"
             value={globalFilter}
-            placeholder="Search for Doctor, Patient or something..."
+            placeholder="Search for item"
           />
         </div>
         {/* <Select>
@@ -135,7 +109,7 @@ const AppointmentsClient = () => {
         return (
           <DataTable
             columns={columns}
-            data={appointments || []}
+            data={items || []}
             globalFilter={globalFilter}
             setGlobalFilter={setGlobalFilter}
           />
@@ -145,4 +119,4 @@ const AppointmentsClient = () => {
   );
 };
 
-export default AppointmentsClient;
+export default InventoryClient;

@@ -11,21 +11,23 @@ import {
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import ActionButton from "./ActionButton";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 
-type appointmentsType = {
+type doctorType = {
   id: string;
-  title: string;
-  doctor: string;
-  patient: string;
-  date: Date;
-  status: string;
+  firstname: string;
+  middlename: string;
+  lastname: string;
+  specialized: string;
+  licenseNo: string;
   createdAt: Date;
+  action: null;
 };
 
-export const columns: ColumnDef<appointmentsType>[] = [
+export const columns: ColumnDef<doctorType>[] = [
   {
     accessorKey: "id",
     header: () => {
@@ -37,11 +39,36 @@ export const columns: ColumnDef<appointmentsType>[] = [
       return <div className="sr-only dark:text-white">{id}</div>;
     },
   },
+
   {
-    accessorKey: "date",
+    accessorKey: "licenseNo",
     accessorFn: (row) => {
-      const date = row.date;
-      return date;
+      const licenseNo = row.licenseNo;
+      return licenseNo;
+    },
+    header: ({ column }) => (
+      <div
+        className="text-[#181a19]  flex items-center cursor-pointer dark:text-white flex-1"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        License No. <ArrowUpDown className="ml-2 h-4 w-4" />
+      </div>
+    ),
+    cell: ({ row }) => {
+      // const yearEnrolled = row.getValue('') as Date
+      const licenseNo = row.original.licenseNo as string;
+
+      return (
+        <div className="">{licenseNo}</div>
+      );
+    },
+  },
+
+  {
+    accessorKey: "firstname",
+    accessorFn: (row) => {
+      const firstname = row.firstname;
+      return firstname;
     },
     header: ({ column }) => {
       return (
@@ -49,110 +76,80 @@ export const columns: ColumnDef<appointmentsType>[] = [
           className="text-[#181a19] flex items-center cursor-pointer dark:text-white flex-1"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Date <ArrowUpDown className="ml-2 h-4 w-4" />
+          Firstname <ArrowUpDown className="ml-2 h-4 w-4" />
         </div>
       );
     },
     cell: ({ row }) => {
-      const date = row.original.date;
+      const firstname = row.original.firstname;
       return (
         <div className=" dark:text-white">
-          {date.toLocaleDateString()}
+          {firstname}
         </div>
       );
     },
   },
   {
-    accessorKey: "doctor",
+    accessorKey: "middlename",
     accessorFn: (row) => {
-      const doctor = row.doctor;
-      return doctor;
+      const middlename = row.middlename;
+      return middlename;
     },
     header: ({ column }) => (
       <div
         className="text-[#181a19] flex items-center cursor-pointer dark:text-white flex-1"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        doctor <ArrowUpDown className="ml-2 h-4 w-4" />
+        Middlename <ArrowUpDown className="ml-2 h-4 w-4" />
       </div>
     ),
     cell: ({ row }) => {
-      const doctor = row.original?.doctor;
+      const middlename = row.original?.middlename;
 
-      return <div className={` flex items-center`}>{doctor}</div>;
+      return <div className={` flex items-center`}>{middlename}</div>;
     },
   },
 
   {
-    accessorKey: "title",
+    accessorKey: "lastname",
     accessorFn: (row) => {
-      const title = row.title || {};
-      return title;
+      const lastname = row.lastname || {};
+      return lastname;
     },
     header: ({ column }) => (
       <div
         className="text-[#181a19]  flex items-center cursor-pointer dark:text-white flex-1"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        Title <ArrowUpDown className="ml-2 h-4 w-4" />
+        Lastname <ArrowUpDown className="ml-2 h-4 w-4" />
       </div>
     ),
     cell: ({ row }) => {
       // const {firstname, middlename, lastname} = row.original.profile
-      const title = row.original.title;
-
-      return <div className={` flex items-center`}>{title}</div>;
+      const lastname = row.original.lastname;
+      return <div className={` flex items-center`}>{lastname}</div>;
     },
   },
   {
-    accessorKey: "patient",
+    accessorKey: "specialized",
     accessorFn: (row) => {
-      const patient = row.patient;
-      return patient;
+      const specialized = row.specialized;
+      return specialized;
     },
     header: ({ column }) => (
       <div
         className="text-[#181a19]  flex items-center cursor-pointer dark:text-white flex-1"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        Patient <ArrowUpDown className="ml-2 h-4 w-4" />
-      </div>
-    ),
-    cell: ({ row }) => {
-      // const studentNo = row.original.profile?.studentNumber as string;
-      const patient = row.original.patient;
-      return <div className={``}>{patient}</div>;
-    },
-  },
-  {
-    accessorKey: "status",
-    accessorFn: (row) => {
-      const status = row.status;
-      return status;
-    },
-    header: ({ column }) => (
-      <div
-        className="text-[#181a19]  flex items-center cursor-pointer dark:text-white flex-1"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      >
-        Status <ArrowUpDown className="ml-2 h-4 w-4" />
+        Specialized <ArrowUpDown className="ml-2 h-4 w-4" />
       </div>
     ),
     cell: ({ row }) => {
       // const yearEnrolled = row.getValue('') as Date
-      const status = row.original.status as string;
+      const specialized = row.original.specialized as string;
 
       return (
-        <div className={``}>
-          <Badge className={cn(
-              "dark:text-white bg-slate-500",
-              status === "PENDING" && "bg-slate-500",
-              status === "REJECTED" && "bg-rose-700",
-              status === "ACCEPTED" && "bg-[#16A34A]"
-            )}>
-            {status}
-          </Badge>{" "}
-        </div>
+        <div className="">{specialized}</div>
       );
     },
   },
@@ -178,6 +175,25 @@ export const columns: ColumnDef<appointmentsType>[] = [
       const createdAt = row.original?.createdAt;
       return (
         <div className="">{createdAt.toLocaleDateString()}</div>
+      );
+    },
+  },
+
+  {
+    accessorKey: "action",
+    header: ({ column }) => {
+      return (
+        <div
+          className=" text-[#181a19]  flex items-center cursor-pointer dark:text-white flex-1"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+        </div>
+      );
+    },
+    cell: ({ row }) => {
+      const createdAt = row.original?.createdAt;
+      return (
+        <ActionButton />
       );
     },
   },

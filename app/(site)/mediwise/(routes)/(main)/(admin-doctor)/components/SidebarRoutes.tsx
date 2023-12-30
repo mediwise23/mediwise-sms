@@ -11,6 +11,7 @@ import {
   Users,
   Megaphone,
   History,
+  Blocks,
 } from "lucide-react";
 import { MdHive } from "react-icons/md";
 import { SidebarItem } from "./SidebarItem";
@@ -79,12 +80,24 @@ const routesList: routeListType[] = [
     href: "/history",
     roles: ["DOCTOR"],
   },
-//   {
-//     icon: MessageCircle,
-//     label: "Message",
-//     href: "/messages",
-//     roles: ["ALL"],
-//   },
+  {
+    icon: Users,
+    label: "Doctors",
+    href: "/doctors",
+    roles: ["ADMIN"],
+  },
+  {
+    icon: Users,
+    label: "Patients",
+    href: "/patients",
+    roles: ["ADMIN"],
+  },
+  {
+    icon: Blocks,
+    label: "Inventory",
+    href: "/inventory",
+    roles: ["ADMIN"],
+  },
   // {
   //   icon: Bell,
   //   label: "Notifications",
