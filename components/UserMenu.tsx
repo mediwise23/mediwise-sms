@@ -33,12 +33,12 @@ const UserMenu = ({ currentUser }: UserMenuProps) => {
           justify-center
           rounded-full 
           cursor-pointer 
-          hover:shadow-md 
+          hover:shadow-md t
           transition"
         >
           <div className=" relative w-10 h-10">
             <Image
-              src={currentUser?.image as string}
+              src={currentUser?.image as string || `/images/placeholder.jpg` }
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="rounded-full object-cover"
