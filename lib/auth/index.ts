@@ -56,7 +56,7 @@ export const withAuth =
     session = await getSession();
     console.log("🚀 ~ file: index.ts:55 ~ session:", session);
 
-    if (allowAnonymous) {
+    if (allowAnonymous && req.method === "GET") {
       session = {
         expires: "",
         user: {
