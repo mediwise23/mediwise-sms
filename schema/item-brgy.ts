@@ -34,7 +34,7 @@ export const CreateBrgyItemSchema = ItemBrgySchema.pick({
   name: z.string().min(1).max(255),
   description: z.string().min(1).max(255),
   unit: z.string().min(1).max(255),
-  stock: z.number().min(1).max(255),
+  stock: z.string().min(1).max(255),
 });
 
 export const UpdateBrgyItemSchema = ItemBrgySchema.pick({

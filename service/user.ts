@@ -77,6 +77,7 @@ export const createUser = async ({
       email,
       hashedPassword,
       role,
+      barangayId: barangay,
       profile: {
         create: {
           firstname,

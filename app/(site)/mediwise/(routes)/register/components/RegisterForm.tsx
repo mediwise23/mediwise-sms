@@ -18,12 +18,13 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
 import { useModal } from "@/hooks/useModalStore";
-import { useMutateProcessor } from "@/hooks/useTanstackQuery";
+import { useMutateProcessor, useQueryProcessor } from "@/hooks/useTanstackQuery";
 import {
   RegisterUserSchema,
-  RegisterUserSchemaType,
+  TRegister,
 } from "@/schema/user";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Barangay } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -31,7 +32,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 const RegisterForm = () => {
   const [step, setStep] = useState(1);
   const {onOpen} = useModal()
-  const form = useForm<RegisterUserSchemaType>({
+  const form = useForm<TRegister>({
     resolver: zodResolver(RegisterUserSchema),
     defaultValues: {
       city: "Caloocan",
@@ -42,13 +43,16 @@ const RegisterForm = () => {
   });
 
   const router = useRouter();
-  const register = useMutateProcessor<RegisterUserSchemaType, string>({
+  const register = useMutateProcessor<TRegister, string>({
     url: "/auth/register",
     key: ["register"],
     method: "POST",
   });
+  const barangay = useQueryProcessor<Barangay[]>({url: '/barangay', key:['barangay'], })
+
+  console.log(barangay?.data)
   const { toast } = useToast();
-  const onSubmit: SubmitHandler<RegisterUserSchemaType> = (values) => {
+  const onSubmit: SubmitHandler<TRegister> = (values) => {
     console.log(values);
 
     register.mutate(values, {
@@ -320,10 +324,9 @@ const RegisterForm = () => {
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent className="focus-visible:ring-0  focus-visible:ring-offset-0">
-                              <SelectItem value="174">Brgy 174</SelectItem>
-                              <SelectItem value="175">Brgy 175</SelectItem>
-                              <SelectItem value="176">Brgy 176</SelectItem>
-                              <SelectItem value="178">Brgy 178</SelectItem>
+                              {
+                                barangay?.data?.map((barangay) => (<SelectItem value={barangay?.id || 'null'}>Brgy {barangay.name}</SelectItem>))
+                              }
                             </SelectContent>
                           </Select>
                         </FormControl>

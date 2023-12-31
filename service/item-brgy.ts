@@ -38,8 +38,15 @@ export const getBarangayItemById = async (
 export const createBarangayItem = async (
   data: TCreateBrgyItem
 ): Promise<TItemBrgy> => {
+  console.log('data', data)
   return await prisma.brgyItem.create({
-    data,
+    data: {
+      name: data.name,
+      unit: data.unit,
+      description: data.description,
+      stock: Number(data.stock),
+      barangayId: data.brgyId
+    },
   });
 };
 
