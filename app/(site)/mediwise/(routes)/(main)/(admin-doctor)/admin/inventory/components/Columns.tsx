@@ -12,20 +12,13 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import ActionButton from "./ActionButton";
+import { TItemBrgy } from "@/schema/item-brgy";
+import { format } from "date-fns";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-
-type itemType = {
-  id: string,
-  name:string,
-  stock: string,
-  barangay:string,
-  createdAt: Date,
-  action:null,
-};
-
-export const columns: ColumnDef<itemType>[] = [
+const DATE_FORMAT = `MMM d yyyy`;
+export const columns: ColumnDef<TItemBrgy>[] = [
   {
     accessorKey: "id",
     header: () => {
@@ -62,6 +55,27 @@ export const columns: ColumnDef<itemType>[] = [
       );
     },
   },
+
+  {
+    accessorKey: "description",
+    accessorFn: (row) => {
+      const description = row.description;
+      return description;
+    },
+    header: ({ column }) => (
+      <div
+        className="text-[#181a19] flex items-center cursor-pointer dark:text-white flex-1"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Description <ArrowUpDown className="ml-2 h-4 w-4" />
+      </div>
+    ),
+    cell: ({ row }) => {
+      const description = row.original?.description;
+      return <div className={` flex items-center line-clamp-2`}>{description}</div>;
+    },
+  },
+
   {
     accessorKey: "stock",
     accessorFn: (row) => {
@@ -84,22 +98,23 @@ export const columns: ColumnDef<itemType>[] = [
   },
 
   {
-    accessorKey: "barangay",
+    accessorKey: "unit",
     accessorFn: (row) => {
-      const barangay = row.barangay || {};
-      return barangay;
+      const unit = row.unit;
+      return unit;
     },
     header: ({ column }) => (
       <div
-        className="text-[#181a19]  flex items-center cursor-pointer dark:text-white flex-1"
+        className="text-[#181a19] flex items-center cursor-pointer dark:text-white flex-1"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        Barangay <ArrowUpDown className="ml-2 h-4 w-4" />
+        Unit <ArrowUpDown className="ml-2 h-4 w-4" />
       </div>
     ),
     cell: ({ row }) => {
-      const barangay = row.original.barangay;
-      return <div className={` flex items-center`}>{barangay}</div>;
+      const unit = row.original?.unit;
+
+      return <div className={` flex items-center`}>{unit}</div>;
     },
   },
 
@@ -123,7 +138,7 @@ export const columns: ColumnDef<itemType>[] = [
     cell: ({ row }) => {
       const createdAt = row.original?.createdAt;
       return (
-        <div>{createdAt.toLocaleDateString()}</div>
+        <div> {format(new Date(createdAt || new Date()), DATE_FORMAT)}</div>
       );
     },
   },

@@ -54,7 +54,6 @@ export const authOptions: AuthOptions = {
           You can also use the `req` object to obtain additional parameters
           (i.e., the request IP address) 
         */
-        console.log(credentials);
         if (!credentials?.email || !credentials?.password) {
           throw new Error("Invalid credentials. Please fill in all fields");
         }
@@ -108,12 +107,14 @@ export const authOptions: AuthOptions = {
       if (user) {
         token.role = user.role;
         token.id = user.id;
+        token.barangayId = user.barangayId
       }
       return token;
     },
     session({ session, token }) {
       session.user.role = token.role;
       session.user.id = token.id;
+      session.user.barangayId = token.barangayId;
       return session;
     },
     // signIn(params) {

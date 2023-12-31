@@ -17,18 +17,33 @@ import {
 import React, { useState } from "react";
 import { DataTable } from "@/components/DataTable";
 import { columns } from "./Columns";
+import { Session } from "next-auth";
+import { useModal } from "@/hooks/useModalStore";
+import { useQueryProcessor } from "@/hooks/useTanstackQuery";
+import { TItemBrgy } from "@/schema/item-brgy";
 
-const InventoryClient = () => {
-  const items = [
-    {
-      id: "asdcnmmysd54ngbcfddad23231",
-      name: "345512",
-      stock: "Haiden",
-      barangay: "Brendon",
-      createdAt: new Date(),
-      action: null,
-    },
-  ];
+type InventoryClientProps = {
+  currentUser: Session['user']
+}
+const InventoryClient:React.FC<InventoryClientProps> = ({currentUser}) => {
+
+  const {onOpen} = useModal()
+
+  const items = useQueryProcessor<TItemBrgy[]>({
+    url:'brgy-item',
+    key: ['brgy-items'],
+  })
+
+  // const items = [
+  //   {
+  //     id: "asdcnmmysd54ngbcfddad23231",
+  //     name: "345512",
+  //     stock: "Haiden",
+  //     barangay: "Brendon",
+  //     createdAt: new Date(),
+  //     action: null,
+  //   },
+  // ];
   const [globalFilter, setGlobalFilter] = useState("");
 
   const onFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,7 +53,7 @@ const InventoryClient = () => {
   return (
     <div className="flex flex-col p-10">
       <div className="flex justify-end gap-x-5">
-        <Button className="text-zinc-500 dark:text-white" variant={"outline"}>
+        <Button className="text-zinc-500 dark:text-white" variant={"outline"} onClick={() => onOpen('createBarangayItem', {user: currentUser})}>
           {" "}
           <PackageSearch className="w-5 h-5 mr-2" /> Add new item
         </Button>
@@ -109,7 +124,7 @@ const InventoryClient = () => {
         return (
           <DataTable
             columns={columns}
-            data={items || []}
+            data={items.data || []}
             globalFilter={globalFilter}
             setGlobalFilter={setGlobalFilter}
           />

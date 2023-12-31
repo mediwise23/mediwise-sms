@@ -1,14 +1,18 @@
+import { User } from "@prisma/client";
+import { Session } from "next-auth";
 import { create } from "zustand";
 
 export type ModalType =
   | "mediwiseLogin"
   | "addWorkSchedule"
+  | "createBarangayItem"
 // you can extend this type if you have more modal
 
 // export type ModalType = "..." | "...." | "...."
 
 type ModalData = {
-  calendarApi?: any
+  calendarApi?: any;
+  user?: User | Session['user']
 };
 
 type ModalStore = {
