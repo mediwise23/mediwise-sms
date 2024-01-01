@@ -46,6 +46,7 @@ const MediwiseLoginModal = () => {
     },
     mode: "all",
   });
+  
   type variant = "LOGIN" | "REGISTER";
   const [variants, setVariants] = useState<variant>("LOGIN");
 
