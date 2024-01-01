@@ -6,7 +6,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import Avatar from "./Avatar";
 import { ModeToggle } from "./ModeToggle";
 import { signOut } from "next-auth/react";
 import { capitalizeWords } from "@/lib/utils";
