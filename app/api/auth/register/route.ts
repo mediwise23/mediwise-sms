@@ -41,20 +41,23 @@ export async function POST(req: NextRequest, { params }: { params: {} }) {
 
     // create user
     const userCreated = await createUser({
-      email: email,
-      hashedPassword: hashedPassword,
-      role: role,
-      firstname,
-      middlename,
-      lastname,
-      suffix,
-      gender,
-      dateOfBirth: new Date(dateOfBirth),
-      homeNo,
-      street,
-      barangay,
-      city,
-      contactNo,
+      data: {
+        email: email,
+        hashedPassword: hashedPassword,
+        role: role,
+        firstname,
+        middlename,
+        lastname,
+        suffix,
+        gender,
+        dateOfBirth: new Date(dateOfBirth),
+        homeNo,
+        street,
+        barangay,
+        city,
+        contactNo,
+        zip: "",
+      },
     });
 
     return NextResponse.json(`User ${email} registered successfully`, {

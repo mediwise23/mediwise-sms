@@ -26,13 +26,51 @@ enum AppoinmentStatus {
   CANCELLED
 }
 
+enum ItemTransactionStatus {
+  PENDING
+  ACCEPTED
+  COMPLETED
+  REJECTED
+  CANCELLED
+}
+
 model Barangay {
-  id        String     @id @unique @default(cuid())
-  name      String?
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @default(now()) @updatedAt
-  users     User[]
-  items     BrgyItem[]
+  id              String            @id @unique @default(cuid())
+  name            String?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @default(now()) @updatedAt
+  users           User[]
+  items           BrgyItem[]
+  ItemTransaction ItemTransaction[]
+}
+
+model RequestedItem {
+  id       String @id @default(cuid())
+  quantity Int
+
+  item   SmsItem? @relation(fields: [itemId], references: [id])
+  itemId String?
+
+  ItemTransaction   ItemTransaction? @relation(fields: [itemTransactionId], references: [id])
+  itemTransactionId String?
+}
+
+model ItemTransaction {
+  id          String                @id @default(cuid())
+  description String?               @db.VarChar(255)
+  status      ItemTransactionStatus @default(PENDING)
+
+  barangay       Barangay? @relation(fields: [barangayId], references: [id])
+  barangayId     String?
+  // A person from the barangay who requested the item
+  barangayUser   User?     @relation(fields: [barangayUserId], references: [id])
+  barangayUserId String?
+
+  requested_items RequestedItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  isArchive Boolean  @default(false)
 }
 
 model SmsItem {
@@ -44,6 +82,8 @@ model SmsItem {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now()) @updatedAt
   isArchive   Boolean  @default(false)
+
+  RequestedItem RequestedItem[]
 }
 
 model BrgyItem {
@@ -79,9 +119,10 @@ model User {
   accounts             Account[]
   sessions             Session[]
   profile              Profile?
-  patient_appointments Appointment[]  @relation("patient")
-  doctor_appointments  Appointment[]  @relation("doctor")
+  patient_appointments Appointment[]     @relation("patient")
+  doctor_appointments  Appointment[]     @relation("doctor")
   workSchedules        WorkSchedule[]
+  ItemTransaction      ItemTransaction[]
 
   @@index([id])
 }
