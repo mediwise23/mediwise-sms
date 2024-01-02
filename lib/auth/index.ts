@@ -63,6 +63,7 @@ export const withAuth =
           email: "",
           id: "",
           name: "",
+          barangayId: "",
           role: "ANONYMOUS",
         },
       };
