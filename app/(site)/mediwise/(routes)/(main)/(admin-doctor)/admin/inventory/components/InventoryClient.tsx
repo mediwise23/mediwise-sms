@@ -26,24 +26,14 @@ type InventoryClientProps = {
   currentUser: Session['user']
 }
 const InventoryClient:React.FC<InventoryClientProps> = ({currentUser}) => {
-
+ 
   const {onOpen} = useModal()
 
   const items = useQueryProcessor<TItemBrgy[]>({
     url:'brgy-item',
-    key: ['brgy-items'],
+    key: ['inventory-items', 'barangay', currentUser.barangayId],
   })
 
-  // const items = [
-  //   {
-  //     id: "asdcnmmysd54ngbcfddad23231",
-  //     name: "345512",
-  //     stock: "Haiden",
-  //     barangay: "Brendon",
-  //     createdAt: new Date(),
-  //     action: null,
-  //   },
-  // ];
   const [globalFilter, setGlobalFilter] = useState("");
 
   const onFilter = (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -25,12 +25,12 @@ type routeListType = {
 };
 
 const routesList: routeListType[] = [
-//   {
-//     icon: Home,
-//     label: "Home",
-//     href: "/dashboard",
-//     roles: ["ADMIN"],
-//   },
+  {
+    icon: Home,
+    label: "Dashboard",
+    href: "/",
+    roles: ["ADMIN"],
+  },
 
 //   {
 //     icon: TableProperties,

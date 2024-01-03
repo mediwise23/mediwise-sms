@@ -69,6 +69,7 @@ export const UserGetQuerySchema = z.object({
   name: z.string().optional(),
   email: z.string().optional(),
   role: z.nativeEnum(Role).optional(),
+  barangayId: z.string().optional()
 });
 
 export const LoginUserSchema = UserSchema.pick({
@@ -164,24 +165,44 @@ export const ChangePasswordSchema = z.object({
 });
 
 export const CreateUserSchema = UserSchema.pick({}).extend({
-  email: z.string().min(1).max(255).email("Invalid email"),
+  email: z.string().min(1, "Required").max(255).email("Invalid email"),
   role: z.nativeEnum(Role),
-  firstname: z.string().min(1).max(50),
-  lastname: z.string().min(1).max(50),
-  middlename: z.string().min(1).max(50),
-  suffix: z.string().min(1).max(50),
+  firstname: z.string().min(1, "Required").max(50),
+  lastname: z.string().min(1, "Required").max(50),
+  middlename: z.string().min(1, "Required").max(50),
+  suffix: z.string().min(1, "Required").max(50),
   gender: z.nativeEnum(Gender),
-  specialist: z.string().min(1).max(50),
-  licenseNo: z.string().min(1).max(50),
+  specialist: z.string().min(1, "Required").max(50),
+  licenseNo: z.string().min(1, "Required").max(50),
   dateOfBirth: z.coerce.date(),
-  homeNo: z.string().min(1).max(50),
-  street: z.string().min(1).max(50),
-  barangay: z.string().min(1).max(50),
-  city: z.string().min(1).max(50),
-  province: z.string().min(1).max(50),
-  contactNo: z.string().min(1).max(50),
-  zip: z.string().min(1).max(50),
+  homeNo: z.string().min(1, "Required").max(50),
+  street: z.string().min(1, "Required").max(50),
+  barangay: z.string().min(1, "Required").max(50),
+  city: z.string().min(1, "Required").max(50),
+  province: z.string().min(1, "Required").max(50),
+  contactNo: z.string().min(1, "Required").max(50),
+  zip: z.string().min(1, "Required").max(50),
 });
+
+
+// eto dinagdag ko para makapag create ng doctor
+export const CreateDoctorSchema = CreateUserSchema.pick({
+  email:true,
+  role:true,
+  suffix:true,
+  firstname:true,
+  lastname:true,
+  middlename:true,
+  specialist:true,
+  licenseNo:true,
+  barangay:true
+})
+.partial({
+  suffix:true,
+  middlename:true
+})
+
+export type TCreateDoctorSchema = z.infer<typeof CreateDoctorSchema>
 
 export const UpdateUserSchema = UserSchema.pick({
   role: true,

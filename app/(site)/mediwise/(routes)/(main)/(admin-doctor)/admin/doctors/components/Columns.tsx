@@ -12,22 +12,17 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import ActionButton from "./ActionButton";
+import { TUser } from "@/schema/user";
+import { Profile } from "@prisma/client";
+import { format } from "date-fns";
+
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 
-type doctorType = {
-  id: string;
-  firstname: string;
-  middlename: string;
-  lastname: string;
-  specialized: string;
-  licenseNo: string;
-  createdAt: Date;
-  action: null;
-};
+const DATE_FORMAT = `MMM d yyyy`;
 
-export const columns: ColumnDef<doctorType>[] = [
+export const columns: ColumnDef<TUser & {profile: Profile}>[] = [
   {
     accessorKey: "id",
     header: () => {
@@ -43,7 +38,7 @@ export const columns: ColumnDef<doctorType>[] = [
   {
     accessorKey: "licenseNo",
     accessorFn: (row) => {
-      const licenseNo = row.licenseNo;
+      const licenseNo = row?.profile?.licenseNo;
       return licenseNo;
     },
     header: ({ column }) => (
@@ -56,7 +51,7 @@ export const columns: ColumnDef<doctorType>[] = [
     ),
     cell: ({ row }) => {
       // const yearEnrolled = row.getValue('') as Date
-      const licenseNo = row.original.licenseNo as string;
+      const licenseNo = row.original?.profile?.licenseNo as string;
 
       return (
         <div className="">{licenseNo}</div>
@@ -65,9 +60,33 @@ export const columns: ColumnDef<doctorType>[] = [
   },
 
   {
+    accessorKey: "specialized",
+    accessorFn: (row) => {
+      const specialized = row?.profile?.specialist;
+      return specialized;
+    },
+    header: ({ column }) => (
+      <div
+        className="text-[#181a19]  flex items-center cursor-pointer dark:text-white flex-1"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Specialized <ArrowUpDown className="ml-2 h-4 w-4" />
+      </div>
+    ),
+    cell: ({ row }) => {
+      // const yearEnrolled = row.getValue('') as Date
+      const specialized = row.original?.profile?.specialist as string;
+
+      return (
+        <div className="">{specialized}</div>
+      );
+    },
+  },
+
+  {
     accessorKey: "firstname",
     accessorFn: (row) => {
-      const firstname = row.firstname;
+      const firstname = row?.profile?.firstname;
       return firstname;
     },
     header: ({ column }) => {
@@ -81,7 +100,7 @@ export const columns: ColumnDef<doctorType>[] = [
       );
     },
     cell: ({ row }) => {
-      const firstname = row.original.firstname;
+      const firstname = row.original?.profile?.lastname;
       return (
         <div className=" dark:text-white">
           {firstname}
@@ -89,31 +108,11 @@ export const columns: ColumnDef<doctorType>[] = [
       );
     },
   },
-  {
-    accessorKey: "middlename",
-    accessorFn: (row) => {
-      const middlename = row.middlename;
-      return middlename;
-    },
-    header: ({ column }) => (
-      <div
-        className="text-[#181a19] flex items-center cursor-pointer dark:text-white flex-1"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      >
-        Middlename <ArrowUpDown className="ml-2 h-4 w-4" />
-      </div>
-    ),
-    cell: ({ row }) => {
-      const middlename = row.original?.middlename;
-
-      return <div className={` flex items-center`}>{middlename}</div>;
-    },
-  },
 
   {
     accessorKey: "lastname",
     accessorFn: (row) => {
-      const lastname = row.lastname || {};
+      const lastname = row?.profile?.lastname || {};
       return lastname;
     },
     header: ({ column }) => (
@@ -125,34 +124,54 @@ export const columns: ColumnDef<doctorType>[] = [
       </div>
     ),
     cell: ({ row }) => {
-      // const {firstname, middlename, lastname} = row.original.profile
-      const lastname = row.original.lastname;
+      // const {firstname, middlename, lastname} = row?.original.profile?
+      const lastname = row.original?.profile?.lastname;
       return <div className={` flex items-center`}>{lastname}</div>;
     },
   },
+
   {
-    accessorKey: "specialized",
+    accessorKey: "middlename",
     accessorFn: (row) => {
-      const specialized = row.specialized;
-      return specialized;
+      const middlename = row?.profile?.middlename;
+      return middlename;
     },
     header: ({ column }) => (
       <div
-        className="text-[#181a19]  flex items-center cursor-pointer dark:text-white flex-1"
+        className="text-[#181a19] flex items-center cursor-pointer dark:text-white flex-1"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        Specialized <ArrowUpDown className="ml-2 h-4 w-4" />
+        Middlename <ArrowUpDown className="ml-2 h-4 w-4" />
       </div>
     ),
     cell: ({ row }) => {
-      // const yearEnrolled = row.getValue('') as Date
-      const specialized = row.original.specialized as string;
+      const middlename = row.original?.profile?.middlename ?? '-';
 
-      return (
-        <div className="">{specialized}</div>
-      );
+      return <div className={` flex items-center`}>{middlename}</div>;
     },
   },
+
+    {
+    accessorKey: "suffix",
+    accessorFn: (row) => {
+      const suffix = row?.profile?.suffix;
+      return suffix;
+    },
+    header: ({ column }) => (
+      <div
+        className="text-[#181a19] flex items-center cursor-pointer dark:text-white flex-1"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Suffix <ArrowUpDown className="ml-2 h-4 w-4" />
+      </div>
+    ),
+    cell: ({ row }) => {
+      const suffix = row.original?.profile?.suffix ?? '-';
+
+      return <div className={` flex items-center`}>{suffix}</div>;
+    },
+  },
+
 
   {
     accessorKey: "createdAt",
@@ -174,7 +193,7 @@ export const columns: ColumnDef<doctorType>[] = [
     cell: ({ row }) => {
       const createdAt = row.original?.createdAt;
       return (
-        <div className="">{createdAt.toLocaleDateString()}</div>
+        <div className="">{format(new Date(createdAt || new Date()), DATE_FORMAT)}</div>
       );
     },
   },
