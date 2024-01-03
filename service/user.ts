@@ -61,23 +61,27 @@ export const getAllUsers = async ({
   name,
   email,
   role,
+  barangayId
 }: {
   name?: string;
   email?: string;
+  barangayId?: string;
   role?: Role | undefined;
 }): Promise<TUser[]> => {
   return await prisma.user.findMany({
     where: {
-      name: {
-        contains: name,
-      },
-      email: {
-        contains: email,
-      },
+      barangayId: barangayId ?? undefined,
+      // name: {
+      //   contains: name,
+      // },
+      // email: {
+      //   contains: email,
+      // },
       role: {
         not: "ADMIN",
         equals: role,
       },
+
     },
     select: userAllowedFields,
   });

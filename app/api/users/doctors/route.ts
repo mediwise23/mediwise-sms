@@ -1,5 +1,5 @@
 import { withAuth } from "@/lib/auth";
-import { CreateUserSchema, UserGetQuerySchema } from "@/schema/user";
+import { CreateDoctorSchema, CreateUserSchema, UserGetQuerySchema } from "@/schema/user";
 import {
   createUser,
   generateHashPassword,
@@ -9,47 +9,13 @@ import {
 import { getQueryParams } from "@/service/params";
 import { NextRequest, NextResponse } from "next/server";
 import { generateRandomString } from "@/lib/random";
+import prisma from "@/lib/prisma";
 
-export const GET = withAuth(
-  async ({ req, session }) => {
-    const queries = getQueryParams(req, UserGetQuerySchema);
-
-    if (!queries.success) {
-      return NextResponse.json(
-        {
-          errors: queries.error.flatten().fieldErrors,
-          message: "Invalid query parameters",
-        },
-        { status: 400 }
-      );
-    }
-
-    const { name, email, role, barangayId} = queries.data;
-
-    try {
-      const users = await getAllUsers({
-        name: name,
-        email: email,
-        role: role,
-        barangayId: barangayId,
-      });
-
-      console.log(users)
-      return NextResponse.json(users, { status: 200 });
-    } catch (error) {
-      console.log("[USER_GET]", error);
-      return new NextResponse("Internal error", { status: 500 });
-    }
-  },
-  {
-    requiredRole: ["ADMIN"],
-  }
-);
 
 export const POST = withAuth(
   async ({ req, session }) => {
     try {
-      const body = await CreateUserSchema.safeParseAsync(await req.json());
+      const body = await CreateDoctorSchema.safeParseAsync(await req.json());
 
       if (!body.success) {
         return NextResponse.json(
@@ -77,16 +43,20 @@ export const POST = withAuth(
           { status: 400 }
         );
       }
-
-      // create user
-      const user = await createUser({
+      const {email, barangay, role, ...rest} = body.data
+      const user = await prisma.user.create({
         data: {
-          ...body.data,
-          email: body.data.email,
-          role: body.data.role,
-          hashedPassword: hashedPassword,
-        },
-      });
+          email,
+          role,
+          hashedPassword,
+          barangayId: barangay,
+          profile: {
+            create: {
+              ...rest
+            }
+          }
+        }
+      })
 
       // TODO: email the accout details to the user
 

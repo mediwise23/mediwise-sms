@@ -12,20 +12,29 @@ import { Filter, Search, UserPlus } from "lucide-react";
 import React, { useState } from "react";
 import { DataTable } from "@/components/DataTable";
 import { columns } from "./Columns";
+import { useModal } from "@/hooks/useModalStore";
+import { Session } from "next-auth";
+import { useQueryProcessor } from "@/hooks/useTanstackQuery";
+import {TUser} from '@/schema/user'
+import { Profile } from "@prisma/client";
 
-const DoctorsClient = () => {
-  const doctors = [
-    {
-      id: "asdcnmmysd54ngbcfddad23231",
-      licenseNo: "345512",
-      firstname: "Haiden",
-      middlename: "Brendon",
-      lastname: "Viktor",
-      specialized: "Dermatologists",
-      createdAt: new Date(),
-      action: null,
+type InventoryClientProps = {
+  currentUser: Session['user']
+}
+
+const DoctorsClient:React.FC<InventoryClientProps> = ({currentUser}) => {
+
+ const doctor = useQueryProcessor<(TUser & {profile: Profile}[])>({
+    url: '/users',
+    queryParams: {
+      role: 'DOCTOR',
+      barangayId: currentUser.barangayId
     },
-  ];
+    key: ["doctors", 'barangay', currentUser.barangayId]
+  })
+
+  console.log(doctor.data)
+  const {onOpen} = useModal()
   const [globalFilter, setGlobalFilter] = useState("");
 
   const onFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,7 +44,7 @@ const DoctorsClient = () => {
   return (
     <div className="flex flex-col p-10">
       <div className="flex justify-end gap-x-5">
-        <Button className="text-zinc-500 dark:text-white" variant={"outline"}>
+        <Button className="text-zinc-500 dark:text-white" variant={"outline"} onClick={() => onOpen('createDoctor', {user: currentUser })}>
           <UserPlus className="w-5 h-5 mr-2" /> Add new doctor
         </Button>
       </div>
@@ -101,7 +110,7 @@ const DoctorsClient = () => {
         return (
           <DataTable
             columns={columns}
-            data={doctors || []}
+            data={doctor.data || []}
             globalFilter={globalFilter}
             setGlobalFilter={setGlobalFilter}
           />

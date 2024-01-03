@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import MediwiseLoginModal from "../modals/MediwiseLoginModal";
 import AddWorkScheduleModal from "../modals/AddWorkScheduleModal";
 import CreateBarangayItemModal from "../modals/CreateBarangayItemModal";
+import CreateDoctorModal from "../modals/CreateDoctorModal";
 
 
 const ModalProvider = () => {
@@ -19,6 +20,7 @@ const ModalProvider = () => {
       <MediwiseLoginModal />
       <AddWorkScheduleModal />
       <CreateBarangayItemModal />
+      <CreateDoctorModal />
     </>
   );
 };

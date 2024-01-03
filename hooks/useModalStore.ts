@@ -6,6 +6,7 @@ export type ModalType =
   | "mediwiseLogin"
   | "addWorkSchedule"
   | "createBarangayItem"
+  | "createDoctor"
 // you can extend this type if you have more modal
 
 // export type ModalType = "..." | "...." | "...."
