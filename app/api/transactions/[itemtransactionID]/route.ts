@@ -9,6 +9,7 @@ import {
   checkIfAllItemsAreAvailable,
   deleteItemTransaction,
   getItemTransactionById,
+  transferSmsItemsToBarangayItems,
   updateItemTransaction,
 } from "@/service/item-transaction";
 import { ItemTransactionStatus, Role } from "@prisma/client";
@@ -64,7 +65,11 @@ export const PATCH = withAuth(
         id: params.itemtransactionID,
       });
 
-      if (!transaction || !transaction.requested_items) {
+      if (
+        !transaction ||
+        !transaction.requested_items ||
+        !transaction.barangayId
+      ) {
         return NextResponse.json(
           {
             message: "Transaction not found",
@@ -139,6 +144,14 @@ export const PATCH = withAuth(
           id: params.itemtransactionID,
           data: {
             status: body.data.status,
+          },
+        });
+
+        // update the quantity of the items in the sms item database and barangay item database
+        await transferSmsItemsToBarangayItems({
+          data: {
+            requested_items: transaction.requested_items,
+            brgyId: transaction.barangayId,
           },
         });
       } else if (
