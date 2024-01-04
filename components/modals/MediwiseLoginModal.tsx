@@ -20,15 +20,14 @@ import {
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
-import { Loader } from "../ui/Loader";
+import { Loader, Loader2 } from "../ui/Loader";
 import { useModal } from "@/hooks/useModalStore";
 import { useMutateProcessor } from "@/hooks/useTanstackQuery";
 import toast from "react-hot-toast";
 import { LoginUserSchema, LoginUserSchemaType } from "@/schema/user";
 import { BsFacebook, BsGithub, BsGoogle } from "react-icons/bs";
 import { IconType } from "react-icons";
-import { signIn, signOut, useSession } from "next-auth/react";
-import Link from "next/link";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 const MediwiseLoginModal = () => {
 
@@ -195,7 +194,7 @@ const MediwiseLoginModal = () => {
                     return (
                       <div className="flex items-center gap-x-1">
                         {" "}
-                        saving <Loader size={20} />
+                        logging in <Loader2 size={20} />
                       </div>
                     );
                   return "Login";
