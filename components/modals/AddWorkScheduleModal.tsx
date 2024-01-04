@@ -32,7 +32,7 @@ const AddWorkScheduleModal = () => {
     onClose();
   };
 
-  const { calendarApi } = data;
+  const { calendarApi, user } = data;
 
   const form = useForm<CreateWorkScheduleSchemaType>({
     resolver: zodResolver(CreateWorkScheduleSchema),
@@ -49,11 +49,12 @@ const AddWorkScheduleModal = () => {
   const isLoading = form.formState.isSubmitting;
 
   useEffect(() => {
-    if (calendarApi) {
+    if (calendarApi && user) {
       form.setValue("id", createId());
       form.setValue("start", calendarApi.startStr);
       form.setValue("end", calendarApi.endStr);
       form.setValue("allDay", calendarApi.allDay);
+      form.setValue("barangayId", user?.barangayId as string);
     }
 
     return () => {

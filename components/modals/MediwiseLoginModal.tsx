@@ -75,6 +75,7 @@ const MediwiseLoginModal = () => {
           toast.error("invalid credentials");
         }
         if (response?.ok && !response.error) {
+          onClose()
           router.refresh();
           toast.success("Logged In!");
         }
