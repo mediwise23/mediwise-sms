@@ -8,10 +8,15 @@ export const GET = withAuth(async ({ req, session }) => {
   const date = new Date();
   date.setDate(date.getDate() - 1);
   const today = moment.utc(date).tz("Asia/Manila").format();
+
+  const searchParams = new URL(req.url).searchParams;
+  const userId = searchParams.get('userId')
+  const barangayId = searchParams.get('barangayId')
   try {
     const events = await prisma.workSchedule.findMany({
       where: {
-        doctorId: session.user.id,
+        doctorId: userId ?? undefined,
+        barangayId: barangayId ?? undefined,
         start: {
           gte: today,
         },
@@ -20,6 +25,13 @@ export const GET = withAuth(async ({ req, session }) => {
       orderBy: {
         start: "desc",
       },
+      include: {
+        doctor: {
+          include: {
+            profile:true
+          }
+        },
+      }
     });
     return NextResponse.json(events);
   } catch (error) {
@@ -42,8 +54,8 @@ export const POST = withAuth(async ({ req, session }) => {
     );
   }
 
-  const { id, title, allDay, end, start } = result.data;
-
+  const { id, title, allDay, end, start, barangayId } = result.data;
+  console.log(result.data)
   try {
     const workSchedule = await prisma.workSchedule.create({
       data: {
@@ -53,6 +65,7 @@ export const POST = withAuth(async ({ req, session }) => {
         start,
         end,
         doctorId: session.user.id,
+        barangayId
       },
     });
 

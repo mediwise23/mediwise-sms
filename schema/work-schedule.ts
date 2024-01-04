@@ -16,6 +16,7 @@ export const WorkScheduleSchema = z.object({
     createdAt: z.date(),
     updatedAt: z.date(),
     doctorId: z.string().cuid(),
+    barangayId: z.string().cuid()
   }) satisfies z.ZodType<WorkSchedule>;
 
   export const CreateWorkScheduleSchema = WorkScheduleSchema.pick({
@@ -24,6 +25,7 @@ export const WorkScheduleSchema = z.object({
     allDay: true,
     start: true,
     end: true,
+    barangayId: true,
   })
   .extend({
     start: z.string(),

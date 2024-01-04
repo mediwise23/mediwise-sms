@@ -34,7 +34,6 @@ export const GET = withAuth(
         barangayId: barangayId,
       });
 
-      console.log(users)
       return NextResponse.json(users, { status: 200 });
     } catch (error) {
       console.log("[USER_GET]", error);
@@ -42,7 +41,7 @@ export const GET = withAuth(
     }
   },
   {
-    requiredRole: ["ADMIN"],
+    requiredRole: ["ADMIN", "PATIENT"],
   }
 );
 

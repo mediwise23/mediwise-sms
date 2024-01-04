@@ -11,38 +11,50 @@ import {
   useQueryProcessor,
 } from "@/hooks/useTanstackQuery";
 import { useQueryClient } from "@tanstack/react-query";
-import { Role, WorkSchedule } from "@prisma/client";
+import { Profile, Role, User, WorkSchedule } from "@prisma/client";
 import { useToast } from "@/components/ui/use-toast";
 import { Session } from "next-auth";
 
+import { TUser } from "@/schema/user";
+import Avatar from "@/components/Avatar";
+import moment from "moment-timezone";
 type CalendarClientProps = {
-  currentUser: Session['user']
-}
+  currentUser: Session["user"];
+};
 
-const Calendar:React.FC<CalendarClientProps> = ({currentUser}) => {
+const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
   const { onOpen, onClose } = useModal();
-  const {toast} = useToast()
-  const workSchedules = useQueryProcessor<WorkSchedule[]>({url:`/work-schedules`,key:["work-schedules"], queryParams: {
-    userId: currentUser.id
-  }});
+  const { toast } = useToast();
+  const workSchedules = useQueryProcessor<
+    (WorkSchedule & { doctor: TUser & { profile: Profile } })[]
+  >({
+    url: `/work-schedules`,
+    key: ["work-schedules"],
+    queryParams: {
+      barangayId: currentUser.barangayId,
+    },
+  });
 
-  const currentworkSchedules = typeof workSchedules.data !== "undefined" && workSchedules?.data?.length > 0
+  const currentworkSchedules =
+    typeof workSchedules.data !== "undefined" && workSchedules?.data?.length > 0
       ? workSchedules.data.map((workSchedule) => {
+          const { doctor } = workSchedule;
           return {
             id: workSchedule?.id,
             title: workSchedule?.title,
             start: workSchedule?.start,
             end: workSchedule?.end,
             allDay: workSchedule?.allDay,
+            doctorName: `${doctor.profile.firstname} ${doctor.profile.lastname}`,
+            image: doctor?.image,
           };
         })
       : [];
 
-
   const handleDateSelect = (selectInfo: any) => {
     const calendarApi = selectInfo;
-    console.log(calendarApi)
-    onOpen("addWorkSchedule", { calendarApi, user: currentUser });
+
+    // onOpen("addWorkSchedule", { calendarApi, user: currentUser });
   };
 
   type EventData = {
@@ -52,40 +64,8 @@ const Calendar:React.FC<CalendarClientProps> = ({currentUser}) => {
     end: Date;
     allDay: boolean;
   };
-  const addWorkSchedule = useMutateProcessor({
-    url: '/work-schedules',
-    method:'POST',
-    key: ['work-schedules']
-  })
 
-  const handleAddEvent = ({ event }: any) => {
-    const eventData = {
-      id: event.id,
-      title: event.title,
-      start: event.start,
-      end: event.end,
-      allDay: event.allDay,
-      barangayId: event?._def?.extendedProps?.barangayId
-    } as EventData;
-
-    addWorkSchedule.mutate(eventData, {
-      onSuccess(data) {
-        toast({
-          title: "Schedule added",
-          description: "Your work schedule has been added",
-        })
-        onClose();
-      },
-      onError(error, variables, context) {
-        console.error(error)
-        toast({
-          variant:'destructive',
-          title: "Something went wrong",
-          description: "Your work schedule did save",
-        })
-      },
-    });
-  };
+  const handleAddEvent = ({ event }: any) => {};
 
   const handleUpdateEvent = ({ event }: any) => {
     // const eventData = {
@@ -95,7 +75,6 @@ const Calendar:React.FC<CalendarClientProps> = ({currentUser}) => {
     //   timeEnd: event.end,
     //   allDay: event.allDay,
     // };
-
     // updateEvent(event.id, eventData);
   };
 
@@ -121,9 +100,25 @@ const Calendar:React.FC<CalendarClientProps> = ({currentUser}) => {
         validRange={{
           start: new Date(),
         }}
-        height={"85vh"}
+        height={"100vh"}
         initialView="dayGridMonth"
         // longPressDelay={0}
+
+        selectAllow={(event) => {
+          const dateStart = new Date(event.startStr);
+          const dateEnd = new Date(event.endStr);
+
+          // To calculate the time difference of two dates
+          const Difference_In_Time = dateEnd.getTime() - dateStart.getTime();
+
+          // To calculate the no. of days between two dates
+          const Difference_In_Days = Math.round(
+            Difference_In_Time / (1000 * 3600 * 24)
+          );
+
+          return Difference_In_Days === 1;
+        }}
+        eventContent={EventContent}
         editable={true}
         selectable={true}
         selectMirror={true}
@@ -147,3 +142,12 @@ const Calendar:React.FC<CalendarClientProps> = ({currentUser}) => {
 };
 
 export default Calendar;
+
+const EventContent = (eventInfo: any) => {
+  return (
+    <div className="flex items-center gap-x-3">
+      <Avatar src={eventInfo.event?._def?.extendedProps?.image} />
+      <span>{eventInfo.event?._def?.extendedProps?.doctorName}</span>
+    </div>
+  );
+};
