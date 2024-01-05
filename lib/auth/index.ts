@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/auth";
 import { Role, User } from "@prisma/client";
 import { Session } from "next-auth";
+
 // export interface Session {
 //   user: {
 //     email: string;

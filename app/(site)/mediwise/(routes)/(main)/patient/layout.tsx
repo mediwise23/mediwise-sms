@@ -1,6 +1,7 @@
 import { getSession } from "@/lib/auth";
 import Navbar from "./components/Navbar";
 import { redirect } from "next/navigation";
+import { getUserById } from "@/service/user";
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
   const currentUser = await getSession();
@@ -8,7 +9,18 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
   if (!currentUser?.user) {
     return redirect("/mediwise");
   }
+
   const { user } = currentUser;
+
+  const data = await getUserById({id: user.id, enableRawData:true})
+
+  if(!data?.isVerified) {
+    return redirect('/mediwise/verify')
+  }
+
+  if(!data?.barangayId) {
+    return redirect('/mediwise/setup')
+  }
 
   return (
     <main className=" h-full flex justify-center items-center py-10 px-20">

@@ -109,6 +109,7 @@ model User {
   name           String?
   email          String?   @unique
   emailVerified  DateTime?
+  isVerified     DateTime?
   image          String?
   hashedPassword String?
   role           Role      @default(PATIENT)

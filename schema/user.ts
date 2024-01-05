@@ -58,6 +58,7 @@ export const UserSchema = z.object({
   updatedAt: z.date(),
   role: z.nativeEnum(Role),
   barangayId: z.string().nullable(),
+  isVerified: z.date().nullable(),
   // profile: ProfileSchema.nullable(),
 }) satisfies z.ZodType<User>;
 
