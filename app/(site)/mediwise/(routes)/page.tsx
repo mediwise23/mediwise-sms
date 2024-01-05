@@ -9,7 +9,7 @@ const page = async () => {
 
   const session = await getSession();
   if (session?.user) {
-    return redirect(`/mediwise/${session.user.role.toLowerCase()}/appointments`);
+    return redirect(`/mediwise/${session.user.role.toLowerCase()}`);
   }
 
   return (

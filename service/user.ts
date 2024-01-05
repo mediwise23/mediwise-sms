@@ -32,7 +32,7 @@ export const userAllowedFields = {
   updatedAt: true,
   role: true,
   barangayId: true,
-
+  isVerified:true,
   profile: {
     select: {
       id: true,
@@ -71,12 +71,12 @@ export const getAllUsers = async ({
   return await prisma.user.findMany({
     where: {
       barangayId: barangayId ?? undefined,
-      // name: {
-      //   contains: name,
-      // },
-      // email: {
-      //   contains: email,
-      // },
+      name: {
+        contains: name,
+      },
+      email: {
+        contains: email,
+      },
       role: {
         not: "ADMIN",
         equals: role,
