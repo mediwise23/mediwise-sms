@@ -105,16 +105,17 @@ model BrgyItem {
 model User {
   id String @id @default(cuid())
 
-  isArchived     Boolean   @default(false)
-  name           String?
-  email          String?   @unique
-  emailVerified  DateTime?
-  isVerified     DateTime?
-  image          String?
-  hashedPassword String?
-  role           Role      @default(PATIENT)
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  isArchived       Boolean   @default(false)
+  name             String?
+  email            String?   @unique
+  emailVerified    DateTime?
+  isVerified       Boolean?
+  vefificationCode String?
+  image            String?
+  hashedPassword   String?
+  role             Role      @default(PATIENT)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
 
   barangayId String?
   barangay   Barangay? @relation(fields: [barangayId], references: [id])
@@ -141,7 +142,7 @@ model Appointment {
   status     AppoinmentStatus @default(PENDING)
   image_path String?
   barangayId String
-  barangay   Barangay        @relation(fields: [barangayId], references: [id])
+  barangay   Barangay         @relation(fields: [barangayId], references: [id])
   createdAt  DateTime         @default(now())
   updatedAt  DateTime         @default(now()) @updatedAt
 }
@@ -154,11 +155,11 @@ model WorkSchedule {
   end        DateTime?
   allDay     Boolean?
 
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
   // doctor who owns the work schedule
   doctorId   String
-  doctor     User      @relation(fields: [doctorId], references: [id])
+  doctor     User     @relation(fields: [doctorId], references: [id])
   barangayId String
   barangay   Barangay @relation(fields: [barangayId], references: [id])
 }

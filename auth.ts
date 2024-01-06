@@ -107,7 +107,7 @@ export const authOptions: AuthOptions = {
       if (user) {
         token.role = user.role;
         token.id = user.id;
-        token.barangayId = user.barangayId
+        token.barangayId = user.barangayId;
       }
       return token;
     },
@@ -121,6 +121,7 @@ export const authOptions: AuthOptions = {
     //   params.user.role = "PATIENT";
     //   return true;
     // },
+    // is user sign in using credentials send email
   },
   pages: {
     signIn: "/",

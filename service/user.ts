@@ -8,7 +8,9 @@ import {
   TUpdateProfile,
   TUpdateUserSchema,
   TUser,
+  TUserRaw,
 } from "@/schema/user";
+import { da } from "@faker-js/faker";
 
 export const generateHashPassword = async (password: string) => {
   return await bcrypt.hash(password, 10);
@@ -32,7 +34,8 @@ export const userAllowedFields = {
   updatedAt: true,
   role: true,
   barangayId: true,
-  isVerified:true,
+  isVerified: true,
+  vefificationCode: true,
   profile: {
     select: {
       id: true,
@@ -61,7 +64,7 @@ export const getAllUsers = async ({
   name,
   email,
   role,
-  barangayId
+  barangayId,
 }: {
   name?: string;
   email?: string;
@@ -81,7 +84,6 @@ export const getAllUsers = async ({
         not: "ADMIN",
         equals: role,
       },
-
     },
     select: userAllowedFields,
   });
@@ -89,23 +91,23 @@ export const getAllUsers = async ({
 
 export const getUserById = async ({
   id,
-  enableRawData = false,
 }: {
   id: string;
-  enableRawData?: boolean;
-}): Promise<TUser | null> => {
-  return await prisma.user.findUnique({
+}): Promise<TUserRaw | null> => {
+  const data = await prisma.user.findUnique({
     where: {
       id,
     },
-    select: enableRawData ? undefined : userAllowedFields,
   });
+
+  return data;
 };
 
 export const createUser = async ({
   data: {
     email,
     hashedPassword,
+    vefificationCode,
     role,
     firstname,
     middlename,
@@ -122,12 +124,14 @@ export const createUser = async ({
 }: {
   data: Omit<TRegister, "confirmPassword" | "password"> & {
     hashedPassword: string;
+    vefificationCode: string;
   };
 }): Promise<TUser> => {
   return await prisma.user.create({
     data: {
       email,
       hashedPassword,
+      vefificationCode,
       role,
       barangayId: barangay,
       profile: {
@@ -166,22 +170,6 @@ export const updateUserById = async ({
   });
 };
 
-export const deleteUserById = async ({
-  id,
-}: {
-  id: string;
-}): Promise<TUser> => {
-  return await prisma.user.update({
-    where: {
-      id,
-    },
-    data: {
-      isArchived: true,
-    },
-    select: userAllowedFields,
-  });
-};
-
 export const updateProfileById = async ({
   id,
   firstname,
@@ -195,7 +183,8 @@ export const updateProfileById = async ({
   barangay,
   city,
   contactNo,
-}: TUpdateProfile & { id: string }): Promise<TUser> => {
+  isVerified,
+}: TUpdateProfile & { id: string; isVerified?: boolean }): Promise<TUser> => {
   return await prisma.profile.update({
     where: {
       id: id,
@@ -212,6 +201,11 @@ export const updateProfileById = async ({
       barangay,
       city,
       contactNo,
+      user: {
+        update: {
+          isVerified,
+        },
+      },
     },
     select: userAllowedFields,
   });

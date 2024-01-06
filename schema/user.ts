@@ -4,6 +4,7 @@ import { z } from "zod";
 // user type
 export type TProfile = z.infer<typeof ProfileSchema>;
 export type TUser = z.infer<typeof SafeUserSchema>;
+export type TUserRaw = z.infer<typeof UserSchema>;
 
 // auth types
 export type LoginUserSchemaType = z.infer<typeof LoginUserSchema>;
@@ -58,7 +59,8 @@ export const UserSchema = z.object({
   updatedAt: z.date(),
   role: z.nativeEnum(Role),
   barangayId: z.string().nullable(),
-  isVerified: z.date().nullable(),
+  isVerified: z.boolean().nullable(),
+  vefificationCode: z.string().nullable(),
   // profile: ProfileSchema.nullable(),
 }) satisfies z.ZodType<User>;
 
@@ -70,7 +72,7 @@ export const UserGetQuerySchema = z.object({
   name: z.string().optional(),
   email: z.string().optional(),
   role: z.nativeEnum(Role).optional(),
-  barangayId: z.string().optional()
+  barangayId: z.string().optional(),
 });
 
 export const LoginUserSchema = UserSchema.pick({
@@ -92,7 +94,7 @@ export const RegisterUserSchema = UserSchema.pick({
     lastname: z.string().min(1).max(50),
     suffix: z.string().optional(),
     gender: z.nativeEnum(Gender),
-    dateOfBirth: z.date(),
+    dateOfBirth: z.coerce.date(),
     homeNo: z.string().min(1).max(50),
     street: z.string().min(1).max(50),
     barangay: z.string().min(1).max(50),
@@ -185,25 +187,23 @@ export const CreateUserSchema = UserSchema.pick({}).extend({
   zip: z.string().min(1, "Required").max(50),
 });
 
-
 // eto dinagdag ko para makapag create ng doctor
 export const CreateDoctorSchema = CreateUserSchema.pick({
-  email:true,
-  role:true,
-  suffix:true,
-  firstname:true,
-  lastname:true,
-  middlename:true,
-  specialist:true,
-  licenseNo:true,
-  barangay:true
-})
-.partial({
-  suffix:true,
-  middlename:true
-})
+  email: true,
+  role: true,
+  suffix: true,
+  firstname: true,
+  lastname: true,
+  middlename: true,
+  specialist: true,
+  licenseNo: true,
+  barangay: true,
+}).partial({
+  suffix: true,
+  middlename: true,
+});
 
-export type TCreateDoctorSchema = z.infer<typeof CreateDoctorSchema>
+export type TCreateDoctorSchema = z.infer<typeof CreateDoctorSchema>;
 
 export const UpdateUserSchema = UserSchema.pick({
   role: true,
@@ -214,6 +214,30 @@ export const UpdateUserSchema = UserSchema.pick({
     barangayId: z.string().min(1).max(50),
   })
   .partial();
+
+//
+export const VerifyUserSchema = z.object({
+  code: z.string().min(1).max(50),
+});
+
+export const SetupAccountSchema = z
+  .object({
+    barangayId: z.string().cuid(),
+    password: z
+      .string()
+      .refine(
+        (value) =>
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/.test(
+            value
+          ),
+        "Must contain 8 Characters, one uppercase, lowercase, one number and one special case character"
+      ),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  });
 
 // test.js
 // const z = require("zod");
