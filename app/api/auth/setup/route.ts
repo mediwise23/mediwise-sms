@@ -35,7 +35,7 @@ export const POST = withAuth(
       const hashedPassword = await generateHashPassword(body.data.password);
 
       // update user
-      const profileUpdated = prisma.user.update({
+      const profileUpdated = await prisma.user.update({
         where: {
           id: session.user.id,
         },
@@ -44,7 +44,7 @@ export const POST = withAuth(
           barangayId: body.data.barangayId,
         },
       });
-
+      console.log(profileUpdated)
       return NextResponse.json("account updated", { status: 201 });
     } catch (error) {
       console.log("[ACOOUNT_SETUP_POST]", error);

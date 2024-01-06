@@ -18,6 +18,7 @@ import { VerifyUserSchema, TVerifyUserSchema } from "@/schema/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
+import { Loader2 } from "@/components/ui/Loader";
 
 type VerifyClientProps = {
   currentUser: Session["user"];
@@ -77,6 +78,9 @@ const VerifyClient: React.FC<VerifyClientProps> = ({ currentUser }) => {
         },
     })
   }
+
+  const isLoading = form.formState.isSubmitting || verifyCode.status === 'pending'
+
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -109,6 +113,7 @@ const VerifyClient: React.FC<VerifyClientProps> = ({ currentUser }) => {
                       <FormControl>
                         <Input
                           className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                          disabled={isLoading}
                           placeholder={`Enter code`}
                           {...field}
                         />
@@ -127,12 +132,20 @@ const VerifyClient: React.FC<VerifyClientProps> = ({ currentUser }) => {
                 variant={"link"}
                 className="text-zinc-500 w-fit"
                 type="button"
+                disabled={isLoading}
                 onClick={resendCode}
               >
                 Send code
               </Button>
-              <Button className="self-end">
-                Submit
+              <Button className="self-end" disabled={isLoading}>
+                {
+                  (() => {
+                    if(isLoading) {
+                      return <div className="flex items-center"> <Loader2  size={20}/> Saving </div>
+                    }
+                    return 'Continue'
+                  })()
+                }
               </Button>
             </form>
           </Form>

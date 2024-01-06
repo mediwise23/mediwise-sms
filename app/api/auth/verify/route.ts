@@ -73,6 +73,7 @@ export const POST = withAuth(
         },
         data: {
           isVerified: true,
+          vefificationCode: null,
         },
       });
 

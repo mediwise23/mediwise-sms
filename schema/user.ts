@@ -239,6 +239,7 @@ export const SetupAccountSchema = z
     path: ["confirmPassword"],
   });
 
+  export type TSetupAccountSchema = z.infer<typeof SetupAccountSchema>
 // test.js
 // const z = require("zod");
 // const RegisterUserSchema = z
