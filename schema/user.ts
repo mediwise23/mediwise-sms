@@ -217,9 +217,9 @@ export const UpdateUserSchema = UserSchema.pick({
 
 //
 export const VerifyUserSchema = z.object({
-  code: z.string().min(1).max(50),
+  code: z.string().min(1, 'Required').max(50),
 });
-
+export type TVerifyUserSchema = z.infer<typeof VerifyUserSchema>
 export const SetupAccountSchema = z
   .object({
     barangayId: z.string().cuid(),

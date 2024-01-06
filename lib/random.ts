@@ -1,8 +1,8 @@
-export const generateRandomString = (n: number): string => {
+export const generateRandomString = (n: number, allowSpecialChar: boolean = false): string => {
   const characters =
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
   const symbol = "!@&$";
-  const allCharacters = characters + symbol;
+  const allCharacters = allowSpecialChar ? characters + symbol : characters;
 
   let result = "";
   const charactersLength = allCharacters.length;
