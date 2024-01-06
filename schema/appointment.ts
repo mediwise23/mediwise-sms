@@ -16,6 +16,7 @@ export const AppointmentSchema = z.object({
   image_path: z.string().nullable(),
   createdAt: z.date(),
   updatedAt: z.date(),
+  barangayId: z.string(),
 }) satisfies z.ZodType<Appointment>;
 
 export const AppointmentGetQuerySchema = AppointmentSchema.pick({

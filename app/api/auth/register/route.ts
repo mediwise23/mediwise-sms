@@ -42,7 +42,7 @@ export async function POST(req: NextRequest, { params }: { params: {} }) {
     const hashedPassword = await generateHashPassword(password);
     // verification code
     const code = generateRandomString(6);
-
+    
     // create user
     const userCreated = await createUser({
       data: {

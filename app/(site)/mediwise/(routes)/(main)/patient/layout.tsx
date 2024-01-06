@@ -12,7 +12,7 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
 
   const { user } = currentUser;
 
-  const data = await getUserById({id: user.id, enableRawData:true})
+  const data = await getUserById({id: user.id})
 
   if(!data?.isVerified) {
     return redirect('/mediwise/verify')
