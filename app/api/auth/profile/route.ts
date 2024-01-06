@@ -1,5 +1,10 @@
 import { withAuth } from "@/lib/auth";
-import { ChangePasswordSchema, UpdateProfileSchema } from "@/schema/user";
+import {
+  ChangePasswordSchema,
+  TUser,
+  TUserRaw,
+  UpdateProfileSchema,
+} from "@/schema/user";
 import {
   comparePassword,
   generateHashPassword,
@@ -28,9 +33,9 @@ export const PUT = withAuth(
       }
 
       // double check if user exists
+
       const user = await getUserById({
         id: session.user.id,
-        enableRawData: true,
       });
 
       if (!user) {

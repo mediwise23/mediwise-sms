@@ -1,8 +1,10 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { format } from "date-fns";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -16,22 +18,30 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { Calendar as CalendarIcon } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { useModal } from "@/hooks/useModalStore";
-import { useMutateProcessor, useQueryProcessor } from "@/hooks/useTanstackQuery";
 import {
-  RegisterUserSchema,
-  TRegister,
-} from "@/schema/user";
+  useMutateProcessor,
+  useQueryProcessor,
+} from "@/hooks/useTanstackQuery";
+import { RegisterUserSchema, TRegister } from "@/schema/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Barangay } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { cn } from "@/lib/utils";
 
 const RegisterForm = () => {
   const [step, setStep] = useState(1);
-  const {onOpen} = useModal()
+  const { onOpen } = useModal();
   const form = useForm<TRegister>({
     resolver: zodResolver(RegisterUserSchema),
     defaultValues: {
@@ -48,9 +58,12 @@ const RegisterForm = () => {
     key: ["register"],
     method: "POST",
   });
-  const barangay = useQueryProcessor<Barangay[]>({url: '/barangay', key:['barangay'], })
+  const barangay = useQueryProcessor<Barangay[]>({
+    url: "/barangay",
+    key: ["barangay"],
+  });
 
-  console.log(barangay?.data)
+  console.log(barangay?.data);
   const { toast } = useToast();
   const onSubmit: SubmitHandler<TRegister> = (values) => {
     console.log(values);
@@ -197,18 +210,57 @@ const RegisterForm = () => {
                     render={({ field }) => (
                       <FormItem className="w-full">
                         <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
-                          Birthdate
+                          Date of birth
                         </FormLabel>
-                        <FormControl>
-                          <Input
-                            className="focus-visible:ring-0  focus-visible:ring-offset-0"
-                            type="date"
-                            placeholder={`Enter birthdate`}
-                            {...field}
-                          />
-                        </FormControl>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <FormControl>
+                              <Button
+                                variant={"outline"}
+                                className={cn(
+                                  "w-full pl-3 text-left font-normal",
+                                  !field.value && "text-muted-foreground"
+                                )}
+                              >
+                                {field.value ? (
+                                  format(field.value, "PPP")
+                                ) : (
+                                  <span>Pick a date</span>
+                                )}
+                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                              </Button>
+                            </FormControl>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0" align="start">
+                            <Calendar
+                              mode="single"
+                              selected={field.value}
+                              onSelect={field.onChange}
+                              disabled={(date) =>
+                                date > new Date() ||
+                                date < new Date("1900-01-01")
+                              }
+                              initialFocus
+                            />
+                          </PopoverContent>
+                        </Popover>
+
                         <FormMessage />
                       </FormItem>
+                      // <FormItem className="w-full">
+                      //   <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                      //     Birthdate
+                      //   </FormLabel>
+                      //   <FormControl>
+                      //     <Input
+                      //       className="focus-visible:ring-0  focus-visible:ring-offset-0"
+                      //       type="date"
+                      //       placeholder={`Enter birthdate`}
+                      //       {...field}
+                      //     />
+                      //   </FormControl>
+                      //   <FormMessage />
+                      // </FormItem>
                     )}
                   />
 
@@ -324,9 +376,11 @@ const RegisterForm = () => {
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent className="focus-visible:ring-0  focus-visible:ring-offset-0">
-                              {
-                                barangay?.data?.map((barangay) => (<SelectItem value={barangay?.id || 'null'}>Brgy {barangay.name}</SelectItem>))
-                              }
+                              {barangay?.data?.map((barangay) => (
+                                <SelectItem value={barangay?.id || "null"}>
+                                  Brgy {barangay.name}
+                                </SelectItem>
+                              ))}
                             </SelectContent>
                           </Select>
                         </FormControl>
@@ -495,11 +549,11 @@ const RegisterForm = () => {
           </div>
 
           <span className="text-sm text-center text-zinc-500">
-           Already have an account?
+            Already have an account?
             <span
               onClick={() => {
                 router.push("/mediwise");
-                onOpen('mediwiseLogin')
+                onOpen("mediwiseLogin");
               }}
               className="underline cursor-pointer"
             >
