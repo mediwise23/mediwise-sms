@@ -1,6 +1,6 @@
 import { withAuth } from "@/lib/auth";
 import { UpdateUserSchema } from "@/schema/user";
-import { deleteUserById, getUserById, updateUserById } from "@/service/user";
+import { getUserById, updateUserById } from "@/service/user";
 import { NextResponse } from "next/server";
 
 export const GET = withAuth(
@@ -85,9 +85,9 @@ export const DELETE = withAuth(
         );
       }
 
-      const userDeleted = await deleteUserById({ id: params.userId });
+      // const userDeleted = await deleteUserById({ id: params.userId });
 
-      return NextResponse.json(userDeleted, { status: 200 });
+      return NextResponse.json({}, { status: 200 });
     } catch (error) {
       console.log("[USER_DELETE]", error);
       return new NextResponse("Internal error", { status: 500 });

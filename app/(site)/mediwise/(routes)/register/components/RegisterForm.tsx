@@ -372,13 +372,13 @@ const RegisterForm = () => {
                           >
                             <FormControl>
                               <SelectTrigger className="focus-visible:ring-0  focus-visible:ring-offset-0">
-                                <SelectValue placeholder="Select a gender" />
+                                <SelectValue placeholder="Select a barangay" />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent className="focus-visible:ring-0  focus-visible:ring-offset-0">
                               {barangay?.data?.map((barangay) => (
-                                <SelectItem value={barangay?.id || "null"}>
-                                  Brgy {barangay.name}
+                                <SelectItem value={barangay?.id || "null"} key={barangay?.id}>
+                                  {barangay.name}
                                 </SelectItem>
                               ))}
                             </SelectContent>

@@ -203,7 +203,10 @@ export const CreateDoctorSchema = CreateUserSchema.pick({
 }).partial({
   suffix: true,
   middlename: true,
-});
+}).extend({
+  middlename: z.string().optional(),
+  suffix: z.string().optional()
+})
 
 export type TCreateDoctorSchema = z.infer<typeof CreateDoctorSchema>;
 
@@ -224,11 +227,11 @@ export const VerifyUserSchema = z.object({
 export type TVerifyUserSchema = z.infer<typeof VerifyUserSchema>
 export const SetupAccountSchema = z
   .object({
-    firstname: z.string(),
-    lastname: z.string(),
+    firstname: z.string().min(1, "Required"),
+    lastname: z.string().min(1, "Required"),
     middlename: z.string().optional(),
     suffix: z.string().optional(),
-    barangayId: z.string().cuid(),
+    barangayId: z.string().min(1, "Required").cuid(),
     password: z
       .string()
       .refine(

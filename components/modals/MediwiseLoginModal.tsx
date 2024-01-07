@@ -29,8 +29,8 @@ import { BsFacebook, BsGithub, BsGoogle } from "react-icons/bs";
 import { IconType } from "react-icons";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { Checkbox } from "../ui/checkbox";
 const MediwiseLoginModal = () => {
-
   const { isOpen, type, onClose } = useModal();
   const isModalOpen = isOpen && type === "mediwiseLogin";
   const [loading, setLoading] = useState(false);
@@ -45,10 +45,10 @@ const MediwiseLoginModal = () => {
     },
     mode: "all",
   });
-  
+
   type variant = "LOGIN" | "REGISTER";
   const [variants, setVariants] = useState<variant>("LOGIN");
-
+  const [showPass, setShowPass] = useState(false);
   const register = useMutateProcessor<LoginUserSchemaType, any>({
     url: "/users",
     method: "POST",
@@ -74,7 +74,7 @@ const MediwiseLoginModal = () => {
           toast.error("invalid credentials");
         }
         if (response?.ok && !response.error) {
-          onClose()
+          onClose();
           router.refresh();
           toast.success("Logged In!");
         }
@@ -170,7 +170,7 @@ const MediwiseLoginModal = () => {
                     <FormControl>
                       <Input
                         disabled={isLoading}
-                        type="password"
+                        type={showPass ? "text" : "password"}
                         className="focus-visible:ring-0  focus-visible:ring-offset-0 resize-none"
                         placeholder={`Enter Password`}
                         {...field}
@@ -180,6 +180,19 @@ const MediwiseLoginModal = () => {
                   </FormItem>
                 )}
               />
+            </div>
+
+            <div className="flex gap-x-3 items-center">
+              <Checkbox
+                id="showPass"
+                checked={showPass === true}
+                onCheckedChange={() => setShowPass((prev) => !prev)}
+              />
+
+              <label
+                htmlFor="showPass"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >Show password</label>
             </div>
 
             <DialogFooter className="py-4">
@@ -202,7 +215,7 @@ const MediwiseLoginModal = () => {
               </Button>
             </DialogFooter>
             <span className="text-sm text-center text-zinc-500">
-              Don't have an account?{" "}
+              Don`t have an account?{" "}
               <span
                 onClick={() => {
                   onHandleClose();

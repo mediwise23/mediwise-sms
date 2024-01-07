@@ -19,6 +19,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "@/components/ui/Loader";
+import UserMenu from "@/components/UserMenu";
 
 type VerifyClientProps = {
   currentUser: Session["user"];
@@ -83,6 +84,9 @@ const VerifyClient: React.FC<VerifyClientProps> = ({ currentUser }) => {
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
+      <div className=" fixed top-5 right-5 w-fit">
+        <UserMenu currentUser={currentUser} />
+      </div>
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <img
           className="w-[150px] h-[70px] mr-2 object-cover"

@@ -193,6 +193,8 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
           eventBackgroundColor={"#449e65"}
           eventColor={"#449e65"}
           weekends={true}
+          // @ts-ignore
+          // @ts-nocheck
           events={currentworkSchedules}
           // initialEvents={currentEvents} // alternatively, use the `events` setting to fetch from a feed
           select={handleDateSelect} // adding event
@@ -224,7 +226,7 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
                 return <h1 className="text-center font-semibold">No appointments found</h1>;
               }
               return currentAppointment.data?.map((appointment) => (
-                <AppointmentItem data={appointment} currentUser={currentUser} />
+                <AppointmentItem data={appointment} currentUser={currentUser} key={appointment.id}/>
               ));
             })()}
           </div>

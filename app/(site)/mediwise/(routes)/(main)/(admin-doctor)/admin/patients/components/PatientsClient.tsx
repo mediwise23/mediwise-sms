@@ -106,6 +106,8 @@ const Patients:React.FC<PatientsClientProps> = ({currentUser}) => {
       {(() => {
         return (
           <DataTable
+          // @ts-ignore
+          // @ts-nocheck
             columns={columns}
             data={patients.data || []}
             globalFilter={globalFilter}

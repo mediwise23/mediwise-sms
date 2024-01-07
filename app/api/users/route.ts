@@ -84,6 +84,7 @@ export const POST = withAuth(
           email: body.data.email,
           role: body.data.role,
           hashedPassword: hashedPassword,
+          vefificationCode: randomString
         },
       });
 

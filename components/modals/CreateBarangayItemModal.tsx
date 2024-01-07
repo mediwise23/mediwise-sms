@@ -38,6 +38,7 @@ const CreateBarangayItemModal = () => {
 
   const onHandleClose = () => {
     onClose();
+    form.reset()
   };
   console.log(data.user?.barangayId)
 
@@ -53,6 +54,10 @@ const CreateBarangayItemModal = () => {
 
   useEffect(() => {
     form.setValue('brgyId', data.user?.barangayId as string)
+
+    return () => {
+      form.reset()
+    }
   }, [isModalOpen])
 
   const createItem = useMutateProcessor<TCreateBrgyItem, TItemBrgy>({
@@ -70,6 +75,7 @@ const CreateBarangayItemModal = () => {
                 title: 'Item has been created',
                 description: 'The item has been successfully created!'
             })
+            onClose()
         },
         onError(error, variables, context) {
             console.error(error)

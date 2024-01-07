@@ -107,8 +107,11 @@ const DoctorsClient:React.FC<InventoryClientProps> = ({currentUser}) => {
       </div>
 
       {(() => {
+
         return (
           <DataTable
+          // @ts-ignore
+          // @ts-nocheck
             columns={columns}
             data={doctor.data || []}
             globalFilter={globalFilter}

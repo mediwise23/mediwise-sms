@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/select";
 import { Barangay } from "@prisma/client";
 import { Loader2 } from "@/components/ui/Loader";
+import UserMenu from "@/components/UserMenu";
 
 type SetupClientProps = {
   currentUser: Session["user"];
@@ -80,6 +81,10 @@ const SetupClient: React.FC<SetupClientProps> = ({ currentUser }) => {
   const isLoading = form.formState.isSubmitting || setup.status === "pending";
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
+      <div className=" fixed top-5 right-5 w-fit">
+        <UserMenu currentUser={currentUser} />
+      </div>
+
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <img
           className="w-[150px] h-[70px] mr-2 object-cover"
@@ -183,7 +188,6 @@ const SetupClient: React.FC<SetupClientProps> = ({ currentUser }) => {
                   )}
                 />
 
-
                 <FormField
                   control={form.control}
                   name="barangayId"
@@ -207,7 +211,7 @@ const SetupClient: React.FC<SetupClientProps> = ({ currentUser }) => {
                           </FormControl>
                           <SelectContent className="focus-visible:ring-0  focus-visible:ring-offset-0">
                             {barangay?.data?.map((barangay) => (
-                              <SelectItem value={barangay?.id || "null"}>
+                              <SelectItem value={barangay?.id || "null"} key={barangay?.id}>
                                 Brgy {barangay.name}
                               </SelectItem>
                             ))}

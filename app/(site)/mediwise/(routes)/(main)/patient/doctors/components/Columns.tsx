@@ -197,23 +197,22 @@ export const columns: ColumnDef<TUser & {profile: Profile}>[] = [
       );
     },
   },
-
-  {
-    accessorKey: "action",
-    header: ({ column }) => {
-      return (
-        <div
-          className=" text-[#181a19]  flex items-center cursor-pointer dark:text-white flex-1"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-        </div>
-      );
-    },
-    cell: ({ row }) => {
-      const createdAt = row.original?.createdAt;
-      return (
-        <ActionButton />
-      );
-    },
-  },
+  // {
+  //   accessorKey: "action",
+  //   header: ({ column }) => {
+  //     return (
+  //       <div
+  //         className=" text-[#181a19]  flex items-center cursor-pointer dark:text-white flex-1"
+  //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+  //       >
+  //       </div>
+  //     );
+  //   },
+  //   cell: ({ row }) => {
+  //     const createdAt = row.original?.createdAt;
+  //     return (
+  //       <ActionButton />
+  //     );
+  //   },
+  // },
 ];
