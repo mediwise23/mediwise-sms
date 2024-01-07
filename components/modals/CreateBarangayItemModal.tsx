@@ -58,7 +58,7 @@ const CreateBarangayItemModal = () => {
   const createItem = useMutateProcessor<TCreateBrgyItem, TItemBrgy>({
     url: "/brgy-item",
     method: "POST",
-    key: ["brgy-items"],
+    key: ['inventory-items', 'barangay', data.user?.barangayId],
   });
 
   console.log(form.formState.errors)

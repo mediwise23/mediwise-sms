@@ -43,13 +43,15 @@ export const POST = withAuth(
           { status: 400 }
         );
       }
-      const {email, barangay, role, ...rest} = body.data
+      const {email, barangay, role, isVerified, ...rest} = body.data
       const user = await prisma.user.create({
         data: {
           email,
           role,
+          name:`${{...rest}.firstname} ${{...rest}.lastname}`,
           hashedPassword,
           barangayId: barangay,
+          isVerified: isVerified,
           profile: {
             create: {
               ...rest

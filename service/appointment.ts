@@ -6,35 +6,24 @@ import moment from "moment-timezone";
 
 // get all appointments by role
 export const getAppointments = async ({
-  role,
+  status,
   date,
   barangayId,
   doctorId,
 }: {
-  role: AppoinmentStatus | undefined;
+  status: AppoinmentStatus | undefined;
   date: Date | string | undefined;
   barangayId: string | undefined;
   doctorId: string | undefined;
 }) => {
-  console.log(doctorId);
   return await prisma.appointment.findMany({
     where: {
-      OR: [
-        {
-          status: role,
-        },
-        {
-          doctorId: doctorId,
-        },
-        {
-          barangayId,
-        },
-        {
+          status: status ?? undefined,
+          doctorId: doctorId ?? undefined,
+          barangayId: barangayId?? undefined,
           date: {
-            equals: moment(date).toDate(),
+            equals: date ? moment(date).toDate() : undefined,
           },
-        },
-      ],
     },
     orderBy: {
       date: "desc",

@@ -43,18 +43,17 @@ const SetupClient: React.FC<SetupClientProps> = ({ currentUser }) => {
     key: ["barangay"],
   });
 
-
   const setup = useMutateProcessor<TSetupAccountSchema, unknown>({
     url: `/auth/setup`,
-    key: ['setup-account'],
-    method: 'POST'
-  })
+    key: ["setup-account"],
+    method: "POST",
+  });
   const form = useForm<TSetupAccountSchema>({
     mode: "all",
     defaultValues: {
-      barangayId: '',
-      confirmPassword: '',
-      password: ''
+      barangayId: "",
+      confirmPassword: "",
+      password: "",
     },
     resolver: zodResolver(SetupAccountSchema),
   });
@@ -62,23 +61,23 @@ const SetupClient: React.FC<SetupClientProps> = ({ currentUser }) => {
   const onSubmit: SubmitHandler<TSetupAccountSchema> = async (values) => {
     setup.mutate(values, {
       onError(error, variables, context) {
-          console.error(error)
-          toast({
-            title: 'Set up failed',
-            variant:'destructive'
-          })
+        console.error(error);
+        toast({
+          title: "Set up failed",
+          variant: "destructive",
+        });
       },
       onSuccess(data, variables, context) {
-          console.log(data)
-          toast({
-              title: 'Set up successful',
-          })
-          router.refresh()
+        console.log(data);
+        toast({
+          title: "Set up successful",
+        });
+        router.refresh();
       },
-  })
+    });
   };
 
-  const isLoading = form.formState.isSubmitting || setup.status === 'pending'
+  const isLoading = form.formState.isSubmitting || setup.status === "pending";
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -99,7 +98,92 @@ const SetupClient: React.FC<SetupClientProps> = ({ currentUser }) => {
               className="mt-4 space-y-4 lg:mt-5 md:space-y-5 flex flex-col"
               onSubmit={form.handleSubmit(onSubmit)}
             >
-              <div>
+              <div className="flex flex-col gap-y-3">
+                <FormField
+                  control={form.control}
+                  name="firstname"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                        Firstname
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          className="focus-visible:ring-0  focus-visible:ring-offset-0"
+                          disabled={isLoading}
+                          placeholder={`Enter firstname`}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="lastname"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                        Lastname
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          className="focus-visible:ring-0  focus-visible:ring-offset-0"
+                          disabled={isLoading}
+                          placeholder={`Enter lastname`}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="middlename"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                        Middlename (optional)
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          className="focus-visible:ring-0  focus-visible:ring-offset-0"
+                          disabled={isLoading}
+                          placeholder={`Enter middlename`}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="suffix"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                        Suffix (optional)
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          className="focus-visible:ring-0  focus-visible:ring-offset-0"
+                          disabled={isLoading}
+                          placeholder={`Enter suffix`}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+
                 <FormField
                   control={form.control}
                   name="barangayId"
@@ -114,7 +198,10 @@ const SetupClient: React.FC<SetupClientProps> = ({ currentUser }) => {
                           defaultValue={field.value}
                         >
                           <FormControl>
-                            <SelectTrigger className="focus-visible:ring-0  focus-visible:ring-offset-0" disabled={isLoading}>
+                            <SelectTrigger
+                              className="focus-visible:ring-0  focus-visible:ring-offset-0"
+                              disabled={isLoading}
+                            >
                               <SelectValue placeholder="Select a barangay" />
                             </SelectTrigger>
                           </FormControl>
@@ -177,12 +264,17 @@ const SetupClient: React.FC<SetupClientProps> = ({ currentUser }) => {
                 />
               </div>
               <Button className="self-end" disabled={isLoading}>
-              {(() => {
-                if(isLoading) {
-                  return <div className="flex items-center"> <Loader2  size={20}/> Saving </div>
-                }
-                return 'Finish setup'
-              })()}
+                {(() => {
+                  if (isLoading) {
+                    return (
+                      <div className="flex items-center">
+                        {" "}
+                        <Loader2 size={20} /> Saving{" "}
+                      </div>
+                    );
+                  }
+                  return "Finish setup";
+                })()}
               </Button>
             </form>
           </Form>

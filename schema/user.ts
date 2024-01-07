@@ -178,6 +178,7 @@ export const CreateUserSchema = UserSchema.pick({}).extend({
   specialist: z.string().min(1, "Required").max(50),
   licenseNo: z.string().min(1, "Required").max(50),
   dateOfBirth: z.coerce.date(),
+  isVerified: z.boolean().optional(),
   homeNo: z.string().min(1, "Required").max(50),
   street: z.string().min(1, "Required").max(50),
   barangay: z.string().min(1, "Required").max(50),
@@ -198,6 +199,7 @@ export const CreateDoctorSchema = CreateUserSchema.pick({
   specialist: true,
   licenseNo: true,
   barangay: true,
+  isVerified: true
 }).partial({
   suffix: true,
   middlename: true,
@@ -222,6 +224,10 @@ export const VerifyUserSchema = z.object({
 export type TVerifyUserSchema = z.infer<typeof VerifyUserSchema>
 export const SetupAccountSchema = z
   .object({
+    firstname: z.string(),
+    lastname: z.string(),
+    middlename: z.string().optional(),
+    suffix: z.string().optional(),
     barangayId: z.string().cuid(),
     password: z
       .string()

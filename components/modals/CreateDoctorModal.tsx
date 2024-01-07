@@ -38,7 +38,9 @@ const CreateDoctorModal = () => {
   };
   const form = useForm<TCreateDoctorSchema>({
     resolver: zodResolver(CreateDoctorSchema),
-    defaultValues: {},
+    defaultValues: {
+      isVerified:true
+    },
     mode: 'all'
   });
 

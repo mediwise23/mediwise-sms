@@ -11,6 +11,7 @@ export const GET = withAuth(async ({ req, session }) => {
     day: z.string(),
     month: z.string(),
     year: z.string(),
+    barangayId: z.string().optional()
   });
   // @ts-ignore
   // @ts-nocheck
@@ -21,7 +22,7 @@ export const GET = withAuth(async ({ req, session }) => {
     console.log("Invalid query parameters", result.error.flatten().fieldErrors);
     return new NextResponse("Date is missing", { status: 400 });
   }
-  const { day, month, year } = result.data;
+  const { day, month, year, barangayId } = result.data;
 
   const date = new Date();
   date.setDate(Number(day));
@@ -40,6 +41,7 @@ export const GET = withAuth(async ({ req, session }) => {
           end: {
             gt: moment(date).startOf('day').toDate(),
           },
+          barangayId
       },
     });
     // fetching the doctors that are available

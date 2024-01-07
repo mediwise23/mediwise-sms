@@ -100,7 +100,7 @@ export const columns: ColumnDef<TUser & {profile: Profile}>[] = [
       );
     },
     cell: ({ row }) => {
-      const firstname = row.original?.profile?.lastname;
+      const firstname = row.original?.profile?.firstname;
       return (
         <div className=" dark:text-white">
           {firstname}

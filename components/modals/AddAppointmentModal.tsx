@@ -65,9 +65,10 @@ const AddAppointmentModal = () => {
       day: date.getDate(),
       month: date.getMonth(),
       year: date.getFullYear(),
+      barangayId: data.user?.barangayId
     },
     options: {
-      enabled: !!data?.calendarApi,
+      enabled: !!data?.calendarApi || !!data.user,
     },
   });
 
