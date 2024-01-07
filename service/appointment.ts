@@ -8,20 +8,33 @@ import moment from "moment-timezone";
 export const getAppointments = async ({
   role,
   date,
-  barangayId
+  barangayId,
+  doctorId,
 }: {
   role: AppoinmentStatus | undefined;
   date: Date | string | undefined;
   barangayId: string | undefined;
+  doctorId: string | undefined;
 }) => {
-
+  console.log(doctorId);
   return await prisma.appointment.findMany({
     where: {
+      OR: [
+        {
           status: role,
-          date: { 
+        },
+        {
+          doctorId: doctorId,
+        },
+        {
+          barangayId,
+        },
+        {
+          date: {
             equals: moment(date).toDate(),
           },
-          barangayId
+        },
+      ],
     },
     orderBy: {
       date: "desc",
@@ -29,15 +42,15 @@ export const getAppointments = async ({
     include: {
       doctor: {
         include: {
-          profile:true
-        }
+          profile: true,
+        },
       },
       patient: {
         include: {
-          profile:true
-        }
+          profile: true,
+        },
       },
-    }
+    },
   });
 };
 
@@ -58,7 +71,7 @@ export const createAppointment = async ({
   date,
   status,
   image_path,
-  barangayId
+  barangayId,
 }: {
   title: string;
   doctorId: string;
@@ -76,7 +89,7 @@ export const createAppointment = async ({
       date,
       status,
       image_path,
-      barangayId
+      barangayId,
     },
   });
 };

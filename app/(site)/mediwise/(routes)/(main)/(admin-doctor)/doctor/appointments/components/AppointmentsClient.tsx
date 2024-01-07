@@ -13,64 +13,74 @@ import React, { useState } from "react";
 import { DataTable } from "@/components/DataTable";
 import { columns } from "./Columns";
 import { useQueryProcessor } from "@/hooks/useTanstackQuery";
+import { TUser } from "@/schema/user";
+import { Appointment, Profile, WorkSchedule } from "@prisma/client";
 
-const AppointmentsClient = () => {
-
-  useQueryProcessor({
-    
-  })
-  const appointments = [
-    {
-      id: "asdcnmmysd54ngbcfddad23231",
-      title: "General Checkup",
-      doctor: "Francis Magpayo",
-      patient: "Andrea Munoz",
-      date: new Date(),
-      status: "PENDING",
-      createdAt: new Date(),
+type AppointmentsClientProps = {
+  currentUser: TUser;
+};
+const AppointmentsClient: React.FC<AppointmentsClientProps> = ({
+  currentUser,
+}) => {
+  const appointments = useQueryProcessor<(Appointment & { doctor: TUser & { profile: Profile }, patient: TUser & { profile: Profile } })[]>({
+    url: "/appointments",
+    queryParams: {
+      doctorId: currentUser.id,
     },
+    key: ['appointments-doctor', currentUser.barangayId]
+  });
 
-    {
-      id: "asdcnmmysd54ngbcfddad23231",
-      title: "General Checkup",
-      doctor: "Francis Magpayo",
-      patient: "Andrea Munoz",
-      date: new Date(),
-      status: "PENDING",
-      createdAt: new Date(),
-    },
+  // const appointments = [
+  //   {
+  //     id: "asdcnmmysd54ngbcfddad23231",
+  //     title: "General Checkup",
+  //     doctor: "Francis Magpayo",
+  //     patient: "Andrea Munoz",
+  //     date: new Date(),
+  //     status: "PENDING",
+  //     createdAt: new Date(),
+  //   },
 
+  //   {
+  //     id: "asdcnmmysd54ngbcfddad23231",
+  //     title: "General Checkup",
+  //     doctor: "Francis Magpayo",
+  //     patient: "Andrea Munoz",
+  //     date: new Date(),
+  //     status: "PENDING",
+  //     createdAt: new Date(),
+  //   },
 
-    {
-      id: "asdc1nmmysd54ngbcfddad23231",
-      title: "Follow up Checkup",
-      doctor: "andrew belgar",
-      patient: "minet dosme",
-      date: new Date(),
-      status: "ACCEPTED",
-      createdAt: new Date(),
-    },
+  //   {
+  //     id: "asdc1nmmysd54ngbcfddad23231",
+  //     title: "Follow up Checkup",
+  //     doctor: "andrew belgar",
+  //     patient: "minet dosme",
+  //     date: new Date(),
+  //     status: "ACCEPTED",
+  //     createdAt: new Date(),
+  //   },
 
-    {
-      id: "asdcnm2mysd54ngbcfddad23231",
-      title: "General Checkup",
-      doctor: "Brenan Delikaze",
-      patient: "Joshua Vellidad",
-      date: new Date(),
-      status: "ACCEPTED",
-      createdAt: new Date(),
-    },
+  //   {
+  //     id: "asdcnm2mysd54ngbcfddad23231",
+  //     title: "General Checkup",
+  //     doctor: "Brenan Delikaze",
+  //     patient: "Joshua Vellidad",
+  //     date: new Date(),
+  //     status: "ACCEPTED",
+  //     createdAt: new Date(),
+  //   },
 
-    {
-      id: "asdcnm3mysd54ngbcfddad23231",
-      title: "Follow up Checkup",
-      doctor: "Collin Inbatera",
-      patient: "John Doe",
-      date: new Date(),
-      status: "REJECTED",
-      createdAt: new Date(),
-    },
-  ];
+  //   {
+  //     id: "asdcnm3mysd54ngbcfddad23231",
+  //     title: "Follow up Checkup",
+  //     doctor: "Collin Inbatera",
+  //     patient: "John Doe",
+  //     date: new Date(),
+  //     status: "REJECTED",
+  //     createdAt: new Date(),
+  //   },
+  // ];
   const [globalFilter, setGlobalFilter] = useState("");
 
   const onFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -140,7 +150,7 @@ const AppointmentsClient = () => {
         return (
           <DataTable
             columns={columns}
-            data={appointments || []}
+            data={appointments.data || []}
             globalFilter={globalFilter}
             setGlobalFilter={setGlobalFilter}
           />

@@ -24,8 +24,10 @@ export async function GET(req: NextRequest, { params }: { params: {} }) {
       role: queries.data.status,
       date: queries.data.date,
       barangayId: queries.data.barangayId,
+      doctorId: queries.data.doctorId
     });
 
+    console.log(appointments)
     return NextResponse.json(appointments, { status: 200 });
   } catch (error) {
     console.log("[APPOINMENT_GET]", error);

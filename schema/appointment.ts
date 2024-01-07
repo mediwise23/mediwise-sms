@@ -9,7 +9,7 @@ export type TAppointmentGetQuery = z.infer<typeof AppointmentGetQuerySchema>;
 export const AppointmentSchema = z.object({
   id: z.string(),
   title: z.string(),
-  doctorId: z.string().nullable(),
+  doctorId: z.string(),
   patientId: z.string().nullable(),
   date: z.date(),
   status: z.nativeEnum(AppoinmentStatus),
@@ -33,7 +33,6 @@ export const AppointmentGetQuerySchema = AppointmentSchema.pick({
   date: true,
   barangayId:true,
   doctorId:true,
-
 })
 
 export const CreateAppointmentSchema = AppointmentSchema.pick({
