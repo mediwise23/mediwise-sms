@@ -30,7 +30,7 @@ import { Button } from "@/components/ui/button";
 import { Divide } from "lucide-react";
 import { Loader2 } from "@/components/ui/Loader";
 type CalendarClientProps = {
-  currentUser: Session["user"];
+  currentUser: TUser;
 };
 
 const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {

@@ -19,7 +19,7 @@ import {TUser} from '@/schema/user'
 import { Profile } from "@prisma/client";
 
 type InventoryClientProps = {
-  currentUser: Session['user']
+  currentUser: TUser
 }
 
 const DoctorsClient:React.FC<InventoryClientProps> = ({currentUser}) => {

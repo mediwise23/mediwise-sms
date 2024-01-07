@@ -12,8 +12,13 @@ import { Filter, Search, UserPlus } from "lucide-react";
 import React, { useState } from "react";
 import { DataTable } from "@/components/DataTable";
 import { columns } from "./Columns";
+import { useQueryProcessor } from "@/hooks/useTanstackQuery";
 
 const AppointmentsClient = () => {
+
+  useQueryProcessor({
+    
+  })
   const appointments = [
     {
       id: "asdcnmmysd54ngbcfddad23231",

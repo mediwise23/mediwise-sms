@@ -22,7 +22,8 @@ export const AppointmentSchema = z.object({
 export const AppointmentGetQuerySchema = AppointmentSchema.pick({
   status: true,
   date: true,
-  barangayId: true
+  barangayId: true,
+  doctorId:true,
 })
 .extend({
   date: z.coerce.date()
@@ -30,7 +31,9 @@ export const AppointmentGetQuerySchema = AppointmentSchema.pick({
 .partial({
   status: true,
   date: true,
-  barangayId:true
+  barangayId:true,
+  doctorId:true,
+
 })
 
 export const CreateAppointmentSchema = AppointmentSchema.pick({

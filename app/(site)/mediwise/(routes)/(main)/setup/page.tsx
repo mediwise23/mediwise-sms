@@ -21,7 +21,7 @@ const page = async () => {
   }
 
   if(data.barangayId) {
-    return redirect("/mediwise/patient");
+    return redirect("/mediwise");
   }
   
   return (

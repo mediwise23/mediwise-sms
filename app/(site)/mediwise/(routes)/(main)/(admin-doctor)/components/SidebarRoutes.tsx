@@ -32,6 +32,12 @@ const routesList: routeListType[] = [
     roles: ["ADMIN"],
   },
 
+  {
+    icon: Home,
+    label: "home",
+    href: "/",
+    roles: ["DOCTOR"],
+  },
 //   {
 //     icon: TableProperties,
 //     label: "Course",

@@ -53,7 +53,7 @@ model RequestedItem {
   item   SmsItem? @relation(fields: [itemId], references: [id])
   itemId String?
 
-  ItemTransaction   ItemTransaction? @relation(fields: [itemTransactionId], references: [id])
+  ItemTransaction   ItemTransaction? @relation(fields: [itemTransactionId], references: [id], onDelete: Cascade)
   itemTransactionId String?
 }
 
@@ -62,10 +62,10 @@ model ItemTransaction {
   description String?               @db.VarChar(255)
   status      ItemTransactionStatus @default(PENDING)
 
-  barangay       Barangay? @relation(fields: [barangayId], references: [id])
+  barangay       Barangay? @relation(fields: [barangayId], references: [id],  onDelete: Cascade)
   barangayId     String?
   // A person from the barangay who requested the item
-  barangayUser   User?     @relation(fields: [barangayUserId], references: [id])
+  barangayUser   User?     @relation(fields: [barangayUserId], references: [id],  onDelete: Cascade)
   barangayUserId String?
 
   requested_items RequestedItem[]
@@ -97,7 +97,7 @@ model BrgyItem {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @default(now()) @updatedAt
   barangayId  String?
-  barangay    Barangay? @relation(fields: [barangayId], references: [id])
+  barangay    Barangay? @relation(fields: [barangayId], references: [id],  onDelete: Cascade)
   requestId   String?
   isArchive   Boolean   @default(false)
 }
@@ -118,7 +118,7 @@ model User {
   updatedAt        DateTime  @updatedAt
 
   barangayId String?
-  barangay   Barangay? @relation(fields: [barangayId], references: [id])
+  barangay   Barangay? @relation(fields: [barangayId], references: [id],  onDelete: Cascade)
 
   accounts             Account[]
   sessions             Session[]
@@ -135,14 +135,14 @@ model Appointment {
   id         String           @id @unique @default(cuid())
   title      String           @db.VarChar(255)
   doctorId   String?
-  doctor     User?            @relation(name: "doctor", fields: [doctorId], references: [id])
+  doctor     User?            @relation(name: "doctor", fields: [doctorId], references: [id],  onDelete: Cascade)
   patientId  String?
-  patient    User?            @relation(name: "patient", fields: [patientId], references: [id])
+  patient    User?            @relation(name: "patient", fields: [patientId], references: [id],  onDelete: Cascade)
   date       DateTime
   status     AppoinmentStatus @default(PENDING)
   image_path String?
   barangayId String
-  barangay   Barangay         @relation(fields: [barangayId], references: [id])
+  barangay   Barangay         @relation(fields: [barangayId], references: [id],  onDelete: Cascade)
   createdAt  DateTime         @default(now())
   updatedAt  DateTime         @default(now()) @updatedAt
 }
@@ -159,9 +159,9 @@ model WorkSchedule {
   updatedAt  DateTime @updatedAt
   // doctor who owns the work schedule
   doctorId   String
-  doctor     User     @relation(fields: [doctorId], references: [id])
+  doctor     User     @relation(fields: [doctorId], references: [id],  onDelete: Cascade)
   barangayId String
-  barangay   Barangay @relation(fields: [barangayId], references: [id])
+  barangay   Barangay @relation(fields: [barangayId], references: [id],  onDelete: Cascade)
 }
 
 enum Gender {
