@@ -7,6 +7,7 @@ export type ModalType =
   | "addWorkSchedule"
   | "createBarangayItem"
   | "createDoctor"
+  | "addAppointment"
 // you can extend this type if you have more modal
 
 // export type ModalType = "..." | "...." | "...."

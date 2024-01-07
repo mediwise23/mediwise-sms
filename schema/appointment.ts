@@ -21,9 +21,17 @@ export const AppointmentSchema = z.object({
 
 export const AppointmentGetQuerySchema = AppointmentSchema.pick({
   status: true,
-}).partial({
+  date: true,
+  barangayId: true
+})
+.extend({
+  date: z.coerce.date()
+})
+.partial({
   status: true,
-});
+  date: true,
+  barangayId:true
+})
 
 export const CreateAppointmentSchema = AppointmentSchema.pick({
   title: true,
@@ -32,6 +40,7 @@ export const CreateAppointmentSchema = AppointmentSchema.pick({
   date: true,
   status: true,
   image_path: true,
+  barangayId: true,
 }).extend({
   title: z.string().min(3).max(255),
   doctorId: z.string().cuid(),

@@ -91,13 +91,13 @@ export const POST = withAuth(
 export const GET = withAuth(
   async ({ req, session, params }) => {
     try {
-      const GetGroupChatsQueriesSchema = z.object({
+      const GetUserIdSchema = z.object({
         userId: z.string(),
       });
       // @ts-ignore
       // @ts-nocheck
       const queries = Object.fromEntries(req.nextUrl.searchParams.entries());
-      const result = await GetGroupChatsQueriesSchema.safeParseAsync(queries);
+      const result = await GetUserIdSchema.safeParseAsync(queries);
 
       if (!result.success) {
         console.log(
