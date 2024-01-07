@@ -9,7 +9,6 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest, { params }: { params: {} }) {
   const queries = getQueryParams(req, AppointmentGetQuerySchema);
-
   if (!queries.success) {
     return NextResponse.json(
       {
@@ -23,6 +22,8 @@ export async function GET(req: NextRequest, { params }: { params: {} }) {
   try {
     const appointments = await getAppointments({
       role: queries.data.status,
+      date: queries.data.date,
+      barangayId: queries.data.barangayId,
     });
 
     return NextResponse.json(appointments, { status: 200 });
@@ -38,7 +39,6 @@ export const POST = withAuth(
       const body = await CreateAppointmentSchema.safeParseAsync(
         await req.json()
       );
-
       if (!body.success) {
         return NextResponse.json(
           {
@@ -49,14 +49,15 @@ export const POST = withAuth(
         );
       }
 
-      const { title, doctorId, patientId, date, status, image_path } =
+      const { title, doctorId, patientId, date, status, image_path, barangayId } =
         body.data;
 
       const appointment = await createAppointment({
         title,
         doctorId,
         patientId,
-        date,
+        barangayId,
+        date: date,
         status,
         image_path,
       });

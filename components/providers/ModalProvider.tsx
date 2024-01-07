@@ -3,6 +3,7 @@ import MediwiseLoginModal from "../modals/MediwiseLoginModal";
 import AddWorkScheduleModal from "../modals/AddWorkScheduleModal";
 import CreateBarangayItemModal from "../modals/CreateBarangayItemModal";
 import CreateDoctorModal from "../modals/CreateDoctorModal";
+import AddAppointmentModal from "../modals/AddAppointmentModal";
 
 
 const ModalProvider = () => {
@@ -21,6 +22,7 @@ const ModalProvider = () => {
       <AddWorkScheduleModal />
       <CreateBarangayItemModal />
       <CreateDoctorModal />
+      <AddAppointmentModal />
     </>
   );
 };
