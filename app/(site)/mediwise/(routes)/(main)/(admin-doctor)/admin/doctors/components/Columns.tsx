@@ -22,19 +22,21 @@ import { format } from "date-fns";
 
 const DATE_FORMAT = `MMM d yyyy`;
 
-export const columns: ColumnDef<TUser & {profile: Profile}>[] = [
+export const columns: ColumnDef<(TUser & {profile: Profile})>[] = [
   {
     accessorKey: "id",
+    accessorFn: (row) => {
+      const id = row?.id;
+      return id
+    },
     header: () => {
       return <div className="sr-only dark:text-white">Id</div>;
     },
     cell: ({ row }) => {
       const id = row.getValue("id") as string;
-
       return <div className="sr-only dark:text-white">{id}</div>;
     },
   },
-
   {
     accessorKey: "licenseNo",
     accessorFn: (row) => {
@@ -50,9 +52,7 @@ export const columns: ColumnDef<TUser & {profile: Profile}>[] = [
       </div>
     ),
     cell: ({ row }) => {
-      // const yearEnrolled = row.getValue('') as Date
       const licenseNo = row.original?.profile?.licenseNo as string;
-
       return (
         <div className="">{licenseNo}</div>
       );
@@ -100,7 +100,7 @@ export const columns: ColumnDef<TUser & {profile: Profile}>[] = [
       );
     },
     cell: ({ row }) => {
-      const firstname = row.original?.profile?.lastname;
+      const firstname = row.original?.profile?.firstname;
       return (
         <div className=" dark:text-white">
           {firstname}
@@ -171,8 +171,6 @@ export const columns: ColumnDef<TUser & {profile: Profile}>[] = [
       return <div className={` flex items-center`}>{suffix}</div>;
     },
   },
-
-
   {
     accessorKey: "createdAt",
     accessorFn: (row) => {
@@ -199,7 +197,11 @@ export const columns: ColumnDef<TUser & {profile: Profile}>[] = [
   },
 
   {
-    accessorKey: "action",
+    accessorKey: "updatedAt",
+    accessorFn: (row) => {
+      const updatedAt = row.updatedAt;
+      return updatedAt;
+    },
     header: ({ column }) => {
       return (
         <div
@@ -210,7 +212,7 @@ export const columns: ColumnDef<TUser & {profile: Profile}>[] = [
       );
     },
     cell: ({ row }) => {
-      const createdAt = row.original?.createdAt;
+      const updatedAt = row.original?.updatedAt;
       return (
         <ActionButton />
       );

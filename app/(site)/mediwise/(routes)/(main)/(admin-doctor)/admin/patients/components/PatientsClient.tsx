@@ -12,21 +12,24 @@ import { Filter, Search, UserPlus } from "lucide-react";
 import React, { useState } from "react";
 import { DataTable } from "@/components/DataTable";
 import { columns } from "./Columns";
-
-const Patients = () => {
-  const doctors = [
-    {
-      id: "asdcnmmysd54ngbcfddad23231",
-      email:'menandroeugenio1028@gmail.com',
-      firstname: 'Haiden',
-      middlename:'Brendon',
-      lastname: 'Viktor',
-      contactNo:'09561238812',
-      barangay: '176',
-      createdAt: new Date(),
-      action:null,
+import { Session } from "next-auth";
+import { useQueryProcessor } from "@/hooks/useTanstackQuery";
+import { TUser } from "@/schema/user";
+import { Profile } from "@prisma/client";
+type PatientsClientProps = {
+  currentUser: Session['user']
+}
+const Patients:React.FC<PatientsClientProps> = ({currentUser}) => {
+  const patients = useQueryProcessor<(TUser & {profile: Profile}[])>({
+    url: '/users',
+    queryParams: {
+      role: 'PATIENT',
+      barangayId: currentUser.barangayId
     },
-  ];
+    key: ["patients", 'barangay', currentUser.barangayId]
+  })
+
+ 
   const [globalFilter, setGlobalFilter] = useState("");
 
   const onFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -103,8 +106,10 @@ const Patients = () => {
       {(() => {
         return (
           <DataTable
+          // @ts-ignore
+          // @ts-nocheck
             columns={columns}
-            data={doctors || []}
+            data={patients.data || []}
             globalFilter={globalFilter}
             setGlobalFilter={setGlobalFilter}
           />

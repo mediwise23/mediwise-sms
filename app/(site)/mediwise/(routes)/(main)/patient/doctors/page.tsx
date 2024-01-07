@@ -4,6 +4,7 @@ import { getSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
 import { queryFn } from "@/hooks/useTanstackQuery";
+import { getUserById } from "@/service/user";
 
 const Page = async () => {
   const session = await getSession();
@@ -11,6 +12,12 @@ const Page = async () => {
     return redirect("/");
   }
   const queryClient = new QueryClient();
+
+  const currentUser = await getUserById({id: session.user.id})
+
+  if (!currentUser) {
+    return redirect("/");
+  }
 
   await queryClient.prefetchQuery({
     queryKey: ["doctors", 'barangay', session.user.barangayId],
@@ -27,7 +34,7 @@ const Page = async () => {
   return (
     <div className="h-full">
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <DoctorsClient currentUser={session.user} />
+        <DoctorsClient currentUser={currentUser} />
       </HydrationBoundary>
     </div>
   );

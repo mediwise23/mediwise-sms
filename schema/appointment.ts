@@ -9,20 +9,22 @@ export type TAppointmentGetQuery = z.infer<typeof AppointmentGetQuerySchema>;
 export const AppointmentSchema = z.object({
   id: z.string(),
   title: z.string(),
-  doctorId: z.string().nullable(),
-  patientId: z.string().nullable(),
+  doctorId: z.string(),
+  patientId: z.string(),
   date: z.date(),
   status: z.nativeEnum(AppoinmentStatus),
   image_path: z.string().nullable(),
   createdAt: z.date(),
   updatedAt: z.date(),
   barangayId: z.string(),
+
 }) satisfies z.ZodType<Appointment>;
 
 export const AppointmentGetQuerySchema = AppointmentSchema.pick({
   status: true,
   date: true,
-  barangayId: true
+  barangayId: true,
+  doctorId:true,
 })
 .extend({
   date: z.coerce.date()
@@ -30,7 +32,8 @@ export const AppointmentGetQuerySchema = AppointmentSchema.pick({
 .partial({
   status: true,
   date: true,
-  barangayId:true
+  barangayId:true,
+  doctorId:true,
 })
 
 export const CreateAppointmentSchema = AppointmentSchema.pick({

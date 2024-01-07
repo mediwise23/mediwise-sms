@@ -99,7 +99,7 @@ const Carousel = () => {
             MediWise, a meticulously designed web-based and mobile application,
             is tailor-made for use by the City Health Department and Barangays.
             This essential intermediary platform fosters seamless communication,
-            coordination, and information exchange within a city's healthcare
+            coordination, and information exchange within a city`s healthcare
             framework. The innovative system significantly streamlines
             healthcare data, resource, and service flows, ultimately aiming to
             boost efficiency and effectiveness in delivering healthcare services

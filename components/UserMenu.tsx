@@ -52,15 +52,12 @@ const UserMenu = ({ currentUser }: UserMenuProps) => {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem
-          onClick={() =>
-            router.push(`/medisiwise/${currentUser?.role.toLowerCase()}/profile`)
-          }
         >
           Profile
         </DropdownMenuItem>
-        <DropdownMenuItem>
+        {/* <DropdownMenuItem>
           <ModeToggle />
-        </DropdownMenuItem>
+        </DropdownMenuItem> */}
         <DropdownMenuItem onClick={() => signOut()}>Logout</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -1,6 +1,7 @@
 import { withAuth } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { generateRandomString } from "@/lib/random";
+import sendMail from "@/lib/smtp";
 import { VerifyUserSchema } from "@/schema/user";
 import { getUserById, updateProfileById } from "@/service/user";
 import { NextResponse } from "next/server";
@@ -108,6 +109,7 @@ export const GET = withAuth(
       }
       const code = generateRandomString(6);
 
+   
       const user = await getUserById({
         id: result.data.userId,
       });
@@ -124,6 +126,18 @@ export const GET = withAuth(
           vefificationCode: code,
         },
       });
+
+      const content = `
+      <div> 
+        <h3> hello ${user.email} </h3>
+  
+        <h4>These is your verification code : ${code}</h4>
+        <p> Please use this code to verify your account </p>
+        <small> - MEDIWISE/SMS ADMIN </small>
+      </div>
+      `;
+  
+      sendMail({ content, subject: "Email verification", emailTo: user?.email as string });
 
       return new NextResponse("Code has been sent to your email", {
         status: 200,

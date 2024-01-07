@@ -42,6 +42,14 @@ export const POST = withAuth(
         data: {
           hashedPassword: hashedPassword,
           barangayId: body.data.barangayId,
+          profile: {
+            create: {
+              firstname: body.data.firstname,
+              lastname: body.data.lastname,
+              suffix: body.data.suffix,
+              middlename: body.data.middlename,
+            }
+          }
         },
       });
       console.log(profileUpdated)

@@ -34,3 +34,16 @@ export const WorkScheduleSchema = z.object({
 
 
   export type CreateWorkScheduleSchemaType = z.infer<typeof CreateWorkScheduleSchema>;
+
+  export const UpdateWorkScheduleSchema = WorkScheduleSchema.pick({
+    title: true,
+    allDay: true,
+    start: true,
+    end: true,
+  }).partial()
+  .extend({
+    start: z.coerce.date(),
+    end: z.coerce.date()
+  })
+
+  export type UpdateWorkScheduleSchemaType = z.infer<typeof UpdateWorkScheduleSchema>;

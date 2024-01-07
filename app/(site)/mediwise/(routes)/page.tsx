@@ -60,7 +60,7 @@ const page = async () => {
               application, is tailor-made for use by the City Health Department
               and Barangays. This essential intermediary platform fosters
               seamless communication, coordination, and information exchange
-              within a city's healthcare framework. The innovative system
+              within a city`s healthcare framework. The innovative system
               significantly streamlines healthcare data, resource, and service
               flows, ultimately aiming to boost efficiency and effectiveness in
               delivering healthcare services to the community. Serving as a

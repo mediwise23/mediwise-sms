@@ -87,17 +87,33 @@ const Calendar:React.FC<CalendarClientProps> = ({currentUser}) => {
     });
   };
 
-  const handleUpdateEvent = ({ event }: any) => {
-    // const eventData = {
-    //   id: event.id,
-    //   title: event.title,
-    //   timeStart: event.start,
-    //   timeEnd: event.end,
-    //   allDay: event.allDay,
-    // };
-
-    // updateEvent(event.id, eventData);
+  const updateEvent = async (
+    workScheduleId: string,
+    data: Omit<EventData, "description">
+  ) => {
+    try {
+      await apiClient.patch(`/work-schedules/${workScheduleId}`, data);
+    } catch (error) {
+      console.error("error update");
+    } finally {
+      queryClient.invalidateQueries({ queryKey: ["work-schedules"] });
+    }
   };
+  const queryClient = useQueryClient();
+  const handleUpdateEvent = ({ event }: any) => {
+
+    const eventData = {
+      id: event.id,
+      title: event.title,
+      start: event.start,
+      end: event.end,
+      allDay: event.allDay,
+    };
+
+    updateEvent(event.id, eventData);
+
+  };
+
 
   const handleEventClick = (calendarApi: any) => {
     // onOpen("viewEvent", { calendarApi });
@@ -132,6 +148,8 @@ const Calendar:React.FC<CalendarClientProps> = ({currentUser}) => {
         eventBackgroundColor={"#449e65"}
         eventColor={"#449e65"}
         weekends={true}
+        // @ts-ignore
+          // @ts-nocheck
         events={currentworkSchedules}
         // initialEvents={currentEvents} // alternatively, use the `events` setting to fetch from a feed
         select={handleDateSelect} // adding event

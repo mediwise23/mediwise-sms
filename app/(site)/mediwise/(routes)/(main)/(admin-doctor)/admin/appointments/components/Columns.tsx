@@ -11,23 +11,21 @@ import {
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Appointment, Profile } from "@prisma/client";
+import { TUser } from "@/schema/user";
+import { format } from "date-fns";
 import ActionButton from "./ActionButton";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 
-type appointmentsType = {
-  id: string;
-  title: string;
-  doctor: string;
-  patient: string;
-  date: Date;
-  status: string;
-  createdAt: Date;
-  action: null;
-};
 
-export const columns: ColumnDef<appointmentsType>[] = [
+
+// This type is used to define the shape of our data.
+// You can use a Zod schema here if you want.
+
+const DATE_FORMAT = `MMM d yyyy`;
+export const columns: ColumnDef<Appointment & { doctor: TUser & { profile: Profile }, patient: TUser & { profile: Profile } }>[] = [
   {
     accessorKey: "id",
     header: () => {
@@ -59,32 +57,11 @@ export const columns: ColumnDef<appointmentsType>[] = [
       const date = row.original.date;
       return (
         <div className=" dark:text-white">
-          {date.toLocaleDateString()}
+          {format(new Date(date || new Date()), DATE_FORMAT)}
         </div>
       );
     },
   },
-  {
-    accessorKey: "doctor",
-    accessorFn: (row) => {
-      const doctor = row.doctor;
-      return doctor;
-    },
-    header: ({ column }) => (
-      <div
-        className="text-[#181a19] flex items-center cursor-pointer dark:text-white flex-1"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      >
-        doctor <ArrowUpDown className="ml-2 h-4 w-4" />
-      </div>
-    ),
-    cell: ({ row }) => {
-      const doctor = row.original?.doctor;
-
-      return <div className={` flex items-center`}>{doctor}</div>;
-    },
-  },
-
   {
     accessorKey: "title",
     accessorFn: (row) => {
@@ -109,7 +86,7 @@ export const columns: ColumnDef<appointmentsType>[] = [
   {
     accessorKey: "patient",
     accessorFn: (row) => {
-      const patient = row.patient;
+      const patient = (`${row?.patient?.profile?.firstname as string} ${row?.patient?.profile?.lastname as string}`)
       return patient;
     },
     header: ({ column }) => (
@@ -122,7 +99,8 @@ export const columns: ColumnDef<appointmentsType>[] = [
     ),
     cell: ({ row }) => {
       // const studentNo = row.original.profile?.studentNumber as string;
-      const patient = row.original.patient;
+      const patient = (`${row.original?.patient?.profile?.firstname as string} ${row.original?.patient?.profile?.lastname as string}`);
+
       return <div className={``}>{patient}</div>;
     },
   },
@@ -150,7 +128,8 @@ export const columns: ColumnDef<appointmentsType>[] = [
               "dark:text-white bg-slate-500",
               status === "PENDING" && "bg-slate-500",
               status === "REJECTED" && "bg-rose-700",
-              status === "ACCEPTED" && "bg-[#16A34A]"
+              status === "ACCEPTED" && "bg-[#107736]",
+              status === "COMPLETED" && "bg-[#16A34A]"
             )}>
             {status}
           </Badge>{" "}
@@ -179,25 +158,33 @@ export const columns: ColumnDef<appointmentsType>[] = [
     cell: ({ row }) => {
       const createdAt = row.original?.createdAt;
       return (
-        <div className="">{createdAt.toLocaleDateString()}</div>
+        <div className="">{format(new Date(createdAt || new Date()), DATE_FORMAT)}</div>
       );
     },
   },
+
   {
-    accessorKey: "action",
+    accessorKey: "updatedAt",
+    accessorFn: (row) => {
+      const updated = row.updatedAt;
+      return updated;
+    },
     header: ({ column }) => {
       return (
         <div
           className=" text-[#181a19]  flex items-center cursor-pointer dark:text-white flex-1"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
+          Action
         </div>
       );
     },
     cell: ({ row }) => {
+      row.original;
       return (
-        <ActionButton />
+        <ActionButton data={row.original} />
       );
     },
   },
+
 ];

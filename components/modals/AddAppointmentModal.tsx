@@ -65,9 +65,10 @@ const AddAppointmentModal = () => {
       day: date.getDate(),
       month: date.getMonth(),
       year: date.getFullYear(),
+      barangayId: data.user?.barangayId
     },
     options: {
-      enabled: !!data?.calendarApi,
+      enabled: !!data?.calendarApi || !!data.user,
     },
   });
 
@@ -163,7 +164,7 @@ const AddAppointmentModal = () => {
                           </FormControl>
                           <SelectContent className="focus-visible:ring-0  focus-visible:ring-offset-0">
                             {availableDoctors.data.map((doctor) => (
-                              <SelectItem value={doctor.id}>
+                              <SelectItem value={doctor.id} key={doctor.id}>
                                 {doctor.profile?.firstname}{" "}
                                 {doctor.profile?.lastname}
                               </SelectItem>

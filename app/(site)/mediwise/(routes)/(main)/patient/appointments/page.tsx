@@ -6,10 +6,16 @@ import {
 import Calendar from "./components/Calendar";
 import { getSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import { getUserById } from "@/service/user";
 
 const AppointmentPage = async () => {
   const session = await getSession();
   if (!session?.user) {
+    return redirect("/");
+  }
+  const currentUser = await getUserById({id: session.user.id})
+
+  if (!currentUser) {
     return redirect("/");
   }
 
@@ -17,7 +23,7 @@ const AppointmentPage = async () => {
 
   return (
     <div className="flex w-full bg-white dark:bg-[#020817]">
-      <Calendar currentUser={session.user} />
+      <Calendar currentUser={currentUser} />
     </div>
   );
 };

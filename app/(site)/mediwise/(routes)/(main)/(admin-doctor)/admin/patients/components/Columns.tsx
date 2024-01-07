@@ -12,7 +12,9 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import ActionButton from "./ActionButton";
-
+import { TUser } from "@/schema/user";
+import { Profile } from "@prisma/client";
+import { format } from "date-fns";
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 
@@ -27,8 +29,8 @@ type patientsType = {
   createdAt: Date;
   action: null;
 };
-
-export const columns: ColumnDef<patientsType>[] = [
+const DATE_FORMAT = `MMM d yyyy`;
+export const columns: ColumnDef<(TUser & {profile: Profile})>[] = [
   {
     accessorKey: "id",
     header: () => {
@@ -68,7 +70,7 @@ export const columns: ColumnDef<patientsType>[] = [
   {
     accessorKey: "firstname",
     accessorFn: (row) => {
-      const firstname = row.firstname;
+      const firstname = row?.profile?.firstname;
       return firstname;
     },
     header: ({ column }) => {
@@ -82,7 +84,7 @@ export const columns: ColumnDef<patientsType>[] = [
       );
     },
     cell: ({ row }) => {
-      const firstname = row.original.firstname;
+      const firstname = row.original?.profile?.firstname;
       return (
         <div className=" dark:text-white">
           {firstname}
@@ -93,7 +95,7 @@ export const columns: ColumnDef<patientsType>[] = [
   {
     accessorKey: "middlename",
     accessorFn: (row) => {
-      const middlename = row.middlename;
+      const middlename = row?.profile?.middlename;
       return middlename;
     },
     header: ({ column }) => (
@@ -105,7 +107,7 @@ export const columns: ColumnDef<patientsType>[] = [
       </div>
     ),
     cell: ({ row }) => {
-      const middlename = row.original?.middlename;
+      const middlename = row.original?.profile?.middlename;
 
       return <div className={` flex items-center`}>{middlename}</div>;
     },
@@ -114,7 +116,7 @@ export const columns: ColumnDef<patientsType>[] = [
   {
     accessorKey: "lastname",
     accessorFn: (row) => {
-      const lastname = row.lastname || {};
+      const lastname = row?.profile?.lastname || {};
       return lastname;
     },
     header: ({ column }) => (
@@ -127,38 +129,15 @@ export const columns: ColumnDef<patientsType>[] = [
     ),
     cell: ({ row }) => {
       // const {firstname, middlename, lastname} = row.original.profile
-      const lastname = row.original.lastname;
+      const lastname = row.original?.profile?.lastname;
       return <div className={` flex items-center`}>{lastname}</div>;
-    },
-  },
-
-  {
-    accessorKey: "barangay",
-    accessorFn: (row) => {
-      const barangay = row.barangay;
-      return barangay;
-    },
-    header: ({ column }) => (
-      <div
-        className="text-[#181a19]  flex items-center cursor-pointer dark:text-white flex-1"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      >
-        Barangay <ArrowUpDown className="ml-2 h-4 w-4" />
-      </div>
-    ),
-    cell: ({ row }) => {
-      const barangay = row.original.barangay as string;
-
-      return (
-        <div className="">{barangay}</div>
-      );
     },
   },
 
   {
     accessorKey: "contactNo",
     accessorFn: (row) => {
-      const contactNo = row.contactNo;
+      const contactNo = row.profile?.contactNo;
       return contactNo;
     },
     header: ({ column }) => (
@@ -170,7 +149,7 @@ export const columns: ColumnDef<patientsType>[] = [
       </div>
     ),
     cell: ({ row }) => {
-      const contactNo = row.original.contactNo as string;
+      const contactNo = row.original?.profile?.contactNo as string;
 
       return (
         <div className="">{contactNo}</div>
@@ -198,13 +177,13 @@ export const columns: ColumnDef<patientsType>[] = [
     cell: ({ row }) => {
       const createdAt = row.original?.createdAt;
       return (
-        <div className="">{createdAt.toLocaleDateString()}</div>
+        <div className="">{format(new Date(createdAt || new Date()), DATE_FORMAT)}</div>
       );
     },
   },
 
   {
-    accessorKey: "action",
+    accessorKey: "updatedAt",
     header: ({ column }) => {
       return (
         <div

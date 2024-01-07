@@ -12,55 +12,25 @@ import { Filter, Search, UserPlus } from "lucide-react";
 import React, { useState } from "react";
 import { DataTable } from "@/components/DataTable";
 import { columns } from "./Columns";
+import { useQueryProcessor } from "@/hooks/useTanstackQuery";
+import { TUser } from "@/schema/user";
+import { AppoinmentStatus, Appointment, Profile, WorkSchedule } from "@prisma/client";
 
-const HistoryClient = () => {
-  const appointments = [
-    {
-      id: "asdcnmmysd54ngbcfddad23231",
-      doctor: "Francis Magpayo",
-      patient: "Andrea Munoz",
-      date: new Date(),
-      status: "COMPLETED",
-      createdAt: new Date(),
+type HistoryClientProps = {
+  currentUser: TUser;
+};
+const HistoryClient: React.FC<HistoryClientProps> = ({
+  currentUser,
+}) => {
+  const appointments = useQueryProcessor<(Appointment & { doctor: TUser & { profile: Profile }, patient: TUser & { profile: Profile } })[]>({
+    url: "/appointments",
+    queryParams: {
+      doctorId: currentUser.id,
+      status: AppoinmentStatus.COMPLETED
     },
+    key: ['history-doctor', currentUser.barangayId]
+  });
 
-    {
-      id: "asdcnmmysd54ngbcfddad23231",
-      doctor: "Francis Magpayo",
-      patient: "Andrea Munoz",
-      date: new Date(),
-      status: "COMPLETED",
-      createdAt: new Date(),
-    },
-
-
-    {
-      id: "asdc1nmmysd54ngbcfddad23231",
-      doctor: "andrew belgar",
-      patient: "minet dosme",
-      date: new Date(),
-      status: "COMPLETED",
-      createdAt: new Date(),
-    },
-
-    {
-      id: "asdcnm2mysd54ngbcfddad23231",
-      doctor: "Brenan Delikaze",
-      patient: "Joshua Vellidad",
-      date: new Date(),
-      status: "COMPLETED",
-      createdAt: new Date(),
-    },
-
-    {
-      id: "asdcnm3mysd54ngbcfddad23231",
-      doctor: "Collin Inbatera",
-      patient: "John Doe",
-      date: new Date(),
-      status: "COMPLETED",
-      createdAt: new Date(),
-    },
-  ];
   const [globalFilter, setGlobalFilter] = useState("");
 
   const onFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -130,7 +100,7 @@ const HistoryClient = () => {
         return (
           <DataTable
             columns={columns}
-            data={appointments || []}
+            data={appointments.data || []}
             globalFilter={globalFilter}
             setGlobalFilter={setGlobalFilter}
           />

@@ -30,7 +30,7 @@ const InventoryClient:React.FC<InventoryClientProps> = ({currentUser}) => {
   const {onOpen} = useModal()
 
   const items = useQueryProcessor<TItemBrgy[]>({
-    url:'brgy-item',
+    url:'/brgy-item',
     key: ['inventory-items', 'barangay', currentUser.barangayId],
   })
 

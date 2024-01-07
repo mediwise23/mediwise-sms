@@ -12,64 +12,75 @@ import { Filter, Search, UserPlus } from "lucide-react";
 import React, { useState } from "react";
 import { DataTable } from "@/components/DataTable";
 import { columns } from "./Columns";
+import { useQueryProcessor } from "@/hooks/useTanstackQuery";
+import { TUser } from "@/schema/user";
+import { Appointment, Profile, WorkSchedule } from "@prisma/client";
 
-const AppointmentsClient = () => {
-  const appointments = [
-    {
-      id: "asdcnmmysd54ngbcfddad23231",
-      title: "General Checkup",
-      doctor: "Francis Magpayo",
-      patient: "Andrea Munoz",
-      date: new Date(),
-      status: "PENDING",
-      createdAt: new Date(),
-      action: null,
+type AppointmentsClientProps = {
+  currentUser: TUser;
+};
+const AppointmentsClient: React.FC<AppointmentsClientProps> = ({
+  currentUser,
+}) => {
+  const appointments = useQueryProcessor<(Appointment & { doctor: TUser & { profile: Profile }, patient: TUser & { profile: Profile } })[]>({
+    url: "/appointments",
+    queryParams: {
+      barangayId: currentUser.barangayId
     },
+    key: ['admin-doctor', currentUser.barangayId]
+  });
 
-    {
-      id: "asdcnmmysd54ngbcfddad23231",
-      title: "General Checkup",
-      doctor: "Francis Magpayo",
-      patient: "Andrea Munoz",
-      date: new Date(),
-      status: "PENDING",
-      createdAt: new Date(),
-      action: null,
-    },
+  // const appointments = [
+  //   {
+  //     id: "asdcnmmysd54ngbcfddad23231",
+  //     title: "General Checkup",
+  //     doctor: "Francis Magpayo",
+  //     patient: "Andrea Munoz",
+  //     date: new Date(),
+  //     status: "PENDING",
+  //     createdAt: new Date(),
+  //   },
 
-    {
-      id: "asdc1nmmysd54ngbcfddad23231",
-      title: "Follow up Checkup",
-      doctor: "andrew belgar",
-      patient: "minet dosme",
-      date: new Date(),
-      status: "ACCEPTED",
-      createdAt: new Date(),
-      action: null,
-    },
+  //   {
+  //     id: "asdcnmmysd54ngbcfddad23231",
+  //     title: "General Checkup",
+  //     doctor: "Francis Magpayo",
+  //     patient: "Andrea Munoz",
+  //     date: new Date(),
+  //     status: "PENDING",
+  //     createdAt: new Date(),
+  //   },
 
-    {
-      id: "asdcnm2mysd54ngbcfddad23231",
-      title: "General Checkup",
-      doctor: "Brenan Delikaze",
-      patient: "Joshua Vellidad",
-      date: new Date(),
-      status: "ACCEPTED",
-      createdAt: new Date(),
-      action: null,
-    },
+  //   {
+  //     id: "asdc1nmmysd54ngbcfddad23231",
+  //     title: "Follow up Checkup",
+  //     doctor: "andrew belgar",
+  //     patient: "minet dosme",
+  //     date: new Date(),
+  //     status: "ACCEPTED",
+  //     createdAt: new Date(),
+  //   },
 
-    {
-      id: "asdcnm3mysd54ngbcfddad23231",
-      title: "Follow up Checkup",
-      doctor: "Collin Inbatera",
-      patient: "John Doe",
-      date: new Date(),
-      status: "REJECTED",
-      createdAt: new Date(),
-      action: null,
-    },
-  ];
+  //   {
+  //     id: "asdcnm2mysd54ngbcfddad23231",
+  //     title: "General Checkup",
+  //     doctor: "Brenan Delikaze",
+  //     patient: "Joshua Vellidad",
+  //     date: new Date(),
+  //     status: "ACCEPTED",
+  //     createdAt: new Date(),
+  //   },
+
+  //   {
+  //     id: "asdcnm3mysd54ngbcfddad23231",
+  //     title: "Follow up Checkup",
+  //     doctor: "Collin Inbatera",
+  //     patient: "John Doe",
+  //     date: new Date(),
+  //     status: "REJECTED",
+  //     createdAt: new Date(),
+  //   },
+  // ];
   const [globalFilter, setGlobalFilter] = useState("");
 
   const onFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -78,13 +89,6 @@ const AppointmentsClient = () => {
 
   return (
     <div className="flex flex-col p-10">
-      {/* <div className="flex justify-end gap-x-5">
-        <Button className="text-zinc-500 dark:text-white" variant={"outline"}>
-          {" "}
-          <UserPlus className="w-5 h-5 mr-2" /> Add new patient
-        </Button>
-      </div> */}
-
       <div className="flex items-center gap-5 my-10">
         <div className="border flex items-center rounded-md px-2 w-full flex-1">
           <Search className="w-5 h-5 font-semibold text-zinc-500 dark:text-white" />
@@ -146,7 +150,7 @@ const AppointmentsClient = () => {
         return (
           <DataTable
             columns={columns}
-            data={appointments || []}
+            data={appointments.data || []}
             globalFilter={globalFilter}
             setGlobalFilter={setGlobalFilter}
           />
