@@ -4,6 +4,7 @@ import { faker } from "@faker-js/faker";
 import * as fs from "fs";
 import * as path from "path";
 import { parse } from "csv-parse";
+import { barangayItemsData, barangayNames } from "./data";
 const prisma = new PrismaClient();
 /* 
 Database seeding happens in two ways with Prisma: manually with prisma db seed and automatically in prisma migrate dev and prisma migrate reset.
@@ -24,76 +25,8 @@ $ npx prisma db seed
 
 */
 let units = ["kg", "g", "mg", "mgc", "L", "mL", "cc", "mol", "mmol"];
-let barangayNames = [
-  "Barangay 121",
-  "Barangay 122",
-  "Barangay 123",
-  "Barangay 124",
-  "Barangay 125",
-  "Barangay 126",
-  "Barangay 127",
-  "Barangay 128",
-  "Barangay 129",
-  "Barangay 130",
-  "Barangay 131",
-  "Barangay 132",
-  "Barangay 133",
-  "Barangay 134",
-  "Barangay 135",
-  "Barangay 136",
-  "Barangay 137",
-  "Barangay 138",
-  "Barangay 139",
-  "Barangay 140",
-  "Barangay 141",
-  "Barangay 142",
-  "Barangay 143",
-  "Barangay 144",
-  "Barangay 145",
-  "Barangay 146",
-  "Barangay 147",
-  "Barangay 148",
-  "Barangay 149",
-  "Barangay 150",
-  "Barangay 151",
-  "Barangay 152",
-  "Barangay 153",
-  "Barangay 154",
-  "Barangay 155",
-  "Barangay 156",
-  "Barangay 157",
-  "Barangay 158",
-  "Barangay 159",
-  "Barangay 160",
-  "Barangay 161",
-  "Barangay 162",
-  "Barangay 163",
-  "Barangay 164",
-  "Barangay 165",
-  "Barangay 166",
-  "Barangay 167",
-  "Barangay 168",
-  "Barangay 169",
-  "Barangay 170",
-  "Barangay 171",
-  "Barangay 172",
-  "Barangay 173",
-  "Barangay 174",
-  "Barangay 175",
-  "Barangay 176",
-  "Barangay 177",
-  "Barangay 178",
-  "Barangay 179",
-  "Barangay 180",
-  "Barangay 181",
-  "Barangay 182",
-  "Barangay 183",
-  "Barangay 184",
-  "Barangay 185",
-  "Barangay 186",
-  "Barangay 187",
-  "Barangay 188",
-];
+
+type BarangayItemsType = (typeof barangayItemsData)[number];
 
 type DrugProducts = {
   RegistrationNumber: string;
@@ -140,7 +73,10 @@ const generateFakeUser = () => {
 };
 
 // create barangay
-const createBarangay = async (name: string, drugProducts: DrugProducts[]) => {
+const createBarangay = async (
+  name: string,
+  drugProducts: BarangayItemsType[]
+) => {
   const barangay = await prisma.barangay.create({
     data: {
       name: name,
@@ -153,14 +89,15 @@ const createBarangay = async (name: string, drugProducts: DrugProducts[]) => {
   // create barangay items
   await Promise.all(
     drugProducts.map(async (record) => {
-      const newItems = generateItems();
+      const newItems = await generateItems();
 
       await prisma.brgyItem.create({
         data: {
-          name: record.BrandName,
-          description: record.GenericName,
+          name: record.name,
+          description: record.description,
           barangayId: barangay.id,
-          ...newItems,
+          stock: newItems.stock,
+          unit: newItems.unit,
         },
       });
     })
@@ -270,7 +207,8 @@ async function main() {
   await createUser({ role: "STOCK_MANAGER" });
 
   //  get 10 items from drugProducts
-  const items = drugProducts.slice(0, 10);
+  // const items = drugProducts.slice(0, 10);
+  const items = barangayItemsData;
 
   console.log("CREATING BARANGAY WITH ITEMS, ADMIN , CLIENTS , DOCTORS...");
   // barangay
