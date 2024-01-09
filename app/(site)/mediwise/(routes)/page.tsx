@@ -113,7 +113,7 @@ const page = async () => {
           src="/images/contact4.png"
           className="absolute bottom-0 right-0 w-[200px] md:w-[300px] lg:w-[500px]"
         />
-        <div className="flex flex-col gap-y-10 w-[90%] md:w-[50%] mx-auto z-10 bg-black bg-opacity-30 p-10 rounded-xl">
+        <div className="flex flex-col gap-y-10 w-[90%] md:w-[50%] mx-auto z-10 dark:bg-black bg-opacity-30 p-10 rounded-xl">
           <h1 className="text-3xl uppercase text-center">
             C o n t a c t &nbsp; U s
           </h1>
