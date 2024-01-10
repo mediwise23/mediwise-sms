@@ -53,7 +53,7 @@ const AddAppointmentModal = () => {
   const form = useForm<TCreateAppointment>({
     resolver: zodResolver(CreateAppointmentSchema),
     defaultValues: {
-      status: 'PENDING'
+      status: "PENDING",
     },
     mode: "all",
   });
@@ -65,7 +65,7 @@ const AddAppointmentModal = () => {
       day: date.getDate(),
       month: date.getMonth(),
       year: date.getFullYear(),
-      barangayId: data.user?.barangayId
+      barangayId: data.user?.barangayId,
     },
     options: {
       enabled: !!data?.calendarApi || !!data.user,
@@ -74,23 +74,23 @@ const AddAppointmentModal = () => {
 
   const onSubmit: SubmitHandler<TCreateAppointment> = async (values) => {
     data.calendarApi?.view?.calendar?.addEvent(values);
-    onClose()
+    onClose();
   };
 
   const isLoading = form.formState.isSubmitting;
 
   useEffect(() => {
-    if (data.user &&  data.calendarApi) {
+    if (data.user && data.calendarApi) {
       form.setValue("patientId", data.user.id);
-      form.setValue('date', data.calendarApi?.startStr)
-      form.setValue('status', 'PENDING')
-      form.setValue('barangayId', data.user.barangayId as string)
+      form.setValue("date", data.calendarApi?.startStr);
+      form.setValue("status", "PENDING");
+      form.setValue("barangayId", data.user.barangayId as string);
     }
     return () => {
       form.reset();
     };
   }, [isModalOpen]);
-  console.log(form.formState.errors)
+
   return (
     <Dialog open={isModalOpen} onOpenChange={onHandleClose}>
       <DialogContent className=" overflow-hidden dark:bg-[#020817] dark:text-white">
@@ -110,36 +110,45 @@ const AddAppointmentModal = () => {
             className="flex flex-col gap-y-5"
           >
             <div className="w-full">
-            <FormField
-                    control={form.control}
-                    name="title"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
-                          Description
-                        </FormLabel>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                        >
-                          <FormControl>
-                            <SelectTrigger className="focus-visible:ring-0  focus-visible:ring-offset-0">
-                              <SelectValue placeholder="Select a description" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent className="focus-visible:ring-0  focus-visible:ring-offset-0">
-                          <SelectItem value={'General checkup'}>General checkup</SelectItem>
-                          <SelectItem value={'Follow up checkup'}>Follow up checkup</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+              <FormField
+                control={form.control}
+                name="title"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                      Description
+                    </FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger className="focus-visible:ring-0  focus-visible:ring-offset-0">
+                          <SelectValue placeholder="Select a description" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent className="focus-visible:ring-0  focus-visible:ring-offset-0">
+                        <SelectItem value={"General checkup"}>
+                          General checkup
+                        </SelectItem>
+                        <SelectItem value={"Follow up checkup"}>
+                          Follow up checkup
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
 
             {(() => {
-              if (availableDoctors.status === "pending") return <div className="flex items-center justify-center"><Loader2 size={20} /></div> ;
+              if (availableDoctors.status === "pending")
+                return (
+                  <div className="flex items-center justify-center">
+                    <Loader2 size={20} />
+                  </div>
+                );
 
               if (availableDoctors.status === "error") return null;
 

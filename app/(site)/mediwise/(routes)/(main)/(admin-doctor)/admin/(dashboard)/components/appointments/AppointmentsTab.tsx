@@ -37,73 +37,73 @@ const yearSpan = [
   },
 ];
 
-const AppointmentsTab= () => {
-const [year, setYear] = useState<number>(yearSpan[1].value);
+const AppointmentsTab = () => {
+  const [year, setYear] = useState<number>(yearSpan[1].value);
 
-const data = [
-  {
-  id: 1,
-  numberOfAppointments: 53,
-  month: 'Jan'
-},
+  const data = [
+    {
+      id: 1,
+      numberOfAppointments: 53,
+      month: "Jan",
+    },
 
-{
-  id: 2,
-  numberOfAppointments: 65,
-  month: 'Feb'
-},
+    {
+      id: 2,
+      numberOfAppointments: 65,
+      month: "Feb",
+    },
 
-{
-  id: 3,
-  numberOfAppointments: 277,
-  month: 'Mar'
-},{
-  id: 4,
-  numberOfAppointments: 523,
-  month: 'May'
-},
+    {
+      id: 3,
+      numberOfAppointments: 277,
+      month: "Mar",
+    },
+    {
+      id: 4,
+      numberOfAppointments: 523,
+      month: "May",
+    },
 
-{
-  id: 5,
-  numberOfAppointments: 232,
-  month: 'June'
-},
+    {
+      id: 5,
+      numberOfAppointments: 232,
+      month: "June",
+    },
 
-{
-  id: 6,
-  numberOfAppointments: 53,
-  month: 'July'
-},
+    {
+      id: 6,
+      numberOfAppointments: 53,
+      month: "July",
+    },
 
-{
-  id: 7,
-  numberOfAppointments: 123,
-  month: 'Aug'
-},
+    {
+      id: 7,
+      numberOfAppointments: 123,
+      month: "Aug",
+    },
 
-{
-  id: 8,
-  numberOfAppointments: 78,
-  month: 'Sept'
-},
-{
-  id: 9,
-  numberOfAppointments: 45,
-  month: 'Oct'
-},
-{
-  id: 10,
-  numberOfAppointments: 324,
-  month: 'Nov'
-},
+    {
+      id: 8,
+      numberOfAppointments: 78,
+      month: "Sept",
+    },
+    {
+      id: 9,
+      numberOfAppointments: 45,
+      month: "Oct",
+    },
+    {
+      id: 10,
+      numberOfAppointments: 324,
+      month: "Nov",
+    },
 
-{
-  id: 11,
-  numberOfAppointments: 76,
-  month: 'Dev'
-},
-]
-
+    {
+      id: 11,
+      numberOfAppointments: 76,
+      month: "Dev",
+    },
+  ];
 
   return (
     <div className="grid grid-cols-5 gap-5">
@@ -114,7 +114,7 @@ const data = [
               onValueChange={(e) => setYear(parseInt(e))}
               defaultValue={year.toString()}
             >
-              <SelectTrigger className="w-[300px] h-[50px]">
+              <SelectTrigger className="w-[300px] h-[50px] bg-transparent">
                 <SelectValue placeholder="Select Years" />
               </SelectTrigger>
               <SelectContent>
@@ -141,5 +141,4 @@ const data = [
     </div>
   );
 };
-export default AppointmentsTab
-;
+export default AppointmentsTab;

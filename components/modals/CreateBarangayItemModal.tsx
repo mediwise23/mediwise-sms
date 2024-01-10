@@ -32,15 +32,14 @@ import { Textarea } from "../ui/textarea";
 import { useToast } from "../ui/use-toast";
 
 const CreateBarangayItemModal = () => {
-    const {toast} = useToast()
+  const { toast } = useToast();
   const { isOpen, type, onClose, data } = useModal();
   const isModalOpen = isOpen && type === "createBarangayItem";
 
   const onHandleClose = () => {
     onClose();
-    form.reset()
+    form.reset();
   };
-  console.log(data.user?.barangayId)
 
   const form = useForm<TCreateBrgyItem>({
     resolver: zodResolver(CreateBrgyItemSchema),
@@ -53,42 +52,42 @@ const CreateBarangayItemModal = () => {
   });
 
   useEffect(() => {
-    form.setValue('brgyId', data.user?.barangayId as string)
+    form.setValue("brgyId", data.user?.barangayId as string);
 
     return () => {
-      form.reset()
-    }
-  }, [isModalOpen])
+      form.reset();
+    };
+  }, [isModalOpen]);
 
   const createItem = useMutateProcessor<TCreateBrgyItem, TItemBrgy>({
     url: "/brgy-item",
     method: "POST",
-    key: ['inventory-items', 'barangay', data.user?.barangayId],
+    key: ["inventory-items", "barangay", data.user?.barangayId],
   });
 
-  console.log(form.formState.errors)
   const onSubmit: SubmitHandler<TCreateBrgyItem> = async (values) => {
     createItem.mutate(values, {
-        onSuccess(data, variables, context) {
-            console.log(data)
-            toast({
-                title: 'Item has been created',
-                description: 'The item has been successfully created!'
-            })
-            onClose()
-        },
-        onError(error, variables, context) {
-            console.error(error)
-            toast({
-                title: 'Something went wrong',
-                description: 'Item did not create.',
-                variant:'destructive'
-            })
-        },
-    })
+      onSuccess(data, variables, context) {
+        console.log(data);
+        toast({
+          title: "Item has been created",
+          description: "The item has been successfully created!",
+        });
+        onClose();
+      },
+      onError(error, variables, context) {
+        console.error(error);
+        toast({
+          title: "Something went wrong",
+          description: "Item did not create.",
+          variant: "destructive",
+        });
+      },
+    });
   };
 
-  const isLoading = form.formState.isSubmitting || createItem.status === 'pending';
+  const isLoading =
+    form.formState.isSubmitting || createItem.status === "pending";
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onHandleClose}>

@@ -143,7 +143,7 @@ const createUser = async ({
     data: {
       isArchived: false,
       name: fake.firstName + " " + fake.lastName,
-      email: `${role}.${fake.email}`,
+      email: `${role.toLocaleLowerCase()}.${fake.email}`,
       image: faker.image.avatar(),
       hashedPassword: password,
       role: Role[role as keyof typeof Role], // convert string to enum

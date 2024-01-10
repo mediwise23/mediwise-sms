@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   ColumnDef,
@@ -11,7 +11,7 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table"
+} from "@tanstack/react-table";
 
 import {
   Table,
@@ -20,22 +20,22 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import { Dispatch, SetStateAction, useState } from "react"
-import { Button } from "./ui/button"
+} from "@/components/ui/table";
+import { Dispatch, SetStateAction, useState } from "react";
+import { Button } from "./ui/button";
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[],
-  globalFilter: string,
-  setGlobalFilter: Dispatch<SetStateAction<string>>
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
+  globalFilter: string;
+  setGlobalFilter: Dispatch<SetStateAction<string>>;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
   globalFilter,
-  setGlobalFilter
+  setGlobalFilter,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -78,7 +78,7 @@ export function DataTable<TData, TValue>({
                           header.getContext()
                         )}
                   </TableHead>
-                )
+                );
               })}
             </TableRow>
           ))}
@@ -110,7 +110,7 @@ export function DataTable<TData, TValue>({
 
       <div className="flex items-center justify-end space-x-2 py-4">
         <Button
-          className=" dark:text-white"
+          className=" dark:text-white bg-transparent"
           variant="outline"
           size="sm"
           onClick={() => table.previousPage()}
@@ -119,7 +119,7 @@ export function DataTable<TData, TValue>({
           Previous
         </Button>
         <Button
-          className=" dark:text-white"
+          className=" dark:text-white bg-transparent"
           variant="outline"
           size="sm"
           onClick={() => table.nextPage()}
@@ -128,7 +128,6 @@ export function DataTable<TData, TValue>({
           Next
         </Button>
       </div>
-      
     </div>
-  )
+  );
 }
