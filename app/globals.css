@@ -1,8 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
-body, html {
+
+body,
+html {
   scroll-behavior: smooth;
 }
 
@@ -53,7 +54,6 @@ body, html {
   }
 }
 
- 
 @layer base {
   * {
     @apply border-border;
@@ -62,7 +62,6 @@ body, html {
     @apply bg-background text-foreground;
   }
 }
-
 
 .fc {
   /* the calendar root */
@@ -88,15 +87,15 @@ NOTE: for old browsers, will need to restart watcher after changing a variable
   --fc-border-color: #ddd;
 
   --fc-button-text-color: #fff;
-  --fc-button-bg-color: #16A34A;
-  --fc-button-border-color: #16A34A;
+  --fc-button-bg-color: #16a34a;
+  --fc-button-border-color: #16a34a;
   --fc-button-hover-bg-color: #105f2d;
-  --fc-button-hover-border-color: #16A34A;
-  --fc-button-active-bg-color: #16A34A;
-  --fc-button-active-border-color: #16A34A;
+  --fc-button-hover-border-color: #16a34a;
+  --fc-button-active-bg-color: #16a34a;
+  --fc-button-active-border-color: #16a34a;
 
-  --fc-event-bg-color: #16A34A;
-  --fc-event-border-color: #16A34A;
+  --fc-event-bg-color: #16a34a;
+  --fc-event-border-color: #16a34a;
   --fc-event-text-color: #fff;
   --fc-event-selected-overlay-color: rgba(0, 0, 0, 0.25);
 
@@ -127,4 +126,48 @@ NOTE: for old browsers, will need to restart watcher after changing a variable
   .fc .fc-toolbar-title {
     font-size: 14px;
   }
+}
+
+/* css class .scrollbar */
+@layer utilities {
+  /* Scroll thumb styles */
+  .scrollbar::-webkit-scrollbar {
+    width: 0.5rem;
+  }
+  .scrollbar::-webkit-scrollbar-thumb {
+    background: #27272e;
+    border-radius: 1rem;
+  }
+  .scrollbar::-webkit-scrollbar-thumb:active {
+    background-color: #131314;
+  }
+  .scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #3b3b46;
+    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Scroll track styles (Background) */
+  .scrollbar::-webkit-scrollbar-track {
+    background: #131314;
+    border-radius: 4px;
+  }
+  .scrollbar::-webkit-scrollbar-track:hover,
+  .scrollbar::-webkit-scrollbar-track:active {
+    background: #131314;
+  }
+}
+
+/* global */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 2px grey;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(202, 200, 200);
+  border-radius: 10px;
 }

@@ -15,26 +15,25 @@ import { columns } from "./Columns";
 import { useModal } from "@/hooks/useModalStore";
 import { Session } from "next-auth";
 import { useQueryProcessor } from "@/hooks/useTanstackQuery";
-import {TUser} from '@/schema/user'
+import { TUser } from "@/schema/user";
 import { Profile } from "@prisma/client";
 
 type InventoryClientProps = {
-  currentUser: Session['user']
-}
+  currentUser: Session["user"];
+};
 
-const DoctorsClient:React.FC<InventoryClientProps> = ({currentUser}) => {
-
- const doctor = useQueryProcessor<(TUser & {profile: Profile}[])>({
-    url: '/users',
+const DoctorsClient: React.FC<InventoryClientProps> = ({ currentUser }) => {
+  const doctor = useQueryProcessor<TUser & { profile: Profile }[]>({
+    url: "/users",
     queryParams: {
-      role: 'DOCTOR',
-      barangayId: currentUser.barangayId
+      role: "DOCTOR",
+      barangayId: currentUser.barangayId,
     },
-    key: ["doctors", 'barangay', currentUser.barangayId]
-  })
+    key: ["doctors", "barangay", currentUser.barangayId],
+  });
 
-  console.log(doctor.data)
-  const {onOpen} = useModal()
+  console.log(doctor.data);
+  const { onOpen } = useModal();
   const [globalFilter, setGlobalFilter] = useState("");
 
   const onFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,7 +43,11 @@ const DoctorsClient:React.FC<InventoryClientProps> = ({currentUser}) => {
   return (
     <div className="flex flex-col p-10">
       <div className="flex justify-end gap-x-5">
-        <Button className="text-zinc-500 dark:text-white" variant={"outline"} onClick={() => onOpen('createDoctor', {user: currentUser })}>
+        <Button
+          className="text-zinc-500 dark:text-white bg-transparent"
+          variant={"outline"}
+          onClick={() => onOpen("createDoctor", { user: currentUser })}
+        >
           <UserPlus className="w-5 h-5 mr-2" /> Add new doctor
         </Button>
       </div>
@@ -53,7 +56,7 @@ const DoctorsClient:React.FC<InventoryClientProps> = ({currentUser}) => {
         <div className="border flex items-center rounded-md px-2 w-full flex-1">
           <Search className="w-5 h-5 font-semibold text-zinc-500 dark:text-white" />
           <Input
-            className="inset-0 outline-none border-none active:outline-none hover:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 text-sm"
+            className="inset-0 outline-none border-none active:outline-none hover:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 text-sm bg-transparent"
             onChange={onFilter}
             type="text"
             value={globalFilter}
@@ -95,7 +98,7 @@ const DoctorsClient:React.FC<InventoryClientProps> = ({currentUser}) => {
 
         <Button
           variant="outline"
-          className="text-zinc-500 dark:text-white"
+          className="text-zinc-500 dark:text-white bg-transparent"
           onClick={() => {
             // setRole("All");
             // setDepartment("All");
@@ -107,11 +110,10 @@ const DoctorsClient:React.FC<InventoryClientProps> = ({currentUser}) => {
       </div>
 
       {(() => {
-
         return (
           <DataTable
-          // @ts-ignore
-          // @ts-nocheck
+            // @ts-ignore
+            // @ts-nocheck
             columns={columns}
             data={doctor.data || []}
             globalFilter={globalFilter}

@@ -28,7 +28,7 @@ const routesList: routeListType[] = [
   {
     icon: Home,
     label: "Dashboard",
-    href: "/",
+    href: "",
     roles: ["ADMIN"],
   },
 
@@ -38,36 +38,36 @@ const routesList: routeListType[] = [
     href: "/",
     roles: ["DOCTOR"],
   },
-//   {
-//     icon: TableProperties,
-//     label: "Course",
-//     href: "/courses",
-//     roles: ["ADMIN"],
-//   },
-//   {
-//     icon: TableProperties,
-//     label: "Section",
-//     href: "/sections",
-//     roles: ["ADMIN"],
-//   },
-//   {
-//     icon: Users,
-//     label: "Alumni / Students",
-//     href: "/students",
-//     roles: ["ADMIN"],
-//   },
-//   {
-//     icon: Users,
-//     label: "Users",
-//     href: "/users",
-//     roles: ["ADMIN"],
-//   },
-//   {
-//     icon: Briefcase,
-//     label: "Jobs",
-//     href: "/jobs",
-//     roles: ["ALL"],
-//   },
+  //   {
+  //     icon: TableProperties,
+  //     label: "Course",
+  //     href: "/courses",
+  //     roles: ["ADMIN"],
+  //   },
+  //   {
+  //     icon: TableProperties,
+  //     label: "Section",
+  //     href: "/sections",
+  //     roles: ["ADMIN"],
+  //   },
+  //   {
+  //     icon: Users,
+  //     label: "Alumni / Students",
+  //     href: "/students",
+  //     roles: ["ADMIN"],
+  //   },
+  //   {
+  //     icon: Users,
+  //     label: "Users",
+  //     href: "/users",
+  //     roles: ["ADMIN"],
+  //   },
+  //   {
+  //     icon: Briefcase,
+  //     label: "Jobs",
+  //     href: "/jobs",
+  //     roles: ["ALL"],
+  //   },
   {
     icon: CalendarDays,
     label: "Schedules",
@@ -123,7 +123,6 @@ type SidebarRoutesProps = {
 };
 
 export const SidebarRoutes = ({ role }: SidebarRoutesProps) => {
-
   return (
     <div className="flex flex-col w-full ">
       {routesList.map((route) => {
