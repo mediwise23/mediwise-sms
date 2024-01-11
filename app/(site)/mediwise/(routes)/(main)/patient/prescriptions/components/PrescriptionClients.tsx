@@ -12,80 +12,38 @@ import { Filter, Search, UserPlus } from "lucide-react";
 import React, { useState } from "react";
 import { DataTable } from "@/components/DataTable";
 import { columns } from "./Columns";
+import { useModal } from "@/hooks/useModalStore";
+import { Session } from "next-auth";
 import { useQueryProcessor } from "@/hooks/useTanstackQuery";
-import { TUser } from "@/schema/user";
-import { Appointment, Profile, WorkSchedule } from "@prisma/client";
+import {TUser} from '@/schema/user'
+import { Profile, User } from "@prisma/client";
+import { TPrescriptionSchema } from "@/schema/prescriptions";
 
-type AppointmentsClientProps = {
-  currentUser: TUser;
-};
-const AppointmentsClient: React.FC<AppointmentsClientProps> = ({
-  currentUser,
-}) => {
-  const appointments = useQueryProcessor<
-    (Appointment & {
-      doctor: TUser & { profile: Profile };
-      patient: TUser & { profile: Profile };
-    })[]
-  >({
-    url: "/appointments",
-    queryParams: {
-      doctorId: currentUser.id,
-    },
-    key: ["appointments-doctor", currentUser.barangayId],
-  });
+type PrescriptionClientProps = {
+  currentUser: TUser
+}
 
-  // const appointments = [
-  //   {
-  //     id: "asdcnmmysd54ngbcfddad23231",
-  //     title: "General Checkup",
-  //     doctor: "Francis Magpayo",
-  //     patient: "Andrea Munoz",
-  //     date: new Date(),
-  //     status: "PENDING",
-  //     createdAt: new Date(),
-  //   },
+const PrescriptionClients:React.FC<PrescriptionClientProps> = ({currentUser}) => {
 
-  //   {
-  //     id: "asdcnmmysd54ngbcfddad23231",
-  //     title: "General Checkup",
-  //     doctor: "Francis Magpayo",
-  //     patient: "Andrea Munoz",
-  //     date: new Date(),
-  //     status: "PENDING",
-  //     createdAt: new Date(),
-  //   },
+//  const doctors = useQueryProcessor<(TUser & {profile: Profile}[])>({
+//     url: '/users',
+//     queryParams: {
+//       role: 'DOCTOR',
+//       barangayId: currentUser.barangayId
+//     },
+//     key: ["doctors", 'barangay', currentUser.barangayId]
+//   })
 
-  //   {
-  //     id: "asdc1nmmysd54ngbcfddad23231",
-  //     title: "Follow up Checkup",
-  //     doctor: "andrew belgar",
-  //     patient: "minet dosme",
-  //     date: new Date(),
-  //     status: "ACCEPTED",
-  //     createdAt: new Date(),
-  //   },
+const prescriptions = useQueryProcessor<(TPrescriptionSchema & {user: User & { profile: Profile}})[]>({
+  url: `/prescriptions`,
+  queryParams: {
+    userId: currentUser.id,
+  },
+  key: ['prescriptions'],
+})
+  
+  const {onOpen} = useModal()
 
-  //   {
-  //     id: "asdcnm2mysd54ngbcfddad23231",
-  //     title: "General Checkup",
-  //     doctor: "Brenan Delikaze",
-  //     patient: "Joshua Vellidad",
-  //     date: new Date(),
-  //     status: "ACCEPTED",
-  //     createdAt: new Date(),
-  //   },
-
-  //   {
-  //     id: "asdcnm3mysd54ngbcfddad23231",
-  //     title: "Follow up Checkup",
-  //     doctor: "Collin Inbatera",
-  //     patient: "John Doe",
-  //     date: new Date(),
-  //     status: "REJECTED",
-  //     createdAt: new Date(),
-  //   },
-  // ];
   const [globalFilter, setGlobalFilter] = useState("");
 
   const onFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -94,15 +52,21 @@ const AppointmentsClient: React.FC<AppointmentsClientProps> = ({
 
   return (
     <div className="flex flex-col p-10">
+      <div className="flex justify-end gap-x-5">
+        <Button className="text-zinc-500 dark:text-white" variant={"outline"} onClick={() => onOpen('addPrescription', {user: currentUser })}>
+          <UserPlus className="w-5 h-5 mr-2" /> Add new prescription
+        </Button>
+      </div>
+
       <div className="flex items-center gap-5 my-10">
         <div className="border flex items-center rounded-md px-2 w-full flex-1">
           <Search className="w-5 h-5 font-semibold text-zinc-500 dark:text-white" />
           <Input
-            className="inset-0 outline-none border-none active:outline-none hover:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 text-sm bg-transparent"
+            className="inset-0 outline-none border-none active:outline-none hover:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 text-sm"
             onChange={onFilter}
             type="text"
             value={globalFilter}
-            placeholder="Search for Doctor, Patient or something..."
+            placeholder="Search for prescriptions"
           />
         </div>
         {/* <Select>
@@ -140,7 +104,7 @@ const AppointmentsClient: React.FC<AppointmentsClientProps> = ({
 
         <Button
           variant="outline"
-          className="text-zinc-500 dark:text-white bg-transparent"
+          className="text-zinc-500 dark:text-white"
           onClick={() => {
             // setRole("All");
             // setDepartment("All");
@@ -155,7 +119,7 @@ const AppointmentsClient: React.FC<AppointmentsClientProps> = ({
         return (
           <DataTable
             columns={columns}
-            data={appointments.data || []}
+            data={prescriptions.data || []}
             globalFilter={globalFilter}
             setGlobalFilter={setGlobalFilter}
           />
@@ -165,4 +129,4 @@ const AppointmentsClient: React.FC<AppointmentsClientProps> = ({
   );
 };
 
-export default AppointmentsClient;
+export default PrescriptionClients;

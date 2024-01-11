@@ -22,7 +22,7 @@ const AppointmentPage = async () => {
   const queryClient = new QueryClient();
 
   return (
-    <div className="flex w-full bg-white dark:bg-[#020817]">
+    <div className="flex w-full dark:bg-[#020817]">
       <Calendar currentUser={currentUser} />
     </div>
   );

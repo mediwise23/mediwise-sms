@@ -23,11 +23,11 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <main className=" h-full flex justify-center items-center py-10 px-10">
+    <main className=" h-full flex justify-center items-center py-10 px-10 bg-white">
       <div className="h-[80px]  fixed inset-y-0 w-full z-50">
         <Navbar currentUser={user} />
       </div>
-      <div className=" w-full overflow-hidden bg-white mt-[80px]">
+      <div className=" w-full overflow-hidden mt-[80px]">
         {children}
       </div>
     </main>

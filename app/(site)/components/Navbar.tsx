@@ -9,7 +9,7 @@ import MobileLinks from "./MobileLinks";
 const Navbar = () => {
   const { onOpen } = useModal();
   return (
-    <nav className="sticky top-0 bg-white border-gray-200 dark:bg-gray-900 flex items-center justify-center w-full gap-x-5 max-h-[90px]">
+    <nav className="sticky top-0 bg-white border-gray-200 dark:bg-gray-900 flex items-center justify-center w-full gap-x-5 max-h-[90px] z-50">
       <div className="flex w-full px-3 md:w-[70%] items-center justify-between">
         <img
           src="/images/bhaLogo.png"
