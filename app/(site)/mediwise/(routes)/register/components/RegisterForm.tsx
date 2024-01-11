@@ -92,8 +92,8 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className=" shadow-md w-[55%] max-h-[95%] flex rounded-md overflow-hidden">
-      <section className="flex flex-[0.7] ">
+    <div className=" shadow-md w-[90vw] md:w-[70%] lg:w-[55%] max-h-[95%] flex rounded-md overflow-hidden">
+      <section className="hidden md:flex flex-[0.7] ">
         <img
           src="/images/BGPNU.jpeg"
           alt=""
@@ -102,7 +102,7 @@ const RegisterForm = () => {
       </section>
       <Form {...form}>
         <form
-          className="flex flex-col flex-1 px-10 py-5 bg-white"
+          className="flex flex-col flex-1 px-10 py-5 bg-white dark:bg-slate-800"
           onSubmit={form.handleSubmit(onSubmit)}
         >
           <h1 className="text-3xl font-semibold ">Create a free account</h1>
@@ -126,7 +126,7 @@ const RegisterForm = () => {
                         </FormLabel>
                         <FormControl>
                           <Input
-                            className="focus-visible:ring-0  focus-visible:ring-offset-0"
+                            className="focus-visible:ring-0  focus-visible:ring-offset-0 border-zinc-500  bg-transparent"
                             type="text"
                             placeholder={`Enter firstname`}
                             {...field}
@@ -147,7 +147,7 @@ const RegisterForm = () => {
                         </FormLabel>
                         <FormControl>
                           <Input
-                            className="focus-visible:ring-0  focus-visible:ring-offset-0"
+                            className="focus-visible:ring-0  focus-visible:ring-offset-0 border-zinc-500  bg-transparent"
                             type="text"
                             placeholder={`Enter middlename`}
                             {...field}
@@ -170,7 +170,7 @@ const RegisterForm = () => {
                         </FormLabel>
                         <FormControl>
                           <Input
-                            className="focus-visible:ring-0  focus-visible:ring-offset-0"
+                            className="focus-visible:ring-0  focus-visible:ring-offset-0  border-zinc-500  bg-transparent"
                             type="text"
                             placeholder={`Enter Lastname`}
                             {...field}
@@ -191,7 +191,7 @@ const RegisterForm = () => {
                         </FormLabel>
                         <FormControl>
                           <Input
-                            className="focus-visible:ring-0  focus-visible:ring-offset-0"
+                            className="focus-visible:ring-0  focus-visible:ring-offset-0 border-zinc-500  bg-transparent"
                             type="text"
                             placeholder={`Enter Suffix`}
                             {...field}
@@ -218,7 +218,7 @@ const RegisterForm = () => {
                               <Button
                                 variant={"outline"}
                                 className={cn(
-                                  "w-full pl-3 text-left font-normal",
+                                  "w-full pl-3 text-left font-normal border-zinc-500  bg-transparent",
                                   !field.value && "text-muted-foreground"
                                 )}
                               >
@@ -277,7 +277,7 @@ const RegisterForm = () => {
                           defaultValue={field.value}
                         >
                           <FormControl>
-                            <SelectTrigger className="focus-visible:ring-0  focus-visible:ring-offset-0">
+                            <SelectTrigger className="focus-visible:ring-0  focus-visible:ring-offset-0 border-zinc-500  bg-transparent">
                               <SelectValue placeholder="Select a gender" />
                             </SelectTrigger>
                           </FormControl>
@@ -302,7 +302,7 @@ const RegisterForm = () => {
                         </FormLabel>
                         <FormControl>
                           <Input
-                            className="focus-visible:ring-0  focus-visible:ring-offset-0"
+                            className="focus-visible:ring-0  focus-visible:ring-offset-0 border-zinc-500  bg-transparent"
                             type="number"
                             placeholder={`Enter house no.`}
                             {...field}
@@ -323,7 +323,7 @@ const RegisterForm = () => {
                         </FormLabel>
                         <FormControl>
                           <Input
-                            className="focus-visible:ring-0  focus-visible:ring-offset-0"
+                            className="focus-visible:ring-0  focus-visible:ring-offset-0 border-zinc-500  bg-transparent"
                             type="text"
                             placeholder={`Enter street`}
                             {...field}
@@ -346,7 +346,7 @@ const RegisterForm = () => {
                         </FormLabel>
                         <FormControl>
                           <Input
-                            className="focus-visible:ring-0  focus-visible:ring-offset-0"
+                            className="focus-visible:ring-0  focus-visible:ring-offset-0 border-zinc-500  bg-transparent"
                             type="number"
                             placeholder={`Enter contact number`}
                             {...field}
@@ -371,13 +371,16 @@ const RegisterForm = () => {
                             defaultValue={field.value}
                           >
                             <FormControl>
-                              <SelectTrigger className="focus-visible:ring-0  focus-visible:ring-offset-0">
+                              <SelectTrigger className="focus-visible:ring-0  focus-visible:ring-offset-0 border-zinc-500  bg-transparent">
                                 <SelectValue placeholder="Select a barangay" />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent className="focus-visible:ring-0  focus-visible:ring-offset-0">
                               {barangay?.data?.map((barangay) => (
-                                <SelectItem value={barangay?.id || "null"} key={barangay?.id}>
+                                <SelectItem
+                                  value={barangay?.id || "null"}
+                                  key={barangay?.id}
+                                >
                                   {barangay.name}
                                 </SelectItem>
                               ))}
@@ -548,7 +551,7 @@ const RegisterForm = () => {
             )}
           </div>
 
-          <span className="text-sm text-center text-zinc-500">
+          <span className="text-sm text-center text-zinc-500 dark:text-white">
             Already have an account?
             <span
               onClick={() => {

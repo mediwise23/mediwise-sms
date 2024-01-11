@@ -145,7 +145,7 @@ const MediwiseLoginModal = () => {
                     </FormLabel>
                     <FormControl>
                       <Input
-                        className="focus-visible:ring-0  focus-visible:ring-offset-0"
+                        className="focus-visible:ring-0  focus-visible:ring-offset-0 bg-transparent"
                         type="email"
                         disabled={isLoading}
                         placeholder={`Enter email`}
@@ -171,7 +171,7 @@ const MediwiseLoginModal = () => {
                       <Input
                         disabled={isLoading}
                         type={showPass ? "text" : "password"}
-                        className="focus-visible:ring-0  focus-visible:ring-offset-0 resize-none"
+                        className="focus-visible:ring-0  focus-visible:ring-offset-0 resize-none bg-transparent"
                         placeholder={`Enter Password`}
                         {...field}
                       />
@@ -192,7 +192,9 @@ const MediwiseLoginModal = () => {
               <label
                 htmlFor="showPass"
                 className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >Show password</label>
+              >
+                Show password
+              </label>
             </div>
 
             <DialogFooter className="py-4">
@@ -235,7 +237,7 @@ const MediwiseLoginModal = () => {
               <div className="w-full border-gray-300 border-t" />
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="bg-white px-2 text-gray-500 -mt-3">
+              <span className="bg-white dark:bg-[#020817] px-2 text-gray-500 -mt-3">
                 Or continue with
               </span>
             </div>
@@ -277,6 +279,7 @@ function AuthSocialButton({ onClick, icon: Icon }: AuthSocialButtonProps) {
     justify-center
     rounded-md
     bg-white
+    dark:bg-[#020817]
     px-4
     py-2
     text-gray-500
@@ -284,7 +287,7 @@ function AuthSocialButton({ onClick, icon: Icon }: AuthSocialButtonProps) {
     ring-1
     ring-inset
     ring-gray-300
-    hover:bg-gray-50
+    hover:bg-gray-200
     focus:outline-offset-0
     "
     >
