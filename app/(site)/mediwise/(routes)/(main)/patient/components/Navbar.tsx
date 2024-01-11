@@ -24,6 +24,10 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
       label: "Doctors",
       href: "/doctors",
     },
+    {
+      label: "Prescriptions",
+      href: "/prescriptions",
+    },
   ];
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900">
