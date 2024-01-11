@@ -41,7 +41,7 @@ export const handleImageDeleteOrReplace = async (publicId: string) => {
 
 export const uploadPhoto = async (file: File) => {
   const formData = new FormData();
-  formData.append("upload_preset", "next-alumni-system");
+  formData.append("upload_preset", "mediwise-sms");
   formData.append("file", file);
 
   const res = await axios.post(
@@ -55,27 +55,6 @@ export const uploadPhoto = async (file: File) => {
   return {
     url: res.data.url,
     public_id:  res.data.url
-  };
-};
-
-export const uploadPhotoForum = async (data: {
-  file: File;
-  id: number | string;
-}) => {
-  const formData = new FormData();
-  formData.append("upload_preset", "next-alumni-system");
-  formData.append("file", data.file);
-  const res = await axios.post(
-    `${"https://api.cloudinary.com/v1_1/iamprogrammer/auto/upload"}`,
-    formData,
-    {
-      headers: { "X-Requested-With": "XMLHttpRequest" },
-    }
-  );
-
-  return {
-    public_url: res.data.url,
-    public_id: res.data.public_id,
   };
 };
 

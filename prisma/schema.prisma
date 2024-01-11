@@ -127,6 +127,7 @@ model User {
   doctor_appointments  Appointment[]     @relation("doctor")
   workSchedules        WorkSchedule[]
   ItemTransaction      ItemTransaction[]
+  prescription         prescription[]
 
   @@index([id])
 }
@@ -167,6 +168,16 @@ model WorkSchedule {
 enum Gender {
   MALE
   FEMALE
+}
+
+model prescription {
+  id String @id @unique @default(cuid())
+  image           String   @db.LongText
+  convertedText   String? @db.LongText
+  userId          String?
+  user            User?    @relation(fields: [userId], references: [id])
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @default(now()) @updatedAt
 }
 
 model Profile {

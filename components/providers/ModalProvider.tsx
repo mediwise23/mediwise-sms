@@ -4,6 +4,8 @@ import AddWorkScheduleModal from "../modals/AddWorkScheduleModal";
 import CreateBarangayItemModal from "../modals/CreateBarangayItemModal";
 import CreateDoctorModal from "../modals/CreateDoctorModal";
 import AddAppointmentModal from "../modals/AddAppointmentModal";
+import AddPrescriptionModal from "../modals/AddPrescriptionModal";
+import ViewPrescriptionModal from "../modals/ViewPrescriptionModal";
 
 
 const ModalProvider = () => {
@@ -23,6 +25,8 @@ const ModalProvider = () => {
       <CreateBarangayItemModal />
       <CreateDoctorModal />
       <AddAppointmentModal />
+      <AddPrescriptionModal />
+      <ViewPrescriptionModal />
     </>
   );
 };
