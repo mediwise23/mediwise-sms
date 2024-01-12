@@ -169,6 +169,21 @@ enum Gender {
   MALE
   FEMALE
 }
+enum SupplierStatus {
+  ACTIVE
+  INACTIVE
+}
+
+model Supplier {
+    id String @id @unique @default(cuid())
+    name  String
+    contactPerson String
+    contactNo String
+    address String
+    status SupplierStatus @default(ACTIVE)
+    createdAt       DateTime @default(now())
+    updatedAt       DateTime @default(now()) @updatedAt
+}
 
 model prescription {
   id String @id @unique @default(cuid())

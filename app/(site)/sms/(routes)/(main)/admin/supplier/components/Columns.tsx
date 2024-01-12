@@ -14,11 +14,12 @@ import { Badge } from "@/components/ui/badge";
 import ActionButton from "./ActionButton";
 import { TItemBrgy } from "@/schema/item-brgy";
 import { format } from "date-fns";
+import { TSupplierSchema } from "@/schema/supplier";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 const DATE_FORMAT = `MMM d yyyy`;
-export const columns: ColumnDef<TItemBrgy>[] = [
+export const columns: ColumnDef<TSupplierSchema>[] = [
   {
     accessorKey: "id",
     header: () => {
@@ -50,7 +51,7 @@ export const columns: ColumnDef<TItemBrgy>[] = [
       const name = row.original.name;
       return (
         <div className=" dark:text-white">
-          DOH
+          {name}
         </div>
       );
     },
@@ -59,8 +60,8 @@ export const columns: ColumnDef<TItemBrgy>[] = [
   {
     accessorKey: "address",
     accessorFn: (row) => {
-      const description = row.description;
-      return description;
+      const address = row.address;
+      return address;
     },
     header: ({ column }) => (
       <div
@@ -71,16 +72,16 @@ export const columns: ColumnDef<TItemBrgy>[] = [
       </div>
     ),
     cell: ({ row }) => {
-      const description = row.original?.description;
-      return <div className={` flex items-center line-clamp-2`}>109 virginia st</div>;
+      const address = row.original?.address;
+      return <div className={` flex items-center line-clamp-2`}>{address}</div>;
     },
   },
 
   {
     accessorKey: "contactPerson",
     accessorFn: (row) => {
-      const stock = row.stock;
-      return stock;
+      const contactPerson = row.contactPerson;
+      return contactPerson;
     },
     header: ({ column }) => (
       <div
@@ -91,17 +92,17 @@ export const columns: ColumnDef<TItemBrgy>[] = [
       </div>
     ),
     cell: ({ row }) => {
-      const stock = row.original?.stock;
+      const contactPerson = row.original?.contactPerson;
 
-      return <div className={` flex items-center`}>Brian Dumasdas</div>;
+      return <div className={` flex items-center`}>{contactPerson}</div>;
     },
   },
 
   {
     accessorKey: "contactNo",
     accessorFn: (row) => {
-      const unit = row.unit;
-      return unit;
+      const contactNo = row.contactNo;
+      return contactNo;
     },
     header: ({ column }) => (
       <div
@@ -112,17 +113,17 @@ export const columns: ColumnDef<TItemBrgy>[] = [
       </div>
     ),
     cell: ({ row }) => {
-      const unit = row.original?.unit;
+      const contactNo = row.original?.contactNo;
 
-      return <div className={` flex items-center`}>09561289642</div>;
+      return <div className={` flex items-center`}>{contactNo}</div>;
     },
   },
 
   {
     accessorKey: "status",
     accessorFn: (row) => {
-      const createdAt = row.createdAt;
-      return createdAt;
+      const status = row.status;
+      return status;
     },
     header: ({ column }) => {
       return (
@@ -136,9 +137,11 @@ export const columns: ColumnDef<TItemBrgy>[] = [
       );
     },
     cell: ({ row }) => {
-      const createdAt = row.original?.createdAt;
+      const status = row.original?.status;
       return (
-        <div> <Badge>Active</Badge></div>
+        <div> <Badge
+              className={cn('', status == 'INACTIVE' && 'bg-rose-500')}
+        >{status}</Badge></div>
       );
     },
   },

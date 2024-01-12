@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import MediwiseLoginModal from "../modals/MediwiseLoginModal";
-import AddWorkScheduleModal from "../modals/AddWorkScheduleModal";
-import CreateBarangayItemModal from "../modals/CreateBarangayItemModal";
-import CreateDoctorModal from "../modals/CreateDoctorModal";
-import AddAppointmentModal from "../modals/AddAppointmentModal";
-import AddPrescriptionModal from "../modals/AddPrescriptionModal";
-import ViewPrescriptionModal from "../modals/ViewPrescriptionModal";
+import MediwiseLoginModal from "../modals/mediwise/MediwiseLoginModal";
+import AddWorkScheduleModal from "../modals/mediwise/AddWorkScheduleModal";
+import CreateBarangayItemModal from "../modals/mediwise/CreateBarangayItemModal";
+import CreateDoctorModal from "../modals/mediwise/CreateDoctorModal";
+import AddAppointmentModal from "../modals/mediwise/AddAppointmentModal";
+import AddPrescriptionModal from "../modals/mediwise/AddPrescriptionModal";
+import ViewPrescriptionModal from "../modals/mediwise/ViewPrescriptionModal";
+import CreateSupplierModal from "../modals/sms/CreateSupplierModal";
 
 
 const ModalProvider = () => {
@@ -27,6 +28,7 @@ const ModalProvider = () => {
       <AddAppointmentModal />
       <AddPrescriptionModal />
       <ViewPrescriptionModal />
+      <CreateSupplierModal />
     </>
   );
 };

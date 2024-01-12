@@ -14,10 +14,10 @@ const page = async () => {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
-    queryKey: ["inventory-items", "barangay", session.user.barangayId],
+    queryKey: ["suppliers"],
     queryFn: () =>
       queryFn({
-        url: "brgy-item",
+        url: "/supplier",
       }),
   });
 
