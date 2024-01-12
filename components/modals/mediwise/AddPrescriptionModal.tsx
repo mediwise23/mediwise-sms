@@ -15,18 +15,18 @@ import {
   FormField,
   FormItem,
   FormMessage,
-} from "../ui/form";
+} from "../../ui/form";
 import { SubmitHandler, useForm } from "react-hook-form";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
+import { Input } from "../../ui/input";
+import { Button } from "../../ui/button";
 import { FileIcon, X, Download } from "lucide-react";
 import toast from "react-hot-toast";
 import { useMutateProcessor } from "@/hooks/useTanstackQuery";
-import { useToast } from "../ui/use-toast";
+import { useToast } from "../../ui/use-toast";
 import axios, { AxiosError } from "axios";
-import { Loader2 } from "../ui/Loader";
+import { Loader2 } from "../../ui/Loader";
 import { CreatePrescriptionSchema, TCreatePrescriptionSchema } from "@/schema/prescriptions";
 import { dataURItoBlob, uploadPhoto } from "@/lib/utils";
 import {ocrSpace} from 'ocr-space-api-wrapper'

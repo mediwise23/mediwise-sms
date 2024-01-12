@@ -11,6 +11,7 @@ export type ModalType =
   | "addAppointment"
   | "addPrescription"
   | "viewPrescription"
+  | "createSupplier"
 // you can extend this type if you have more modal
 
 // export type ModalType = "..." | "...." | "...."

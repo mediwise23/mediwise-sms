@@ -14,7 +14,7 @@ import toast from "react-hot-toast";
 import { useMutateProcessor } from "@/hooks/useTanstackQuery";
 import {
   Form,
-} from "../ui/form";
+} from "../../ui/form";
 
 import {
   CreateWorkScheduleSchema,

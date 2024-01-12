@@ -7,8 +7,8 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "../ui/dialog";
-import { Button } from "../ui/button";
+} from "../../ui/dialog";
+import { Button } from "../../ui/button";
 import {
   Form,
   FormControl,
@@ -16,11 +16,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
+} from "../../ui/form";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "../ui/input";
-import { Loader, Loader2 } from "../ui/Loader";
+import { Input } from "../../ui/input";
+import { Loader, Loader2 } from "../../ui/Loader";
 import { useModal } from "@/hooks/useModalStore";
 import { useMutateProcessor } from "@/hooks/useTanstackQuery";
 import toast from "react-hot-toast";
@@ -29,7 +29,7 @@ import { BsFacebook, BsGithub, BsGoogle } from "react-icons/bs";
 import { IconType } from "react-icons";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { Checkbox } from "../ui/checkbox";
+import { Checkbox } from "../../ui/checkbox";
 const MediwiseLoginModal = () => {
   const { isOpen, type, onClose } = useModal();
   const isModalOpen = isOpen && type === "mediwiseLogin";

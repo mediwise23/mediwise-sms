@@ -172,3 +172,11 @@ NOTE: for old browsers, will need to restart watcher after changing a variable
   background: rgb(202, 200, 200);
   border-radius: 10px;
 }
+
+.sms-bg {
+  background: #FD7E14;
+}
+
+.sms-bg:hover {
+  background: #ff8d30 !important;
+}

@@ -7,6 +7,10 @@ import {
   History,
   Blocks,
   Table,
+  BaggageClaim,
+  Box,
+  StickyNote,
+  GitPullRequestArrow
 } from "lucide-react";
 import { MdHive } from "react-icons/md";
 import { SidebarItem } from "./SidebarItem";
@@ -28,22 +32,28 @@ const routesList: routeListType[] = [
   },
 
   {
-    icon: Table,
+    icon: GitPullRequestArrow,
     label: "Transaction",
     href: "/transactions",
     roles: ["STOCK_MANAGER"],
   },
   {
-    icon: Table,
-    label: "Items",
+    icon: Box,
+    label: "Medicines",
     href: "/items",
     roles: ["STOCK_MANAGER"],
   },
 
   {
-    icon: Table,
-    label: "Barangay",
+    icon: StickyNote,
+    label: "Barangay List",
     href: "/barangay",
+    roles: ["STOCK_MANAGER"],
+  },
+  {
+    icon: BaggageClaim,
+    label: "Supplier List",
+    href: "/supplier",
     roles: ["STOCK_MANAGER"],
   },
 ];
