@@ -41,7 +41,7 @@ export const GET = withAuth(
     }
   },
   {
-    requiredRole: ["ADMIN", "PATIENT"],
+    requiredRole: ["ADMIN", "PATIENT", "STOCK_MANAGER"],
   }
 );
 

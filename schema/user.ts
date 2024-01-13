@@ -199,7 +199,8 @@ export const CreateDoctorSchema = CreateUserSchema.pick({
   specialist: true,
   licenseNo: true,
   barangay: true,
-  isVerified: true
+  isVerified: true,
+  gender: true,
 }).partial({
   suffix: true,
   middlename: true,
@@ -209,6 +210,26 @@ export const CreateDoctorSchema = CreateUserSchema.pick({
 })
 
 export type TCreateDoctorSchema = z.infer<typeof CreateDoctorSchema>;
+
+export const CreateAdminSchema = CreateUserSchema.pick({
+  email: true,
+  role: true,
+  suffix: true,
+  firstname: true,
+  lastname: true,
+  middlename: true,
+  barangay: true,
+  isVerified: true,
+  gender: true,
+}).partial({
+  suffix: true,
+  middlename: true,
+}).extend({
+  middlename: z.string().optional(),
+  suffix: z.string().optional()
+})
+
+export type TCreateAdminSchema = z.infer<typeof CreateAdminSchema>;
 
 export const UpdateUserSchema = UserSchema.pick({
   role: true,

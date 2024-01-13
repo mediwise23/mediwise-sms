@@ -7,6 +7,8 @@ import AddAppointmentModal from "../modals/mediwise/AddAppointmentModal";
 import AddPrescriptionModal from "../modals/mediwise/AddPrescriptionModal";
 import ViewPrescriptionModal from "../modals/mediwise/ViewPrescriptionModal";
 import CreateSupplierModal from "../modals/sms/CreateSupplierModal";
+import CreateBarangayModal from "../modals/sms/CreateBarangayModal";
+import CreateAdminModal from "../modals/sms/CreateAdminModal";
 
 
 const ModalProvider = () => {
@@ -29,6 +31,8 @@ const ModalProvider = () => {
       <AddPrescriptionModal />
       <ViewPrescriptionModal />
       <CreateSupplierModal />
+      <CreateBarangayModal />
+      <CreateAdminModal />
     </>
   );
 };

@@ -59,6 +59,6 @@ export const POST = withAuth(async ({ req, session }) => {
     }
   },
   {
-    requiredRole: ["ADMIN"],
+    requiredRole: ["STOCK_MANAGER"],
   }
 );
