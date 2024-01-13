@@ -20,29 +20,36 @@ type CalendarClientProps = {
   currentUser: Session["user"];
 };
 
-const Calendar:React.FC<CalendarClientProps> = ({currentUser}) => {
+const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
   const { onOpen, onClose } = useModal();
-  const { data: session } = useSession()
+  const { data: session } = useSession();
 
   const handleDateSelect = (selectInfo: any) => {
     const calendarApi = selectInfo;
     onOpen("createEvent", { calendarApi });
   };
 
-  // const events = useQueryProcessor<Event[]>(`/events`, null, ["events"]);
-  // const currentEvents =
-  //   typeof events.data !== "undefined" && events?.data?.length > 0
-  //     ? events.data.map((event) => {
-  //         return {
-  //           id: event?.id,
-  //           title: event?.title,
-  //           description: event.description,
-  //           start: new Date(event?.dateStart),
-  //           end: new Date(event?.dateEnd),
-  //           allDay: event?.allDay,
-  //         };
-  //       })
-  //     : [];
+  const events = useQueryProcessor<Event[]>({
+    url: `/events`,
+    key: ["events"],
+    options: { enabled: !!currentUser.barangayId },
+    queryParams: { barangayId: currentUser.barangayId },
+  });
+  const currentEvents =
+    typeof events.data !== "undefined" && events?.data?.length > 0
+      ? events.data.map((event) => {
+          return {
+            id: event?.id,
+            title: event?.title,
+            description: event.description,
+            start: new Date(event?.start),
+            end: new Date(event?.end),
+            allDay: event?.allDay,
+          };
+        })
+      : [];
+
+      console.log(currentEvents)
 
   type EventData = {
     id: string;
@@ -53,12 +60,11 @@ const Calendar:React.FC<CalendarClientProps> = ({currentUser}) => {
     allDay: boolean;
   };
 
-  // const createEvent = useMutateProcessor<EventData, null>(
-  //   `/events`,
-  //   null,
-  //   "POST",
-  //   ["events"]
-  // );
+  const createEvent = useMutateProcessor<EventData, null>({
+    url: `/events`,
+    method: "POST",
+    key: ["events"],
+  });
 
   const handleAddEvent = ({ event }: any) => {
     const eventData = {
@@ -70,16 +76,15 @@ const Calendar:React.FC<CalendarClientProps> = ({currentUser}) => {
       allDay: event.allDay,
     } as EventData;
 
-    console.log(eventData)
-    // createEvent.mutate(eventData, {
-    //   onSuccess(data) {
-    //     toast.success("Event added!");
-    //     onClose();
-    //   },
-    //   onError(error, variables, context) {
-    //     toast.error("Something went wrong...");
-    //   },
-    // });
+    createEvent.mutate(eventData, {
+      onSuccess(data) {
+        toast.success("Event added!");
+        onClose();
+      },
+      onError(error, variables, context) {
+        toast.error("Something went wrong...");
+      },
+    });
   };
 
   const updateEvent = async (
@@ -114,6 +119,7 @@ const Calendar:React.FC<CalendarClientProps> = ({currentUser}) => {
       id: event.id,
       title: event.title,
       start: event.start,
+      description: event._def.extendedProps.description,
       end: event.end,
       allDay: event.allDay,
     };
@@ -154,8 +160,7 @@ const Calendar:React.FC<CalendarClientProps> = ({currentUser}) => {
         eventBackgroundColor={"#449e65"}
         eventColor={"#449e65"}
         weekends={true}
-        events={[]}
-        // initialEvents={currentEvents} // alternatively, use the `events` setting to fetch from a feed
+        events={currentEvents}
         select={handleDateSelect} // adding event
         eventClick={handleEventClick} // trigger when clicking an event
         //  eventsSet={handleEvents} // called after events are initialized/added/changed/removed
