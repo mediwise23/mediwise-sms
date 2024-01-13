@@ -28,7 +28,7 @@ const routesList: routeListType[] = [
   {
     icon: Home,
     label: "Dashboard",
-    href: "",
+    href: "/",
     roles: ["STOCK_MANAGER"],
   },
 
@@ -41,7 +41,7 @@ const routesList: routeListType[] = [
   {
     icon: Box,
     label: "Medicines",
-    href: "/items",
+    href: "/medicines",
     roles: ["STOCK_MANAGER"],
   },
   {

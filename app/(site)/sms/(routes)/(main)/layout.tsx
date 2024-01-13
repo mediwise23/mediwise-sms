@@ -7,7 +7,7 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
   const currentUser = await getSession();
 
   if (!currentUser?.user) {
-    return redirect("/mediwise");
+    return redirect("/sms");
   }
   const { user } = currentUser;
 

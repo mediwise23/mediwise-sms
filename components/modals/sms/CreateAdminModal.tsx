@@ -82,7 +82,11 @@ const CreateAdminModal = () => {
       },
     });
   };
-
+  useEffect(() => {
+    return () => {
+      form.reset();
+    };
+  }, [isModalOpen]);
   const isLoading =
     form.formState.isSubmitting || createAdmin.status == "pending";
 

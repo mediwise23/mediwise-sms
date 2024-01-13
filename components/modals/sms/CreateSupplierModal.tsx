@@ -42,7 +42,11 @@ const CreateSupplierModal = () => {
     },
     mode: "all",
   });
-
+  useEffect(() => {
+    return () => {
+      form.reset();
+    };
+  }, [isModalOpen]);
   const createSupplier = useMutateProcessor<TCreateSupplierSchema, TSupplierSchema>({url: '/supplier', method: 'POST', key:['suppliers']})
   const isLoading = form.formState.isSubmitting || createSupplier.status === 'pending';
 

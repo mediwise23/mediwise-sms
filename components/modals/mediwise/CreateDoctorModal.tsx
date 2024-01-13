@@ -79,6 +79,10 @@ const CreateDoctorModal = () => {
   useEffect(() => {
     form.setValue("barangay", data.user?.barangayId as string);
     form.setValue("role", Role.DOCTOR);
+
+    return () => {
+       form.reset()
+    }
   }, [isModalOpen]);
 
   return (
