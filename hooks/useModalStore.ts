@@ -14,7 +14,9 @@ export type ModalType =
   | "createSupplier"
   | "createBarangay"
   | "createAdmin"
+  | "createPatient"
   | "createSmsItem"
+  | "createEvent"
 // you can extend this type if you have more modal
 
 // export type ModalType = "..." | "...." | "...."

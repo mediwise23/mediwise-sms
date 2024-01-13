@@ -2,6 +2,7 @@ import { getSession } from "@/lib/auth";
 import Sidebar from "./components/Sidebar";
 import { Navbar } from "./components/Navbar";
 import { redirect } from "next/navigation";
+import { Role } from "@prisma/client";
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
   const currentUser = await getSession();
@@ -9,6 +10,7 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
   if (!currentUser?.user) {
     return redirect("/mediwise");
   }
+
   const { user } = currentUser;
 
   return (

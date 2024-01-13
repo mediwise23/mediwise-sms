@@ -10,6 +10,8 @@ import CreateSupplierModal from "../modals/sms/CreateSupplierModal";
 import CreateBarangayModal from "../modals/sms/CreateBarangayModal";
 import CreateAdminModal from "../modals/sms/CreateAdminModal";
 import CreateSmsItemModal from "../modals/sms/CreateSmsItemModal";
+import CreatePatientModal from "../modals/mediwise/CreatePatientModal";
+import CreateEventModal from "../modals/mediwise/CreateEventModal";
 
 
 const ModalProvider = () => {
@@ -35,6 +37,8 @@ const ModalProvider = () => {
       <CreateBarangayModal />
       <CreateAdminModal />
       <CreateSmsItemModal />
+      <CreatePatientModal />
+      <CreateEventModal />
     </>
   );
 };

@@ -231,6 +231,34 @@ export const CreateAdminSchema = CreateUserSchema.pick({
 
 export type TCreateAdminSchema = z.infer<typeof CreateAdminSchema>;
 
+export const CreatePatientSchema = CreateUserSchema.pick({
+  email: true,
+  role: true,
+  suffix: true,
+  firstname: true,
+  lastname: true,
+  middlename: true,
+  barangay: true,
+  isVerified: true,
+  dateOfBirth: true,
+  gender: true,
+  zip:true,
+  city:true,
+  contactNo:true,
+  homeNo:true,
+  street:true,
+}).partial({
+  suffix: true,
+  middlename: true,
+}).extend({
+  dateOfBirth:z.string(),
+  middlename: z.string().optional(),
+  suffix: z.string().optional()
+})
+
+export type TCreatePatientSchema = z.infer<typeof CreatePatientSchema>;
+
+
 export const UpdateUserSchema = UserSchema.pick({
   role: true,
   barangayId: true,

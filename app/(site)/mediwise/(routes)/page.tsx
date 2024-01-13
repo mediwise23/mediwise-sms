@@ -4,18 +4,19 @@ import Navbar from "../../components/Navbar";
 import Link from "next/link";
 import { getSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import { Role } from "@prisma/client";
 
 const page = async () => {
   const session = await getSession();
   if (session?.user) {
-    return redirect(`/mediwise/${session.user.role.toLowerCase()}`);
+    return session.user.role === Role.STOCK_MANAGER ? redirect(`/sms/dashboard`) : redirect(`/mediwise/${session.user.role.toLowerCase()}`)
   }
 
   return (
     <div className="flex flex-col  w-full mx-auto items-center gap-y-32 md:gap-y-40 dark:bg-dark">
       <Navbar />
       <section
-        className="w-full flex justify-center p-5 md:p-10 h-fit md:h-[700px] bg-[#c5ebd3] dark:bg-gray-800"
+        className="w-full flex justify-center p-5 md:p-10 h-fit md:h-[700px]  dark:bg-gray-800"
         id="home"
       >
         <div className="w-[95%] md:w-[75%] flex flex-col md:flex-row justify-start md:justify-between md:gap-x-10 items-center clip-path:polygon(0%_0%,100%_0%,100%_100%) pt-5">
@@ -42,7 +43,7 @@ const page = async () => {
       </section>
       <section
         id="about-us"
-        className="w-full flex justify-center p-5 md:p-10 h-fit md:h-[700px] bg-[#c5ebd3] dark:bg-gray-800"
+        className="w-full flex justify-center p-5 md:p-10 h-fit md:h-[700px]  dark:bg-gray-800"
       >
         <div className="w-[95%] md:w-[75%] flex flex-col md:flex-row-reverse gap-x-10 items-center">
           <img
