@@ -36,6 +36,7 @@ export async function POST(req: NextRequest, { params }: { params: {} }) {
       barangay,
       city,
       contactNo,
+      zip
     } = body.data;
 
     // hash password
@@ -61,7 +62,7 @@ export async function POST(req: NextRequest, { params }: { params: {} }) {
         barangay,
         city,
         contactNo,
-        zip: "",
+        zip,
       },
     });
 

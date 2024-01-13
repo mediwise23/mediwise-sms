@@ -28,7 +28,7 @@ const routesList: routeListType[] = [
   {
     icon: Home,
     label: "Dashboard",
-    href: "/",
+    href: "/dashboard",
     roles: ["STOCK_MANAGER"],
   },
 

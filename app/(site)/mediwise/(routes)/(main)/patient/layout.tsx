@@ -2,6 +2,7 @@ import { getSession } from "@/lib/auth";
 import Navbar from "./components/Navbar";
 import { redirect } from "next/navigation";
 import { getUserById } from "@/service/user";
+import { Role } from "@prisma/client";
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
   const currentUser = await getSession();
@@ -14,6 +15,10 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
 
   const data = await getUserById({id: user.id})
 
+  if (currentUser?.user.role !== Role.PATIENT) {
+    return redirect("/mediwise");
+  }
+  
   if(!data?.isVerified) {
     return redirect('/mediwise/verify')
   }
@@ -21,6 +26,8 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
   if(!data?.barangayId) {
     return redirect('/mediwise/setup')
   }
+
+ 
 
   return (
     <main className=" h-full flex justify-center items-center py-10 px-10 bg-white">

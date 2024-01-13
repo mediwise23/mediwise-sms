@@ -44,6 +44,7 @@ model Barangay {
   ItemTransaction ItemTransaction[]
   WorkSchedule    WorkSchedule[]
   Appointment     Appointment[]
+  events           Event[]
 }
 
 model RequestedItem {
@@ -76,19 +77,44 @@ model ItemTransaction {
 }
 
 model SmsItem {
-  id          String   @id @default(cuid())
-  description String?  @db.VarChar(255)
-  name        String?  @db.VarChar(255)
-  stock       Int?     @db.Int
-  unit        String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @default(now()) @updatedAt
-  isArchive   Boolean  @default(false)
-  dosage      String?
+  id            String          @id @default(cuid())
+  description   String?         @db.VarChar(255)
+  name          String?         @db.VarChar(255)
+  stock         Int?            @db.Int
+  unit          String?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @default(now()) @updatedAt
+  isArchive     Boolean         @default(false)
+  dosage        String?
   RequestedItem RequestedItem[]
 
   supplierId String?
   supplier   Supplier? @relation(fields: [supplierId], references: [id], onDelete: SetNull)
+}
+
+model Event {
+  id String @id @default(cuid())
+
+  title       String
+  description String @db.Text
+
+  isArchived Boolean @default(false)
+
+  start DateTime
+  end   DateTime
+  allDay    Boolean
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  barangayId String
+  barangay   Barangay @relation(fields: [barangayId], references: [id], onDelete: Cascade)
+
+  // user who owns the event post
+  user   User?   @relation(fields: [userId], references: [id])
+  userId String?
+
+  @@index([userId])
 }
 
 model BrgyItem {
@@ -131,6 +157,7 @@ model User {
   workSchedules        WorkSchedule[]
   ItemTransaction      ItemTransaction[]
   prescription         prescription[]
+  events               Event[]
 
   @@index([id])
 }
