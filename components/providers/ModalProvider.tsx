@@ -9,6 +9,7 @@ import ViewPrescriptionModal from "../modals/mediwise/ViewPrescriptionModal";
 import CreateSupplierModal from "../modals/sms/CreateSupplierModal";
 import CreateBarangayModal from "../modals/sms/CreateBarangayModal";
 import CreateAdminModal from "../modals/sms/CreateAdminModal";
+import CreateSmsItemModal from "../modals/sms/CreateSmsItemModal";
 
 
 const ModalProvider = () => {
@@ -33,6 +34,7 @@ const ModalProvider = () => {
       <CreateSupplierModal />
       <CreateBarangayModal />
       <CreateAdminModal />
+      <CreateSmsItemModal />
     </>
   );
 };

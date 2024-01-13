@@ -84,8 +84,11 @@ model SmsItem {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now()) @updatedAt
   isArchive   Boolean  @default(false)
-
+  dosage      String?
   RequestedItem RequestedItem[]
+
+  supplierId String?
+  supplier   Supplier? @relation(fields: [supplierId], references: [id], onDelete: SetNull)
 }
 
 model BrgyItem {
@@ -169,30 +172,32 @@ enum Gender {
   MALE
   FEMALE
 }
+
 enum SupplierStatus {
   ACTIVE
   INACTIVE
 }
 
 model Supplier {
-    id String @id @unique @default(cuid())
-    name  String
-    contactPerson String
-    contactNo String
-    address String
-    status SupplierStatus @default(ACTIVE)
-    createdAt       DateTime @default(now())
-    updatedAt       DateTime @default(now()) @updatedAt
+  id            String         @id @unique @default(cuid())
+  name          String
+  contactPerson String
+  contactNo     String
+  address       String
+  status        SupplierStatus @default(ACTIVE)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @default(now()) @updatedAt
+  smsItems      SmsItem[]
 }
 
 model prescription {
-  id String @id @unique @default(cuid())
-  image           String   @db.LongText
-  convertedText   String? @db.LongText
-  userId          String?
-  user            User?    @relation(fields: [userId], references: [id])
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @default(now()) @updatedAt
+  id            String   @id @unique @default(cuid())
+  image         String   @db.LongText
+  convertedText String?  @db.LongText
+  userId        String?
+  user          User?    @relation(fields: [userId], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @default(now()) @updatedAt
 }
 
 model Profile {

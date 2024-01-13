@@ -71,7 +71,11 @@ const AddAppointmentModal = () => {
       enabled: !!data?.calendarApi && !!data.user && !!isModalOpen
     },
   });
-
+  useEffect(() => {
+    return () => {
+      form.reset();
+    };
+  }, [isModalOpen]);
   const onSubmit: SubmitHandler<TCreateAppointment> = async (values) => {
     data.calendarApi?.view?.calendar?.addEvent(values);
     onClose();

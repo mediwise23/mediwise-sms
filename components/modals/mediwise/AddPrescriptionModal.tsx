@@ -59,6 +59,10 @@ const AddPrescriptionModal = () => {
       if(data.user) {
         form.setValue('userId', data.user.id)
       }
+
+      return () => {
+        form.reset()
+      }
     }, [isModalOpen])
 
     const createPrescription = useMutateProcessor<TCreatePrescriptionSchema, unknown>({

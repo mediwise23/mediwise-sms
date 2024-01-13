@@ -12,6 +12,10 @@ export const getAllSmsItem = async (data: {
       name: {
         contains: data.name,
       },
+      isArchive:false
+    },
+    include: {
+      supplier:true
     },
     orderBy: {
       createdAt: "desc",
@@ -25,6 +29,9 @@ export const getSmsItemById = async (id: string): Promise<TItemSms | null> => {
     where: {
       id: id,
     },
+    include: {
+      supplier:true
+    }
   });
 };
 

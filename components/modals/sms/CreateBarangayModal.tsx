@@ -46,7 +46,11 @@ const CreateBarangayModal = () => {
 
   const createBarangay = useMutateProcessor<TCreateBarangay, TBarangay>({url: '/barangay', method: 'POST', key:['barangay']})
   const isLoading = form.formState.isSubmitting || createBarangay.status === 'pending';
-
+  useEffect(() => {
+    return () => {
+      form.reset();
+    };
+  }, [isModalOpen]);
   const onSubmit: SubmitHandler<TCreateBarangay> = async (values) => {
     createBarangay.mutate(values, {
       onSuccess(data, variables, context) {

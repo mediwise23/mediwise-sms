@@ -24,7 +24,8 @@ $ npx prisma db push --force-reset
 $ npx prisma db seed
 
 */
-let units = ["kg", "g", "mg", "mgc", "L", "mL", "cc", "mol", "mmol"];
+let dosage = ["kg", "g", "mg", "mgc", "L", "mL", "cc", "mol", "mmol"];
+let unit = ["pcs","box"];
 
 type BarangayItemsType = (typeof barangayItemsData)[number];
 
@@ -48,7 +49,8 @@ const generateItems = async () => {
       min: 99,
       max: 499,
     }),
-    unit: faker.helpers.arrayElement(units),
+    dosage: faker.helpers.arrayElement(dosage),
+    unit: faker.helpers.arrayElement(unit),
   };
 };
 
@@ -97,7 +99,8 @@ const createBarangay = async (
           description: record.description,
           barangayId: barangay.id,
           stock: newItems.stock,
-          unit: newItems.unit,
+          // dosage: newItems.dosage,
+          unit: newItems.unit
         },
       });
     })
