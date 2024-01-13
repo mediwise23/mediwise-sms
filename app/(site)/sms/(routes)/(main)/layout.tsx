@@ -1,6 +1,6 @@
 import { getSession } from "@/lib/auth";
-import Sidebar from "./components/Sidebar";
-import { Navbar } from "./components/Navbar";
+import Sidebar from "../components/Sidebar";
+import { Navbar } from "../components/Navbar";
 import { redirect } from "next/navigation";
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {

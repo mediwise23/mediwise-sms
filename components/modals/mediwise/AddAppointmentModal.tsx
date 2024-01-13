@@ -68,7 +68,7 @@ const AddAppointmentModal = () => {
       barangayId: data.user?.barangayId,
     },
     options: {
-      enabled: !!data?.calendarApi || !!data.user,
+      enabled: !!data?.calendarApi && !!data.user && !!isModalOpen
     },
   });
 

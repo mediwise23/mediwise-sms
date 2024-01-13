@@ -6,7 +6,7 @@ const LoginPage = async () => {
   const session = await getSession();
 
   if (session?.user) {
-    redirect(`/sms/admin/supplier`);
+    redirect(`/sms/dashboard`);
   }
 
   return (

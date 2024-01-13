@@ -10,7 +10,8 @@ import {
   BaggageClaim,
   Box,
   StickyNote,
-  GitPullRequestArrow
+  GitPullRequestArrow,
+  Users2
 } from "lucide-react";
 import { MdHive } from "react-icons/md";
 import { SidebarItem } from "./SidebarItem";
@@ -43,11 +44,16 @@ const routesList: routeListType[] = [
     href: "/items",
     roles: ["STOCK_MANAGER"],
   },
-
   {
     icon: StickyNote,
     label: "Barangay List",
     href: "/barangay",
+    roles: ["STOCK_MANAGER"],
+  },
+  {
+    icon: Users2,
+    label: "Admin List",
+    href: "/administrators",
     roles: ["STOCK_MANAGER"],
   },
   {
@@ -74,7 +80,7 @@ export const SidebarRoutes = ({ role }: SidebarRoutesProps) => {
             key={route.href}
             icon={route.icon}
             label={route.label}
-            href={`/sms/admin${route.href}`}
+            href={`/sms${route.href}`}
           />
         );
       })}

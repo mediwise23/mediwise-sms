@@ -58,6 +58,7 @@ export const userAllowedFields = {
       userId: true,
     },
   },
+  barangay:true,
 };
 
 export const getAllUsers = async ({
@@ -81,7 +82,6 @@ export const getAllUsers = async ({
         contains: email,
       },
       role: {
-        not: "ADMIN",
         equals: role,
       },
     },

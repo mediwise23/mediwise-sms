@@ -12,6 +12,8 @@ export type ModalType =
   | "addPrescription"
   | "viewPrescription"
   | "createSupplier"
+  | "createBarangay"
+  | "createAdmin"
 // you can extend this type if you have more modal
 
 // export type ModalType = "..." | "...." | "...."

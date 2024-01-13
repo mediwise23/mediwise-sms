@@ -21,64 +21,73 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../../ui/input";
 import { useModal } from "@/hooks/useModalStore";
-import { useMutateProcessor } from "@/hooks/useTanstackQuery";
+import { useMutateProcessor, useQueryProcessor } from "@/hooks/useTanstackQuery";
 import { Loader2 } from "../../ui/Loader";
 
 import { useToast } from "../../ui/use-toast";
-import { CreateDoctorSchema, TCreateDoctorSchema } from "@/schema/user";
-import { Role } from "@prisma/client";
+import { CreateAdminSchema, TCreateAdminSchema } from "@/schema/user";
+import { Barangay, Role } from "@prisma/client";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-const CreateDoctorModal = () => {
+const CreateAdminModal = () => {
   const { toast } = useToast();
   const { isOpen, type, onClose, data } = useModal();
-  const isModalOpen = isOpen && type === "createDoctor";
+  const isModalOpen = isOpen && type === "createAdmin";
 
   const onHandleClose = () => {
     onClose();
   };
-  const form = useForm<TCreateDoctorSchema>({
-    resolver: zodResolver(CreateDoctorSchema),
+  const form = useForm<TCreateAdminSchema>({
+    resolver: zodResolver(CreateAdminSchema),
     defaultValues: {
       isVerified: true,
     },
     mode: "all",
   });
 
-  const createDoctor = useMutateProcessor({
-    url: "/users/doctors",
-    key: ["doctors", "barangay", data?.user?.barangayId],
+  const createAdmin = useMutateProcessor({
+    url: "/users/admin",
+    key: ["admin"],
     method: "POST",
     options: {
-      enabled: !!data?.user?.barangayId,
+      enabled: !!isModalOpen,
     },
   });
-  const onSubmit: SubmitHandler<TCreateDoctorSchema> = async (values) => {
-    console.log("create doctor", values);
 
-    createDoctor.mutate(values, {
+  const barangay = useQueryProcessor<Barangay[]>({
+    url: "/barangay",
+    key: ["barangay"],
+    options: {
+      enabled: !!isModalOpen
+    } 
+  });
+  
+  const onSubmit: SubmitHandler<TCreateAdminSchema> = async (values) => {
+    console.log("Admin doctor", values);
+
+    createAdmin.mutate(values, {
       onSuccess(data, variables, context) {
         console.log(data);
         toast({
-          title: "Doctor created",
-          description: `Doctor with email of ${values.email} has been created`,
+          title: "Admin created",
+          description: `Admin with email of ${values.email} has been created`,
         });
       },
       onError(error, variables, context) {
+        console.error(error);
         toast({
           title: "Something went wrong.",
-          description: `Doctor failed to create`,
+          description: `Admin failed to create`,
         });
       },
     });
   };
 
   const isLoading =
-    form.formState.isSubmitting || createDoctor.status == "pending";
+    form.formState.isSubmitting || createAdmin.status == "pending";
 
   useEffect(() => {
-    form.setValue("barangay", data.user?.barangayId as string);
-    form.setValue("role", Role.DOCTOR);
+    form.setValue("role", Role.ADMIN);
   }, [isModalOpen]);
 
   return (
@@ -86,11 +95,11 @@ const CreateDoctorModal = () => {
       <DialogContent className="overflow-hidden dark:bg-[#020817] dark:text-white">
         <DialogHeader className="pt-3 px-6">
           <DialogTitle className="text-2xl text-center font-bold m-2 dark:text-white">
-            Add new doctor
+            Add new admin
           </DialogTitle>
 
           <DialogDescription className="text-center text-zinc m-2 font-semibold dark:text-white">
-            Add information about the doctor.
+            Add information about the admin.
           </DialogDescription>
         </DialogHeader>
 
@@ -199,6 +208,7 @@ const CreateDoctorModal = () => {
               </div>
             </div>
 
+
             <div className="w-full">
               <FormField
                     control={form.control}
@@ -227,7 +237,6 @@ const CreateDoctorModal = () => {
                     )}
                   />
             </div>
-
             <div className="w-full">
               <FormField
                 control={form.control}
@@ -252,60 +261,50 @@ const CreateDoctorModal = () => {
               />
             </div>
 
-            {/* <div className="flex gap-x-3 items-center"> */}
             <div className="w-full">
-              <FormField
-                control={form.control}
-                name="specialist"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
-                      Specialized
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled={isLoading}
-                        className="focus-visible:ring-0  focus-visible:ring-offset-0"
-                        placeholder={`Enter specialized`}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+            <FormField
+                    control={form.control}
+                    name="barangay"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                          Barangay
+                        </FormLabel>
+                        <FormControl>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <FormControl>
+                              <SelectTrigger className="focus-visible:ring-0  focus-visible:ring-offset-0  bg-transparent">
+                                <SelectValue placeholder="Select a barangay" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent className="focus-visible:ring-0  focus-visible:ring-offset-0">
+                              {barangay?.data?.map((barangay) => (
+                                <SelectItem
+                                  value={barangay?.id || "null"}
+                                  key={barangay?.id}
+                                >
+                                  {barangay.name}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
             </div>
 
-            <div className="w-full">
-              <FormField
-                control={form.control}
-                name="licenseNo"
-                disabled={isLoading}
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
-                      License number
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled={isLoading}
-                        className="focus-visible:ring-0  focus-visible:ring-offset-0"
-                        placeholder={`Enter license no.`}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
             {/* </div> */}
 
             <DialogFooter className="py-4">
               <Button
                 variant={"default"}
                 type="submit"
-                className=" dark:text-white"
+                className=" dark:text-white sms-bg sms-bg-hover"
                 disabled={isLoading}
               >
                 {(() => {
@@ -316,7 +315,7 @@ const CreateDoctorModal = () => {
                         Saving <Loader2 size={20} />
                       </div>
                     );
-                  return "Create doctor";
+                  return "Create admin";
                 })()}
               </Button>
             </DialogFooter>
@@ -327,4 +326,4 @@ const CreateDoctorModal = () => {
   );
 };
 
-export default CreateDoctorModal;
+export default CreateAdminModal;
