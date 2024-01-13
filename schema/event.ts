@@ -32,3 +32,13 @@ export const CreateEventSchema = EventSchema.pick({
   end: z.coerce.date()
 })
 export type TCreateEventSchema = z.infer<typeof CreateEventSchema>;
+
+
+export const EventGetQuerySchema = EventSchema.pick({
+  barangayId: true,
+  userId: true
+})
+.partial({
+  barangayId: true,
+  userId:true,
+})
