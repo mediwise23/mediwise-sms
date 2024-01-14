@@ -94,6 +94,7 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
     try {
       await apiClient.patch(`/events/${eventId}`, data);
     } catch (error) {
+      console.log(error)
       console.error("error delete update");
       toast.error("Event did not update");
     } finally {
@@ -128,7 +129,11 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
   };
 
   const handleEventClick = (calendarApi: any) => {
-    // onOpen("viewEvent", { calendarApi });
+    const willDelete = window.confirm('Delete event?')
+
+    if(willDelete) {
+      calendarApi.event.remove();
+    }
   };
 
   const handleDeleteEvent = ({ event }: any) => {

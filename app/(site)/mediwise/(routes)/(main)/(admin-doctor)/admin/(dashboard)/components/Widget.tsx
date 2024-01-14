@@ -16,7 +16,7 @@ const Widget = ({ title, total, icon }: WidgetProps) => {
             {title}
             <Separator />
           </div>
-          <p className="text-sm text-muted-foreground">{total}</p>
+          {/* <p className="text-sm text-muted-foreground">{total}</p> */}
         </div>
         <div className="ml-auto self-end">
           <IconBadge icon={icon} size={"sm"} variant={"default"} />

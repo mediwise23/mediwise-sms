@@ -9,9 +9,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {
+  FileClock,
   Filter,
+  FolderKanban,
   GitPullRequestArrow,
   PackageSearch,
+  PanelLeftClose,
   Search,
 } from "lucide-react";
 import React, { useState } from "react";
@@ -21,6 +24,7 @@ import { Session } from "next-auth";
 import { useModal } from "@/hooks/useModalStore";
 import { useQueryProcessor } from "@/hooks/useTanstackQuery";
 import { TItemBrgy } from "@/schema/item-brgy";
+import { ItemTransaction, ItemTransactionStatus } from "@prisma/client";
 
 type InventoryClientProps = {
   currentUser: Session["user"];
@@ -31,8 +35,24 @@ const InventoryClient: React.FC<InventoryClientProps> = ({ currentUser }) => {
   const items = useQueryProcessor<TItemBrgy[]>({
     url: "/brgy-item",
     key: ["inventory-items", "barangay", currentUser.barangayId],
+    queryParams:{
+      barangayId: currentUser.barangayId
+    },
+    options: {
+      enabled: !!currentUser.barangayId
+    }
   });
 
+  const currentRequest = useQueryProcessor<ItemTransaction>({
+    url: `/transactions/barangay`,
+    key: ['transactions-barangay'],
+    queryParams: {
+      barangayId: currentUser.barangayId,
+    },
+    options: {
+      enabled: !!currentUser.barangayId
+    }
+  })
   const [globalFilter, setGlobalFilter] = useState("");
 
   const onFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,6 +62,15 @@ const InventoryClient: React.FC<InventoryClientProps> = ({ currentUser }) => {
   return (
     <div className="flex flex-col p-10">
       <div className="flex justify-end gap-x-5">
+
+      <Button
+          className="text-zinc-500 dark:text-white bg-transparent"
+          variant={"outline"}
+          disabled={items.status === 'pending'}
+          onClick={() => onOpen("inventoryReport", { brgyItems: items.data })}
+        >
+          <FolderKanban className="w-5 h-5 mr-2" /> Generate report
+        </Button>
         <Button
           className="text-zinc-500 dark:text-white bg-transparent"
           variant={"outline"}
@@ -50,13 +79,34 @@ const InventoryClient: React.FC<InventoryClientProps> = ({ currentUser }) => {
           {" "}
           <PackageSearch className="w-5 h-5 mr-2" /> Add new item
         </Button>
-        <Button
-          className="text-zinc-500 dark:text-white bg-transparent"
-          variant={"outline"}
-        >
-          {" "}
-          <GitPullRequestArrow className="w-5 h-5 mr-2" /> Make a request
-        </Button>
+        {
+          (() => {
+            if(currentRequest.status == 'pending') {
+              return null;
+            }
+            
+            if(currentRequest.data?.status == 'PENDING' || currentRequest.data?.status == 'ONGOING') {
+              return <Button
+              onClick={() => onOpen("viewRequest", { user: currentUser, transactionRequest: currentRequest.data})}
+              className="text-zinc-500 dark:text-white bg-transparent"
+              variant={"outline"}
+            >
+              {" "}
+              <FileClock  className="w-5 h-5 mr-2" /> View request
+            </Button>
+            } 
+            else {
+              return <Button
+              onClick={() => onOpen("createRequest", { user: currentUser })}
+              className="text-zinc-500 dark:text-white bg-transparent"
+              variant={"outline"}
+              >
+            {" "}
+            <GitPullRequestArrow className="w-5 h-5 mr-2" /> Make a request
+          </Button>
+          }
+          })()
+        }
       </div>
 
       <div className="flex items-center gap-5 my-10">

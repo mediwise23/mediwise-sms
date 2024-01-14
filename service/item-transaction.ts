@@ -26,6 +26,8 @@ export const getAllItemTransaction = async ({
     },
     include: {
       requested_items: true,
+      barangay:true,
+      barangayUser:true,
     },
   });
 };
@@ -41,38 +43,44 @@ export const getItemTransactionById = async ({
       id: id,
     },
     include: {
-      requested_items: true,
+      requested_items: {
+        include: {
+          item:true
+        }
+      },
+      barangay:true,
+      barangayUser:true,
     },
   });
 };
 
 //create transaction
-export const createItemTransaction = async ({
-  data,
-}: {
-  data: TCreateItemTransaction;
-}): Promise<TItemTransaction> => {
-  const formattedRequestedItems = data.requestedItems.map((item) => {
-    return {
-      itemId: item.itemId,
-      quantity: item.quantity,
-    };
-  });
+// export const createItemTransaction = async ({
+//   data,
+// }: {
+//   data: TCreateItemTransaction;
+// }): Promise<TItemTransaction> => {
+//   const formattedRequestedItems = data.requestedItems.map((item) => {
+//     return {
+//       itemId: item.itemId,
+//       quantity: item.quantity,
+//     };
+//   });
 
-  return await prisma.itemTransaction.create({
-    data: {
-      description: data.description,
-      barangayId: data.barangayId,
-      status: data.status,
-      requested_items: {
-        create: formattedRequestedItems,
-      },
-    },
-    include: {
-      requested_items: true,
-    },
-  });
-};
+//   return await prisma.itemTransaction.create({
+//     data: {
+//       description: data.description,
+//       barangayId: data.barangayId,
+//       status: data.status,
+//       requested_items: {
+//         create: formattedRequestedItems,
+//       },
+//     },
+//     include: {
+//       requested_items: true,
+//     },
+//   });
+// };
 
 // update transaction
 export const updateItemTransaction = async ({

@@ -18,6 +18,9 @@ type UserMenuProps = {
 };
 const UserMenu = ({ currentUser }: UserMenuProps) => {
   const router = useRouter();
+
+  const url = currentUser?.role === 'STOCK_MANAGER' ? '/sms/profile' : `/mediwise/${currentUser?.role.toLowerCase()}/profile`
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -51,7 +54,10 @@ const UserMenu = ({ currentUser }: UserMenuProps) => {
           {capitalizeWords(currentUser?.role!)}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Profile</DropdownMenuItem>
+        {
+          currentUser?.role !== 'STOCK_MANAGER' && <DropdownMenuItem onClick={() => router.push(url)}>Profile</DropdownMenuItem>
+        }
+        
         <DropdownMenuItem>
           <ModeToggle />
         </DropdownMenuItem>

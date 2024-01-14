@@ -1,5 +1,6 @@
+import { TItemBrgy } from "@/schema/item-brgy";
 import { TPrescriptionSchema } from "@/schema/prescriptions";
-import { User } from "@prisma/client";
+import { ItemTransaction, User } from "@prisma/client";
 import { Session } from "next-auth";
 import { create } from "zustand";
 
@@ -17,6 +18,9 @@ export type ModalType =
   | "createPatient"
   | "createSmsItem"
   | "createEvent"
+  | "inventoryReport"
+  | "createRequest"
+  | "viewRequest"
 // you can extend this type if you have more modal
 
 // export type ModalType = "..." | "...." | "...."
@@ -25,6 +29,8 @@ type ModalData = {
   calendarApi?: any;
   user?: User | Session['user'];
   prescription?: TPrescriptionSchema;
+  brgyItems?: TItemBrgy[];
+  transactionRequest?: ItemTransaction
 };
 
 type ModalStore = {

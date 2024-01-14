@@ -9,13 +9,15 @@ import {
 
 // getAllBarangayItem
 export const getAllBarangayItem = async (data: {
-  name?: string;
+  name?: string,
+  barangayId?:string,
 }): Promise<TItemBrgy[]> => {
   return await prisma.brgyItem.findMany({
     where: {
       name: {
-        contains: data.name,
+        contains: data.name ?? undefined,
       },
+      barangayId: data.barangayId ?? undefined
     },
     orderBy: {
       createdAt: "desc",

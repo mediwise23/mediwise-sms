@@ -13,6 +13,7 @@ import {
 import AppointmentsChart from "./AppointmentsChart";
 import AppointmentSummary from "./AppointmentSummary";
 import { useQueryProcessor } from "@/hooks/useTanstackQuery";
+import { Appointment } from "@prisma/client";
 
 // Get the current year
 const currentYear = new Date().getFullYear();
@@ -38,11 +39,12 @@ const AppointmentsTab = () => {
     },
     key: ["appointment-total", year],
   });
-
+  
   return (
     <div className="grid grid-cols-5 gap-5">
       <div className="col-span-5 md:col-span-3 flex flex-col gap-5">
         <div className="shadow-md rounded-md p-5 dark:shadow-none dark:bg-slate-900 dark:text-white">
+          
           <div className="flex flex-wrap items-center gap-5 md:gap-10 h-full">
             <Select
               onValueChange={(e) => setYear(parseInt(e))}

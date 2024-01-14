@@ -1,7 +1,7 @@
 import "server-only";
 
 import prisma from "@/lib/prisma";
-import { Gender, Role, User } from "@prisma/client";
+import { Gender, Profile, Role, User } from "@prisma/client";
 import bcrypt from "bcrypt";
 import {
   TRegister,

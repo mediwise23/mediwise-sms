@@ -13,6 +13,7 @@ export const ItemBrgySchema = z.object({
   stock: z.number().nullable(),
   unit: z.string().nullable(),
   createdAt: z.date(),
+  dosage: z.string().nullable(),
   updatedAt: z.date(),
   barangayId: z.string().nullable(),
   requestId: z.string().nullable(),
@@ -21,6 +22,7 @@ export const ItemBrgySchema = z.object({
 
 export const ItemBrgyGetQuerySchema = z.object({
   name: z.string().optional(),
+  barangayId: z.string().cuid().optional()
 });
 
 export const CreateBrgyItemSchema = ItemBrgySchema.pick({
