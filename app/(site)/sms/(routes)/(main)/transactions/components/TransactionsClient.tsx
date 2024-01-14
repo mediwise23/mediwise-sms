@@ -9,12 +9,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {
-  FileClock,
   Filter,
-  FolderKanban,
   GitPullRequestArrow,
   PackageSearch,
-  PanelLeftClose,
   Search,
 } from "lucide-react";
 import React, { useState } from "react";
@@ -24,35 +21,22 @@ import { Session } from "next-auth";
 import { useModal } from "@/hooks/useModalStore";
 import { useQueryProcessor } from "@/hooks/useTanstackQuery";
 import { TItemBrgy } from "@/schema/item-brgy";
-import { ItemTransaction, ItemTransactionStatus } from "@prisma/client";
+import { TItemSms } from "@/schema/item-sms";
+import { TSupplierSchema } from "@/schema/supplier";
+import { TItemTransaction } from "@/schema/item-transaction";
+import { Barangay } from "@prisma/client";
 
-type InventoryClientProps = {
+type TransactionsClientProps = {
   currentUser: Session["user"];
 };
-const InventoryClient: React.FC<InventoryClientProps> = ({ currentUser }) => {
+const TransactionsClient: React.FC<TransactionsClientProps> = ({ currentUser }) => {
   const { onOpen } = useModal();
 
-  const items = useQueryProcessor<TItemBrgy[]>({
-    url: "/brgy-item",
-    key: ["inventory-items", "barangay", currentUser.barangayId],
-    queryParams:{
-      barangayId: currentUser.barangayId
-    },
-    options: {
-      enabled: !!currentUser.barangayId
-    }
+  const transactions = useQueryProcessor<(TItemTransaction & {barangay: Barangay})[]>({
+    url: "/transactions",
+    key: ["transactions",],
   });
 
-  const currentRequest = useQueryProcessor<ItemTransaction>({
-    url: `/transactions/barangay`,
-    key: ['transactions-barangay'],
-    queryParams: {
-      barangayId: currentUser.barangayId,
-    },
-    options: {
-      enabled: !!currentUser.barangayId
-    }
-  })
   const [globalFilter, setGlobalFilter] = useState("");
 
   const onFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,51 +46,14 @@ const InventoryClient: React.FC<InventoryClientProps> = ({ currentUser }) => {
   return (
     <div className="flex flex-col p-10">
       <div className="flex justify-end gap-x-5">
-
-      <Button
+        {/* <Button
           className="text-zinc-500 dark:text-white bg-transparent"
           variant={"outline"}
-          disabled={items.status === 'pending'}
-          onClick={() => onOpen("inventoryReport", { brgyItems: items.data })}
-        >
-          <FolderKanban className="w-5 h-5 mr-2" /> Generate report
-        </Button>
-        <Button
-          className="text-zinc-500 dark:text-white bg-transparent"
-          variant={"outline"}
-          onClick={() => onOpen("createBarangayItem", { user: currentUser })}
+          onClick={() => onOpen("createSmsItem", { user: currentUser })}
         >
           {" "}
-          <PackageSearch className="w-5 h-5 mr-2" /> Add new item
-        </Button>
-        {
-          (() => {
-            if(currentRequest.status == 'pending') {
-              return null;
-            }
-            
-            if(currentRequest.data?.status == 'PENDING' || currentRequest.data?.status == 'ONGOING') {
-              return <Button
-              onClick={() => onOpen("viewRequest", { user: currentUser, transactionRequest: currentRequest.data})}
-              className="text-zinc-500 dark:text-white bg-transparent"
-              variant={"outline"}
-            >
-              {" "}
-              <FileClock  className="w-5 h-5 mr-2" /> View request
-            </Button>
-            } 
-            else {
-              return <Button
-              onClick={() => onOpen("createRequest", { user: currentUser })}
-              className="text-zinc-500 dark:text-white bg-transparent"
-              variant={"outline"}
-              >
-            {" "}
-            <GitPullRequestArrow className="w-5 h-5 mr-2" /> Make a request
-          </Button>
-          }
-          })()
-        }
+          <PackageSearch className="w-5 h-5 mr-2" /> Add new medicine
+        </Button> */}
       </div>
 
       <div className="flex items-center gap-5 my-10">
@@ -117,7 +64,7 @@ const InventoryClient: React.FC<InventoryClientProps> = ({ currentUser }) => {
             onChange={onFilter}
             type="text"
             value={globalFilter}
-            placeholder="Search for item"
+            placeholder="Search for transaction"
           />
         </div>
         {/* <Select>
@@ -170,7 +117,7 @@ const InventoryClient: React.FC<InventoryClientProps> = ({ currentUser }) => {
         return (
           <DataTable
             columns={columns}
-            data={items.data || []}
+            data={transactions.data || []}
             globalFilter={globalFilter}
             setGlobalFilter={setGlobalFilter}
           />
@@ -180,4 +127,4 @@ const InventoryClient: React.FC<InventoryClientProps> = ({ currentUser }) => {
   );
 };
 
-export default InventoryClient;
+export default TransactionsClient;

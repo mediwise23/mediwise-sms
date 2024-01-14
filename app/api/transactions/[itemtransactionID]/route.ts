@@ -44,6 +44,51 @@ export const GET = withAuth(
   }
 );
 
+export const PUT = withAuth(
+  async ({ req, session, params}) => {
+    try {
+     const requestedItems = await req.json()
+
+      const transactionId = await prisma.itemTransaction.findUnique({
+        where: {
+          id: params.itemtransactionID
+        }
+      })
+
+      if(!transactionId) {
+        return NextResponse.json(
+          {
+            message: "Transaction not found",
+          },
+          { status: 404 }
+        );
+      }
+
+      await prisma.itemTransaction.update({
+        where: {
+          id: transactionId.id
+        },
+        data: {
+          status: 'ONGOING',
+          requested_items: {
+            createMany: {
+              data: requestedItems.map((requestedItem:any) => ({itemId: requestedItem.itemId, quantity: requestedItem.quantity}))
+            }
+          }
+        }
+      })
+      
+      return NextResponse.json({}, { status: 201 });
+    } catch (error) {
+      console.log("[TRANSACTION_POST]", error);
+      return new NextResponse("Internal error", { status: 500 });
+    }
+  },
+  {
+    requiredRole: ["ADMIN", "STOCK_MANAGER"],
+  }
+);
+
 export const PATCH = withAuth(
   async ({ req, session, params }) => {
     try {
@@ -94,15 +139,16 @@ export const PATCH = withAuth(
         },
       });
 
-      if (!isSmsItemsAvailable) {
-        return NextResponse.json(
-          {
-            message:
-              "Could not proceed to update transaction because some of the requested items are not available or out of stock",
-          },
-          { status: 400 }
-        );
-      }
+      // if (!isSmsItemsAvailable) {
+      //   return NextResponse.json(
+      //     {
+      //       message:
+      //         "Could not proceed to update transaction because some of the requested items are not available or out of stock",
+      //     },
+      //     { status: 400 }
+      //   );
+      // }
+      console.log(formattedRequestedItems)
 
       let transactionUpdate: TItemTransaction | null = null;
 
@@ -116,7 +162,7 @@ export const PATCH = withAuth(
       if (
         session.user.role === Role.STOCK_MANAGER &&
         transaction.status === ItemTransactionStatus.PENDING &&
-        isStatusAllowed(body.data.status, ["ACCEPTED", "REJECTED"])
+        isStatusAllowed(body.data.status, ["ONGOING", "CANCELLED"])
       ) {
         /* 
           if the current transaction is pending and if the stock manager accepts or rejects the transaction
@@ -132,8 +178,8 @@ export const PATCH = withAuth(
           },
         });
       } else if (
-        session.user.role === Role.ADMIN &&
-        transaction.status === ItemTransactionStatus.ACCEPTED &&
+        session.user.role === Role.STOCK_MANAGER &&
+        transaction.status === ItemTransactionStatus.ONGOING &&
         isStatusAllowed(body.data.status, ["COMPLETED"])
       ) {
         /* 
@@ -147,6 +193,7 @@ export const PATCH = withAuth(
           },
         });
 
+        console.log(transaction)
         // update the quantity of the items in the sms item database and barangay item database
         await transferSmsItemsToBarangayItems({
           data: {
@@ -155,8 +202,8 @@ export const PATCH = withAuth(
           },
         });
       } else if (
-        session.user.role === Role.ADMIN &&
-        transaction.status === ItemTransactionStatus.PENDING &&
+        session.user.role === Role.STOCK_MANAGER &&
+        (transaction.status === ItemTransactionStatus.PENDING || transaction.status === ItemTransactionStatus.ONGOING) &&
         isStatusAllowed(body.data.status, ["CANCELLED"])
       ) {
         /* 
