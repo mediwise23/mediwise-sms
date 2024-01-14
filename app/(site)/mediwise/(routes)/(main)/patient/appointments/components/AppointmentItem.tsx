@@ -10,18 +10,19 @@ type AppointmentItemProps = {
     patient: TUser & { profile: TProfile };
   };
   currentUser: Session["user"];
-
 };
-const AppointmentItem: React.FC<AppointmentItemProps> = ({ data, currentUser }) => {
+const AppointmentItem: React.FC<AppointmentItemProps> = ({
+  data,
+  currentUser,
+}) => {
   return (
     <div className="relative flex gap-x-3 border-b flex-col cursor-pointer hover:bg-zinc-200 hover:rounded-md p-5">
-      {
-          currentUser?.id === data.patient?.id &&  <DotYellow />
-      }
+      {currentUser?.id === data.patient?.id && <DotYellow />}
       <div className="flex items-center gap-x-3">
         <Avatar src={data?.doctor?.image} />
         <span>
-          DR. {data.doctor?.profile?.firstname} {data?.doctor?.profile?.lastname}
+          DR. {data.doctor?.profile?.firstname}{" "}
+          {data?.doctor?.profile?.lastname}
         </span>
       </div>
       <span className="text-center"> {data?.title}</span>

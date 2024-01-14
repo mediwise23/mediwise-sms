@@ -13,30 +13,26 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
 
   const { user } = currentUser;
 
-  const data = await getUserById({id: user.id})
+  const data = await getUserById({ id: user.id });
 
   if (currentUser?.user.role !== Role.PATIENT) {
     return redirect("/mediwise");
   }
-  
-  if(!data?.isVerified) {
-    return redirect('/mediwise/verify')
+
+  if (!data?.isVerified) {
+    return redirect("/mediwise/verify");
   }
 
-  if(!data?.barangayId) {
-    return redirect('/mediwise/setup')
+  if (!data?.barangayId) {
+    return redirect("/mediwise/setup");
   }
-
- 
 
   return (
-    <main className=" h-full flex justify-center items-center py-10 bg-white">
-      <div className="h-[80px]  fixed inset-y-0 w-full z-50">
+    <main className="h-screen flex  bg-white dark:bg-[#020817] dark:text-white">
+      <div className=" fixed inset-x-0 top-0 z-50 h-full max-h-[80px]">
         <Navbar currentUser={user} />
       </div>
-      <div className=" w-full overflow-hidden mt-[80px]">
-        {children}
-      </div>
+      <div className="w-full overflow-hidden mt-[100px]">{children}</div>
     </main>
   );
 };
