@@ -21,6 +21,10 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
       href: "/appointments",
     },
     {
+      label: "Announcement",
+      href: "/events",
+    },
+    {
       label: "Doctors",
       href: "/doctors",
     },
