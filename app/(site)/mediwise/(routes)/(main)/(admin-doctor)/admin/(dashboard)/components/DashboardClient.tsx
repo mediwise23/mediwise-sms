@@ -8,19 +8,30 @@ import {
 } from "lucide-react";
 import AppointmentsTab from "./appointments/AppointmentsTab";
 
-import { useQuery } from "@tanstack/react-query";
-
 import qs from "query-string";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useQueryProcessor } from "@/hooks/useTanstackQuery";
 
 type DashboardClientProps = {
   tab: string;
+};
+
+type WidgetsRecord = {
+  appointments: number;
+  items: number;
+  patients: number;
 };
 
 const DashboardClient = ({ tab = "appointments" }: DashboardClientProps) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
+
+  const widgets = useQueryProcessor<WidgetsRecord>({
+    url: "/dashboard/admin/widgets",
+    queryParams: {},
+    key: ["dashboard-total-record"],
+  });
 
   const handleSelectedTab = (tab: string) => {
     if (searchParams) {
@@ -41,15 +52,23 @@ const DashboardClient = ({ tab = "appointments" }: DashboardClientProps) => {
         <div onClick={() => handleSelectedTab("appointments")}>
           <Widget
             title="Appointments"
-            total={100 || 0}
+            total={widgets.data?.appointments || 0}
             icon={LucideUserSquare2}
           />
         </div>
         <div onClick={() => handleSelectedTab("items")}>
-          <Widget title="Items" total={100 || 0} icon={GraduationCap} />
+          <Widget
+            title="Items"
+            total={widgets.data?.items || 0}
+            icon={GraduationCap}
+          />
         </div>
         <div onClick={() => handleSelectedTab("patients")}>
-          <Widget title="Patients" total={100 || 0} icon={LayoutDashboard} />
+          <Widget
+            title="Patients"
+            total={widgets.data?.items || 0}
+            icon={LayoutDashboard}
+          />
         </div>
       </div>
 
