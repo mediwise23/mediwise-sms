@@ -1,4 +1,3 @@
-import { createId } from "@paralleldrive/cuid2";
 import React, { PureComponent } from "react";
 import {
   AreaChart,
@@ -9,19 +8,13 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import { AppointmentsTotalType } from "./AppointmentsTab";
 
 type AppointmentsChartProps = {
-  data: DashboardAlumniTotalType[];
-};
-
-export type DashboardAlumniTotalType = {
-  id: number;
-  numberOfAppointments: number;
-  month: string;
+  data: AppointmentsTotalType[];
 };
 
 export default function AppointmentsChart({ data }: AppointmentsChartProps) {
-
   // 768px
   return (
     <ResponsiveContainer width="100%" height="100%">
