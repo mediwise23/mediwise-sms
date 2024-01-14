@@ -44,7 +44,7 @@ model Barangay {
   ItemTransaction ItemTransaction[]
   WorkSchedule    WorkSchedule[]
   Appointment     Appointment[]
-  events           Event[]
+  events          Event[]
 }
 
 model RequestedItem {
@@ -100,9 +100,9 @@ model Event {
 
   isArchived Boolean @default(false)
 
-  start DateTime
-  end   DateTime
-  allDay    Boolean
+  start  DateTime
+  end    DateTime
+  allDay Boolean
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -123,6 +123,7 @@ model BrgyItem {
   name        String?   @db.VarChar(255)
   stock       Int?      @db.Int
   unit        String?
+  dosage      String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @default(now()) @updatedAt
   barangayId  String?
