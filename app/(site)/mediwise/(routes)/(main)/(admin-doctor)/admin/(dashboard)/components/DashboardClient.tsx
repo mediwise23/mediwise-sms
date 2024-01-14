@@ -5,6 +5,7 @@ import {
   LucideUserSquare2,
   LayoutDashboard,
   GraduationCap,
+  Columns,
 } from "lucide-react";
 import AppointmentsTab from "./appointments/AppointmentsTab";
 
@@ -12,16 +13,19 @@ import { useQuery } from "@tanstack/react-query";
 
 import qs from "query-string";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useQueryProcessor } from "@/hooks/useTanstackQuery";
+import ItemsTab from "./items/ItemsTab";
+import { Session } from "next-auth";
 
 type DashboardClientProps = {
   tab: string;
+  currentUser: Session['user']
 };
 
-const DashboardClient = ({ tab = "appointments" }: DashboardClientProps) => {
+const DashboardClient = ({ tab = "appointments", currentUser }: DashboardClientProps) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
-
 
   const handleSelectedTab = (tab: string) => {
     if (searchParams) {
@@ -39,28 +43,28 @@ const DashboardClient = ({ tab = "appointments" }: DashboardClientProps) => {
   return (
     <div className="p-6">
      
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-5">
           <div onClick={() => handleSelectedTab("appointments")}>
             <Widget
               title="Appointments"
               total={100 || 0}
-              icon={LucideUserSquare2}
+              icon={LayoutDashboard}
             />
           </div>
           <div onClick={() => handleSelectedTab("items")}>
             <Widget
               title="Items"
               total={100 || 0}
-              icon={GraduationCap}
+              icon={Columns}
             />
           </div>
-          <div onClick={() => handleSelectedTab("patients")}>
+          {/* <div onClick={() => handleSelectedTab("patients")}>
             <Widget
               title="Patients"
               total={100 || 0}
-              icon={LayoutDashboard}
+              icon={ LucideUserSquare2}
             />
-          </div>
+          </div> */}
         </div>
 
       <div className="flex flex-col mt-5">
@@ -68,6 +72,7 @@ const DashboardClient = ({ tab = "appointments" }: DashboardClientProps) => {
           (() => {
           
           if (tab === "appointments") return <AppointmentsTab />;
+          if (tab === "items") return <ItemsTab currentUser={currentUser}/>;
             // if (tab === "patients") return <JobTab />;
           })()
         }

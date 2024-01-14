@@ -60,6 +60,9 @@ const TransactionDetailClient: React.FC<TransactionDetailClientProps> = ({
     {
       url: "/sms-item",
       key: ["inventory-items", "sms"],
+      options: {
+        enabled: transaction.data?.status === 'PENDING'
+      }
     }
   );
 
@@ -85,7 +88,7 @@ const TransactionDetailClient: React.FC<TransactionDetailClientProps> = ({
 
   const submitItem = useMutateProcessor({
     url: `/transactions/${transactionId}`,
-    key: [""],
+    key: ["items"],
     method: "PUT",
   });
 
@@ -159,7 +162,7 @@ const TransactionDetailClient: React.FC<TransactionDetailClientProps> = ({
                   <div className="flex-1 font-semibold p-5">Action</div>
                 </div>
 
-                <div className="h-[350px] overflow-y-auto">
+                <div className="h-[300px] overflow-y-auto">
                   {itemsState?.map((item: any) => {
                     return (
                       <div className="flex w-full">
@@ -251,13 +254,13 @@ const TransactionDetailClient: React.FC<TransactionDetailClientProps> = ({
                   <div className="flex-1 font-semibold p-5">Stock</div>
                 </div>
 
-                <div className="h-[350px] overflow-y-auto">
-                  {transaction.data.requested_items?.map(({ item }) => {
+                <div className="h-[300px] overflow-y-auto">
+                  {transaction.data.requested_items?.map(({ item, quantity }) => {
                     return (
                       <div className="flex w-full">
                         <div className="flex-1 p-5">{item?.name}</div>
                         <div className="flex-1 p-5">
-                          {item?.stock} {item.unit}
+                          {quantity} {item.unit}
                         </div>
                       </div>
                     );

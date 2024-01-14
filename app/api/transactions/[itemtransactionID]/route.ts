@@ -126,29 +126,35 @@ export const PATCH = withAuth(
       const formattedRequestedItems = transaction.requested_items.map(
         (item) => {
           return {
-            id: item.id,
+            id: item.id as string,
             quantity: item.quantity,
+            itemId: item.itemId,
           };
         }
       );
 
-      // check if all the requested items are available
-      const isSmsItemsAvailable = await checkIfAllItemsAreAvailable({
-        data: {
-          requested_items: formattedRequestedItems,
-        },
-      });
+      const smsItems = await prisma.smsItem.findMany({
+        where: {
+          id: {
+            in: formattedRequestedItems.map((item) => item.itemId) as string[]
+          }
+        }
+      })
+      const isNotAvailable = smsItems.some((item) => {
+        const findItem = formattedRequestedItems.find((formattedItem) => formattedItem.itemId === item.id)
+        return item.stock! <= 0 || (findItem && item?.stock! < findItem?.quantity)
+      })
 
-      // if (!isSmsItemsAvailable) {
-      //   return NextResponse.json(
-      //     {
-      //       message:
-      //         "Could not proceed to update transaction because some of the requested items are not available or out of stock",
-      //     },
-      //     { status: 400 }
-      //   );
-      // }
-      console.log(formattedRequestedItems)
+      // console.log(isSmsItemsAvailable)
+      if (isNotAvailable) {
+        return NextResponse.json(
+          {
+            message:
+              "Could not proceed to update transaction because some of the requested items are not available or out of stock",
+          },
+          { status: 400 }
+        );
+      }
 
       let transactionUpdate: TItemTransaction | null = null;
 
@@ -193,30 +199,37 @@ export const PATCH = withAuth(
           },
         });
 
-        console.log(transaction)
-        // update the quantity of the items in the sms item database and barangay item database
-        await transferSmsItemsToBarangayItems({
-          data: {
-            requested_items: transaction.requested_items,
-            brgyId: transaction.barangayId,
-          },
-        });
-      } else if (
-        session.user.role === Role.STOCK_MANAGER &&
-        (transaction.status === ItemTransactionStatus.PENDING || transaction.status === ItemTransactionStatus.ONGOING) &&
-        isStatusAllowed(body.data.status, ["CANCELLED"])
-      ) {
-        /* 
-          if the current transaction is PENDING and if the barangay user cancels the transaction
-        */
+        // console.log(transaction)
+        // // update the quantity of the items in the sms item database and barangay item database
 
-        transactionUpdate = await updateItemTransaction({
-          id: params.itemtransactionID,
-          data: {
-            status: body.data.status,
-          },
-        });
-      }
+        const itemsToCreate = smsItems.map((smsItem) => {
+          const item = formattedRequestedItems.find(formattedItem => formattedItem.itemId === smsItem.id)
+          return {barangayId: transaction.barangayId,
+          name: smsItem.name,
+          dosage: smsItem.dosage,
+          stock: item?.quantity,
+          unit: smsItem.unit,
+          requestId: transaction.id,
+          }
+        })
+        const updateSmsItemToBarangay = await prisma.brgyItem.createMany({
+          data: itemsToCreate
+        })
+
+        formattedRequestedItems.forEach(async (smsItem) => (
+          prisma.smsItem.update({
+            where: {
+              id: smsItem.itemId as string,
+            },
+            data: {
+              stock: {
+                decrement: smsItem.quantity
+              }
+            }
+          })
+        ))
+        
+      } 
 
       return NextResponse.json(transactionUpdate, { status: 201 });
     } catch (error) {
