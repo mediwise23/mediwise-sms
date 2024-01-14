@@ -38,8 +38,6 @@ const PatientsTab = () => {
     key: ["patient-total", year],
   });
 
-  // revalidate the data when the year changes
-
   return (
     <div className="grid grid-cols-5 gap-5">
       <div className="col-span-5 md:col-span-3 flex flex-col gap-5">

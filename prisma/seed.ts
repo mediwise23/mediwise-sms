@@ -24,6 +24,13 @@ $ npx prisma db push --force-reset
 $ npx prisma db seed
 
 */
+let spacialist = [
+  "Dentist",
+  "Nurse",
+  "General Practitioners",
+  "Pediatrician",
+  "Pharmacist",
+];
 let dosage = ["kg", "g", "mg", "mgc", "L", "mL", "cc", "mol", "mmol"];
 let unit = ["pcs", "box"];
 
@@ -170,7 +177,10 @@ const createUser = async ({
           barangay: fake.barangay,
           city: fake.city,
           contactNo: fake.contactNo,
-          specialist: role === "DOCTOR" ? specialist : undefined,
+          specialist:
+            role === "DOCTOR"
+              ? faker.helpers.arrayElement(spacialist)
+              : undefined,
           licenseNo: role === "DOCTOR" ? licenseNo : undefined,
         },
       },
