@@ -8,13 +8,12 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { AppointmentsTotalType } from "./AppointmentsTab";
+import { PatientsTotalType } from "./PatientsTab";
 
-type AppointmentsChartProps = {
-  data: AppointmentsTotalType[];
+type PatientChartProps = {
+  data: PatientsTotalType[];
 };
-
-export default function AppointmentsChart({ data }: AppointmentsChartProps) {
+export default function PatientChart({ data }: PatientChartProps) {
   // 768px
   return (
     <ResponsiveContainer width="100%" height="100%">
@@ -34,7 +33,7 @@ export default function AppointmentsChart({ data }: AppointmentsChartProps) {
         <Tooltip />
         <Area
           type="monotone"
-          dataKey="numberOfAppointments"
+          dataKey="numberOfPatient"
           stackId="1"
           stroke="#0d2b13"
           fill="#247c37"

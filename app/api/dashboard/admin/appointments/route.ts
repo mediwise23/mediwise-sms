@@ -5,11 +5,11 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 
 export const GET = withAuth(async ({ req, session }) => {
-  const GetPatientQueriesSchema = z.object({
+  const GetAppoinmentQueriesSchema = z.object({
     year: z.coerce.number(),
   });
 
-  const queries = getQueryParams(req, GetPatientQueriesSchema);
+  const queries = getQueryParams(req, GetAppoinmentQueriesSchema);
 
   if (!queries.success) {
     return NextResponse.json(
@@ -21,15 +21,15 @@ export const GET = withAuth(async ({ req, session }) => {
     );
   }
 
-  type PatientsRecord = {
+  type AppoinmentsRecord = {
     id: number;
-    numberOfPatients: number;
+    numberOfAppointments: number;
     month: string;
   };
 
   const selectedYear = queries.data.year;
   console.log("🚀 ~ GET ~ selectedYear:", selectedYear);
-  const patientPerYear: PatientsRecord[] = [];
+  const appoinmentPerYear: AppoinmentsRecord[] = [];
   const months = [
     "Jan",
     "Feb",
@@ -45,12 +45,10 @@ export const GET = withAuth(async ({ req, session }) => {
     "Dec",
   ];
 
-  // get the number of patients per month
+  // get the number of appoinments per month
   for (let i = 0; i < months.length; i++) {
-    const patients = await prisma.appointment.findMany({
+    const appoinments = await prisma.appointment.findMany({
       where: {
-        doctorId: session.user.id,
-        status: "COMPLETED",
         AND: {
           createdAt: {
             gte: new Date(selectedYear, i, 1),
@@ -60,17 +58,17 @@ export const GET = withAuth(async ({ req, session }) => {
       },
     });
 
-    patientPerYear.push({
+    appoinmentPerYear.push({
       id: i,
-      numberOfPatients: patients.length,
+      numberOfAppointments: appoinments.length,
       month: months[i],
     });
   }
 
   try {
-    return NextResponse.json(patientPerYear, { status: 200 });
+    return NextResponse.json(appoinmentPerYear, { status: 200 });
   } catch (error) {
-    console.log("[DASHBOARD_DOCTOR_GET]", error);
+    console.log("[DASHBOARD_ADMIN_GET]", error);
     return new NextResponse("Internal error", { status: 500 });
   }
 });

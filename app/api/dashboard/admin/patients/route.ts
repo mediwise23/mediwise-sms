@@ -45,12 +45,24 @@ export const GET = withAuth(async ({ req, session }) => {
     "Dec",
   ];
 
+  const barangayId = session.user.barangayId;
+
+  if (!barangayId) {
+    return NextResponse.json(
+      {
+        errors: "Barangay not found",
+        message: "Barangay not found",
+      },
+      { status: 400 }
+    );
+  }
+
   // get the number of patients per month
   for (let i = 0; i < months.length; i++) {
-    const patients = await prisma.appointment.findMany({
+    const patients = await prisma.user.findMany({
       where: {
-        doctorId: session.user.id,
-        status: "COMPLETED",
+        barangayId: barangayId,
+        role: "PATIENT",
         AND: {
           createdAt: {
             gte: new Date(selectedYear, i, 1),
@@ -70,7 +82,7 @@ export const GET = withAuth(async ({ req, session }) => {
   try {
     return NextResponse.json(patientPerYear, { status: 200 });
   } catch (error) {
-    console.log("[DASHBOARD_DOCTOR_GET]", error);
+    console.log("[DASHBOARD_ADMIN_GET]", error);
     return new NextResponse("Internal error", { status: 500 });
   }
 });

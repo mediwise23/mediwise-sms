@@ -54,7 +54,10 @@ const UserMenu = ({ currentUser }: UserMenuProps) => {
           {capitalizeWords(currentUser?.role!)}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => router.push(url)}>Profile</DropdownMenuItem>
+        {
+          currentUser?.role !== 'STOCK_MANAGER' && <DropdownMenuItem onClick={() => router.push(url)}>Profile</DropdownMenuItem>
+        }
+        
         <DropdownMenuItem>
           <ModeToggle />
         </DropdownMenuItem>

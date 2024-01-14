@@ -10,89 +10,68 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useQuery } from "@tanstack/react-query";
 import AppointmentsChart from "./AppointmentsChart";
 import AppointmentSummary from "./AppointmentSummary";
 import { useQueryProcessor } from "@/hooks/useTanstackQuery";
 import { Appointment } from "@prisma/client";
 
-const yearSpan = [
-  {
-    value: 5,
-    label: "5 Years",
-  },
-  {
-    value: 10,
-    label: "10 Years",
-  },
-  {
-    value: 15,
-    label: "15 Years",
-  },
-  {
-    value: 20,
-    label: "20 Years",
-  },
-  {
-    value: 25,
-    label: "25 Years",
-  },
-];
+// Get the current year
+const currentYear = new Date().getFullYear();
+
+// Generate an array with a 10-year span starting from the current year
+const years = Array.from({ length: 10 }, (_, index) =>
+  (currentYear - index).toString()
+);
+
+export type AppointmentsTotalType = {
+  id: number;
+  numberOfAppointments: number;
+  month: string;
+};
 
 const AppointmentsTab = () => {
-  const [year, setYear] = useState<number>(yearSpan[1].value);
+  const [year, setYear] = useState<number>(new Date().getFullYear());
 
-  const appointments = useQueryProcessor<Appointment[]>({
-    url: '/dashboard/appointments',
-    key:['dashboard-data'],
+  const patients = useQueryProcessor<AppointmentsTotalType[]>({
+    url: "/dashboard/admin/appointments",
     queryParams: {
-      year
-    }
-  })
-
-  const monthlyRequestCounts:any = {};
-
-  // Iterate through the data and update the count for each month
-  appointments?.data?.forEach(item => {
-    const createdAt = new Date(item.createdAt);
-    const month = createdAt.toLocaleString('en-US', { month: 'short' }); // Get month abbreviation
-  
-    // Initialize count for the month if it doesn't exist
-    if (!monthlyRequestCounts[month]) {
-      monthlyRequestCounts[month] = 0;
-    }
-  
-    // Increment the count for the month
-    monthlyRequestCounts[month]++;
+      year: year,
+    },
+    key: ["appointment-total", year],
   });
   
-  // Create an array with all 12 months, setting count to 0 for the missing ones
-  const data = Array.from({ length: 12 }, (_, index) => {
-    const monthName = new Date(2024, index, 1).toLocaleString('en-US', { month: 'short' }); // Get month abbreviation
-    return {
-      id: index + 1,
-      numberOfAppointments: monthlyRequestCounts[monthName] || 0,
-      month: monthName,
-    };
-  });
-  
-  console.log('Monthly Request Counts:', data);
-
   return (
     <div className="grid grid-cols-5 gap-5">
       <div className="col-span-5 md:col-span-3 flex flex-col gap-5">
         <div className="shadow-md rounded-md p-5 dark:shadow-none dark:bg-slate-900 dark:text-white">
           
+          <div className="flex flex-wrap items-center gap-5 md:gap-10 h-full">
+            <Select
+              onValueChange={(e) => setYear(parseInt(e))}
+              defaultValue={year.toString()}
+            >
+              <SelectTrigger className="w-[300px] h-[50px] bg-transparent">
+                <SelectValue placeholder="Select Years" />
+              </SelectTrigger>
+              <SelectContent>
+                {years.map((year) => (
+                  <SelectItem value={year} key={year}>
+                    {year}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
         <div className="h-[550px] shadow-md rounded-md p-4 md:p-8 pb-10 dark:shadow-none dark:bg-slate-900 dark:text-white">
           <h2 className="text-center font-bold text-xl">GRAPH</h2>
-          <AppointmentsChart data={data} />
+          <AppointmentsChart data={patients.data || []} />
         </div>
       </div>
       <div className="col-span-5 md:col-span-2 h-full max-h-[660px] shadow-md rounded-md p-4 md:p-8 pb-10 dark:shadow-none dark:bg-slate-900 dark:text-white">
         <h2 className="text-center font-bold text-xl sticky top-0">SUMMARY</h2>
         <div className="overflow-y-auto h-[90%] mt-2">
-          <AppointmentSummary data={data || []} />
+          <AppointmentSummary data={patients.data || []} />
         </div>
       </div>
     </div>

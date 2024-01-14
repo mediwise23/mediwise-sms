@@ -40,23 +40,7 @@ const RequestTab:React.FC<RequestTabProps> = ({data}) => {
     <div className="grid grid-cols-5 gap-5">
       <div className="col-span-5 md:col-span-3 flex flex-col gap-5">
         <div className="shadow-md rounded-md p-5 dark:shadow-none dark:bg-slate-900 dark:text-white">
-          <div className="flex flex-wrap items-center gap-5 md:gap-10 h-full">
-            <Select
-              onValueChange={(e) => setYear(parseInt(e))}
-              defaultValue={year.toString()}
-            >
-              <SelectTrigger className="w-[300px] h-[50px] bg-transparent">
-                <SelectValue placeholder="Select Years" />
-              </SelectTrigger>
-              <SelectContent>
-                {years.map((year) => (
-                  <SelectItem value={year} key={year}>
-                    {year}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+          
         </div>
         <div className="h-[550px] shadow-md rounded-md p-4 md:p-8 pb-10 dark:shadow-none dark:bg-slate-900 dark:text-white">
           <h2 className="text-center font-bold text-xl">GRAPH</h2>

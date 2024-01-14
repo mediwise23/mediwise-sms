@@ -19,7 +19,7 @@ const Widget = ({ title, total, icon }: WidgetProps) => {
           {/* <p className="text-sm text-muted-foreground">{total}</p> */}
         </div>
         <div className="ml-auto self-end">
-          <IconBadge icon={icon} size={"md"} variant={"default"} />
+          <IconBadge icon={icon} size={"sm"} variant={"default"} />
         </div>
       </div>
     </div>

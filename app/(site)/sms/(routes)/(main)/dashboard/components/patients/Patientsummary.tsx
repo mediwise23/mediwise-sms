@@ -26,7 +26,7 @@ const Patientsummary = ({ data }: PatientsummaryProps) => {
       <TableHeader>
         <TableRow>
           <TableHead>Month</TableHead>
-          <TableHead>Appointments</TableHead>
+          <TableHead>Request</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>

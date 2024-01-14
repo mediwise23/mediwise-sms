@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import AlumniChart from "./PatientsChart";
 
 import {
   Select,
@@ -9,8 +10,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import PatientsChart from "./PatientsChart";
-import Patientsummary from "./Patientsummary";
+import AppointmentsChart from "./PatientsChart";
+import AppointmentSummary from "./PatientsSummary";
 import { useQueryProcessor } from "@/hooks/useTanstackQuery";
 
 // Get the current year
@@ -31,7 +32,7 @@ const PatientsTab = () => {
   const [year, setYear] = useState<number>(new Date().getFullYear());
 
   const patients = useQueryProcessor<PatientsTotalType[]>({
-    url: "/dashboard/doctor/patient",
+    url: "/dashboard/admin/patients",
     queryParams: {
       year: year,
     },
@@ -62,13 +63,13 @@ const PatientsTab = () => {
         </div>
         <div className="h-[550px] shadow-md rounded-md p-4 md:p-8 pb-10 dark:shadow-none dark:bg-slate-900 dark:text-white">
           <h2 className="text-center font-bold text-xl">GRAPH</h2>
-          <PatientsChart data={patients.data || []} />
+          <AppointmentsChart data={patients.data || []} />
         </div>
       </div>
       <div className="col-span-5 md:col-span-2 h-full max-h-[660px] shadow-md rounded-md p-4 md:p-8 pb-10 dark:shadow-none dark:bg-slate-900 dark:text-white">
         <h2 className="text-center font-bold text-xl sticky top-0">SUMMARY</h2>
         <div className="overflow-y-auto h-[90%] mt-2">
-          <Patientsummary data={patients.data || []} />
+          <AppointmentSummary data={patients.data || []} />
         </div>
       </div>
     </div>

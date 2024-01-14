@@ -105,6 +105,27 @@ export const columns: ColumnDef<Appointment & { doctor: TUser & { profile: Profi
     },
   },
   {
+    accessorKey: "doctor",
+    accessorFn: (row) => {
+      const doctor = (`${row?.doctor?.profile?.firstname as string} ${row?.doctor?.profile?.lastname as string}`)
+      return doctor;
+    },
+    header: ({ column }) => (
+      <div
+        className="text-[#181a19]  flex items-center cursor-pointer dark:text-white flex-1"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Doctor <ArrowUpDown className="ml-2 h-4 w-4" />
+      </div>
+    ),
+    cell: ({ row }) => {
+      // const studentNo = row.original.profile?.studentNumber as string;
+      const doctor = (`${row.original?.doctor?.profile?.firstname as string} ${row.original?.doctor?.profile?.lastname as string}`);
+
+      return <div className={``}>{doctor}</div>;
+    },
+  },
+  {
     accessorKey: "status",
     accessorFn: (row) => {
       const status = row.status;

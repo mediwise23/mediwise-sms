@@ -7,21 +7,20 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { AppointmentsTotalType } from "./AppointmentsTab";
+import { PatientsTotalType } from "./PatientsTab";
 
-type AppointmentSummaryProps = {
-  data: AppointmentsTotalType[];
+type PatientSummaryProps = {
+  data: PatientsTotalType[];
 };
-
-const AppointmentSummary = ({ data }: AppointmentSummaryProps) => {
-  console.log("🚀 ~ AppointmentSummary ~ data:", data)
+const PatientSummary = ({ data }: PatientSummaryProps) => {
+  console.log("🚀 ~ PatientSummary ~ data:", data);
   return (
     <Table>
-      <TableCaption>A list of appointments per month</TableCaption>
+      <TableCaption>A list of patients per month</TableCaption>
       <TableHeader>
         <TableRow>
           <TableHead>Month</TableHead>
-          <TableHead>Appointments</TableHead>
+          <TableHead>Patients</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -29,7 +28,7 @@ const AppointmentSummary = ({ data }: AppointmentSummaryProps) => {
           <TableRow key={invoice.id}>
             <TableCell className="font-medium">{invoice.month}</TableCell>
             <TableCell className="text-left">
-              {invoice.numberOfAppointments}
+              {invoice.numberOfPatients}
             </TableCell>
           </TableRow>
         ))}
@@ -37,4 +36,4 @@ const AppointmentSummary = ({ data }: AppointmentSummaryProps) => {
     </Table>
   );
 };
-export default AppointmentSummary;
+export default PatientSummary;

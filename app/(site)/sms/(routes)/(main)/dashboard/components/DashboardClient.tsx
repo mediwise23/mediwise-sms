@@ -14,12 +14,13 @@ const DashboardClient = ({ tab = "barangay" }: DashboardClientProps) => {
     url: `/transactions`,
     key: ['transactions-request']
   })
-  console.log(transactions.data)
 
   const monthlyRequestCounts:any = {};
 
 // Iterate through the data and update the count for each month
-  transactions?.data?.forEach(item => {
+const getOnlyTransactionThisYear = transactions?.data?.filter((transaction) => new Date(transaction?.createdAt).getFullYear() == new Date().getFullYear() )
+
+getOnlyTransactionThisYear?.forEach(item => {
   const createdAt = new Date(item.createdAt);
   const month = createdAt.toLocaleString('en-US', { month: 'short' }); // Get month abbreviation
 
