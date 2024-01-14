@@ -154,7 +154,7 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
 
   return (
     <div className="w-full h-full flex gap-x-3">
-      <div className="w-full flex-[0.8]">
+      <div className="w-full md:flex-[0.8]">
         <FullCalendar
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           headerToolbar={{
@@ -223,10 +223,18 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
                 return null;
               }
               if (currentAppointment?.data?.length <= 0) {
-                return <h1 className="text-center font-semibold">No appointments found</h1>;
+                return (
+                  <h1 className="text-center font-semibold">
+                    No appointments found
+                  </h1>
+                );
               }
               return currentAppointment.data?.map((appointment) => (
-                <AppointmentItem data={appointment} currentUser={currentUser} key={appointment.id}/>
+                <AppointmentItem
+                  data={appointment}
+                  currentUser={currentUser}
+                  key={appointment.id}
+                />
               ));
             })()}
           </div>

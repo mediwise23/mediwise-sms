@@ -15,34 +15,37 @@ import { columns } from "./Columns";
 import { useModal } from "@/hooks/useModalStore";
 import { Session } from "next-auth";
 import { useQueryProcessor } from "@/hooks/useTanstackQuery";
-import {TUser} from '@/schema/user'
+import { TUser } from "@/schema/user";
 import { Profile, User } from "@prisma/client";
 import { TPrescriptionSchema } from "@/schema/prescriptions";
 
 type PrescriptionClientProps = {
-  currentUser: TUser
-}
+  currentUser: TUser;
+};
 
-const PrescriptionClients:React.FC<PrescriptionClientProps> = ({currentUser}) => {
+const PrescriptionClients: React.FC<PrescriptionClientProps> = ({
+  currentUser,
+}) => {
+  //  const doctors = useQueryProcessor<(TUser & {profile: Profile}[])>({
+  //     url: '/users',
+  //     queryParams: {
+  //       role: 'DOCTOR',
+  //       barangayId: currentUser.barangayId
+  //     },
+  //     key: ["doctors", 'barangay', currentUser.barangayId]
+  //   })
 
-//  const doctors = useQueryProcessor<(TUser & {profile: Profile}[])>({
-//     url: '/users',
-//     queryParams: {
-//       role: 'DOCTOR',
-//       barangayId: currentUser.barangayId
-//     },
-//     key: ["doctors", 'barangay', currentUser.barangayId]
-//   })
+  const prescriptions = useQueryProcessor<
+    (TPrescriptionSchema & { user: User & { profile: Profile } })[]
+  >({
+    url: `/prescriptions`,
+    queryParams: {
+      userId: currentUser.id,
+    },
+    key: ["prescriptions"],
+  });
 
-const prescriptions = useQueryProcessor<(TPrescriptionSchema & {user: User & { profile: Profile}})[]>({
-  url: `/prescriptions`,
-  queryParams: {
-    userId: currentUser.id,
-  },
-  key: ['prescriptions'],
-})
-  
-  const {onOpen} = useModal()
+  const { onOpen } = useModal();
 
   const [globalFilter, setGlobalFilter] = useState("");
 
@@ -51,9 +54,13 @@ const prescriptions = useQueryProcessor<(TPrescriptionSchema & {user: User & { p
   };
 
   return (
-    <div className="flex flex-col p-10">
+    <div className="flex flex-col px-10">
       <div className="flex justify-end gap-x-5">
-        <Button className="text-zinc-500 dark:text-white" variant={"outline"} onClick={() => onOpen('addPrescription', {user: currentUser })}>
+        <Button
+          className="text-zinc-500 dark:text-white bg-transparent"
+          variant={"outline"}
+          onClick={() => onOpen("addPrescription", { user: currentUser })}
+        >
           <UserPlus className="w-5 h-5 mr-2" /> Add new prescription
         </Button>
       </div>
@@ -62,7 +69,7 @@ const prescriptions = useQueryProcessor<(TPrescriptionSchema & {user: User & { p
         <div className="border flex items-center rounded-md px-2 w-full flex-1">
           <Search className="w-5 h-5 font-semibold text-zinc-500 dark:text-white" />
           <Input
-            className="inset-0 outline-none border-none active:outline-none hover:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 text-sm"
+            className="inset-0 outline-none border-none active:outline-none hover:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 text-sm bg-transparent"
             onChange={onFilter}
             type="text"
             value={globalFilter}
@@ -104,7 +111,7 @@ const prescriptions = useQueryProcessor<(TPrescriptionSchema & {user: User & { p
 
         <Button
           variant="outline"
-          className="text-zinc-500 dark:text-white"
+          className="text-zinc-500 dark:text-white bg-transparent"
           onClick={() => {
             // setRole("All");
             // setDepartment("All");

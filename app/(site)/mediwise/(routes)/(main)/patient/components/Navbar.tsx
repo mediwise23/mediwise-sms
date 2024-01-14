@@ -9,8 +9,6 @@ type NavbarProps = {
 };
 
 const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
-
-
   const routes = [
     {
       label: "Home",
@@ -34,11 +32,11 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
     },
   ];
   return (
-    <nav className="bg-white border-gray-200 dark:bg-gray-900">
+    <nav className="bg-white border-gray-200 dark:bg-gray-900 px-4">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto">
         <img
           src="/images/bhaLogo.png"
-          className=" w-20 object-cover"
+          className="w-20 h-20 object-contain"
           alt="Flowbite Logo"
         />
         <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
@@ -60,7 +58,9 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
               {routes.map((route) => (
                 <li key={route.label}>
                   <Link
-                    href={`/mediwise/${currentUser?.role.toLowerCase()}${route.href}`}
+                    href={`/mediwise/${currentUser?.role.toLowerCase()}${
+                      route.href
+                    }`}
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                   >
                     {route.label}
@@ -102,14 +102,15 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
             {routes.map((route) => (
               <li key={route.label}>
                 <Link
-                  href={`/mediwise/${currentUser?.role.toLowerCase()}${route.href}`}
+                  href={`/mediwise/${currentUser?.role.toLowerCase()}${
+                    route.href
+                  }`}
                   className="block py-2 px-3 text-white bg-green-700 rounded md:bg-transparent md:text-green-700 md:p-0 md:dark:text-green-500"
                 >
                   {route.label}
                 </Link>
               </li>
             ))}
-           
           </ul>
         </div>
       </div>
