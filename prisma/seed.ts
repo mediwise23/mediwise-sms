@@ -1,9 +1,9 @@
 import { Gender, PrismaClient, Role } from "@prisma/client";
 import bcrypt from "bcrypt";
 import { faker } from "@faker-js/faker";
-import * as fs from "fs";
-import * as path from "path";
-import { parse } from "csv-parse";
+// import * as fs from "fs";
+// import * as path from "path";
+// import { parse } from "csv-parse";
 import { barangayItemsData, barangayNames } from "./data";
 const prisma = new PrismaClient();
 /* 
@@ -25,7 +25,7 @@ $ npx prisma db seed
 
 */
 let dosage = ["kg", "g", "mg", "mgc", "L", "mL", "cc", "mol", "mmol"];
-let unit = ["pcs","box"];
+let unit = ["pcs", "box"];
 
 type BarangayItemsType = (typeof barangayItemsData)[number];
 
@@ -91,16 +91,16 @@ const createBarangay = async (
   // create barangay items
   await Promise.all(
     drugProducts.map(async (record) => {
-      const newItems = await generateItems();
+      // const newItems = await generateItems();
 
       await prisma.brgyItem.create({
         data: {
           name: record.name,
           description: record.description,
           barangayId: barangay.id,
-          stock: newItems.stock,
-          // dosage: newItems.dosage,
-          unit: newItems.unit
+          stock: record.stock,
+          dosage: record.dosage,
+          unit: record.unit,
         },
       });
     })
@@ -111,14 +111,14 @@ const createBarangay = async (
 
   // create barangay doctors
   await Promise.all(
-    Array.from({ length: 5 }).map(async () => {
+    Array.from({ length: 2 }).map(async () => {
       await createUser({ role: "DOCTOR", barangayId: barangay.id });
     })
   );
 
   // create barangay clients
   await Promise.all(
-    Array.from({ length: 10 }).map(async () => {
+    Array.from({ length: 5 }).map(async () => {
       await createUser({ role: "PATIENT", barangayId: barangay.id });
     })
   );
@@ -141,6 +141,13 @@ const createUser = async ({
   const fake = generateFakeUser();
 
   // if admin or doctor make verified true
+  const specialist = "Doctor";
+  const licenseNo = faker.number
+    .bigInt({
+      min: 100000000000,
+      max: 999999999999,
+    })
+    .toString();
 
   const user = await prisma.user.create({
     data: {
@@ -163,6 +170,8 @@ const createUser = async ({
           barangay: fake.barangay,
           city: fake.city,
           contactNo: fake.contactNo,
+          specialist: role === "DOCTOR" ? specialist : undefined,
+          licenseNo: role === "DOCTOR" ? licenseNo : undefined,
         },
       },
       barangayId: barangayId,
@@ -173,37 +182,37 @@ const createUser = async ({
 };
 
 async function main() {
-  console.log("READING CSV FILE...");
-  // get csv path on same directory
-  const csvFilePath = path.resolve(__dirname, "ALL_DrugProducts.csv");
-  const fileContent = fs.readFileSync(csvFilePath, { encoding: "utf-8" });
-  const headers = [
-    "RegistrationNumber",
-    "GenericName",
-    "BrandName",
-    "DosageStrength",
-    "DosageForm",
-    "Manufacturer",
-    "CountryofOrigin",
-    "IssuanceDate",
-    "ExpiryDate",
-  ];
+  // console.log("READING CSV FILE...");
+  // // get csv path on same directory
+  // const csvFilePath = path.resolve(__dirname, "ALL_DrugProducts.csv");
+  // const fileContent = fs.readFileSync(csvFilePath, { encoding: "utf-8" });
+  // const headers = [
+  //   "RegistrationNumber",
+  //   "GenericName",
+  //   "BrandName",
+  //   "DosageStrength",
+  //   "DosageForm",
+  //   "Manufacturer",
+  //   "CountryofOrigin",
+  //   "IssuanceDate",
+  //   "ExpiryDate",
+  // ];
 
-  const drugProducts: DrugProducts[] = [];
+  // const drugProducts: DrugProducts[] = [];
 
-  // parse csv file
-  await new Promise((resolve, reject) => {
-    parse(fileContent, { columns: headers, from_line: 2 }, (err, data) => {
-      if (err) {
-        reject(err);
-      }
+  // // parse csv file
+  // await new Promise((resolve, reject) => {
+  //   parse(fileContent, { columns: headers, from_line: 2 }, (err, data) => {
+  //     if (err) {
+  //       reject(err);
+  //     }
 
-      drugProducts.push(...data);
-      resolve(data);
-    });
-  });
+  //     drugProducts.push(...data);
+  //     resolve(data);
+  //   });
+  // });
 
-  console.log("READING CSV FILE COMPLETE...");
+  // console.log("READING CSV FILE COMPLETE...");
 
   console.log("CREATING STOCK_MANAGER...");
   // SMS ADMIN
@@ -223,19 +232,34 @@ async function main() {
   console.log("CREATING SMS ITEMS...");
   // create sms items
   await Promise.all(
-    drugProducts.map(async (record) => {
-      const newItems = await generateItems();
+    items.map(async (record) => {
+      // const newItems = await generateItems();
 
       await prisma.smsItem.create({
         data: {
-          name: record.BrandName,
-          description: record.GenericName,
-          stock: newItems.stock,
-          unit: newItems.unit,
+          name: record.name,
+          description: record.description,
+          stock: record.stock,
+          unit: record.unit,
+          dosage: record.dosage,
         },
       });
     })
   );
+  // await Promise.all(
+  //   drugProducts.map(async (record) => {
+  //     const newItems = await generateItems();
+
+  //     await prisma.smsItem.create({
+  //       data: {
+  //         name: record.BrandName,
+  //         description: record.GenericName,
+  //         stock: newItems.stock,
+  //         unit: newItems.unit,
+  //       },
+  //     });
+  //   })
+  // );
 
   // stock manager
   // await createUser({ role: "STOCK_MANAGER" });
