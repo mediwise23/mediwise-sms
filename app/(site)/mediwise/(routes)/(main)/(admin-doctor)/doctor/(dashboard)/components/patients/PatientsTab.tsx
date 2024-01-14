@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Select,
@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/select";
 import PatientsChart from "./PatientsChart";
 import Patientsummary from "./Patientsummary";
+import { useQueryProcessor } from "@/hooks/useTanstackQuery";
 
 // Get the current year
 const currentYear = new Date().getFullYear();
@@ -29,70 +30,15 @@ export type PatientsTotalType = {
 const PatientsTab = () => {
   const [year, setYear] = useState<number>(new Date().getFullYear());
 
-  const data: PatientsTotalType[] = [
-    {
-      id: 1,
-      numberOfPatients: 53,
-      month: "Jan",
+  const patients = useQueryProcessor<PatientsTotalType[]>({
+    url: "/dashboard/doctor/patient",
+    queryParams: {
+      year: year,
     },
+    key: ["patient-total", year],
+  });
 
-    {
-      id: 2,
-      numberOfPatients: 65,
-      month: "Feb",
-    },
-
-    {
-      id: 3,
-      numberOfPatients: 277,
-      month: "Mar",
-    },
-    {
-      id: 4,
-      numberOfPatients: 523,
-      month: "May",
-    },
-
-    {
-      id: 5,
-      numberOfPatients: 232,
-      month: "June",
-    },
-
-    {
-      id: 6,
-      numberOfPatients: 53,
-      month: "July",
-    },
-
-    {
-      id: 7,
-      numberOfPatients: 123,
-      month: "Aug",
-    },
-
-    {
-      id: 8,
-      numberOfPatients: 78,
-      month: "Sept",
-    },
-    {
-      id: 9,
-      numberOfPatients: 45,
-      month: "Oct",
-    },
-    {
-      id: 10,
-      numberOfPatients: 324,
-      month: "Nov",
-    },
-
-    {
-      id: 11,
-      numberOfPatients: 76,
-      month: "Dev",
-    },
-  ];
+  // revalidate the data when the year changes
 
   return (
     <div className="grid grid-cols-5 gap-5">
@@ -118,13 +64,13 @@ const PatientsTab = () => {
         </div>
         <div className="h-[550px] shadow-md rounded-md p-4 md:p-8 pb-10 dark:shadow-none dark:bg-slate-900 dark:text-white">
           <h2 className="text-center font-bold text-xl">GRAPH</h2>
-          <PatientsChart data={data} />
+          <PatientsChart data={patients.data || []} />
         </div>
       </div>
       <div className="col-span-5 md:col-span-2 h-full max-h-[660px] shadow-md rounded-md p-4 md:p-8 pb-10 dark:shadow-none dark:bg-slate-900 dark:text-white">
         <h2 className="text-center font-bold text-xl sticky top-0">SUMMARY</h2>
         <div className="overflow-y-auto h-[90%] mt-2">
-          <Patientsummary data={data || []} />
+          <Patientsummary data={patients.data || []} />
         </div>
       </div>
     </div>
