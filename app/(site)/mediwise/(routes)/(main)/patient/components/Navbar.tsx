@@ -1,14 +1,16 @@
 "use client";
 import UserMenu from "@/components/UserMenu";
+import UserNotification from "@/components/UserNotification";
 import { Session } from "next-auth";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 
 type NavbarProps = {
   currentUser: Session["user"] | null;
 };
 
 const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
+  const [openNav, setOpenNav] = useState(true);
   const routes = [
     {
       label: "Home",
@@ -40,38 +42,33 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
           alt="Flowbite Logo"
         />
         <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+          <UserNotification currentUser={currentUser} />
           <UserMenu currentUser={currentUser} />
           {/* Dropdown menu  */}
-          <div
-            className="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
-            id="user-dropdown"
-          >
-            <div className="px-4 py-3">
-              <span className="block text-sm text-gray-900 dark:text-white">
-                Bonnie Green
-              </span>
-              <span className="block text-sm  text-gray-500 truncate dark:text-gray-400">
-                name@flowbite.com
-              </span>
+          { openNav && (
+            <div
+              className="z-50 md:hidden absolute top-14 shadow-md right-0 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg dark:bg-gray-700 dark:divide-gray-600"
+            >
+              <ul className="py-2" >
+                {routes.map((route) => (
+                  <li key={route.label}>
+                    <Link
+                      href={`/mediwise/${currentUser?.role.toLowerCase()}${
+                        route.href
+                      }`}
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                    >
+                      {route.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <ul className="py-2" aria-labelledby="user-menu-button">
-              {routes.map((route) => (
-                <li key={route.label}>
-                  <Link
-                    href={`/mediwise/${currentUser?.role.toLowerCase()}${
-                      route.href
-                    }`}
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                  >
-                    {route.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          )}
           <button
             data-collapse-toggle="navbar-user"
             type="button"
+            onClick={() => setOpenNav(prev => !prev)}
             className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
             aria-controls="navbar-user"
             aria-expanded="false"

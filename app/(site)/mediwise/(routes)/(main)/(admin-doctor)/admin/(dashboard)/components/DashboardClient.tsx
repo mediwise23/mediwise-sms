@@ -85,9 +85,9 @@ const DashboardClient = ({
       </div>
       <div className="flex flex-col mt-5">
         {(() => {
-          if (tab === "appointments") return <AppointmentsTab />;
+          if (tab === "appointments") return <AppointmentsTab currentUser={currentUser}/>;
           if (tab === "items") return <ItemsTab currentUser={currentUser} />;
-          else if (tab === "patients") return <PatientsTab />;
+          else if (tab === "patients") return <PatientsTab currentUser={currentUser} />;
           // if (tab === "patients") return <JobTab />;
         })()}
       </div>

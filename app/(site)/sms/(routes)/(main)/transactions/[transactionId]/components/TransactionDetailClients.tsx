@@ -95,7 +95,11 @@ const TransactionDetailClient: React.FC<TransactionDetailClientProps> = ({
   const onSubmit = () => {
     const items = itemsState.filter((item: any) => item.quantity > 0 && {});
 
-    submitItem.mutate(items);
+    submitItem.mutate(items, {
+      onSettled(data, error, variables, context) {
+        transaction.refetch()
+      },
+    });
   };
 
   return (

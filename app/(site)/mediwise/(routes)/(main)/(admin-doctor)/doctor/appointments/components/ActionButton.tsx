@@ -21,8 +21,8 @@ type ActionButtonProps = {
 };
 const ActionButton: React.FC<ActionButtonProps> = ({ data }) => {
   const updateAppointment = useMutateProcessor<TUpdateAppointment, unknown>({
-    url: `/appointments/${data.id}`,
-    key: ['appointments-doctor', data.barangayId],
+    url: `/socket/appointments/${data.id}`,
+    key: ["appointments-doctor", data.barangayId],
     method: 'PATCH'
   })
 

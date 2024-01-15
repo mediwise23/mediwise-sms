@@ -14,6 +14,7 @@ import AppointmentsChart from "./AppointmentsChart";
 import AppointmentSummary from "./AppointmentSummary";
 import { useQueryProcessor } from "@/hooks/useTanstackQuery";
 import { Appointment } from "@prisma/client";
+import { Session } from "next-auth";
 
 // Get the current year
 const currentYear = new Date().getFullYear();
@@ -29,15 +30,22 @@ export type AppointmentsTotalType = {
   month: string;
 };
 
-const AppointmentsTab = () => {
+type AppointmentsTabProps = {
+  currentUser: Session['user'] 
+}
+const AppointmentsTab:React.FC<AppointmentsTabProps> = ({currentUser}) => {
   const [year, setYear] = useState<number>(new Date().getFullYear());
 
   const patients = useQueryProcessor<AppointmentsTotalType[]>({
     url: "/dashboard/admin/appointments",
     queryParams: {
       year: year,
+      barangayId: currentUser.barangayId
     },
     key: ["appointment-total", year],
+    options: {
+      enabled: !!currentUser.barangayId
+    }
   });
   
   return (
