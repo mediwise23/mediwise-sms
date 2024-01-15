@@ -7,6 +7,7 @@ import { z } from "zod";
 export const GET = withAuth(async ({ req, session }) => {
   const GetAppoinmentQueriesSchema = z.object({
     year: z.coerce.number(),
+    barangayId: z.string().optional()
   });
 
   const queries = getQueryParams(req, GetAppoinmentQueriesSchema);
@@ -49,6 +50,7 @@ export const GET = withAuth(async ({ req, session }) => {
   for (let i = 0; i < months.length; i++) {
     const appoinments = await prisma.appointment.findMany({
       where: {
+        barangayId: session.user.barangayId ?? undefined,
         AND: {
           createdAt: {
             gte: new Date(selectedYear, i, 1),

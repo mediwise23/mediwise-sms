@@ -60,14 +60,14 @@ model RequestedItem {
 }
 
 model ItemTransaction {
-  id          String                @id @default(cuid())
-  description String?               @db.VarChar(255)
-  status      ItemTransactionStatus @default(PENDING)
-  fileReport String?
-  barangay       Barangay? @relation(fields: [barangayId], references: [id], onDelete: Cascade)
+  id             String                @id @default(cuid())
+  description    String?               @db.VarChar(255)
+  status         ItemTransactionStatus @default(PENDING)
+  fileReport     String?
+  barangay       Barangay?             @relation(fields: [barangayId], references: [id], onDelete: Cascade)
   barangayId     String?
   // A person from the barangay who requested the item
-  barangayUser   User?     @relation(fields: [barangayUserId], references: [id], onDelete: Cascade)
+  barangayUser   User?                 @relation(fields: [barangayUserId], references: [id], onDelete: Cascade)
   barangayUserId String?
 
   requested_items RequestedItem[]
@@ -119,18 +119,19 @@ model Event {
 }
 
 model BrgyItem {
-  id          String    @id @default(cuid())
-  description String?   @db.VarChar(255)
-  name        String?   @db.VarChar(255)
-  stock       Int?      @db.Int
-  unit        String?
-  dosage      String?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @default(now()) @updatedAt
-  barangayId  String?
-  barangay    Barangay? @relation(fields: [barangayId], references: [id], onDelete: Cascade)
-  requestId   String?
-  isArchive   Boolean   @default(false)
+  id               String             @id @default(cuid())
+  description      String?            @db.VarChar(255)
+  name             String?            @db.VarChar(255)
+  stock            Int?               @db.Int
+  unit             String?
+  dosage           String?
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @default(now()) @updatedAt
+  barangayId       String?
+  barangay         Barangay?          @relation(fields: [barangayId], references: [id], onDelete: Cascade)
+  requestId        String?
+  isArchive        Boolean            @default(false)
+  appointmentItems appointment_item[]
 }
 
 model User {
@@ -160,24 +161,58 @@ model User {
   ItemTransaction      ItemTransaction[]
   prescription         prescription[]
   events               Event[]
+  notifications         Notification[]
 
   @@index([id])
 }
 
 model Appointment {
-  id         String           @id @unique @default(cuid())
-  title      String           @db.VarChar(255)
-  doctorId   String
-  doctor     User             @relation(name: "doctor", fields: [doctorId], references: [id], onDelete: Cascade)
-  patientId  String
-  patient    User             @relation(name: "patient", fields: [patientId], references: [id], onDelete: Cascade)
-  date       DateTime
-  status     AppoinmentStatus @default(PENDING)
-  image_path String?
-  barangayId String
-  barangay   Barangay         @relation(fields: [barangayId], references: [id], onDelete: Cascade)
-  createdAt  DateTime         @default(now())
-  updatedAt  DateTime         @default(now()) @updatedAt
+  id               String             @id @unique @default(cuid())
+  title            String             @db.VarChar(255)
+  doctorId         String
+  doctor           User               @relation(name: "doctor", fields: [doctorId], references: [id], onDelete: Cascade)
+  patientId        String
+  patient          User               @relation(name: "patient", fields: [patientId], references: [id], onDelete: Cascade)
+  date             DateTime
+  status           AppoinmentStatus   @default(PENDING)
+  image_path       String?
+  barangayId       String
+  barangay         Barangay           @relation(fields: [barangayId], references: [id], onDelete: Cascade)
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @default(now()) @updatedAt
+  notifications    Notification[]
+  appointment_item appointment_item[]
+}
+
+model appointment_item {
+  id       String    @id @unique @default(cuid())
+  brgyId   String?
+  brgyItem BrgyItem? @relation(fields: [brgyId], references: [id])
+
+  appointmentId String?
+  appointment   Appointment? @relation(fields: [appointmentId], references: [id])
+  quantity      Int?         @db.Int
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @default(now()) @updatedAt
+}
+
+model Notification {
+  id String @id @default(cuid())
+
+  content String
+
+  isRead Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // User who is receiving the notification
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  // appointment-related fields
+  appointment   Appointment? @relation(fields: [appointmentId], references: [id])
+  appointmentId String?
 }
 
 model WorkSchedule {
