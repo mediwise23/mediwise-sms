@@ -11,6 +11,7 @@ import {
   TUserRaw,
 } from "@/schema/user";
 import { da } from "@faker-js/faker";
+import { TBarangay } from "@/schema/barangay";
 
 export const generateHashPassword = async (password: string) => {
   return await bcrypt.hash(password, 10);
@@ -91,13 +92,20 @@ export const getAllUsers = async ({
 
 export const getUserById = async ({
   id,
+  role
 }: {
   id: string;
-}): Promise<TUserRaw | null> => {
+  role?: Role
+}): Promise<TUserRaw | null | TUserRaw & {profile: Profile, barangay: TBarangay}> => {
   const data = await prisma.user.findUnique({
     where: {
       id,
+      role
     },
+    include: {
+      profile:true,
+      barangay:true,
+    }
   });
 
   return data;

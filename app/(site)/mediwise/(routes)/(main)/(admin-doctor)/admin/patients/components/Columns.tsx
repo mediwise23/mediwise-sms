@@ -30,7 +30,7 @@ type patientsType = {
   action: null;
 };
 const DATE_FORMAT = `MMM d yyyy`;
-export const columns: ColumnDef<(TUser & {profile: Profile})>[] = [
+export const columns: ColumnDef<TUser & { profile: Profile }>[] = [
   {
     accessorKey: "id",
     header: () => {
@@ -195,9 +195,9 @@ export const columns: ColumnDef<(TUser & {profile: Profile})>[] = [
     },
     cell: ({ row }) => {
       const createdAt = row.original?.createdAt;
-      // return (
-      //   <ActionButton />
-      // );
+      return (
+        <ActionButton data={row?.original}  />
+      );
     },
   },
 ];

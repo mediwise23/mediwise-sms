@@ -205,7 +205,7 @@ export const columns: ColumnDef<TUser & { profile: Profile }>[] = [
     },
     cell: ({ row }) => {
       const updatedAt = row.original?.updatedAt;
-      // return <ActionButton />;
+      return <ActionButton data={row.original} />;
     },
   },
 ];
