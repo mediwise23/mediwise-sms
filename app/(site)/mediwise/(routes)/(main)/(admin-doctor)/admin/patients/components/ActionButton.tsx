@@ -5,12 +5,18 @@ import {
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu";
   import { useModal } from "@/hooks/useModalStore";
+import { TUser } from "@/schema/user";
 
-  import { Archive, MoreHorizontal, Pencil } from "lucide-react";
+  import { Archive, Eye, MoreHorizontal, Pencil } from "lucide-react";
+import { Profile } from "next-auth";
+import { useRouter } from "next/navigation";
   import React from "react";
   
-  const ActionButton = () => {
-  
+  type ActionButtonProps ={
+    data: TUser & { profile: Profile }
+  }
+  const ActionButton:React.FC<ActionButtonProps> = ({data}) => {
+    const router = useRouter()
     return (
       <div className={`h-full w-full cursor-pointer`}>
         <DropdownMenu>
@@ -20,9 +26,10 @@ import {
           <DropdownMenuContent align="end">
             <DropdownMenuItem
               className="text-xs cursor-pointer hover:bg-zinc-400"
+              onClick={() => router.push(`patients/${data.id}`)}
             >
-              <Pencil className="h-4 w-4 mr-2" />
-              Update
+              <Eye className="h-4 w-4 mr-2" />
+              View
             </DropdownMenuItem>
             <DropdownMenuItem
               className="text-xs cursor-pointer text-red-600 hover:!text-red-600 hover:!bg-red-100"
