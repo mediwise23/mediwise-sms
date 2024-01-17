@@ -186,8 +186,8 @@ model Appointment {
 
 model appointment_item {
   id       String    @id @unique @default(cuid())
-  brgyId   String?
-  brgyItem BrgyItem? @relation(fields: [brgyId], references: [id])
+  brgyItemId   String?
+  brgyItem BrgyItem? @relation(fields: [brgyItemId], references: [id])
 
   appointmentId String?
   appointment   Appointment? @relation(fields: [appointmentId], references: [id])

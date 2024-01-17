@@ -1,6 +1,8 @@
+import { TAppointment } from "@/schema/appointment";
 import { TItemBrgy } from "@/schema/item-brgy";
 import { TPrescriptionSchema } from "@/schema/prescriptions";
-import { ItemTransaction, User } from "@prisma/client";
+import { TUser } from "@/schema/user";
+import { ItemTransaction, Profile, User } from "@prisma/client";
 import { Session } from "next-auth";
 import { create } from "zustand";
 
@@ -21,6 +23,7 @@ export type ModalType =
   | "inventoryReport"
   | "createRequest"
   | "viewRequest"
+  | "manageAppointment"
 // you can extend this type if you have more modal
 
 // export type ModalType = "..." | "...." | "...."
@@ -31,6 +34,10 @@ type ModalData = {
   prescription?: TPrescriptionSchema;
   brgyItems?: TItemBrgy[];
   transactionRequest?: ItemTransaction
+  appointment?: TAppointment & {
+    doctor: TUser & { profile: Profile };
+    patient: TUser & { profile: Profile };
+  };
 };
 
 type ModalStore = {

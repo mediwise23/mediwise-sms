@@ -15,12 +15,13 @@ import { apiClient, useQueryProcessor } from "@/hooks/useTanstackQuery";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import {Notification} from '@prisma/client'
+import { Session } from "next-auth";
 type UserNotificationProps = {
-  currentUser?: GetCurrentUserType | null;
+  currentUser?: Session["user"] | null;
 };
 const UserNotification = ({ currentUser }: UserNotificationProps) => {
   const notifications = useQueryProcessor<Notification[]>({url:"/notifications", key:["notifications"]});
-
+  const router = useRouter()
     const unreadMessagesCount =  notifications?.data?.reduce((currentTotal, notification) => notification.isRead == false ? currentTotal + 1 : currentTotal,0) || 0
 
   // useNotificationSocket({
@@ -52,8 +53,14 @@ const UserNotification = ({ currentUser }: UserNotificationProps) => {
             className={cn(" flex p-3 cursor-pointer hover:bg-zinc-200 rounded-md z-50 gap-x-3 bg-zinc-200 m-1 dark:bg-[#101627] ", notification.isRead && 'bg-white dark:bg-[#020817]')}
             key={notification.id}
             onClick={async () => {
-              await apiClient.patch(`/notifications/${notification.id}`, {isRead:true})
-              notifications.refetch()
+              try {
+                await apiClient.patch(`/notifications/${notification.id}`, {isRead:true})
+                router.push(`/mediwise/shared/appointments/${notification.appointmentId}`)
+                notifications.refetch()
+              } catch (error) {
+                console.error(error)
+              }
+              
             }}
           >
             <Bell className="relative w-5 h-5 fill-zinc-500 text-zinc-500 cursor-pointer" />

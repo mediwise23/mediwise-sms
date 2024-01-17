@@ -12,7 +12,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Loader2 } from "lucide-react";
+import { ArrowLeft, Loader2 } from "lucide-react";
 import { signIn } from "next-auth/react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -70,7 +70,10 @@ const AuthForm = () => {
         onSubmit={form.handleSubmit(onSubmit)}
         className="  flex flex-col w-[90%] md:w-[30%] items-center p-7 rounded-md z-10"
       >
-
+        <ArrowLeft
+        className="w-7 h-7 cursor-pointer rounded-md  absolute top-5 left-5 text-white"
+        onClick={() => router.push(`/`)}
+      />
         <div className="h-[130px] w-[130px] relative">
           <Image
             src={`/images/Clogo.png`}
