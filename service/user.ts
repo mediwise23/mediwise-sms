@@ -149,7 +149,7 @@ export const createUser = async ({
           middlename,
           suffix,
           gender,
-          dateOfBirth,
+          dateOfBirth: new Date(dateOfBirth),
           homeNo,
           street,
           barangay,

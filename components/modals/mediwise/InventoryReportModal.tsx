@@ -38,7 +38,7 @@ const InventoryReportModal = () => {
             <div className="container mx-auto mt-8 w-full">
               <div className="">
                 <h1 className="text-4xl font-bold mb-2">
-                  Barangay 178 Inventory Report
+                  Barangay Inventory Report
                 </h1>
                 <p className="text-gray-600">
                   A summary of available items in the inventory as of {months[new Date().getMonth()]} {new Date().getFullYear()}

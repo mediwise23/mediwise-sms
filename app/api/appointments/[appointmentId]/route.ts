@@ -1,5 +1,6 @@
 import { withAuth } from "@/lib/auth";
-import { UpdateAppointmentSchema } from "@/schema/appointment";
+import prisma from "@/lib/prisma";
+import { CreateAppointmentPrescriptionSchema, UpdateAppointmentSchema } from "@/schema/appointment";
 import {
   deleteAppointmentById,
   getAppointmentById,
@@ -84,6 +85,56 @@ export const PATCH = withAuth(
       return NextResponse.json(appointmentUpdated, { status: 200 });
     } catch (error) {
       console.log("[APPOINMENT_PATCH_BY_ID]", error);
+      return new NextResponse("Internal error", { status: 500 });
+    }
+  },
+  {
+    requiredRole: ["ADMIN", "DOCTOR", "PATIENT"],
+  }
+);
+
+
+export const PUT = withAuth(
+  async ({ req, session, params }) => {
+    try {
+      const appointments = await getAppointmentById({
+        id: params.appointmentId,
+      });
+
+      if (!appointments) {
+        return NextResponse.json(
+          {
+            message: "Appointment not found",
+          },
+          { status: 404 }
+        );
+      }
+
+      const body = await CreateAppointmentPrescriptionSchema.safeParseAsync(
+        await req.json()
+      );
+
+      if (!body.success) {
+        return NextResponse.json(
+          {
+            errors: body.error.flatten().fieldErrors,
+            message: "Invalid body parameters",
+          },
+          { status: 400 }
+        );
+      }
+
+      const appointment = await prisma.appointment.update({
+        where: {
+          id: appointments.id
+        },
+        data: {
+          image_path: body.data.image
+        }
+      })
+      return NextResponse.json(appointment, { status: 200 });
+    } catch (error) {
+      console.log("[APPOINMENT_PUT_BY_ID]", error);
       return new NextResponse("Internal error", { status: 500 });
     }
   },

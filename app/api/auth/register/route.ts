@@ -56,7 +56,7 @@ export async function POST(req: NextRequest, { params }: { params: {} }) {
         lastname,
         suffix,
         gender,
-        dateOfBirth: new Date(dateOfBirth),
+        dateOfBirth,
         homeNo,
         street,
         barangay,

@@ -196,6 +196,8 @@ export const columns: ColumnDef<TUser & { profile: Profile }>[] = [
     cell: ({ row }) => {
       const createdAt = row.original?.createdAt;
       return (
+        // @ts-ignore
+        // @ts-nocheck
         <ActionButton data={row?.original}  />
       );
     },

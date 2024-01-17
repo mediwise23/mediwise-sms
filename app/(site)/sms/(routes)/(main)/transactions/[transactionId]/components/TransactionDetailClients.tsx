@@ -169,7 +169,7 @@ const TransactionDetailClient: React.FC<TransactionDetailClientProps> = ({
                 <div className="h-[300px] overflow-y-auto">
                   {itemsState?.map((item: any) => {
                     return (
-                      <div className="flex w-full">
+                      <div className="flex w-full" key={item?.itemId}>
                         <div className="flex-1 p-5">{item?.name}</div>
                         <div className="flex-1 p-5">
                           {item?.stock} {item.unit}
@@ -261,7 +261,7 @@ const TransactionDetailClient: React.FC<TransactionDetailClientProps> = ({
                 <div className="h-[300px] overflow-y-auto">
                   {transaction.data.requested_items?.map(({ item, quantity }) => {
                     return (
-                      <div className="flex w-full">
+                      <div className="flex w-full" key={item.id}>
                         <div className="flex-1 p-5">{item?.name}</div>
                         <div className="flex-1 p-5">
                           {quantity} {item.unit}
