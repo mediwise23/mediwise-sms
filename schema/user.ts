@@ -87,20 +87,20 @@ export const RegisterUserSchema = UserSchema.pick({
   role: true,
 })
   .extend({
-    email: z.string().min(1).max(255).email("Invalid email"),
+    email: z.string().min(1, "Required").max(255).email("Invalid email"),
     role: z.nativeEnum(Role),
-    firstname: z.string().min(1).max(50),
+    firstname: z.string().min(1, "Required").max(50),
     middlename: z.string().optional(),
-    lastname: z.string().min(1).max(50),
+    lastname: z.string().min(1, "Required").max(50),
     suffix: z.string().optional(),
     gender: z.nativeEnum(Gender),
     dateOfBirth: z.string(),
-    homeNo: z.string().min(1).max(50),
-    street: z.string().min(1).max(50),
-    barangay: z.string().min(1).max(50),
+    homeNo: z.string().min(1, "Required").max(50),
+    street: z.string().min(1, "Required").max(50),
+    barangay: z.string().min(1, "Required").max(50),
     zip: z.string(),
-    city: z.string().min(1).max(50),
-    contactNo: z.string().min(1).max(50),
+    city: z.string().min(1, "Required").max(50),
+    contactNo: z.string().min(1, "Required").max(50),
     password: z
       .string()
       .refine(

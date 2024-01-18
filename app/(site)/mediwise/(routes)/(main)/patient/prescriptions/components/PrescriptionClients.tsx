@@ -26,14 +26,6 @@ type PrescriptionClientProps = {
 const PrescriptionClients: React.FC<PrescriptionClientProps> = ({
   currentUser,
 }) => {
-  //  const doctors = useQueryProcessor<(TUser & {profile: Profile}[])>({
-  //     url: '/users',
-  //     queryParams: {
-  //       role: 'DOCTOR',
-  //       barangayId: currentUser.barangayId
-  //     },
-  //     key: ["doctors", 'barangay', currentUser.barangayId]
-  //   })
 
   const prescriptions = useQueryProcessor<
     (TPrescriptionSchema & { user: User & { profile: Profile } })[]

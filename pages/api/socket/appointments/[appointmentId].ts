@@ -70,6 +70,11 @@ export default async function handler(
         }
       })
 
+      const Key = `notification:${notification.userId}:create`;
+            console.log("new notification socket:", Key);
+            res.socket?.server?.io.emit(Key, notification);
+
+
       return res.status(200).json(appointmentUpdated);
 
   } else {

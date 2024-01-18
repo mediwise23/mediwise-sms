@@ -16,6 +16,10 @@ import InventoryReportModal from "../modals/mediwise/InventoryReportModal";
 import CreateRequestModal from "../modals/mediwise/CreateRequestModal";
 import ViewRequestModal from "../modals/mediwise/ViewRequestModal";
 import ManageAppointmentModal from "../modals/mediwise/ManageAppointmentModal";
+import DeleteAppointmentModal from "../modals/mediwise/DeleteAppointmentModal";
+import DeletePrescriptionModal from "../modals/mediwise/DeletePrescriptionModal";
+import DeleteBarangayItemModal from "../modals/mediwise/DeleteBarangayItemModal";
+import UpdateBarangayItemModal from "../modals/mediwise/UpdateBarangayItemModal";
 
 
 const ModalProvider = () => {
@@ -47,6 +51,10 @@ const ModalProvider = () => {
       <CreateRequestModal />
       <ViewRequestModal />
       <ManageAppointmentModal />
+      <DeleteAppointmentModal />
+      <DeletePrescriptionModal />
+      <DeleteBarangayItemModal />
+      <UpdateBarangayItemModal />
     </>
   );
 };

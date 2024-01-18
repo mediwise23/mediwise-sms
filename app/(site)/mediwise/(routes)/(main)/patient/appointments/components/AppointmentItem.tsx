@@ -1,8 +1,10 @@
 import Avatar from "@/components/Avatar";
+import { useMutateProcessor } from "@/hooks/useTanstackQuery";
 import { TProfile, TUser } from "@/schema/user";
 import { Appointment } from "@prisma/client";
 import { Session } from "next-auth";
 import React from "react";
+import { useModal } from "@/hooks/useModalStore";
 
 type AppointmentItemProps = {
   data: Appointment & {
@@ -14,9 +16,11 @@ type AppointmentItemProps = {
 const AppointmentItem: React.FC<AppointmentItemProps> = ({
   data,
   currentUser,
-}) => {
+}) => {  
+  const {onOpen} = useModal()
+
   return (
-    <div className="relative flex gap-x-3 border-b flex-col cursor-pointer hover:bg-zinc-200 hover:rounded-md p-5">
+    <div className="relative flex gap-x-3 border-b flex-col cursor-pointer hover:bg-zinc-200 hover:rounded-md p-5" onClick={() => onOpen('deleteAppointment', {user: currentUser, appointment: data})}>
       {currentUser?.id === data.patient?.id && <DotYellow />}
       <div className="flex items-center gap-x-3">
         <Avatar src={data?.doctor?.image} />

@@ -76,7 +76,7 @@ export async function POST(req: NextRequest, { params }: { params: {} }) {
     </div>
     `;
 
-    sendMail({ content, subject: "Email verification", emailTo: email });
+    // sendMail({ content, subject: "Email verification", emailTo: email });
 
     return NextResponse.json(`User ${email} registered successfully`, {
       status: 201,

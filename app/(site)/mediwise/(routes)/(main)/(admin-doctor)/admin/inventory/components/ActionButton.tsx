@@ -5,12 +5,16 @@ import {
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu";
   import { useModal } from "@/hooks/useModalStore";
+import { TItemBrgy } from "@/schema/item-brgy";
 
   import { Archive, MoreHorizontal, Pencil } from "lucide-react";
   import React from "react";
   
-  const ActionButton = () => {
-  
+  type ActionButtonProps = {
+    data: TItemBrgy
+  }
+  const ActionButton:React.FC<ActionButtonProps> = ({data}) => {
+      const {onOpen} = useModal()
     return (
       <div className={`h-full w-full cursor-pointer`}>
         <DropdownMenu>
@@ -20,12 +24,14 @@ import {
           <DropdownMenuContent align="end">
             <DropdownMenuItem
               className="text-xs cursor-pointer hover:bg-zinc-400"
+              onClick={() => onOpen('updateBarangayItem', {brgyItem: data})}
             >
               <Pencil className="h-4 w-4 mr-2" />
               Update
             </DropdownMenuItem>
             <DropdownMenuItem
               className="text-xs cursor-pointer text-red-600 hover:!text-red-600 hover:!bg-red-100"
+              onClick={() => onOpen('deleteBarangayItem', {brgyItem: data})}
             >
               <Archive className="h-4 w-4 mr-2" />
               Archive

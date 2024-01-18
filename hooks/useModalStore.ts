@@ -24,6 +24,10 @@ export type ModalType =
   | "createRequest"
   | "viewRequest"
   | "manageAppointment"
+  | "deleteAppointment"
+  | "deletePrescription"
+  | "updateBarangayItem"
+  | "deleteBarangayItem"
 // you can extend this type if you have more modal
 
 // export type ModalType = "..." | "...." | "...."
@@ -33,6 +37,7 @@ type ModalData = {
   user?: User | Session['user'];
   prescription?: TPrescriptionSchema;
   brgyItems?: TItemBrgy[];
+  brgyItem?: TItemBrgy;
   transactionRequest?: ItemTransaction
   appointment?: TAppointment & {
     doctor: TUser & { profile: Profile };

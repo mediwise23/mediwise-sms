@@ -24,53 +24,55 @@ import { useModal } from "@/hooks/useModalStore";
 import { useMutateProcessor } from "@/hooks/useTanstackQuery";
 import { Loader2 } from "../../ui/Loader";
 import {
-  CreateBrgyItemSchema,
-  TCreateBrgyItem,
   TItemBrgy,
+  TUpdateBrgyItem,
+  UpdateBrgyItemSchema,
 } from "@/schema/item-brgy";
 import { Textarea } from "../../ui/textarea";
 import { useToast } from "../../ui/use-toast";
 
-const CreateBarangayItemModal = () => {
+const UpdateBarangayItemModal = () => {
   const { toast } = useToast();
   const { isOpen, type, onClose, data } = useModal();
-  const isModalOpen = isOpen && type === "createBarangayItem";
+  const isModalOpen = isOpen && type === "updateBarangayItem";
 
   const onHandleClose = () => {
     onClose();
     form.reset();
   };
 
-  const form = useForm<TCreateBrgyItem>({
-    resolver: zodResolver(CreateBrgyItemSchema),
+  const form = useForm<TUpdateBrgyItem>({
+    resolver: zodResolver(UpdateBrgyItemSchema),
     defaultValues: {
-      brgyId: data.user?.barangayId as string,
-      name: "",
-      description: "",
-      unit: "",
+        
     },
   });
 
   useEffect(() => {
-    form.setValue("brgyId", data.user?.barangayId as string);
+    if(data?.brgyItem) {
+        form.setValue("description", data?.brgyItem.description as string);
+        form.setValue("name", data?.brgyItem.name as string);
+        form.setValue("stock", data?.brgyItem.stock as number);
+        form.setValue("unit", data?.brgyItem.unit as string);
+    }
 
     return () => {
       form.reset();
     };
   }, [isModalOpen]);
 
-  const createItem = useMutateProcessor<TCreateBrgyItem, TItemBrgy>({
-    url: "/brgy-item",
-    method: "POST",
-    key: ["inventory-items", "barangay"],
+  const updateItem = useMutateProcessor<TUpdateBrgyItem, TItemBrgy>({
+    url: `/brgy-item/${data?.brgyItem?.id}`,
+    method: "PATCH",
+    key: ["inventory-items", "barangay", data.user?.barangayId],
   });
 
-  const onSubmit: SubmitHandler<TCreateBrgyItem> = async (values) => {
-    createItem.mutate(values, {
+  const onSubmit: SubmitHandler<TUpdateBrgyItem> = async (values) => {
+    updateItem.mutate(values, {
       onSuccess(data, variables, context) {
         console.log(data);
         toast({
-          title: "Item has been created",
+          title: "Item has been updated",
           description: "The item has been successfully created!",
         });
         onClose();
@@ -87,18 +89,18 @@ const CreateBarangayItemModal = () => {
   };
 
   const isLoading =
-    form.formState.isSubmitting || createItem.status === "pending";
+    form.formState.isSubmitting || updateItem.status === "pending";
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onHandleClose}>
       <DialogContent className="max-h-[90vh] w-[500px] max-w-[90vw] overflow-y-auto dark:bg-[#020817] dark:text-white">
         <DialogHeader className="pt-3 px-6">
           <DialogTitle className="text-2xl text-center font-bold m-2 dark:text-white">
-            Add item
+            Update item
           </DialogTitle>
 
           <DialogDescription className="text-center text-zinc m-2 font-semibold dark:text-white">
-            Add information about your item.
+            Update information about your item.
           </DialogDescription>
         </DialogHeader>
 
@@ -216,7 +218,7 @@ const CreateBarangayItemModal = () => {
                         Saving <Loader2 size={20} />
                       </div>
                     );
-                  return "Add item";
+                  return "Update item";
                 })()}
               </Button>
             </DialogFooter>
@@ -227,4 +229,4 @@ const CreateBarangayItemModal = () => {
   );
 };
 
-export default CreateBarangayItemModal;
+export default UpdateBarangayItemModal;

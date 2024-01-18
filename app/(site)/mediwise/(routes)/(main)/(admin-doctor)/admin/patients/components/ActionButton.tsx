@@ -31,12 +31,12 @@ import { useRouter } from "next/navigation";
               <Eye className="h-4 w-4 mr-2" />
               View
             </DropdownMenuItem>
-            <DropdownMenuItem
+            {/* <DropdownMenuItem
               className="text-xs cursor-pointer text-red-600 hover:!text-red-600 hover:!bg-red-100"
             >
               <Archive className="h-4 w-4 mr-2" />
               Archive
-            </DropdownMenuItem>
+            </DropdownMenuItem> */}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
