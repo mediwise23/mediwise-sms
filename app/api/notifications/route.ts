@@ -15,9 +15,9 @@ import { z } from "zod";
 
 export const GET = withAuth(
   async ({ req, session, params }) => {
-   const nofiticationParams = z.object({
-        userId: z.string().optional()
-    })
+    const nofiticationParams = z.object({
+      userId: z.string().optional(),
+    });
     const queries = getQueryParams(req, nofiticationParams);
 
     if (!queries.success) {
@@ -33,9 +33,10 @@ export const GET = withAuth(
     try {
       const notifications = await prisma.notification.findMany({
         where: {
-            userId: queries.data.userId
-        }
-      })
+          userId: queries.data.userId,
+        },
+      });
+
       return NextResponse.json(notifications, { status: 200 });
     } catch (error) {
       console.log("[TRANSACTION_GET]", error);

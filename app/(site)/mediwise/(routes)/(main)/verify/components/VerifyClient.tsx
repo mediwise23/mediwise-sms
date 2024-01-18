@@ -2,7 +2,10 @@
 import React, { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Session } from "next-auth";
-import { useMutateProcessor, useQueryProcessor } from "@/hooks/useTanstackQuery";
+import {
+  useMutateProcessor,
+  useQueryProcessor,
+} from "@/hooks/useTanstackQuery";
 import { useQuery } from "@tanstack/react-query";
 import { useToast } from "@/components/ui/use-toast";
 import {
@@ -26,7 +29,7 @@ type VerifyClientProps = {
 };
 const VerifyClient: React.FC<VerifyClientProps> = ({ currentUser }) => {
   const { toast } = useToast();
-    const router = useRouter()
+  const router = useRouter();
   const refreshCode = useQueryProcessor({
     url: `/auth/verify`,
     queryParams: {
@@ -40,9 +43,9 @@ const VerifyClient: React.FC<VerifyClientProps> = ({ currentUser }) => {
 
   const verifyCode = useMutateProcessor<TVerifyUserSchema, unknown>({
     url: `/auth/verify`,
-    method: 'POST',
-    key: ['verify-code']
-  })
+    method: "POST",
+    key: ["verify-code"],
+  });
 
   const resendCode = () => {
     refreshCode.refetch().then(() => {
@@ -62,28 +65,29 @@ const VerifyClient: React.FC<VerifyClientProps> = ({ currentUser }) => {
 
   const onSubmit: SubmitHandler<TVerifyUserSchema> = async (values) => {
     verifyCode.mutate(values, {
-        onError(error, variables, context) {
-            console.error(error)
-            toast({
-                title: 'Verification failed',
-                description: 'Code is invalid'
-            })
-        },
-        onSuccess(data, variables, context) {
-            console.log(data)
-            toast({
-                title: 'Verification sucess',
-                description: 'Your account has been succesfully verified'
-            })
-            router.refresh()
-        },
-    })
-  }
+      onError(error, variables, context) {
+        console.error(error);
+        toast({
+          title: "Verification failed",
+          description: "Code is invalid",
+        });
+      },
+      onSuccess(data, variables, context) {
+        console.log(data);
+        toast({
+          title: "Verification sucess",
+          description: "Your account has been succesfully verified",
+        });
+        router.refresh();
+      },
+    });
+  };
 
-  const isLoading = form.formState.isSubmitting || verifyCode.status === 'pending'
+  const isLoading =
+    form.formState.isSubmitting || verifyCode.status === "pending";
 
   return (
-    <section className="bg-gray-50 dark:bg-gray-900">
+    <section className="bg-gray-50 dark:bg-gray-900 h-screen">
       <div className=" fixed top-5 right-5 w-fit">
         <UserMenu currentUser={currentUser} />
       </div>
@@ -142,14 +146,17 @@ const VerifyClient: React.FC<VerifyClientProps> = ({ currentUser }) => {
                 Send code
               </Button>
               <Button className="self-end" disabled={isLoading}>
-                {
-                  (() => {
-                    if(isLoading) {
-                      return <div className="flex items-center"> <Loader2  size={20}/> Saving </div>
-                    }
-                    return 'Continue'
-                  })()
-                }
+                {(() => {
+                  if (isLoading) {
+                    return (
+                      <div className="flex items-center">
+                        {" "}
+                        <Loader2 size={20} /> Saving{" "}
+                      </div>
+                    );
+                  }
+                  return "Continue";
+                })()}
               </Button>
             </form>
           </Form>

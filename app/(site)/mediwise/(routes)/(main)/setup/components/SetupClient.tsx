@@ -80,18 +80,18 @@ const SetupClient: React.FC<SetupClientProps> = ({ currentUser }) => {
 
   const isLoading = form.formState.isSubmitting || setup.status === "pending";
   return (
-    <section className="bg-gray-50 dark:bg-gray-900">
+    <section className="bg-gray-50 dark:bg-gray-900 overflow-auto h-screen">
       <div className=" fixed top-5 right-5 w-fit">
         <UserMenu currentUser={currentUser} />
       </div>
 
-      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+      <div className="flex flex-col items-center justify-center w-full px-6 py-8 mx-auto md:h-screen lg:py-0">
         <img
           className="w-[150px] h-[70px] mr-2 object-cover"
           src="/images/mediwiseLogo.png"
           alt="logo"
         />
-        <div className="w-full flex flex-col gap-y-3 p-6 bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md dark:bg-gray-800 dark:border-gray-700 sm:p-8 ">
+        <div className="w-full flex flex-col gap-y-3 p-6 bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md md:max-w-lg dark:bg-gray-800 dark:border-gray-700 sm:p-8 ">
           <h1 className="mb-1 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
             Setup account
           </h1>
@@ -103,8 +103,178 @@ const SetupClient: React.FC<SetupClientProps> = ({ currentUser }) => {
               className="mt-4 space-y-4 lg:mt-5 md:space-y-5 flex flex-col"
               onSubmit={form.handleSubmit(onSubmit)}
             >
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div>
+                  <FormField
+                    control={form.control}
+                    name="firstname"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                          Firstname
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            className="bg-transparent border-zinc-500  focus-visible:ring-0  focus-visible:ring-offset-0"
+                            disabled={isLoading}
+                            placeholder={`Enter firstname`}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="lastname"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                          Lastname
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            className="bg-transparent border-zinc-500 focus-visible:ring-0  focus-visible:ring-offset-0"
+                            disabled={isLoading}
+                            placeholder={`Enter lastname`}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="middlename"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                          Middlename (optional)
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            className="bg-transparent border-zinc-500 focus-visible:ring-0  focus-visible:ring-offset-0"
+                            disabled={isLoading}
+                            placeholder={`Enter middlename`}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="suffix"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                          Suffix (optional)
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            className="bg-transparent border-zinc-500 focus-visible:ring-0  focus-visible:ring-offset-0"
+                            disabled={isLoading}
+                            placeholder={`Enter suffix`}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div>
+                  <FormField
+                    control={form.control}
+                    name="barangayId"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                          Barangay
+                        </FormLabel>
+                        <FormControl>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <FormControl>
+                              <SelectTrigger
+                                className="bg-transparent border-zinc-500 focus-visible:ring-0  focus-visible:ring-offset-0"
+                                disabled={isLoading}
+                              >
+                                <SelectValue placeholder="Select a barangay" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent className="focus-visible:ring-0  focus-visible:ring-offset-0">
+                              {barangay?.data?.map((barangay) => (
+                                <SelectItem
+                                  value={barangay?.id || "null"}
+                                  key={barangay?.id}
+                                >
+                                  Brgy {barangay.name}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                          Password
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            className="bg-transparent border-zinc-500 focus-visible:ring-0  focus-visible:ring-offset-0"
+                            type="password"
+                            disabled={isLoading}
+                            placeholder={`Enter password`}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="confirmPassword"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                          Confirm password
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            className="bg-transparent border-zinc-500 focus-visible:ring-0  focus-visible:ring-offset-0"
+                            type="password"
+                            disabled={isLoading}
+                            placeholder={`Enter password confirmation`}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
               <div className="flex flex-col gap-y-3">
-                <FormField
+                {/* <FormField
                   control={form.control}
                   name="firstname"
                   render={({ field }) => (
@@ -114,7 +284,7 @@ const SetupClient: React.FC<SetupClientProps> = ({ currentUser }) => {
                       </FormLabel>
                       <FormControl>
                         <Input
-                          className="focus-visible:ring-0  focus-visible:ring-offset-0"
+                          className="bg-transparent border-zinc-500  focus-visible:ring-0  focus-visible:ring-offset-0"
                           disabled={isLoading}
                           placeholder={`Enter firstname`}
                           {...field}
@@ -135,7 +305,7 @@ const SetupClient: React.FC<SetupClientProps> = ({ currentUser }) => {
                       </FormLabel>
                       <FormControl>
                         <Input
-                          className="focus-visible:ring-0  focus-visible:ring-offset-0"
+                          className="bg-transparent border-zinc-500 focus-visible:ring-0  focus-visible:ring-offset-0"
                           disabled={isLoading}
                           placeholder={`Enter lastname`}
                           {...field}
@@ -156,7 +326,7 @@ const SetupClient: React.FC<SetupClientProps> = ({ currentUser }) => {
                       </FormLabel>
                       <FormControl>
                         <Input
-                          className="focus-visible:ring-0  focus-visible:ring-offset-0"
+                          className="bg-transparent border-zinc-500 focus-visible:ring-0  focus-visible:ring-offset-0"
                           disabled={isLoading}
                           placeholder={`Enter middlename`}
                           {...field}
@@ -177,7 +347,7 @@ const SetupClient: React.FC<SetupClientProps> = ({ currentUser }) => {
                       </FormLabel>
                       <FormControl>
                         <Input
-                          className="focus-visible:ring-0  focus-visible:ring-offset-0"
+                          className="bg-transparent border-zinc-500 focus-visible:ring-0  focus-visible:ring-offset-0"
                           disabled={isLoading}
                           placeholder={`Enter suffix`}
                           {...field}
@@ -186,9 +356,9 @@ const SetupClient: React.FC<SetupClientProps> = ({ currentUser }) => {
                       <FormMessage />
                     </FormItem>
                   )}
-                />
+                /> */}
 
-                <FormField
+                {/* <FormField
                   control={form.control}
                   name="barangayId"
                   render={({ field }) => (
@@ -203,7 +373,7 @@ const SetupClient: React.FC<SetupClientProps> = ({ currentUser }) => {
                         >
                           <FormControl>
                             <SelectTrigger
-                              className="focus-visible:ring-0  focus-visible:ring-offset-0"
+                              className="bg-transparent border-zinc-500 focus-visible:ring-0  focus-visible:ring-offset-0"
                               disabled={isLoading}
                             >
                               <SelectValue placeholder="Select a barangay" />
@@ -211,7 +381,10 @@ const SetupClient: React.FC<SetupClientProps> = ({ currentUser }) => {
                           </FormControl>
                           <SelectContent className="focus-visible:ring-0  focus-visible:ring-offset-0">
                             {barangay?.data?.map((barangay) => (
-                              <SelectItem value={barangay?.id || "null"} key={barangay?.id}>
+                              <SelectItem
+                                value={barangay?.id || "null"}
+                                key={barangay?.id}
+                              >
                                 Brgy {barangay.name}
                               </SelectItem>
                             ))}
@@ -233,7 +406,7 @@ const SetupClient: React.FC<SetupClientProps> = ({ currentUser }) => {
                       </FormLabel>
                       <FormControl>
                         <Input
-                          className="focus-visible:ring-0  focus-visible:ring-offset-0"
+                          className="bg-transparent border-zinc-500 focus-visible:ring-0  focus-visible:ring-offset-0"
                           type="password"
                           disabled={isLoading}
                           placeholder={`Enter password`}
@@ -255,7 +428,7 @@ const SetupClient: React.FC<SetupClientProps> = ({ currentUser }) => {
                       </FormLabel>
                       <FormControl>
                         <Input
-                          className="focus-visible:ring-0  focus-visible:ring-offset-0"
+                          className="bg-transparent border-zinc-500 focus-visible:ring-0  focus-visible:ring-offset-0"
                           type="password"
                           disabled={isLoading}
                           placeholder={`Enter password confirmation`}
@@ -265,7 +438,7 @@ const SetupClient: React.FC<SetupClientProps> = ({ currentUser }) => {
                       <FormMessage />
                     </FormItem>
                   )}
-                />
+                /> */}
               </div>
               <Button className="self-end" disabled={isLoading}>
                 {(() => {
