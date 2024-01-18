@@ -58,7 +58,7 @@ const ViewRequestModal = () => {
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
-      <DialogContent className=" overflow-hidden dark:bg-[#020817] dark:text-white">
+      <DialogContent className="max-h-[90vh] w-[500px] max-w-[90vw] overflow-y-auto dark:bg-[#020817] dark:text-white">
         <DialogHeader className="pt-3 px-6">
           <DialogTitle className="text-2xl text-center font-bold m-2 dark:text-white">
             View Request{" "}

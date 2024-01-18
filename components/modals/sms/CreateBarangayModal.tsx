@@ -23,29 +23,41 @@ import { Input } from "../../ui/input";
 import { useModal } from "@/hooks/useModalStore";
 import { useMutateProcessor } from "@/hooks/useTanstackQuery";
 import toast from "react-hot-toast";
-import { CreateSupplierSchema, TCreateSupplierSchema, TSupplierSchema } from "@/schema/supplier";
+import {
+  CreateSupplierSchema,
+  TCreateSupplierSchema,
+  TSupplierSchema,
+} from "@/schema/supplier";
 import { Loader2 } from "../../ui/Loader";
 import { useToast } from "@/components/ui/use-toast";
-import { CreateBarangaySchema, TBarangay, TCreateBarangay } from "@/schema/barangay";
+import {
+  CreateBarangaySchema,
+  TBarangay,
+  TCreateBarangay,
+} from "@/schema/barangay";
 
 const CreateBarangayModal = () => {
   const { isOpen, type, onClose, data } = useModal();
   const isModalOpen = isOpen && type === "createBarangay";
 
   const onHandleClose = () => {
-    form.reset()
+    form.reset();
     onClose();
   };
-  const {toast} = useToast()
+  const { toast } = useToast();
   const form = useForm<TCreateBarangay>({
     resolver: zodResolver(CreateBarangaySchema),
-    defaultValues: {
-    },
+    defaultValues: {},
     mode: "all",
   });
 
-  const createBarangay = useMutateProcessor<TCreateBarangay, TBarangay>({url: '/barangay', method: 'POST', key:['barangay']})
-  const isLoading = form.formState.isSubmitting || createBarangay.status === 'pending';
+  const createBarangay = useMutateProcessor<TCreateBarangay, TBarangay>({
+    url: "/barangay",
+    method: "POST",
+    key: ["barangay"],
+  });
+  const isLoading =
+    form.formState.isSubmitting || createBarangay.status === "pending";
   useEffect(() => {
     return () => {
       form.reset();
@@ -54,27 +66,27 @@ const CreateBarangayModal = () => {
   const onSubmit: SubmitHandler<TCreateBarangay> = async (values) => {
     createBarangay.mutate(values, {
       onSuccess(data, variables, context) {
-        console.log(data)
+        console.log(data);
         toast({
-          title: 'Barangay has been added'
-        })
-        onHandleClose()
+          title: "Barangay has been added",
+        });
+        onHandleClose();
       },
       onError(error, variables, context) {
-          console.error(error)
-          toast({
-            title: 'Error',
-            description: 'Barangay name already exist',
-            variant: 'destructive'
-          })
+        console.error(error);
+        toast({
+          title: "Error",
+          description: "Barangay name already exist",
+          variant: "destructive",
+        });
       },
-    })
+    });
   };
 
   return (
     <div>
       <Dialog open={isModalOpen} onOpenChange={onHandleClose}>
-        <DialogContent className=" overflow-hidden dark:bg-[#020817] dark:text-white">
+        <DialogContent className="max-h-[90vh] w-[500px] max-w-[90vw] dark:bg-[#020817] dark:text-white">
           <DialogHeader className="pt-3 px-6">
             <DialogTitle className="text-2xl text-center font-bold m-2 dark:text-white">
               Add a barangay
@@ -102,7 +114,7 @@ const CreateBarangayModal = () => {
                       <FormControl>
                         <Input
                           disabled={isLoading}
-                          className="focus-visible:ring-0  focus-visible:ring-offset-0"
+                          className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0"
                           placeholder={`Enter supplier name`}
                           {...field}
                         />
@@ -123,7 +135,10 @@ const CreateBarangayModal = () => {
                   {(() => {
                     if (isLoading)
                       return (
-                        <div className="flex items-center gap-x-3"> Saving <Loader2 size={20} /></div>
+                        <div className="flex items-center gap-x-3">
+                          {" "}
+                          Saving <Loader2 size={20} />
+                        </div>
                       );
                     return "Add barangay";
                   })()}

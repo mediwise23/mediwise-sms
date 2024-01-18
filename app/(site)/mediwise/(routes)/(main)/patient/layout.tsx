@@ -32,7 +32,7 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
       <div className=" fixed inset-x-0 top-0 z-50 h-full max-h-[80px]">
         <Navbar currentUser={user} />
       </div>
-      <div className="w-full overflow-hidden mt-[100px]">{children}</div>
+      <div className="w-full overflow-scroll mt-[100px]">{children}</div>
     </main>
   );
 };

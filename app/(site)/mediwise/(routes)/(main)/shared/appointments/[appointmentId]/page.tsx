@@ -1,13 +1,12 @@
-import React from 'react'
-import AppoinmentsDetailClient from './components/AppoinmentsDetailClient'
-import { getSession } from '@/lib/auth';
-import { redirect } from 'next/navigation';
-import { getUserById } from '@/service/user';
-import { QueryClient } from '@tanstack/react-query';
+import React from "react";
+import AppoinmentsDetailClient from "./components/AppoinmentsDetailClient";
+import { getSession } from "@/lib/auth";
+import { redirect } from "next/navigation";
+import { getUserById } from "@/service/user";
+import { QueryClient } from "@tanstack/react-query";
 
 const page = async () => {
-
-    const session = await getSession();
+  const session = await getSession();
   if (!session?.user) {
     return redirect("/");
   }
@@ -20,10 +19,10 @@ const page = async () => {
   const queryClient = new QueryClient();
 
   return (
-    <div className='p-10'>
-        <AppoinmentsDetailClient currentUser={currentUser} />
+    <div className="p-10">
+      <AppoinmentsDetailClient currentUser={currentUser} />
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default page;

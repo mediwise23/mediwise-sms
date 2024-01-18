@@ -68,7 +68,7 @@ const AddAppointmentModal = () => {
       barangayId: data.user?.barangayId,
     },
     options: {
-      enabled: !!data?.calendarApi && !!data.user && !!isModalOpen
+      enabled: !!data?.calendarApi && !!data.user && !!isModalOpen,
     },
   });
   useEffect(() => {
@@ -97,7 +97,7 @@ const AddAppointmentModal = () => {
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onHandleClose}>
-      <DialogContent className=" overflow-hidden dark:bg-[#020817] dark:text-white">
+      <DialogContent className="max-h-[90vh] w-[500px] max-w-[90vw] overflow-y-auto dark:bg-[#020817] dark:text-white">
         <DialogHeader className="pt-3 px-6">
           <DialogTitle className="text-2xl text-center font-bold m-2 dark:text-white">
             Add new appointment
@@ -127,7 +127,7 @@ const AddAppointmentModal = () => {
                       defaultValue={field.value}
                     >
                       <FormControl>
-                        <SelectTrigger className="focus-visible:ring-0  focus-visible:ring-offset-0">
+                        <SelectTrigger className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0">
                           <SelectValue placeholder="Select a description" />
                         </SelectTrigger>
                       </FormControl>
@@ -171,7 +171,7 @@ const AddAppointmentModal = () => {
                           defaultValue={field.value}
                         >
                           <FormControl>
-                            <SelectTrigger className="focus-visible:ring-0  focus-visible:ring-offset-0">
+                            <SelectTrigger className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0">
                               <SelectValue placeholder="Select a doctor" />
                             </SelectTrigger>
                           </FormControl>

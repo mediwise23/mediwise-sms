@@ -27,78 +27,86 @@ import { useMutateProcessor } from "@/hooks/useTanstackQuery";
 import { useToast } from "../../ui/use-toast";
 import axios, { AxiosError } from "axios";
 import { Loader2 } from "../../ui/Loader";
-import { CreatePrescriptionSchema, TCreatePrescriptionSchema } from "@/schema/prescriptions";
+import {
+  CreatePrescriptionSchema,
+  TCreatePrescriptionSchema,
+} from "@/schema/prescriptions";
 import { dataURItoBlob, uploadPhoto } from "@/lib/utils";
-import {ocrSpace} from 'ocr-space-api-wrapper'
+import { ocrSpace } from "ocr-space-api-wrapper";
 
 // type and validation for excel sheet to json
 
 const AddPrescriptionModal = () => {
+  const { isOpen, onClose, type, data } = useModal();
 
-  const { isOpen, onClose, type, data} = useModal();
-
-  
   const isModalOpen = isOpen && type === "addPrescription";
 
   // converting sheet to json and api request
-  
-    const form = useForm<TCreatePrescriptionSchema>({
-      resolver: zodResolver(CreatePrescriptionSchema),
-      mode: 'all',
-      defaultValues: {
-        userId: data?.user?.id
-      }
-    })
-    const {toast} = useToast()
-    const onHandleClose = () => {
-      onClose()
-      form.reset()
-  }
 
-    useEffect(() => {
-      if(data.user) {
-        form.setValue('userId', data.user.id)
-      }
+  const form = useForm<TCreatePrescriptionSchema>({
+    resolver: zodResolver(CreatePrescriptionSchema),
+    mode: "all",
+    defaultValues: {
+      userId: data?.user?.id,
+    },
+  });
+  const { toast } = useToast();
+  const onHandleClose = () => {
+    onClose();
+    form.reset();
+  };
 
-      return () => {
-        form.reset()
-      }
-    }, [isModalOpen])
+  useEffect(() => {
+    if (data.user) {
+      form.setValue("userId", data.user.id);
+    }
 
-    const createPrescription = useMutateProcessor<TCreatePrescriptionSchema, unknown>({
-      url: '/prescriptions',
-      method: 'POST',
-      key: ['prescriptions'],
-    })
+    return () => {
+      form.reset();
+    };
+  }, [isModalOpen]);
 
-    const isLoading = form.formState.isSubmitting || createPrescription.status == 'pending'
-    const onSubmit: SubmitHandler<TCreatePrescriptionSchema> = async (values) => {
+  const createPrescription = useMutateProcessor<
+    TCreatePrescriptionSchema,
+    unknown
+  >({
+    url: "/prescriptions",
+    method: "POST",
+    key: ["prescriptions"],
+  });
 
-      const file = dataURItoBlob(values.image)
+  const isLoading =
+    form.formState.isSubmitting || createPrescription.status == "pending";
+  const onSubmit: SubmitHandler<TCreatePrescriptionSchema> = async (values) => {
+    const file = dataURItoBlob(values.image);
 
-      const {public_id, url} = await uploadPhoto(file as File)
+    const { public_id, url } = await uploadPhoto(file as File);
 
-      createPrescription.mutate({userId:values.userId, image: url}, {
+    createPrescription.mutate(
+      { userId: values.userId, image: url },
+      {
         onError(error, variables, context) {
           toast({
-            title:'Upload prescription failed',
-            description: 'Your prescription did not upload',
-            variant: 'destructive'
-          })
+            title: "Upload prescription failed",
+            description: "Your prescription did not upload",
+            variant: "destructive",
+          });
         },
         onSuccess(data, variables, context) {
           toast({
-            title:'Upload prescription success',
-            description: 'Your prescription has been uploaded and converted into text'
-          })
-          onHandleClose()
+            title: "Upload prescription success",
+            description:
+              "Your prescription has been uploaded and converted into text",
+          });
+          onHandleClose();
         },
-      })
-    };
+      }
+    );
+  };
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onHandleClose}>
-      <DialogContent className="bg-white text-black p-0 overflow-hidden dark:bg-[#020817] dark:text-white">
+      <DialogContent className="max-h-[90vh] w-[500px] max-w-[90vw] overflow-y-auto bg-white text-black p-0 dark:bg-[#020817] dark:text-white">
         <DialogHeader className="pt-3 px-6">
           <DialogTitle className="text-2xl text-center font-bold m-2 dark:text-white">
             Add new prescription{" "}
@@ -131,7 +139,7 @@ const AddPrescriptionModal = () => {
                                 Choose a file
                               </span>
                               <span className="text-xs text-zinc-500 font-semibold">
-                              Photo (png, jpg, etc)
+                                Photo (png, jpg, etc)
                               </span>
                             </label>
                             <FormControl>
@@ -145,7 +153,7 @@ const AddPrescriptionModal = () => {
                                   if (e?.target?.files?.[0]) {
                                     const reader = new FileReader();
                                     reader.readAsDataURL(e?.target?.files?.[0]);
-  
+
                                     reader.onloadend = () => {
                                       field.onChange(reader.result);
                                     };
@@ -164,11 +172,14 @@ const AddPrescriptionModal = () => {
 
                   return (
                     <div className="relative flex items-center p-2 mt-2 rounded-md">
-                      <img src={value} className="max-w-[200px] max-h-[300px]" />
+                      <img
+                        src={value}
+                        className="max-w-[200px] max-h-[300px]"
+                      />
                       <button
-                      disabled={isLoading}
+                        disabled={isLoading}
                         onClick={() => {
-                          form.setValue("image", '');
+                          form.setValue("image", "");
                           form.reset();
                         }}
                         className="bg-rose-500 text-white p-1 rounded-full absolute top-0 right-0 shadow-sm"
@@ -182,7 +193,11 @@ const AddPrescriptionModal = () => {
               </div>
             </div>
             <DialogFooter className="px-6 py-4">
-              <Button variant={"default"} className=" dark:text-white" disabled={isLoading}>
+              <Button
+                variant={"default"}
+                className=" dark:text-white"
+                disabled={isLoading}
+              >
                 {(() => {
                   if (isLoading)
                     return (

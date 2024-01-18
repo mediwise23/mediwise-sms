@@ -46,7 +46,7 @@ const DoctorDetailPageClient = () => {
     },
   });
 
-  console.log(doctor)
+  console.log(doctor);
   const router = useRouter();
 
   const { onOpen } = useModal();
@@ -69,7 +69,7 @@ const DoctorDetailPageClient = () => {
   }
 
   return (
-    <div className="flex flex-col p-5 gap-10">
+    <div className="flex flex-col p-5 gap-10 h-fit  ">
       <header>
         <ArrowLeft
           className=" cursor-pointer hover:text-zinc-500 transition-all"

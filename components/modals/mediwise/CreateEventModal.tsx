@@ -8,8 +8,22 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { createId } from "@paralleldrive/cuid2";
 import { CreateEventSchema, TCreateEventSchema } from "@/schema/event";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "@/components/ui/Loader";
@@ -23,8 +37,7 @@ const CreateEventModal = () => {
   };
 
   const { calendarApi } = data;
-  
-  
+
   const form = useForm<TCreateEventSchema>({
     resolver: zodResolver(CreateEventSchema),
     defaultValues: {
@@ -47,19 +60,19 @@ const CreateEventModal = () => {
     }
 
     return () => {
-        form.reset();
-    }
+      form.reset();
+    };
   }, [calendarApi, form]);
 
   const onSubmit: SubmitHandler<TCreateEventSchema> = async (values) => {
     calendarApi?.view?.calendar?.addEvent(values);
-    console.log(values)
+    console.log(values);
   };
-  console.log(form.formState.errors)
+  console.log(form.formState.errors);
   return (
     <div>
       <Dialog open={isModalOpen} onOpenChange={onHandleClose}>
-        <DialogContent className="text-black overflow-hidden dark:bg-[#020817] dark:text-white">
+        <DialogContent className="text-black max-h-[90vh] w-[500px] max-w-[90vw] overflow-y-auto dark:bg-[#020817] dark:text-white">
           <DialogHeader className="pt-3 px-6">
             <DialogTitle className="text-2xl text-center font-bold m-2 dark:text-white">
               Create Event{" "}
@@ -78,13 +91,13 @@ const CreateEventModal = () => {
                   name="title"
                   render={({ field }) => (
                     <FormItem className="w-full">
-                      <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">
+                      <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-white">
                         Title
                       </FormLabel>
                       <FormControl>
                         <Input
-                        disabled={isLoading}
-                          className="focus-visible:ring-0 focus-visible:ring-offset-0"
+                          disabled={isLoading}
+                          className="focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent"
                           type="type"
                           placeholder={`Enter title`}
                           {...field}
@@ -102,15 +115,15 @@ const CreateEventModal = () => {
                   name="description"
                   render={({ field }) => (
                     <FormItem className="w-full">
-                      <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">
+                      <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-white">
                         Description
                       </FormLabel>
                       <FormControl>
                         <Textarea
-                        disabled={isLoading}
-                        cols={7}
-                        rows={7}
-                          className="focus-visible:ring-0 focus-visible:ring-offset-0 resize-none"
+                          disabled={isLoading}
+                          cols={7}
+                          rows={7}
+                          className="focus-visible:ring-0 focus-visible:ring-offset-0 resize-none bg-transparent"
                           placeholder={`Enter description`}
                           {...field}
                         />
@@ -122,16 +135,22 @@ const CreateEventModal = () => {
               </div>
 
               <DialogFooter className=" py-4">
-                <Button variant={"default"} type="submit" className=" dark:text-white"
-                disabled={isLoading}>
-
-                  {
-                    (() => {
-                      if(isLoading) return <div className="flex items-center gap-x-3"> Adding event <Loader2 size={20} /></div>
-                      return 'Add event'
-                    })()
-                  }
-
+                <Button
+                  variant={"default"}
+                  type="submit"
+                  className=" dark:text-white"
+                  disabled={isLoading}
+                >
+                  {(() => {
+                    if (isLoading)
+                      return (
+                        <div className="flex items-center gap-x-3">
+                          {" "}
+                          Adding event <Loader2 size={20} />
+                        </div>
+                      );
+                    return "Add event";
+                  })()}
                 </Button>
               </DialogFooter>
             </form>

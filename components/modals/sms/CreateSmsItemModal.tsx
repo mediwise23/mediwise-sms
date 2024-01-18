@@ -21,7 +21,10 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../../ui/input";
 import { useModal } from "@/hooks/useModalStore";
-import { useMutateProcessor, useQueryProcessor } from "@/hooks/useTanstackQuery";
+import {
+  useMutateProcessor,
+  useQueryProcessor,
+} from "@/hooks/useTanstackQuery";
 import { Loader2 } from "../../ui/Loader";
 import {
   CreateBrgyItemSchema,
@@ -30,8 +33,18 @@ import {
 } from "@/schema/item-brgy";
 import { Textarea } from "../../ui/textarea";
 import { useToast } from "../../ui/use-toast";
-import { CreateSmsItemSchema, TCreateSmsItem, TItemSms } from "@/schema/item-sms";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  CreateSmsItemSchema,
+  TCreateSmsItem,
+  TItemSms,
+} from "@/schema/item-sms";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { TSupplierSchema } from "@/schema/supplier";
 
 const CreateSmsItemModal = () => {
@@ -51,14 +64,13 @@ const CreateSmsItemModal = () => {
       description: "",
       unit: "",
     },
-    mode: 'all'
+    mode: "all",
   });
 
   const suppliers = useQueryProcessor<TSupplierSchema[]>({
     url: `/supplier`,
-    key: ['suppliers'],
-
-  })
+    key: ["suppliers"],
+  });
 
   useEffect(() => {
     return () => {
@@ -69,7 +81,7 @@ const CreateSmsItemModal = () => {
   const createItem = useMutateProcessor<TCreateSmsItem, TItemSms>({
     url: "/sms-item",
     method: "POST",
-    key: ["inventory-items", "sms",],
+    key: ["inventory-items", "sms"],
   });
 
   const onSubmit: SubmitHandler<TCreateSmsItem> = async (values) => {
@@ -97,7 +109,7 @@ const CreateSmsItemModal = () => {
     form.formState.isSubmitting || createItem.status === "pending";
   return (
     <Dialog open={isModalOpen} onOpenChange={onHandleClose}>
-      <DialogContent className=" overflow-hidden dark:bg-[#020817] dark:text-white">
+      <DialogContent className="max-h-[90vh] w-[500px] max-w-[90vw] overflow-y-auto dark:bg-[#020817] dark:text-white">
         <DialogHeader className="pt-3 px-6">
           <DialogTitle className="text-2xl text-center font-bold m-2 dark:text-white">
             Add item
@@ -125,7 +137,7 @@ const CreateSmsItemModal = () => {
                     <FormControl>
                       <Input
                         disabled={isLoading}
-                        className="focus-visible:ring-0  focus-visible:ring-offset-0"
+                        className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0"
                         placeholder={`Enter name`}
                         {...field}
                       />
@@ -148,7 +160,7 @@ const CreateSmsItemModal = () => {
                     <FormControl>
                       <Input
                         disabled={isLoading}
-                        className=" focus-visible:ring-0  focus-visible:ring-offset-0 resize-none"
+                        className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0 resize-none"
                         type="number"
                         placeholder={`Enter stock`}
                         {...field}
@@ -172,7 +184,7 @@ const CreateSmsItemModal = () => {
                     <FormControl>
                       <Input
                         disabled={isLoading}
-                        className=" focus-visible:ring-0  focus-visible:ring-offset-0 resize-none"
+                        className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0 resize-none"
                         placeholder={`Enter dosage`}
                         {...field}
                       />
@@ -195,7 +207,7 @@ const CreateSmsItemModal = () => {
                     <FormControl>
                       <Input
                         disabled={isLoading}
-                        className=" focus-visible:ring-0  focus-visible:ring-offset-0 resize-none"
+                        className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0 resize-none"
                         type="text"
                         placeholder={`Enter unit`}
                         {...field}
@@ -219,7 +231,7 @@ const CreateSmsItemModal = () => {
                     <FormControl>
                       <Textarea
                         disabled={isLoading}
-                        className="focus-visible:ring-0  focus-visible:ring-offset-0 resize-none"
+                        className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0 resize-none"
                         placeholder={`Enter description`}
                         {...field}
                       />
@@ -231,40 +243,40 @@ const CreateSmsItemModal = () => {
             </div>
 
             <div className="w-full">
-            <FormField
-                    control={form.control}
-                    name="supplierId"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
-                          Barangay
-                        </FormLabel>
+              <FormField
+                control={form.control}
+                name="supplierId"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                      Barangay
+                    </FormLabel>
+                    <FormControl>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
                         <FormControl>
-                          <Select
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                          >
-                            <FormControl>
-                              <SelectTrigger className="focus-visible:ring-0  focus-visible:ring-offset-0  bg-transparent">
-                                <SelectValue placeholder="Select a supplier" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent className="focus-visible:ring-0  focus-visible:ring-offset-0">
-                              {suppliers?.data?.map((supplier) => (
-                                <SelectItem
-                                  value={supplier?.id || "null"}
-                                  key={supplier?.id}
-                                >
-                                  {supplier.name}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
+                          <SelectTrigger className="focus-visible:ring-0  focus-visible:ring-offset-0  bg-transparent">
+                            <SelectValue placeholder="Select a supplier" />
+                          </SelectTrigger>
                         </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                        <SelectContent className="focus-visible:ring-0  focus-visible:ring-offset-0">
+                          {suppliers?.data?.map((supplier) => (
+                            <SelectItem
+                              value={supplier?.id || "null"}
+                              key={supplier?.id}
+                            >
+                              {supplier.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
 
             <DialogFooter className="py-4">

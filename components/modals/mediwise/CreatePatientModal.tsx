@@ -12,7 +12,11 @@ import toast from "react-hot-toast";
 
 import { Gender, Role } from "@prisma/client";
 import { useToast } from "@/components/ui/use-toast";
-import { CreatePatientSchema, TCreatePatientSchema, TUser } from "@/schema/user";
+import {
+  CreatePatientSchema,
+  TCreatePatientSchema,
+  TUser,
+} from "@/schema/user";
 import {
   Dialog,
   DialogContent,
@@ -61,10 +65,10 @@ const CreatePatientModal = () => {
   });
 
   useEffect(() => {
-    if(data.user) {
-      form.setValue('barangay', data.user.barangayId as string)
-      form.setValue('role', Role.PATIENT)
-      form.setValue('isVerified', true)
+    if (data.user) {
+      form.setValue("barangay", data.user.barangayId as string);
+      form.setValue("role", Role.PATIENT);
+      form.setValue("isVerified", true);
     }
 
     return () => {
@@ -75,11 +79,12 @@ const CreatePatientModal = () => {
 
   const createPatient = useMutateProcessor<TCreatePatientSchema, TUser>({
     url: `/users/patients`,
-    key:["patients", "barangay", data.user?.barangayId],
-    method: 'POST',
-  })
+    key: ["patients", "barangay", data.user?.barangayId],
+    method: "POST",
+  });
 
-  const isLoading = form.formState.isSubmitting || createPatient.status === 'pending';
+  const isLoading =
+    form.formState.isSubmitting || createPatient.status === "pending";
 
   const onSubmit: SubmitHandler<TCreatePatientSchema> = async (values) => {
     createPatient.mutate(values, {
@@ -91,7 +96,7 @@ const CreatePatientModal = () => {
         });
       },
       onError(error, variables, context) {
-        console.log(error)
+        console.log(error);
         toast({
           title: "Something went wrong.",
           description: `Patient failed to create`,
@@ -103,7 +108,7 @@ const CreatePatientModal = () => {
   return (
     <div>
       <Dialog open={isModalOpen} onOpenChange={onHandleClose}>
-        <DialogContent className=" overflow-hidden dark:bg-[#020817] dark:text-white">
+        <DialogContent className="max-h-[90vh] w-[500px] max-w-[90vw] overflow-y-auto dark:bg-[#020817] dark:text-white">
           <DialogHeader className="pt-3 px-6">
             <DialogTitle className="text-2xl text-center font-bold m-2 dark:text-white">
               Add patient
@@ -131,14 +136,14 @@ const CreatePatientModal = () => {
                             key="firstname"
                             render={({ field }) => (
                               <FormItem className="w-full">
-                                <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                                <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-white">
                                   First Name
                                 </FormLabel>
                                 <FormControl>
                                   <Input
                                     key={"firstname"}
                                     disabled={isLoading}
-                                    className="focus-visible:ring-0  focus-visible:ring-offset-0"
+                                    className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0"
                                     placeholder={`Enter firstname`}
                                     {...field}
                                     value={field.value}
@@ -157,13 +162,13 @@ const CreatePatientModal = () => {
                             key="lastname"
                             render={({ field }) => (
                               <FormItem className="w-full">
-                                <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                                <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-white">
                                   Last Name
                                 </FormLabel>
                                 <FormControl>
                                   <Input
                                     disabled={isLoading}
-                                    className="focus-visible:ring-0  focus-visible:ring-offset-0 resize-none"
+                                    className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0 resize-none"
                                     placeholder={`Enter lastname`}
                                     {...field}
                                   />
@@ -183,13 +188,13 @@ const CreatePatientModal = () => {
                             key={"middlename"}
                             render={({ field }) => (
                               <FormItem className="w-full">
-                                <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                                <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-white">
                                   Middlename (optional)
                                 </FormLabel>
                                 <FormControl>
                                   <Input
                                     disabled={isLoading}
-                                    className=" focus-visible:ring-0  focus-visible:ring-offset-0 resize-none"
+                                    className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0 resize-none"
                                     placeholder={`Enter middlename`}
                                     {...field}
                                   />
@@ -207,13 +212,13 @@ const CreatePatientModal = () => {
                             key={"suffix"}
                             render={({ field }) => (
                               <FormItem className="w-full">
-                                <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
-                                suffix (optional)
+                                <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-white">
+                                  suffix (optional)
                                 </FormLabel>
                                 <FormControl>
                                   <Input
                                     disabled={isLoading}
-                                    className=" focus-visible:ring-0  focus-visible:ring-offset-0 resize-none"
+                                    className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0 resize-none"
                                     placeholder={`Enter suffix`}
                                     {...field}
                                   />
@@ -223,8 +228,6 @@ const CreatePatientModal = () => {
                             )}
                           />
                         </div>
-
-                       
                       </div>
 
                       <div className="flex gap-x-3">
@@ -235,13 +238,13 @@ const CreatePatientModal = () => {
                             key="dateOfBirth"
                             render={({ field }) => (
                               <FormItem className="w-full">
-                                <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                                <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-white">
                                   Birthday
                                 </FormLabel>
                                 <FormControl>
                                   <Input
                                     disabled={isLoading}
-                                    className=" focus-visible:ring-0  focus-visible:ring-offset-0 resize-none"
+                                    className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0 resize-none"
                                     type="date"
                                     placeholder={`Enter birthdate`}
                                     {...field}
@@ -253,8 +256,6 @@ const CreatePatientModal = () => {
                           />
                         </div>
 
-                     
-
                         <div className="w-full">
                           <FormField
                             control={form.control}
@@ -262,7 +263,7 @@ const CreatePatientModal = () => {
                             key={"gender"}
                             render={({ field }) => (
                               <FormItem>
-                                <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                                <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-white">
                                   Select gender
                                 </FormLabel>
                                 <Select
@@ -270,7 +271,7 @@ const CreatePatientModal = () => {
                                   defaultValue={field.value}
                                 >
                                   <FormControl>
-                                    <SelectTrigger>
+                                    <SelectTrigger className="bg-transparent">
                                       <SelectValue placeholder="Select a gender" />
                                     </SelectTrigger>
                                   </FormControl>
@@ -288,10 +289,7 @@ const CreatePatientModal = () => {
                             )}
                           />
                         </div>
-
                       </div>
-
-                     
                     </>
                   );
                 }
@@ -299,8 +297,7 @@ const CreatePatientModal = () => {
                 if (page === 2) {
                   return (
                     <>
-
-<div className="flex gap-x-3">
+                      <div className="flex gap-x-3">
                         <div className="w-full">
                           <FormField
                             control={form.control}
@@ -308,7 +305,7 @@ const CreatePatientModal = () => {
                             key="email"
                             render={({ field }) => (
                               <FormItem className="w-full">
-                                <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                                <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-white">
                                   Email
                                 </FormLabel>
                                 <FormControl>
@@ -332,7 +329,7 @@ const CreatePatientModal = () => {
                             key="contactNo"
                             render={({ field }) => (
                               <FormItem className="w-full">
-                                <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                                <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-white">
                                   Contact No.
                                 </FormLabel>
                                 <FormControl>
@@ -349,7 +346,6 @@ const CreatePatientModal = () => {
                             )}
                           />
                         </div>
-
                       </div>
 
                       <div className="flex gap-x-3">
@@ -360,7 +356,7 @@ const CreatePatientModal = () => {
                             key="homeNo"
                             render={({ field }) => (
                               <FormItem className="w-full">
-                                <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                                <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-white">
                                   Home No.
                                 </FormLabel>
                                 <FormControl>
@@ -386,7 +382,7 @@ const CreatePatientModal = () => {
                             key="street"
                             render={({ field }) => (
                               <FormItem className="w-full">
-                                <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                                <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-white">
                                   Street
                                 </FormLabel>
                                 <FormControl>
@@ -412,7 +408,7 @@ const CreatePatientModal = () => {
                             key="city"
                             render={({ field }) => (
                               <FormItem className="w-full">
-                                <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                                <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-white">
                                   City
                                 </FormLabel>
                                 <FormControl>
@@ -436,7 +432,7 @@ const CreatePatientModal = () => {
                             key="zip"
                             render={({ field }) => (
                               <FormItem className="w-full">
-                                <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                                <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-white">
                                   zip
                                 </FormLabel>
                                 <FormControl>

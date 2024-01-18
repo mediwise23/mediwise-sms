@@ -23,7 +23,11 @@ import { Input } from "../../ui/input";
 import { useModal } from "@/hooks/useModalStore";
 import { useMutateProcessor } from "@/hooks/useTanstackQuery";
 import toast from "react-hot-toast";
-import { CreateSupplierSchema, TCreateSupplierSchema, TSupplierSchema } from "@/schema/supplier";
+import {
+  CreateSupplierSchema,
+  TCreateSupplierSchema,
+  TSupplierSchema,
+} from "@/schema/supplier";
 import { Loader2 } from "../../ui/Loader";
 import { useToast } from "@/components/ui/use-toast";
 
@@ -32,14 +36,13 @@ const CreateSupplierModal = () => {
   const isModalOpen = isOpen && type === "createSupplier";
 
   const onHandleClose = () => {
-    form.reset()
+    form.reset();
     onClose();
   };
-  const {toast} = useToast()
+  const { toast } = useToast();
   const form = useForm<TCreateSupplierSchema>({
     resolver: zodResolver(CreateSupplierSchema),
-    defaultValues: {
-    },
+    defaultValues: {},
     mode: "all",
   });
   useEffect(() => {
@@ -47,26 +50,30 @@ const CreateSupplierModal = () => {
       form.reset();
     };
   }, [isModalOpen]);
-  const createSupplier = useMutateProcessor<TCreateSupplierSchema, TSupplierSchema>({url: '/supplier', method: 'POST', key:['suppliers']})
-  const isLoading = form.formState.isSubmitting || createSupplier.status === 'pending';
+  const createSupplier = useMutateProcessor<
+    TCreateSupplierSchema,
+    TSupplierSchema
+  >({ url: "/supplier", method: "POST", key: ["suppliers"] });
+  const isLoading =
+    form.formState.isSubmitting || createSupplier.status === "pending";
 
   const onSubmit: SubmitHandler<TCreateSupplierSchema> = async (values) => {
     createSupplier.mutate(values, {
       onSuccess(data, variables, context) {
-        console.log(data)
+        console.log(data);
         toast({
-          title: 'Supplier has been added'
-        })
-        onHandleClose()
+          title: "Supplier has been added",
+        });
+        onHandleClose();
       },
       onError(error, variables, context) {
-          console.error(error)
-          toast({
-            title: 'Error',
-            variant: 'destructive'
-          })
+        console.error(error);
+        toast({
+          title: "Error",
+          variant: "destructive",
+        });
       },
-    })
+    });
   };
 
   return (
@@ -100,7 +107,7 @@ const CreateSupplierModal = () => {
                       <FormControl>
                         <Input
                           disabled={isLoading}
-                          className="focus-visible:ring-0  focus-visible:ring-offset-0"
+                          className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0"
                           placeholder={`Enter supplier name`}
                           {...field}
                         />
@@ -123,7 +130,7 @@ const CreateSupplierModal = () => {
                       <FormControl>
                         <Input
                           disabled={isLoading}
-                          className="focus-visible:ring-0  focus-visible:ring-offset-0 resize-none"
+                          className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0 resize-none"
                           placeholder={`Enter contact person name`}
                           {...field}
                         />
@@ -146,7 +153,7 @@ const CreateSupplierModal = () => {
                       <FormControl>
                         <Input
                           disabled={isLoading}
-                          className=" focus-visible:ring-0  focus-visible:ring-offset-0 resize-none"
+                          className="bg-transparent  focus-visible:ring-0  focus-visible:ring-offset-0 resize-none"
                           type="number"
                           placeholder={`Enter contact no.`}
                           {...field}
@@ -170,7 +177,7 @@ const CreateSupplierModal = () => {
                       <FormControl>
                         <Input
                           disabled={isLoading}
-                          className=" focus-visible:ring-0  focus-visible:ring-offset-0 resize-none"
+                          className="bg-transparent  focus-visible:ring-0  focus-visible:ring-offset-0 resize-none"
                           placeholder={`Enter address`}
                           {...field}
                         />
@@ -191,7 +198,10 @@ const CreateSupplierModal = () => {
                   {(() => {
                     if (isLoading)
                       return (
-                        <div className="flex items-center gap-x-3"> Saving <Loader2 size={20} /></div>
+                        <div className="flex items-center gap-x-3">
+                          {" "}
+                          Saving <Loader2 size={20} />
+                        </div>
                       );
                     return "Add supplier";
                   })()}
