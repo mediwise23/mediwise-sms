@@ -114,7 +114,7 @@ const MediwiseLoginModal = () => {
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onHandleClose}>
-      <DialogContent className=" overflow-hidden dark:bg-[#020817] dark:text-white py-10">
+      <DialogContent className="max-h-[95vh] w-[500px] max-w-[90vw] overflow-y-auto dark:bg-[#020817] dark:text-white py-10">
         <DialogHeader className="pt-3 px-6">
           <DialogTitle className="text-2xl text-center font-bold m-2 dark:text-white flex flex-col items-center">
             <img
