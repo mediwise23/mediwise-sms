@@ -42,6 +42,10 @@ export const GET = withAuth(
         orderBy: {
           start: "desc",
         },
+        include: {
+          barangay:true,
+          
+        }
       });
 
       return NextResponse.json(events, {status: 200});

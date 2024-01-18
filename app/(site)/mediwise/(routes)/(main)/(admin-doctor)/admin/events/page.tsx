@@ -5,7 +5,6 @@ import {
 } from "@tanstack/react-query";
 import Calendar from "./components/Calendar";
 import { queryFn } from "@/hooks/useTanstackQuery";
-import ViewCalendar from "./components/ViewCalendar";
 import { isUserAllowed } from "@/lib/utils";
 import { redirect } from "next/navigation";
 import { getSession } from "@/lib/auth";

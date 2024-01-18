@@ -33,6 +33,7 @@ export const ItemTransactionSchema = z.object({
   description: z.string().nullable(),
   status: z.nativeEnum(ItemTransactionStatus),
   barangayId: z.string().nullable(),
+  fileReport: z.string().nullable(),
   barangayUserId: z.string().nullable(),
   createdAt: z.date(),
   updatedAt: z.date(),
@@ -49,6 +50,7 @@ export const ItemTransactionGetQuerySchema = z.object({
 // create item transaction schema
 export const CreateItemTransactionSchema = ItemTransactionSchema.pick({
   description: true,
+  fileReport:true,
   status: true,
   barangayId: true,
   barangayUserId: true,
@@ -57,12 +59,7 @@ export const CreateItemTransactionSchema = ItemTransactionSchema.pick({
   status: z.nativeEnum(ItemTransactionStatus).optional(), // by default in prisma ItemTransactionStatus is PENDING
   barangayId: z.string().min(1).max(255),
   barangayUserId: z.string().min(1).max(255),
-  requestedItems: z.array(
-    z.object({
-      itemId: z.string().cuid(),
-      quantity: z.number().min(1),
-    })
-  ),
+  fileReport: z.any().refine((val) => !!val , "File is required")
 });
 
 // update item transaction schema
@@ -71,3 +68,13 @@ export const UpdateItemTransactionSchema = ItemTransactionSchema.pick({
 }).extend({
   status: z.nativeEnum(ItemTransactionStatus),
 });
+
+
+export const UpdateItemTransactionSchemaStatus = ItemTransactionSchema.pick({
+  status: true,
+  id: true,
+}).extend({
+  status: z.nativeEnum(ItemTransactionStatus),
+});
+
+export type TUpdateItemTransactionSchemaStatus = z.infer<typeof UpdateItemTransactionSchemaStatus>

@@ -5,6 +5,8 @@ import {
 } from "@tanstack/react-query";
 import DashboardClient from "./components/DashboardClient";
 import { queryFn } from "@/hooks/useTanstackQuery";
+import { getSession } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 type DashBoardHomePageProps = {
   searchParams: { tab: string };
@@ -18,9 +20,15 @@ const DashBoardHomePage = async ({ searchParams }: DashBoardHomePageProps) => {
     queryFn: () => queryFn({url:''}),
   });
 
+  const session = await getSession();
+  if (!session?.user) {
+    return redirect("/");
+  }
+  
+
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <DashboardClient tab={searchParams.tab} />
+      <DashboardClient tab={searchParams.tab} currentUser={session.user} />
     </HydrationBoundary>
   );
 };

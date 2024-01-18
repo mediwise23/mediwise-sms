@@ -32,60 +32,9 @@ const AppointmentsClient: React.FC<AppointmentsClientProps> = ({
     queryParams: {
       barangayId: currentUser.barangayId,
     },
-    key: ["admin-doctor", currentUser.barangayId],
+    key: ["appointments", currentUser.barangayId],
   });
-
-  // const appointments = [
-  //   {
-  //     id: "asdcnmmysd54ngbcfddad23231",
-  //     title: "General Checkup",
-  //     doctor: "Francis Magpayo",
-  //     patient: "Andrea Munoz",
-  //     date: new Date(),
-  //     status: "PENDING",
-  //     createdAt: new Date(),
-  //   },
-
-  //   {
-  //     id: "asdcnmmysd54ngbcfddad23231",
-  //     title: "General Checkup",
-  //     doctor: "Francis Magpayo",
-  //     patient: "Andrea Munoz",
-  //     date: new Date(),
-  //     status: "PENDING",
-  //     createdAt: new Date(),
-  //   },
-
-  //   {
-  //     id: "asdc1nmmysd54ngbcfddad23231",
-  //     title: "Follow up Checkup",
-  //     doctor: "andrew belgar",
-  //     patient: "minet dosme",
-  //     date: new Date(),
-  //     status: "ACCEPTED",
-  //     createdAt: new Date(),
-  //   },
-
-  //   {
-  //     id: "asdcnm2mysd54ngbcfddad23231",
-  //     title: "General Checkup",
-  //     doctor: "Brenan Delikaze",
-  //     patient: "Joshua Vellidad",
-  //     date: new Date(),
-  //     status: "ACCEPTED",
-  //     createdAt: new Date(),
-  //   },
-
-  //   {
-  //     id: "asdcnm3mysd54ngbcfddad23231",
-  //     title: "Follow up Checkup",
-  //     doctor: "Collin Inbatera",
-  //     patient: "John Doe",
-  //     date: new Date(),
-  //     status: "REJECTED",
-  //     createdAt: new Date(),
-  //   },
-  // ];
+ 
   const [globalFilter, setGlobalFilter] = useState("");
 
   const onFilter = (e: React.ChangeEvent<HTMLInputElement>) => {

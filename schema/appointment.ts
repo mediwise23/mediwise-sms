@@ -70,3 +70,11 @@ export const UpdateAppointmentSchema = AppointmentSchema.pick({
     image_path: z.string().min(3).max(255),
   })
   .partial();
+
+
+  export const CreateAppointmentPrescriptionSchema = AppointmentSchema.pick({})
+.extend({
+  image: z.any().refine((val) => val?.length > 0, "File is required"),
+})
+
+export type TCreateAppointmentPrescriptionSchema = z.infer<typeof CreateAppointmentPrescriptionSchema>

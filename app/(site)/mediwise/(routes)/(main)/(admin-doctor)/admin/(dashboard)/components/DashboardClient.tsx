@@ -1,7 +1,13 @@
 "use client";
 import React from "react";
 import Widget from "./Widget";
-import { LucideUserSquare2, LayoutDashboard, Box } from "lucide-react";
+import {
+  LucideUserSquare2,
+  LayoutDashboard,
+  GraduationCap,
+  Columns,
+  Box,
+} from "lucide-react";
 import AppointmentsTab from "./appointments/AppointmentsTab";
 import {
   AlertDialog,
@@ -18,19 +24,25 @@ import {
 import qs from "query-string";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useQueryProcessor } from "@/hooks/useTanstackQuery";
+import ItemsTab from "./items/ItemsTab";
+import { Session } from "next-auth";
 import PatientsTab from "./patients/PatientsTab";
 
 type DashboardClientProps = {
   tab: string;
+  currentUser: Session["user"];
 };
 
-type WidgetsRecord = {
-  appointments: number;
-  items: number;
-  patients: number;
-};
+const DashboardClient = ({
+  tab = "appointments",
+  currentUser,
+}: DashboardClientProps) => {
+  type WidgetsRecord = {
+    appointments: number;
+    items: number;
+    patients: number;
+  };
 
-const DashboardClient = ({ tab = "appointments" }: DashboardClientProps) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace, push } = useRouter();
@@ -60,54 +72,23 @@ const DashboardClient = ({ tab = "appointments" }: DashboardClientProps) => {
         <div onClick={() => handleSelectedTab("appointments")}>
           <Widget
             title="Appointments"
-            total={widgets.data?.appointments || 0}
-            icon={LucideUserSquare2}
-          />
-        </div>
-        <div onClick={() => handleSelectedTab("patients")}>
-          <Widget
-            title="Patients"
-            total={widgets.data?.patients || 0}
+            total={100 || 0}
             icon={LayoutDashboard}
           />
         </div>
-        <div>
-          {/* <Widget
-            title="Items"
-            total={widgets.data?.items || 0}
-            icon={GraduationCap}
-          /> */}
-          <AlertDialog>
-            <AlertDialogTrigger className="w-full text-left">
-              <Widget
-                title="Items"
-                total={widgets.data?.items || 0}
-                icon={Box}
-              />
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  This will navigate you to inventory page.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction
-                  onClick={() => push("/mediwise/admin/inventory")}
-                >
-                  Continue anyway
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
+        <div onClick={() => handleSelectedTab("items")}>
+          <Widget title="Items" total={100 || 0} icon={Columns} />
+        </div>
+        <div onClick={() => handleSelectedTab("patients")}>
+          <Widget title="Patients" total={100 || 0} icon={LucideUserSquare2} />
         </div>
       </div>
       <div className="flex flex-col mt-5">
         {(() => {
-          if (tab === "appointments") return <AppointmentsTab />;
-          else if (tab === "patients") return <PatientsTab />;
+          if (tab === "appointments") return <AppointmentsTab currentUser={currentUser}/>;
+          if (tab === "items") return <ItemsTab currentUser={currentUser} />;
+          else if (tab === "patients") return <PatientsTab currentUser={currentUser} />;
+          // if (tab === "patients") return <JobTab />;
         })()}
       </div>
     </div>

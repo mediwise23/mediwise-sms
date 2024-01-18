@@ -15,6 +15,8 @@ type PatientChartProps = {
 };
 export default function PatientChart({ data }: PatientChartProps) {
   // 768px
+
+  console.log('PatientChart', data)
   return (
     <ResponsiveContainer width="100%" height="100%">
       <AreaChart
@@ -33,7 +35,7 @@ export default function PatientChart({ data }: PatientChartProps) {
         <Tooltip />
         <Area
           type="monotone"
-          dataKey="numberOfPatient"
+          dataKey="numberOfPatients"
           stackId="1"
           stroke="#0d2b13"
           fill="#247c37"

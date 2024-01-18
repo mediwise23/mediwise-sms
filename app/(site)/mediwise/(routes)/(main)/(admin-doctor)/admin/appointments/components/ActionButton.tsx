@@ -20,9 +20,10 @@ type ActionButtonProps = {
   };
 };
 const ActionButton: React.FC<ActionButtonProps> = ({ data }) => {
+  const {onOpen} = useModal()
   const updateAppointment = useMutateProcessor<TUpdateAppointment, unknown>({
     url: `/appointments/${data.id}`,
-    key: ['appointments-doctor', data.barangayId],
+    key: ['appointments', data.barangayId],
     method: 'PATCH'
   })
 
@@ -67,6 +68,16 @@ const ActionButton: React.FC<ActionButtonProps> = ({ data }) => {
             Mark as completed
           </DropdownMenuItem>
         </DropdownMenuContent>
+
+        if(data.status === 'COMPLETED') return <DropdownMenuContent align="end">
+        <DropdownMenuItem className="text-xs cursor-pointer hover:bg-zinc-400" 
+          onClick={() => onOpen('manageAppointment', {appointment:data, user: data.patient})}
+        >
+          <Pencil className="h-4 w-4 mr-2" />
+          Manage
+        </DropdownMenuItem>
+        </DropdownMenuContent>
+
           return null;
         })()}
       </DropdownMenu>

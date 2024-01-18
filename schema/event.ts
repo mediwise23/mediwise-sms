@@ -42,3 +42,18 @@ export const EventGetQuerySchema = EventSchema.pick({
   barangayId: true,
   userId:true,
 })
+
+export const UpdateTimeAndDateEventSchema = EventSchema.pick({
+  title: true,
+  start: true,
+  end: true,
+  allDay: true,
+})
+.extend({
+  start: z.coerce.date(),
+  end: z.coerce.date(),
+})
+.partial();
+export type UpdateTimeAndDateEventSchemaType = z.infer<
+  typeof UpdateTimeAndDateEventSchema
+>;

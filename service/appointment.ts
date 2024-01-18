@@ -49,6 +49,12 @@ export const getAppointmentById = async ({ id }: { id: string }) => {
     where: {
       id,
     },
+    include: {
+      barangay:true,
+      doctor:true,
+      patient:true,
+      appointment_item:true
+    }
   });
 };
 

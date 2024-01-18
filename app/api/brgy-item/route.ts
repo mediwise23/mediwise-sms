@@ -23,6 +23,7 @@ export async function GET(req: NextRequest, { params }: { params: {} }) {
   try {
     const item = await getAllBarangayItem({
       name: queries.data.name,
+      barangayId: queries.data.barangayId
     });
 
     return NextResponse.json(item, { status: 200 });

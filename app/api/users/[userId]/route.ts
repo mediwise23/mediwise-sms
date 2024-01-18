@@ -1,12 +1,30 @@
 import { withAuth } from "@/lib/auth";
 import { UpdateUserSchema } from "@/schema/user";
+import { getQueryParams } from "@/service/params";
 import { getUserById, updateUserById } from "@/service/user";
+import { Role } from "@prisma/client";
 import { NextResponse } from "next/server";
+import { z } from "zod";
 
 export const GET = withAuth(
   async ({ req, session, params }) => {
     try {
-      const user = await getUserById({ id: params.userId });
+      const queryParams = z.object({
+        role: z.nativeEnum(Role)
+      })
+      const queries = getQueryParams(req, queryParams);
+
+  if (!queries.success) {
+    return NextResponse.json(
+      {
+        errors: queries.error.flatten().fieldErrors,
+        message: "Invalid query parameters",
+      },
+      { status: 400 }
+    );
+  }
+  
+      const user = await getUserById({ id: params.userId, role: queries.data.role });
 
       if (!user) {
         return NextResponse.json(

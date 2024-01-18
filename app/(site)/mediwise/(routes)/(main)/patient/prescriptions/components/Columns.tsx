@@ -122,6 +122,8 @@ export const columns: ColumnDef<(TPrescriptionSchema & {user: User & { profile: 
     cell: ({ row }) => {
       const original = row.original;
       return (
+        // @ts-ignore
+        // @ts-nocheck
         <ActionButton data={original} />
       );
     },

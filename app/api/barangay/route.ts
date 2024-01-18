@@ -1,4 +1,5 @@
 import { withAuth } from "@/lib/auth";
+import prisma from "@/lib/prisma";
 import {
   BarangayGetQuerySchema,
   CreateBarangaySchema,
@@ -48,6 +49,15 @@ export const POST = withAuth(async ({ req, session }) => {
 
       const { name } = body.data;
 
+      const isExisted = await prisma.barangay.findFirst({
+        where: {
+          name,
+        }
+      })
+
+      if(isExisted) {
+        return new NextResponse("Barangay already existed", { status: 400 });
+      }
       const barangay = await createBarangay({
         name: name,
       });

@@ -64,6 +64,7 @@ const CreateBarangayModal = () => {
           console.error(error)
           toast({
             title: 'Error',
+            description: 'Barangay name already exist',
             variant: 'destructive'
           })
       },

@@ -13,6 +13,7 @@ import {
 import AppointmentsChart from "./PatientsChart";
 import AppointmentSummary from "./PatientsSummary";
 import { useQueryProcessor } from "@/hooks/useTanstackQuery";
+import { Session } from "next-auth";
 
 // Get the current year
 const currentYear = new Date().getFullYear();
@@ -28,7 +29,11 @@ export type PatientsTotalType = {
   month: string;
 };
 
-const PatientsTab = () => {
+type PatientsTabProps = {
+  currentUser: Session['user']
+};
+
+const PatientsTab:React.FC<PatientsTabProps> = ({currentUser}) => {
   const [year, setYear] = useState<number>(new Date().getFullYear());
 
   const patients = useQueryProcessor<PatientsTotalType[]>({

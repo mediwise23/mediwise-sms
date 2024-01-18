@@ -94,7 +94,7 @@ export const RegisterUserSchema = UserSchema.pick({
     lastname: z.string().min(1).max(50),
     suffix: z.string().optional(),
     gender: z.nativeEnum(Gender),
-    dateOfBirth: z.coerce.date(),
+    dateOfBirth: z.string(),
     homeNo: z.string().min(1).max(50),
     street: z.string().min(1).max(50),
     barangay: z.string().min(1).max(50),
@@ -177,7 +177,7 @@ export const CreateUserSchema = UserSchema.pick({}).extend({
   gender: z.nativeEnum(Gender),
   specialist: z.string().min(1, "Required").max(50),
   licenseNo: z.string().min(1, "Required").max(50),
-  dateOfBirth: z.coerce.date(),
+  dateOfBirth: z.string(),
   isVerified: z.boolean().optional(),
   homeNo: z.string().min(1, "Required").max(50),
   street: z.string().min(1, "Required").max(50),
@@ -201,13 +201,15 @@ export const CreateDoctorSchema = CreateUserSchema.pick({
   barangay: true,
   isVerified: true,
   gender: true,
-}).partial({
-  suffix: true,
-  middlename: true,
-}).extend({
-  middlename: z.string().optional(),
-  suffix: z.string().optional()
 })
+  .partial({
+    suffix: true,
+    middlename: true,
+  })
+  .extend({
+    middlename: z.string().optional(),
+    suffix: z.string().optional(),
+  });
 
 export type TCreateDoctorSchema = z.infer<typeof CreateDoctorSchema>;
 
@@ -221,13 +223,15 @@ export const CreateAdminSchema = CreateUserSchema.pick({
   barangay: true,
   isVerified: true,
   gender: true,
-}).partial({
-  suffix: true,
-  middlename: true,
-}).extend({
-  middlename: z.string().optional(),
-  suffix: z.string().optional()
 })
+  .partial({
+    suffix: true,
+    middlename: true,
+  })
+  .extend({
+    middlename: z.string().optional(),
+    suffix: z.string().optional(),
+  });
 
 export type TCreateAdminSchema = z.infer<typeof CreateAdminSchema>;
 
@@ -242,22 +246,23 @@ export const CreatePatientSchema = CreateUserSchema.pick({
   isVerified: true,
   dateOfBirth: true,
   gender: true,
-  zip:true,
-  city:true,
-  contactNo:true,
-  homeNo:true,
-  street:true,
-}).partial({
-  suffix: true,
-  middlename: true,
-}).extend({
-  dateOfBirth:z.string(),
-  middlename: z.string().optional(),
-  suffix: z.string().optional()
+  zip: true,
+  city: true,
+  contactNo: true,
+  homeNo: true,
+  street: true,
 })
+  .partial({
+    suffix: true,
+    middlename: true,
+  })
+  .extend({
+    dateOfBirth: z.string(),
+    middlename: z.string().optional(),
+    suffix: z.string().optional(),
+  });
 
 export type TCreatePatientSchema = z.infer<typeof CreatePatientSchema>;
-
 
 export const UpdateUserSchema = UserSchema.pick({
   role: true,
@@ -271,9 +276,9 @@ export const UpdateUserSchema = UserSchema.pick({
 
 //
 export const VerifyUserSchema = z.object({
-  code: z.string().min(1, 'Required').max(50),
+  code: z.string().min(1, "Required").max(50),
 });
-export type TVerifyUserSchema = z.infer<typeof VerifyUserSchema>
+export type TVerifyUserSchema = z.infer<typeof VerifyUserSchema>;
 export const SetupAccountSchema = z
   .object({
     firstname: z.string().min(1, "Required"),
@@ -297,7 +302,7 @@ export const SetupAccountSchema = z
     path: ["confirmPassword"],
   });
 
-  export type TSetupAccountSchema = z.infer<typeof SetupAccountSchema>
+export type TSetupAccountSchema = z.infer<typeof SetupAccountSchema>;
 // test.js
 // const z = require("zod");
 // const RegisterUserSchema = z
@@ -332,3 +337,45 @@ export const SetupAccountSchema = z
 // if (!result.success) {
 //   console.log(result.error.flatten().fieldErrors);
 // }
+
+export const UpdateUsersSchemaWithPassword = UserSchema.pick({
+  firstname: true,
+  lastname: true,
+  email: true,
+  middlename: true,
+  city: true,
+  homeNo: true,
+  street: true,
+  contactNo: true,
+  password: true,
+})
+  .extend({
+    firstname: z.string(),
+    lastname: z.string(),
+    email: z.string().email(),
+    middlename: z.string(),
+    city: z.string(),
+    homeNo: z.string(),
+    street: z.string(),
+    contactNo: z.string(),
+    password: z
+      .string()
+      .refine(
+        (value) =>
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/.test(
+            value
+          ),
+        "Must contain 8 Characters, one uppercase, lowercase, one number and one special case character"
+      ),
+    confirmPassword: z.string(),
+    currentPassword: z.string(),
+  })
+  .partial()
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  });
+
+export type TUpdateUsersSchemaWithPassword = z.infer<
+  typeof UpdateUsersSchemaWithPassword
+>;

@@ -12,6 +12,10 @@ import CreateAdminModal from "../modals/sms/CreateAdminModal";
 import CreateSmsItemModal from "../modals/sms/CreateSmsItemModal";
 import CreatePatientModal from "../modals/mediwise/CreatePatientModal";
 import CreateEventModal from "../modals/mediwise/CreateEventModal";
+import InventoryReportModal from "../modals/mediwise/InventoryReportModal";
+import CreateRequestModal from "../modals/mediwise/CreateRequestModal";
+import ViewRequestModal from "../modals/mediwise/ViewRequestModal";
+import ManageAppointmentModal from "../modals/mediwise/ManageAppointmentModal";
 
 
 const ModalProvider = () => {
@@ -39,6 +43,10 @@ const ModalProvider = () => {
       <CreateSmsItemModal />
       <CreatePatientModal />
       <CreateEventModal />
+      <InventoryReportModal />
+      <CreateRequestModal />
+      <ViewRequestModal />
+      <ManageAppointmentModal />
     </>
   );
 };

@@ -42,6 +42,14 @@ import { cn } from "@/lib/utils";
 const RegisterForm = () => {
   const [step, setStep] = useState(1);
   const { onOpen } = useModal();
+
+  const today = new Date();
+  const [maxDate, setMaxDate] = useState(
+    new Date(today.getFullYear() - 18, today.getMonth(), today.getDate())
+      .toISOString()
+      .split('T')[0]
+  );
+  const [age, setAge] = useState<number | null>(null);
   const form = useForm<TRegister>({
     resolver: zodResolver(RegisterUserSchema),
     defaultValues: {
@@ -63,7 +71,6 @@ const RegisterForm = () => {
     key: ["barangay"],
   });
 
-  console.log(barangay?.data);
   const { toast } = useToast();
   const onSubmit: SubmitHandler<TRegister> = (values) => {
     console.log(values);
@@ -130,6 +137,14 @@ const RegisterForm = () => {
                             type="text"
                             placeholder={`Enter firstname`}
                             {...field}
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              const isValidInput = /^[A-Za-z\s]+$/.test(value);
+
+                              if (isValidInput || value === '') {
+                                field.onChange(value);
+                              }
+                            }}
                           />
                         </FormControl>
                         <FormMessage />
@@ -151,6 +166,14 @@ const RegisterForm = () => {
                             type="text"
                             placeholder={`Enter middlename`}
                             {...field}
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              const isValidInput = /^[A-Za-z\s]+$/.test(value);
+
+                              if (isValidInput || value === '') {
+                                field.onChange(value);
+                              }
+                            }}
                           />
                         </FormControl>
                         <FormMessage />
@@ -174,6 +197,14 @@ const RegisterForm = () => {
                             type="text"
                             placeholder={`Enter Lastname`}
                             {...field}
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              const isValidInput = /^[A-Za-z\s]+$/.test(value);
+
+                              if (isValidInput || value === '') {
+                                field.onChange(value);
+                              }
+                            }}
                           />
                         </FormControl>
                         <FormMessage />
@@ -195,6 +226,14 @@ const RegisterForm = () => {
                             type="text"
                             placeholder={`Enter Suffix`}
                             {...field}
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              const isValidInput = /^[A-Za-z\s]+$/.test(value);
+
+                              if (isValidInput || value === '') {
+                                field.onChange(value);
+                              }
+                            }}
                           />
                         </FormControl>
                         <FormMessage />
@@ -204,63 +243,41 @@ const RegisterForm = () => {
                 </div>
 
                 <div className="flex justify-evenly gap-x-3">
-                  <FormField
+                <FormField
                     control={form.control}
                     name="dateOfBirth"
                     render={({ field }) => (
                       <FormItem className="w-full">
                         <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
-                          Date of birth
+                          Birthdate {age && `(${age} yrs old)`}
                         </FormLabel>
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <FormControl>
-                              <Button
-                                variant={"outline"}
-                                className={cn(
-                                  "w-full pl-3 text-left font-normal border-zinc-500  bg-transparent",
-                                  !field.value && "text-muted-foreground"
-                                )}
-                              >
-                                {field.value ? (
-                                  format(field.value, "PPP")
-                                ) : (
-                                  <span>Pick a date</span>
-                                )}
-                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                              </Button>
-                            </FormControl>
-                          </PopoverTrigger>
-                          <PopoverContent className="w-auto p-0" align="start">
-                            <Calendar
-                              mode="single"
-                              selected={field.value}
-                              onSelect={field.onChange}
-                              disabled={(date) =>
-                                date > new Date() ||
-                                date < new Date("1900-01-01")
-                              }
-                              initialFocus
-                            />
-                          </PopoverContent>
-                        </Popover>
+                        <FormControl>
+                          <Input
+                          max={maxDate} // Set the maximum date dynamically
+                            className="focus-visible:ring-0  focus-visible:ring-offset-0 border-zinc-500"
+                            type="date"
+                            placeholder={`Enter birthdate`}
+                            {...field}
+                            onChange={(e) => {
+                              const enteredDate = e.target.value;
+                              const birthDate = new Date(enteredDate);
+                              const ageDiff = today.getFullYear() - birthDate.getFullYear();
+                          
+                              // Check if birthday has occurred this year
+                              const hasBirthdayOccurred =
+                                today.getMonth() > birthDate.getMonth() ||
+                                (today.getMonth() === birthDate.getMonth() &&
+                                  today.getDate() >= birthDate.getDate());
+                          
+                              const calculatedAge = hasBirthdayOccurred ? ageDiff : ageDiff - 1;
+                              setAge(calculatedAge)
 
+                              field.onChange(e.target.value)
+                            }}
+                          />
+                        </FormControl>
                         <FormMessage />
                       </FormItem>
-                      // <FormItem className="w-full">
-                      //   <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
-                      //     Birthdate
-                      //   </FormLabel>
-                      //   <FormControl>
-                      //     <Input
-                      //       className="focus-visible:ring-0  focus-visible:ring-offset-0"
-                      //       type="date"
-                      //       placeholder={`Enter birthdate`}
-                      //       {...field}
-                      //     />
-                      //   </FormControl>
-                      //   <FormMessage />
-                      // </FormItem>
                     )}
                   />
 
