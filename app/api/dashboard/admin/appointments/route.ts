@@ -45,10 +45,23 @@ export const GET = withAuth(async ({ req, session }) => {
     "Dec",
   ];
 
+  const barangayId = session.user.barangayId;
+
+  if (!barangayId) {
+    return NextResponse.json(
+      {
+        errors: "Barangay not found",
+        message: "Barangay not found",
+      },
+      { status: 400 }
+    );
+  }
+
   // get the number of appoinments per month
   for (let i = 0; i < months.length; i++) {
     const appoinments = await prisma.appointment.findMany({
       where: {
+        barangayId: barangayId,
         AND: {
           createdAt: {
             gte: new Date(selectedYear, i, 1),
