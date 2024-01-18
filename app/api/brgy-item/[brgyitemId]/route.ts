@@ -48,7 +48,7 @@ export const PATCH = withAuth(
         );
       }
 
-      const item = await getBarangayItemById(params.itemId);
+      const item = await getBarangayItemById(params.brgyitemId);
 
       if (!item) {
         return NextResponse.json(
@@ -59,7 +59,7 @@ export const PATCH = withAuth(
         );
       }
 
-      const itemUpdated = await updateBarangayItemById(params.itemId, {
+      const itemUpdated = await updateBarangayItemById(params.brgyitemId, {
         name: body.data.name,
         description: body.data.description,
         unit: body.data.unit,
@@ -80,7 +80,7 @@ export const PATCH = withAuth(
 export const DELETE = withAuth(
   async ({ req, session, params }) => {
     try {
-      const item = await getBarangayItemById(params.itemId);
+      const item = await getBarangayItemById(params.brgyitemId);
 
       if (!item) {
         return NextResponse.json(
@@ -91,7 +91,7 @@ export const DELETE = withAuth(
         );
       }
 
-      const itemDeleted = await deleteBarangayItemById(params.itemId);
+      const itemDeleted = await deleteBarangayItemById(params.brgyitemId);
 
       return NextResponse.json(itemDeleted, { status: 200 });
     } catch (error) {

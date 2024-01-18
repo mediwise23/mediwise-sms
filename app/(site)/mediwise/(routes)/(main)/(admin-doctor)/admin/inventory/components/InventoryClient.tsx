@@ -34,7 +34,7 @@ const InventoryClient: React.FC<InventoryClientProps> = ({ currentUser }) => {
 
   const items = useQueryProcessor<TItemBrgy[]>({
     url: "/brgy-item",
-    key: ["inventory-items", "barangay", currentUser.barangayId],
+    key: ["inventory-items", "barangay"],
     queryParams:{
       barangayId: currentUser.barangayId
     },

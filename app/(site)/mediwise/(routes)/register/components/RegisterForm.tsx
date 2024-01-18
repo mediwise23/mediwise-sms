@@ -128,7 +128,7 @@ const RegisterForm = () => {
                     name="firstname"
                     render={({ field }) => (
                       <FormItem className="w-full">
-                        <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                        <FormLabel className=" line-clamp-1 uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
                           Firstname
                         </FormLabel>
                         <FormControl>
@@ -139,11 +139,8 @@ const RegisterForm = () => {
                             {...field}
                             onChange={(e) => {
                               const value = e.target.value;
-                              const isValidInput = /^[A-Za-z\s]+$/.test(value);
-
-                              if (isValidInput || value === '') {
-                                field.onChange(value);
-                              }
+                              const validatedtext = value.replace(/[0-9]/g, '');
+                                field.onChange(validatedtext);
                             }}
                           />
                         </FormControl>
@@ -157,7 +154,7 @@ const RegisterForm = () => {
                     name="middlename"
                     render={({ field }) => (
                       <FormItem className="w-full">
-                        <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                        <FormLabel className=" line-clamp-1 uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400"> 
                           Middlename (optional)
                         </FormLabel>
                         <FormControl>
@@ -168,11 +165,8 @@ const RegisterForm = () => {
                             {...field}
                             onChange={(e) => {
                               const value = e.target.value;
-                              const isValidInput = /^[A-Za-z\s]+$/.test(value);
-
-                              if (isValidInput || value === '') {
-                                field.onChange(value);
-                              }
+                              const validatedtext = value.replace(/[0-9]/g, '');
+                                field.onChange(validatedtext);
                             }}
                           />
                         </FormControl>
@@ -188,7 +182,7 @@ const RegisterForm = () => {
                     name="lastname"
                     render={({ field }) => (
                       <FormItem className="w-full">
-                        <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                        <FormLabel className=" line-clamp-1 uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
                           Lastname
                         </FormLabel>
                         <FormControl>
@@ -199,11 +193,8 @@ const RegisterForm = () => {
                             {...field}
                             onChange={(e) => {
                               const value = e.target.value;
-                              const isValidInput = /^[A-Za-z\s]+$/.test(value);
-
-                              if (isValidInput || value === '') {
-                                field.onChange(value);
-                              }
+                              const validatedtext = value.replace(/[0-9]/g, '');
+                                field.onChange(validatedtext);
                             }}
                           />
                         </FormControl>
@@ -217,7 +208,7 @@ const RegisterForm = () => {
                     name="suffix"
                     render={({ field }) => (
                       <FormItem className="w-full">
-                        <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                        <FormLabel className=" line-clamp-1 uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
                           Suffix (optional)
                         </FormLabel>
                         <FormControl>
@@ -228,11 +219,8 @@ const RegisterForm = () => {
                             {...field}
                             onChange={(e) => {
                               const value = e.target.value;
-                              const isValidInput = /^[A-Za-z\s]+$/.test(value);
-
-                              if (isValidInput || value === '') {
-                                field.onChange(value);
-                              }
+                              const validatedtext = value.replace(/[0-9]/g, '');
+                                field.onChange(validatedtext);
                             }}
                           />
                         </FormControl>
@@ -248,7 +236,7 @@ const RegisterForm = () => {
                     name="dateOfBirth"
                     render={({ field }) => (
                       <FormItem className="w-full">
-                        <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                        <FormLabel className=" line-clamp-1 uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
                           Birthdate {age && `(${age} yrs old)`}
                         </FormLabel>
                         <FormControl>
@@ -286,7 +274,7 @@ const RegisterForm = () => {
                     name="gender"
                     render={({ field }) => (
                       <FormItem className="w-full">
-                        <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                        <FormLabel className=" line-clamp-1 uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
                           Gender
                         </FormLabel>
                         <Select
@@ -314,7 +302,7 @@ const RegisterForm = () => {
                     name="homeNo"
                     render={({ field }) => (
                       <FormItem className="w-full">
-                        <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                        <FormLabel className=" line-clamp-1 uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
                           House Number
                         </FormLabel>
                         <FormControl>
@@ -335,7 +323,7 @@ const RegisterForm = () => {
                     name="street"
                     render={({ field }) => (
                       <FormItem className="w-full">
-                        <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                        <FormLabel className=" line-clamp-1 uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
                           Street
                         </FormLabel>
                         <FormControl>
@@ -358,7 +346,7 @@ const RegisterForm = () => {
                     name="contactNo"
                     render={({ field }) => (
                       <FormItem className="w-full">
-                        <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                        <FormLabel className=" line-clamp-1 uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
                           Contact No.
                         </FormLabel>
                         <FormControl>
@@ -379,7 +367,7 @@ const RegisterForm = () => {
                     name="barangay"
                     render={({ field }) => (
                       <FormItem className="w-full">
-                        <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                        <FormLabel className=" line-clamp-1 uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
                           Barangay
                         </FormLabel>
                         <FormControl>
@@ -416,7 +404,7 @@ const RegisterForm = () => {
                     name="city"
                     render={({ field }) => (
                       <FormItem className="w-full">
-                        <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                        <FormLabel className=" line-clamp-1 uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
                           City
                         </FormLabel>
                         <FormControl>
@@ -438,7 +426,7 @@ const RegisterForm = () => {
                     name="zip"
                     render={({ field }) => (
                       <FormItem className="w-full">
-                        <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                        <FormLabel className=" line-clamp-1 uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
                           Zip
                         </FormLabel>
                         <FormControl>
@@ -466,7 +454,7 @@ const RegisterForm = () => {
                     name="email"
                     render={({ field }) => (
                       <FormItem className="w-full">
-                        <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                        <FormLabel className=" line-clamp-1 uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
                           Email
                         </FormLabel>
                         <FormControl>
@@ -488,7 +476,7 @@ const RegisterForm = () => {
                     name="password"
                     render={({ field }) => (
                       <FormItem className="w-full">
-                        <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                        <FormLabel className=" line-clamp-1 uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
                           Password
                         </FormLabel>
                         <FormControl>
@@ -511,7 +499,7 @@ const RegisterForm = () => {
                     name="confirmPassword"
                     render={({ field }) => (
                       <FormItem className="w-full">
-                        <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                        <FormLabel className=" line-clamp-1 uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
                           Confirm Password
                         </FormLabel>
                         <FormControl>

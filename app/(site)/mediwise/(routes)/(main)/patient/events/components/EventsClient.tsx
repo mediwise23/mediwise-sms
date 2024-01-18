@@ -55,7 +55,7 @@ const EventsClient: React.FC<EventsClientProps> = ({ currentUser }) => {
           }
 
           if (events.data.length <= 0) {
-            return <div className="flex justify-center">No events found</div>;
+            return <div className="flex justify-center text-white text-3xl mt-10">No events found</div>;
           }
 
           return (

@@ -41,6 +41,10 @@ const VerifyClient: React.FC<VerifyClientProps> = ({ currentUser }) => {
     },
   });
 
+  useEffect(() => {
+    refreshCode.refetch()
+  }, [])
+
   const verifyCode = useMutateProcessor<TVerifyUserSchema, unknown>({
     url: `/auth/verify`,
     method: "POST",

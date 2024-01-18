@@ -16,19 +16,25 @@ import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import {Notification} from '@prisma/client'
 import { Session } from "next-auth";
+import { useNotification } from "@/hooks/useNotification";
 type UserNotificationProps = {
   currentUser?: Session["user"] | null;
 };
 const UserNotification = ({ currentUser }: UserNotificationProps) => {
-  const notifications = useQueryProcessor<Notification[]>({url:"/notifications", key:["notifications"]});
+  const notifications = useQueryProcessor<Notification[]>({url:"/notifications", key:["notifications"], queryParams: {
+    userId: currentUser?.id
+  },
+options:{
+  enabled: !!currentUser?.id
+}});
   const router = useRouter()
     const unreadMessagesCount =  notifications?.data?.reduce((currentTotal, notification) => notification.isRead == false ? currentTotal + 1 : currentTotal,0) || 0
-
-  // useNotificationSocket({
-  //   notificationCreateKey: `notification:${currentUser?.id}:create`,
-  //   notificationUpdateKey: `notification:${currentUser?.id}:update`,
-  //   queryKey: ["notifications"],
-  // });
+// notification:clrduo3nj0028at67xdm11xbg:create
+  useNotification({
+    notificationCreateKey: `notification:${currentUser?.id}:create`,
+    notificationUpdateKey: `notification:${currentUser?.id}:update`,
+    queryKey: ["notifications"],
+  });
   
   return (
     <DropdownMenu>
