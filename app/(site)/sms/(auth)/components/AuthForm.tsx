@@ -71,9 +71,9 @@ const AuthForm = () => {
         className="  flex flex-col w-[90%] md:w-[30%] items-center p-7 rounded-md z-10"
       >
         <ArrowLeft
-        className="w-7 h-7 cursor-pointer rounded-md  absolute top-5 left-5 text-white"
-        onClick={() => router.push(`/`)}
-      />
+          className="w-7 h-7 cursor-pointer rounded-md  absolute top-5 left-5 text-white"
+          onClick={() => router.push(`/`)}
+        />
         <div className="h-[130px] w-[130px] relative">
           <Image
             src={`/images/Clogo.png`}
@@ -88,15 +88,13 @@ const AuthForm = () => {
           Stock Management System
         </h1>
 
-      
-
         <div className="flex flex-col items-center  w-full gap-2">
           <FormField
             control={form.control}
             name="email"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel className="uppercase text-xs font-bold text-zinc-300 dark:text-secondary/70">
+                <FormLabel className="uppercase text-xs font-bold text-zinc-300">
                   Email
                 </FormLabel>
                 <FormControl>
@@ -118,7 +116,7 @@ const AuthForm = () => {
             name="password"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel className="uppercase text-xs font-bold text-zinc-300 dark:text-secondary/70">
+                <FormLabel className="uppercase text-xs font-bold text-zinc-300">
                   Password
                 </FormLabel>
 

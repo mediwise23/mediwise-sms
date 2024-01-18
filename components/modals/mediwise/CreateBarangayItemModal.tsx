@@ -91,7 +91,7 @@ const CreateBarangayItemModal = () => {
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onHandleClose}>
-      <DialogContent className=" overflow-hidden dark:bg-[#020817] dark:text-white">
+      <DialogContent className="max-h-[90vh] w-[500px] max-w-[90vw] overflow-y-auto dark:bg-[#020817] dark:text-white">
         <DialogHeader className="pt-3 px-6">
           <DialogTitle className="text-2xl text-center font-bold m-2 dark:text-white">
             Add item
@@ -119,7 +119,7 @@ const CreateBarangayItemModal = () => {
                     <FormControl>
                       <Input
                         disabled={isLoading}
-                        className="focus-visible:ring-0  focus-visible:ring-offset-0"
+                        className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0"
                         placeholder={`Enter name`}
                         {...field}
                       />
@@ -142,7 +142,7 @@ const CreateBarangayItemModal = () => {
                     <FormControl>
                       <Input
                         disabled={isLoading}
-                        className=" focus-visible:ring-0  focus-visible:ring-offset-0 resize-none"
+                        className="bg-transparent  focus-visible:ring-0  focus-visible:ring-offset-0 resize-none"
                         type="number"
                         placeholder={`Enter stock`}
                         {...field}
@@ -166,7 +166,7 @@ const CreateBarangayItemModal = () => {
                     <FormControl>
                       <Input
                         disabled={isLoading}
-                        className=" focus-visible:ring-0  focus-visible:ring-offset-0 resize-none"
+                        className="bg-transparent  focus-visible:ring-0  focus-visible:ring-offset-0 resize-none"
                         type="text"
                         placeholder={`Enter unit`}
                         {...field}
@@ -190,7 +190,7 @@ const CreateBarangayItemModal = () => {
                     <FormControl>
                       <Textarea
                         disabled={isLoading}
-                        className="focus-visible:ring-0  focus-visible:ring-offset-0 resize-none"
+                        className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0 resize-none"
                         placeholder={`Enter description`}
                         {...field}
                       />

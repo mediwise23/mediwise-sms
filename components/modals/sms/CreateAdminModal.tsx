@@ -21,13 +21,22 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../../ui/input";
 import { useModal } from "@/hooks/useModalStore";
-import { useMutateProcessor, useQueryProcessor } from "@/hooks/useTanstackQuery";
+import {
+  useMutateProcessor,
+  useQueryProcessor,
+} from "@/hooks/useTanstackQuery";
 import { Loader2 } from "../../ui/Loader";
 
 import { useToast } from "../../ui/use-toast";
 import { CreateAdminSchema, TCreateAdminSchema } from "@/schema/user";
 import { Barangay, Role } from "@prisma/client";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const CreateAdminModal = () => {
   const { toast } = useToast();
@@ -58,10 +67,10 @@ const CreateAdminModal = () => {
     url: "/barangay",
     key: ["barangay"],
     options: {
-      enabled: !!isModalOpen
-    } 
+      enabled: !!isModalOpen,
+    },
   });
-  
+
   const onSubmit: SubmitHandler<TCreateAdminSchema> = async (values) => {
     console.log("Admin doctor", values);
 
@@ -96,7 +105,7 @@ const CreateAdminModal = () => {
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onHandleClose}>
-      <DialogContent className="overflow-hidden dark:bg-[#020817] dark:text-white">
+      <DialogContent className="max-h-[90vh] w-[500px] max-w-[90vw] overflow-y-auto dark:bg-[#020817] dark:text-white">
         <DialogHeader className="pt-3 px-6">
           <DialogTitle className="text-2xl text-center font-bold m-2 dark:text-white">
             Add new admin
@@ -126,7 +135,7 @@ const CreateAdminModal = () => {
                       <FormControl>
                         <Input
                           disabled={isLoading}
-                          className="focus-visible:ring-0  focus-visible:ring-offset-0"
+                          className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0"
                           placeholder={`Enter firstname`}
                           {...field}
                         />
@@ -150,7 +159,7 @@ const CreateAdminModal = () => {
                       <FormControl>
                         <Input
                           disabled={isLoading}
-                          className="focus-visible:ring-0  focus-visible:ring-offset-0"
+                          className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0"
                           placeholder={`Enter Lastname`}
                           {...field}
                         />
@@ -176,7 +185,7 @@ const CreateAdminModal = () => {
                       <FormControl>
                         <Input
                           disabled={isLoading}
-                          className="focus-visible:ring-0  focus-visible:ring-offset-0"
+                          className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0"
                           placeholder={`Enter middlename`}
                           {...field}
                         />
@@ -200,7 +209,7 @@ const CreateAdminModal = () => {
                       <FormControl>
                         <Input
                           disabled={isLoading}
-                          className="focus-visible:ring-0  focus-visible:ring-offset-0"
+                          className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0"
                           placeholder={`Enter suffix`}
                           {...field}
                         />
@@ -212,34 +221,33 @@ const CreateAdminModal = () => {
               </div>
             </div>
 
-
             <div className="w-full">
               <FormField
-                    control={form.control}
-                    name="gender"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
-                          Gender
-                        </FormLabel>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                        >
-                          <FormControl>
-                            <SelectTrigger className="focus-visible:ring-0  focus-visible:ring-offset-0 border-zinc-500  bg-transparent">
-                              <SelectValue placeholder="Select a gender" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent className="focus-visible:ring-0  focus-visible:ring-offset-0">
-                            <SelectItem value="MALE">Male</SelectItem>
-                            <SelectItem value="FEMALE">Female</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                control={form.control}
+                name="gender"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                      Gender
+                    </FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger className="focus-visible:ring-0  focus-visible:ring-offset-0 border-zinc-500  bg-transparent">
+                          <SelectValue placeholder="Select a gender" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent className="focus-visible:ring-0  focus-visible:ring-offset-0">
+                        <SelectItem value="MALE">Male</SelectItem>
+                        <SelectItem value="FEMALE">Female</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
             <div className="w-full">
               <FormField
@@ -253,7 +261,7 @@ const CreateAdminModal = () => {
                     <FormControl>
                       <Input
                         disabled={isLoading}
-                        className="focus-visible:ring-0  focus-visible:ring-offset-0"
+                        className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0"
                         type="email"
                         placeholder={`Enter email`}
                         {...field}
@@ -266,40 +274,40 @@ const CreateAdminModal = () => {
             </div>
 
             <div className="w-full">
-            <FormField
-                    control={form.control}
-                    name="barangay"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
-                          Barangay
-                        </FormLabel>
+              <FormField
+                control={form.control}
+                name="barangay"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                      Barangay
+                    </FormLabel>
+                    <FormControl>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
                         <FormControl>
-                          <Select
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                          >
-                            <FormControl>
-                              <SelectTrigger className="focus-visible:ring-0  focus-visible:ring-offset-0  bg-transparent">
-                                <SelectValue placeholder="Select a barangay" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent className="focus-visible:ring-0  focus-visible:ring-offset-0">
-                              {barangay?.data?.map((barangay) => (
-                                <SelectItem
-                                  value={barangay?.id || "null"}
-                                  key={barangay?.id}
-                                >
-                                  {barangay.name}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
+                          <SelectTrigger className="focus-visible:ring-0  focus-visible:ring-offset-0  bg-transparent">
+                            <SelectValue placeholder="Select a barangay" />
+                          </SelectTrigger>
                         </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                        <SelectContent className="focus-visible:ring-0  focus-visible:ring-offset-0">
+                          {barangay?.data?.map((barangay) => (
+                            <SelectItem
+                              value={barangay?.id || "null"}
+                              key={barangay?.id}
+                            >
+                              {barangay.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
 
             {/* </div> */}

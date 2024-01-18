@@ -25,73 +25,77 @@ import { FileIcon, X, Download } from "lucide-react";
 import { useMutateProcessor } from "@/hooks/useTanstackQuery";
 import { useToast } from "../../ui/use-toast";
 import { Loader2 } from "../../ui/Loader";
-import { CreateItemTransactionSchema, TCreateItemTransaction } from "@/schema/item-transaction";
+import {
+  CreateItemTransactionSchema,
+  TCreateItemTransaction,
+} from "@/schema/item-transaction";
 import { Textarea } from "@/components/ui/textarea";
 import { uploadPhoto } from "@/lib/utils";
 
 // type and validation for excel sheet to json
 
 const CreateRequestModal = () => {
+  const { isOpen, onClose, type, data } = useModal();
 
-  const { isOpen, onClose, type, data} = useModal();
-
-  
   const isModalOpen = isOpen && type === "createRequest";
 
   // converting sheet to json and api request
-  
 
-    const form = useForm<TCreateItemTransaction>({
-      resolver: zodResolver(CreateItemTransactionSchema),
-      mode: 'all',
-      defaultValues: {
-        barangayUserId: data?.user?.id,
-        barangayId: data?.user?.barangayId as string,
-      }
-    })
-    const {toast} = useToast()
-    const onHandleClose = () => {
-      onClose()
-      form.reset()
-  }
+  const form = useForm<TCreateItemTransaction>({
+    resolver: zodResolver(CreateItemTransactionSchema),
+    mode: "all",
+    defaultValues: {
+      barangayUserId: data?.user?.id,
+      barangayId: data?.user?.barangayId as string,
+    },
+  });
+  const { toast } = useToast();
+  const onHandleClose = () => {
+    onClose();
+    form.reset();
+  };
 
-    useEffect(() => {
-      if(data.user) {
-        form.setValue('barangayUserId', data?.user?.id as string)
-        form.setValue('barangayId', data?.user?.barangayId as string)
-      }
-      return () => {
-        form.reset()
-      }
-    }, [isModalOpen])
+  useEffect(() => {
+    if (data.user) {
+      form.setValue("barangayUserId", data?.user?.id as string);
+      form.setValue("barangayId", data?.user?.barangayId as string);
+    }
+    return () => {
+      form.reset();
+    };
+  }, [isModalOpen]);
 
-    const createRequest = useMutateProcessor<TCreateItemTransaction, unknown>({
-      url: '/transactions/barangay',
-      method: 'POST',
-      key: ['transactions-barangay'],
-    })
+  const createRequest = useMutateProcessor<TCreateItemTransaction, unknown>({
+    url: "/transactions/barangay",
+    method: "POST",
+    key: ["transactions-barangay"],
+  });
 
-    const isLoading = form.formState.isSubmitting || createRequest.status == 'pending'
-    const onSubmit: SubmitHandler<TCreateItemTransaction> = async (values) => {
-      const { url, public_id } = await uploadPhoto(values.fileReport)
-      console.log(url)
-      createRequest.mutate({...values, fileReport: url}, {
+  const isLoading =
+    form.formState.isSubmitting || createRequest.status == "pending";
+  const onSubmit: SubmitHandler<TCreateItemTransaction> = async (values) => {
+    const { url, public_id } = await uploadPhoto(values.fileReport);
+    console.log(url);
+    createRequest.mutate(
+      { ...values, fileReport: url },
+      {
         onError(error, variables, context) {
           toast({
-            title:'Request failed',
-            variant: 'destructive'
-          })
+            title: "Request failed",
+            variant: "destructive",
+          });
         },
         onSuccess(data, variables, context) {
           toast({
-            title:'Request has been made',
-          })
-          onHandleClose()
+            title: "Request has been made",
+          });
+          onHandleClose();
         },
-      })
-    };
+      }
+    );
+  };
 
-    console.log(form.formState.errors)
+  console.log(form.formState.errors);
   return (
     <Dialog open={isModalOpen} onOpenChange={onHandleClose}>
       <DialogContent className="bg-white text-black p-0 overflow-hidden dark:bg-[#020817] dark:text-white">
@@ -109,7 +113,7 @@ const CreateRequestModal = () => {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-21 ">
             <div className="space-y-8 px-6">
               <div className="flex items-center justify-center text-center mt-5">
-              {(() => {
+                {(() => {
                   const value = form.getValues("fileReport");
                   if (!value) {
                     return (
@@ -138,10 +142,9 @@ const CreateRequestModal = () => {
                                 accept="application/pdf"
                                 onChange={(e) => {
                                   if (e?.target?.files?.[0]) {
-                                      field.onChange(e?.target?.files?.[0]);
-                                  }
-                                  else {
-                                    field.onChange(null)
+                                    field.onChange(e?.target?.files?.[0]);
+                                  } else {
+                                    field.onChange(null);
                                   }
                                 }}
                               />
@@ -175,7 +178,6 @@ const CreateRequestModal = () => {
                     </div>
                   );
                 })()}
-                
               </div>
 
               <div className="w-full mt-5">
@@ -184,15 +186,15 @@ const CreateRequestModal = () => {
                   name="description"
                   render={({ field }) => (
                     <FormItem className="w-full">
-                      <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">
+                      <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
                         Remarks/Description
                       </FormLabel>
                       <FormControl>
                         <Textarea
-                        disabled={isLoading}
-                        cols={7}
-                        rows={7}
-                          className="focus-visible:ring-0 focus-visible:ring-offset-0 resize-none"
+                          disabled={isLoading}
+                          cols={7}
+                          rows={7}
+                          className="focus-visible:ring-0 focus-visible:ring-offset-0 resize-none bg-transparent"
                           placeholder={`Enter remarks/description`}
                           {...field}
                         />
@@ -204,7 +206,11 @@ const CreateRequestModal = () => {
               </div>
             </div>
             <DialogFooter className="px-6 py-4">
-              <Button variant={"default"} className=" dark:text-white" disabled={isLoading}>
+              <Button
+                variant={"default"}
+                className=" dark:text-white"
+                disabled={isLoading}
+              >
                 {(() => {
                   if (isLoading)
                     return (

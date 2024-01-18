@@ -16,32 +16,50 @@ const InventoryReportModal = () => {
     0
   );
   const pdfExportYearComponent = useRef<any>(null);
-  const [reportClicked, setReportClcked] = useState(false)
+  const [reportClicked, setReportClcked] = useState(false);
 
   const handleExportYearlyPdf = (e: any) => {
     if (pdfExportYearComponent.current) {
-      setReportClcked(true)
+      setReportClcked(true);
       setTimeout(() => {
         pdfExportYearComponent.current?.save();
-        setReportClcked(false)
-      }, 0)
+        setReportClcked(false);
+      }, 0);
     }
   };
 
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
-      <DialogContent className={cn(" min-w-[90vw] min-h-[95vh] bg-white text-black p-0 overflow-hidden dark:bg-[#020817] dark:text-white h-[80%] rounded-md flex flex-col items-center justify-center")}>
+      <DialogContent
+        className={cn(
+          " min-w-[90vw] min-h-[95vh] bg-white text-black p-0 overflow-hidden  h-[80%] rounded-md flex flex-col items-center justify-center"
+        )}
+      >
         <div className="flex flex-col  min-w-[90vw]">
-          <PDFExport ref={pdfExportYearComponent}>
-            <div className="container mx-auto mt-8 w-full">
+          <PDFExport ref={pdfExportYearComponent} margin="2cm">
+            <div className="container mx-auto mt-8 w-full p-5">
               <div className="">
                 <h1 className="text-4xl font-bold mb-2">
                   Barangay Inventory Report
                 </h1>
                 <p className="text-gray-600">
-                  A summary of available items in the inventory as of {months[new Date().getMonth()]} {new Date().getFullYear()}
+                  A summary of available items in the inventory as of{" "}
+                  {months[new Date().getMonth()]} {new Date().getFullYear()}
                 </p>
               </div>
 
@@ -49,8 +67,13 @@ const InventoryReportModal = () => {
                 <p className="text-lg font-semibold">Summary:</p>
                 <p>Total stocks: {totalStocks}</p>
               </div>
-              <div className={cn("max-h-[60vh] overflow-auto", reportClicked && 'overflow-visible')}>
-                <table className="min-w-full bg-white shadow-md rounded-lg mt-10  ">
+              <div
+                className={cn(
+                  "max-h-[60vh] overflow-auto",
+                  reportClicked && "overflow-visible"
+                )}
+              >
+                <table className="min-w-full bg-white dark:text-black shadow-md rounded-lg mt-10  ">
                   <thead>
                     <tr className="text-left text-gray-600">
                       <th className="py-2 pl-4">ID</th>
@@ -73,8 +96,6 @@ const InventoryReportModal = () => {
                   </tbody>
                 </table>
               </div>
-
-             
             </div>
           </PDFExport>
 

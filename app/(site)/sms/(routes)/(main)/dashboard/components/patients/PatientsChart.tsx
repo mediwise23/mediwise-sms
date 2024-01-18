@@ -8,14 +8,13 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { PatientsTotalType } from "./PatientsTab";
 
 type PatientsChartProps = {
   data: {
     id: number;
     numberOfRequest: any;
     month: string;
-}[]
+  }[];
 };
 
 export default function PatientsChart({ data }: PatientsChartProps) {
