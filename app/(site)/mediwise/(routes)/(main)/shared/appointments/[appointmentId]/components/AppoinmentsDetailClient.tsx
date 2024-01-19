@@ -30,7 +30,6 @@ const AppoinmentsDetailClient: React.FC<AppoinmentsDetailClientProps> = ({
     url: `/appointments/${appointmentId}`,
     key: ["view-appointment"],
   });
-  console.log(appointment.data);
   return (
     <div className="flex flex-col bg-white dark:bg-slate-900 shadow-md p-5 rounded-md">
       <ArrowLeft
