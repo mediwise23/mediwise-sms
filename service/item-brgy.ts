@@ -47,7 +47,8 @@ export const createBarangayItem = async (
       unit: data.unit,
       description: data.description,
       stock: Number(data.stock),
-      barangayId: data.brgyId
+      barangayId: data.brgyId,
+      dosage:data?.dosage
     },
   });
 };

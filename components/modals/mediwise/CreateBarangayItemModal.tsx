@@ -157,6 +157,30 @@ const CreateBarangayItemModal = () => {
             <div className="w-full">
               <FormField
                 control={form.control}
+                name="dosage"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                      Dosage
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={isLoading}
+                        className="bg-transparent  focus-visible:ring-0  focus-visible:ring-offset-0 resize-none"
+                        type="text"
+                        placeholder={`Enter dosage`}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className="w-full">
+              <FormField
+                control={form.control}
                 name="unit"
                 render={({ field }) => (
                   <FormItem className="w-full">

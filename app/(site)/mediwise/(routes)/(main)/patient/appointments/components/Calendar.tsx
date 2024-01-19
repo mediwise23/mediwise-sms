@@ -29,6 +29,7 @@ import AppointmentItem from "./AppointmentItem";
 import { Button } from "@/components/ui/button";
 import { Divide } from "lucide-react";
 import { Loader2 } from "@/components/ui/Loader";
+import { cn } from "@/lib/utils";
 type CalendarClientProps = {
   currentUser: TUser;
 };
@@ -94,6 +95,9 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
     },
   });
 
+  const numberOfAppointments = currentAppointment?.data?.length || 0;
+  const limit = 25;
+  const limitExceeded = numberOfAppointments >= limit;
   useEffect(() => {
     currentAppointment.refetch();
   }, [selectInfo]);
@@ -210,6 +214,14 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
       {selectInfo && (
         <div className=" flex-[0.2] mt-10 flex flex-col h-[80vh] justify-between">
           <h1 className="text-center text-lg font-semibold">Appointments</h1>
+          <h2
+            className={cn(
+              "text-center text-md font-semibold",
+              limitExceeded && "text-rose-500"
+            )}
+          >
+            slot: {numberOfAppointments}/{limit}
+          </h2>
           <div className="flex flex-col mt-10 max-h-[550px] h-[550px] overflow-y-auto gap-y-2">
             {(() => {
               if (currentAppointment.status === "pending") {
@@ -239,13 +251,16 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
             })()}
           </div>
           <Button
-            className="mx-auto"
-            onClick={() =>
-              onOpen("addAppointment", {
-                calendarApi: selectInfo,
-                user: currentUser,
-              })
-            }
+            className={cn("mx-auto")}
+            disabled={limitExceeded}
+            onClick={() => {
+              if (!limitExceeded) {
+                onOpen("addAppointment", {
+                  calendarApi: selectInfo,
+                  user: currentUser,
+                });
+              }
+            }}
           >
             Add a appointment
           </Button>

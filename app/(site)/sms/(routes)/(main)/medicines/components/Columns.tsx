@@ -199,7 +199,7 @@ export const columns: ColumnDef<TItemSms & {supplier: TSupplierSchema}>[] = [
     cell: ({ row }) => {
       const createdAt = row.original?.createdAt;
       return (
-        <ActionButton />
+        <ActionButton data={row.original}/>
       );
     },
   },

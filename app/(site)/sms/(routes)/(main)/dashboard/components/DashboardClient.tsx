@@ -4,11 +4,19 @@ import React from "react";
 import PatientsTab from "./patients/PatientsTab";
 import { useQueryProcessor } from "@/hooks/useTanstackQuery";
 import { TItemTransaction } from "@/schema/item-transaction";
+import Widget from "./Widget";
+import { Columns, LayoutDashboard } from "lucide-react";
+import qs from "query-string";
+
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import ItemsTab from "./items/ItemsTab";
+import { Session } from "next-auth";
 type DashboardClientProps = {
   tab: string;
+  currentUser: Session['user']
 };
 
-const DashboardClient = ({ tab = "barangay" }: DashboardClientProps) => {
+const DashboardClient = ({ tab = "requests", currentUser }: DashboardClientProps) => {
   
   const transactions = useQueryProcessor<TItemTransaction[]>({
     url: `/transactions`,
@@ -42,14 +50,42 @@ const data = Array.from({ length: 12 }, (_, index) => {
     month: monthName,
   };
 });
+const searchParams = useSearchParams();
+const pathname = usePathname();
+const { replace, push } = useRouter();
+const handleSelectedTab = (tab: string) => {
+  if (searchParams) {
+    let currentQueries = qs.parse(searchParams.toString());
+    const newQueries = { ...currentQueries, tab: tab };
+
+    const newParams = qs.stringify(newQueries, {
+      skipEmptyString: true,
+      skipNull: true,
+    });
+    replace(`${pathname}?${newParams}`);
+  }
+};
 
 console.log('Monthly Request Counts:', data);
   return (
     <div className="p-6">
-      <h1 className="text-xl font-bold">Barangay Request Per Month</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-5">
+      <div onClick={() => handleSelectedTab("requests")}>
+          <Widget
+            title="Barangay requests"
+            total={100 || 0}
+            icon={LayoutDashboard}
+          />
+        </div>
+        <div onClick={() => handleSelectedTab("items")}>
+          <Widget title="Inventory Items" total={100 || 0} icon={Columns} />
+        </div>
+      </div>
+      
       <div className="flex flex-col mt-5">
         {(() => {
-          if (tab === "barangay") return <PatientsTab data={data} />;
+          if (tab === "requests") return <PatientsTab data={data} />;
+          if (tab === "items") return <ItemsTab currentUser={currentUser} />;
         })()}
       </div>
     </div>

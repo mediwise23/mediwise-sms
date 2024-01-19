@@ -38,6 +38,7 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { cn } from "@/lib/utils";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const RegisterForm = () => {
   const [step, setStep] = useState(1);
@@ -47,7 +48,7 @@ const RegisterForm = () => {
   const [maxDate, setMaxDate] = useState(
     new Date(today.getFullYear() - 18, today.getMonth(), today.getDate())
       .toISOString()
-      .split('T')[0]
+      .split("T")[0]
   );
   const [age, setAge] = useState<number | null>(null);
   const form = useForm<TRegister>({
@@ -59,6 +60,7 @@ const RegisterForm = () => {
     },
     mode: "all",
   });
+  const [showPass, setShowPass] = useState(false);
 
   const router = useRouter();
   const register = useMutateProcessor<TRegister, string>({
@@ -139,8 +141,8 @@ const RegisterForm = () => {
                             {...field}
                             onChange={(e) => {
                               const value = e.target.value;
-                              const validatedtext = value.replace(/[0-9]/g, '');
-                                field.onChange(validatedtext);
+                              const validatedtext = value.replace(/[0-9]/g, "");
+                              field.onChange(validatedtext);
                             }}
                           />
                         </FormControl>
@@ -154,7 +156,7 @@ const RegisterForm = () => {
                     name="middlename"
                     render={({ field }) => (
                       <FormItem className="w-full">
-                        <FormLabel className=" line-clamp-1 uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400"> 
+                        <FormLabel className=" line-clamp-1 uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
                           Middlename (optional)
                         </FormLabel>
                         <FormControl>
@@ -165,8 +167,8 @@ const RegisterForm = () => {
                             {...field}
                             onChange={(e) => {
                               const value = e.target.value;
-                              const validatedtext = value.replace(/[0-9]/g, '');
-                                field.onChange(validatedtext);
+                              const validatedtext = value.replace(/[0-9]/g, "");
+                              field.onChange(validatedtext);
                             }}
                           />
                         </FormControl>
@@ -193,8 +195,8 @@ const RegisterForm = () => {
                             {...field}
                             onChange={(e) => {
                               const value = e.target.value;
-                              const validatedtext = value.replace(/[0-9]/g, '');
-                                field.onChange(validatedtext);
+                              const validatedtext = value.replace(/[0-9]/g, "");
+                              field.onChange(validatedtext);
                             }}
                           />
                         </FormControl>
@@ -219,8 +221,8 @@ const RegisterForm = () => {
                             {...field}
                             onChange={(e) => {
                               const value = e.target.value;
-                              const validatedtext = value.replace(/[0-9]/g, '');
-                                field.onChange(validatedtext);
+                              const validatedtext = value.replace(/[0-9]/g, "");
+                              field.onChange(validatedtext);
                             }}
                           />
                         </FormControl>
@@ -231,7 +233,7 @@ const RegisterForm = () => {
                 </div>
 
                 <div className="flex justify-evenly gap-x-3">
-                <FormField
+                  <FormField
                     control={form.control}
                     name="dateOfBirth"
                     render={({ field }) => (
@@ -241,7 +243,7 @@ const RegisterForm = () => {
                         </FormLabel>
                         <FormControl>
                           <Input
-                          max={maxDate} // Set the maximum date dynamically
+                            max={maxDate} // Set the maximum date dynamically
                             className="focus-visible:ring-0  focus-visible:ring-offset-0 border-zinc-500"
                             type="date"
                             placeholder={`Enter birthdate`}
@@ -249,18 +251,21 @@ const RegisterForm = () => {
                             onChange={(e) => {
                               const enteredDate = e.target.value;
                               const birthDate = new Date(enteredDate);
-                              const ageDiff = today.getFullYear() - birthDate.getFullYear();
-                          
+                              const ageDiff =
+                                today.getFullYear() - birthDate.getFullYear();
+
                               // Check if birthday has occurred this year
                               const hasBirthdayOccurred =
                                 today.getMonth() > birthDate.getMonth() ||
                                 (today.getMonth() === birthDate.getMonth() &&
                                   today.getDate() >= birthDate.getDate());
-                          
-                              const calculatedAge = hasBirthdayOccurred ? ageDiff : ageDiff - 1;
-                              setAge(calculatedAge)
 
-                              field.onChange(e.target.value)
+                              const calculatedAge = hasBirthdayOccurred
+                                ? ageDiff
+                                : ageDiff - 1;
+                              setAge(calculatedAge);
+
+                              field.onChange(e.target.value);
                             }}
                           />
                         </FormControl>
@@ -482,7 +487,7 @@ const RegisterForm = () => {
                         <FormControl>
                           <Input
                             className="focus-visible:ring-0  focus-visible:ring-offset-0"
-                            type="password"
+                            type={showPass ? 'text' : 'password'}
                             placeholder={`Enter password`}
                             {...field}
                           />
@@ -505,7 +510,7 @@ const RegisterForm = () => {
                         <FormControl>
                           <Input
                             className="focus-visible:ring-0  focus-visible:ring-offset-0"
-                            type="password"
+                            type={showPass ? 'text' : 'password'}
                             placeholder={`Enter password confirmation`}
                             {...field}
                           />
@@ -514,6 +519,21 @@ const RegisterForm = () => {
                       </FormItem>
                     )}
                   />
+                </div>
+
+                <div className="flex gap-x-3 items-center">
+                  <Checkbox
+                    id="showPass"
+                    checked={showPass === true}
+                    onCheckedChange={() => setShowPass((prev) => !prev)}
+                  />
+
+                  <label
+                    htmlFor="showPass"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    Show password
+                  </label>
                 </div>
               </div>
             )}

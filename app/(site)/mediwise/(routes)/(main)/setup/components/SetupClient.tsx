@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Session } from "next-auth";
 import {
@@ -31,6 +31,7 @@ import {
 import { Barangay } from "@prisma/client";
 import { Loader2 } from "@/components/ui/Loader";
 import UserMenu from "@/components/UserMenu";
+import { Checkbox } from "@/components/ui/checkbox";
 
 type SetupClientProps = {
   currentUser: Session["user"];
@@ -38,6 +39,7 @@ type SetupClientProps = {
 const SetupClient: React.FC<SetupClientProps> = ({ currentUser }) => {
   const { toast } = useToast();
   const router = useRouter();
+  const [showPass, setShowPass] = useState(false);
 
   const barangay = useQueryProcessor<Barangay[]>({
     url: "/barangay",
@@ -239,7 +241,7 @@ const SetupClient: React.FC<SetupClientProps> = ({ currentUser }) => {
                         <FormControl>
                           <Input
                             className="bg-transparent border-zinc-500 focus-visible:ring-0  focus-visible:ring-offset-0"
-                            type="password"
+                            type={showPass ? 'text' : 'password'}
                             disabled={isLoading}
                             placeholder={`Enter password`}
                             {...field}
@@ -261,7 +263,7 @@ const SetupClient: React.FC<SetupClientProps> = ({ currentUser }) => {
                         <FormControl>
                           <Input
                             className="bg-transparent border-zinc-500 focus-visible:ring-0  focus-visible:ring-offset-0"
-                            type="password"
+                            type={showPass ? 'text' : 'password'}
                             disabled={isLoading}
                             placeholder={`Enter password confirmation`}
                             {...field}
@@ -271,6 +273,21 @@ const SetupClient: React.FC<SetupClientProps> = ({ currentUser }) => {
                       </FormItem>
                     )}
                   />
+
+ <div className="flex gap-x-3 items-center mt-5">
+                  <Checkbox
+                    id="showPass"
+                    checked={showPass === true}
+                    onCheckedChange={() => setShowPass((prev) => !prev)}
+                  />
+
+                  <label
+                    htmlFor="showPass"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    Show password
+                  </label>
+                </div>
                 </div>
               </div>
               <div className="flex flex-col gap-y-3">

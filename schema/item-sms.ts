@@ -45,9 +45,11 @@ export const UpdateSmsItemSchema = ItemSmsSchema.pick({
   description: true,
   unit: true,
   stock: true,
+  dosage:true,
 }).extend({
   name: z.string().min(1, "Required").max(255).optional(),
   description: z.string().min(1, "Required").max(255).optional(),
   unit: z.string().min(1, "Required").max(255).optional(),
-  stock: z.number().min(1, "Required").max(255).optional(),
+  dosage: z.string().min(1, "Required").max(255).optional(),
+  stock: z.coerce.number().min(1, "Required").max(255).optional(),
 });

@@ -77,7 +77,7 @@ const DashboardClient = ({
           />
         </div>
         <div onClick={() => handleSelectedTab("items")}>
-          <Widget title="Items" total={100 || 0} icon={Columns} />
+          <Widget title="Inventory Items" total={100 || 0} icon={Columns} />
         </div>
         <div onClick={() => handleSelectedTab("patients")}>
           <Widget title="Patients" total={100 || 0} icon={LucideUserSquare2} />

@@ -30,31 +30,32 @@ import {
 } from "@/schema/item-brgy";
 import { Textarea } from "../../ui/textarea";
 import { useToast } from "../../ui/use-toast";
+import { TItemSms, TUpdateSmsItem, UpdateSmsItemSchema } from "@/schema/item-sms";
 
-const UpdateBarangayItemModal = () => {
+const UpdateSmsItemModal = () => {
   const { toast } = useToast();
   const { isOpen, type, onClose, data } = useModal();
-  const isModalOpen = isOpen && type === "updateBarangayItem";
+  const isModalOpen = isOpen && type === "updateSmsItem";
 
   const onHandleClose = () => {
     onClose();
     form.reset();
   };
 
-  const form = useForm<TUpdateBrgyItem>({
-    resolver: zodResolver(UpdateBrgyItemSchema),
+  const form = useForm<TUpdateSmsItem>({
+    resolver: zodResolver(UpdateSmsItemSchema),
     defaultValues: {
         
     },
   });
 
   useEffect(() => {
-    if(data?.brgyItem) {
-        form.setValue("description", data?.brgyItem.description as string);
-        form.setValue("name", data?.brgyItem.name as string);
-        form.setValue("stock", data?.brgyItem.stock as number);
-        form.setValue("dosage", data?.brgyItem.dosage as string);
-        form.setValue("unit", data?.brgyItem.unit as string);
+    if(data?.smsItem) {
+        form.setValue("description", data?.smsItem.description as string);
+        form.setValue("name", data?.smsItem.name as string);
+        form.setValue("dosage", data?.smsItem.dosage as string);
+        form.setValue("stock", data?.smsItem.stock as number);
+        form.setValue("unit", data?.smsItem.unit as string);
     }
 
     return () => {
@@ -62,13 +63,15 @@ const UpdateBarangayItemModal = () => {
     };
   }, [isModalOpen]);
 
-  const updateItem = useMutateProcessor<TUpdateBrgyItem, TItemBrgy>({
-    url: `/brgy-item/${data?.brgyItem?.id}`,
+  const updateItem = useMutateProcessor<TUpdateSmsItem, TItemSms>({
+    url: `/sms-item/${data?.smsItem?.id}`,
     method: "PATCH",
-    key: ["inventory-items", "barangay", data.user?.barangayId],
+    key: ["inventory-items", "sms"],
   });
 
-  const onSubmit: SubmitHandler<TUpdateBrgyItem> = async (values) => {
+
+
+  const onSubmit: SubmitHandler<  TUpdateSmsItem  > = async (values) => {
     updateItem.mutate(values, {
       onSuccess(data, variables, context) {
         console.log(data);
@@ -179,7 +182,6 @@ const UpdateBarangayItemModal = () => {
                 )}
               />
             </div>
-            
 
             <div className="w-full">
               <FormField
@@ -232,7 +234,7 @@ const UpdateBarangayItemModal = () => {
               <Button
                 variant={"default"}
                 type="submit"
-                className=" dark:text-white"
+                className=" dark:text-white sms-bg sms-bg-hover"
                 disabled={isLoading}
               >
                 {(() => {
@@ -254,4 +256,4 @@ const UpdateBarangayItemModal = () => {
   );
 };
 
-export default UpdateBarangayItemModal;
+export default UpdateSmsItemModal;

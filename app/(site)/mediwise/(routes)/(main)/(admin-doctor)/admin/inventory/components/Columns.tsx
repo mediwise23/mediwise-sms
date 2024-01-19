@@ -98,6 +98,27 @@ export const columns: ColumnDef<TItemBrgy>[] = [
   },
 
   {
+    accessorKey: "dosage",
+    accessorFn: (row) => {
+      const dosage = row.dosage;
+      return dosage;
+    },
+    header: ({ column }) => (
+      <div
+        className="text-[#181a19] flex items-center cursor-pointer dark:text-white flex-1"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Dosage <ArrowUpDown className="ml-2 h-4 w-4" />
+      </div>
+    ),
+    cell: ({ row }) => {
+      const dosage = row.original?.dosage;
+
+      return <div className={` flex items-center`}>{dosage}</div>;
+    },
+  },
+
+  {
     accessorKey: "unit",
     accessorFn: (row) => {
       const unit = row.unit;
