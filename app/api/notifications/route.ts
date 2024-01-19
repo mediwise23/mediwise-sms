@@ -35,6 +35,9 @@ export const GET = withAuth(
         where: {
           userId: queries.data.userId,
         },
+        orderBy: {
+          createdAt: 'desc'
+        }
       });
 
       return NextResponse.json(notifications, { status: 200 });
