@@ -49,7 +49,7 @@ export const PATCH = withAuth(
         );
       }
 
-      const item = await getSmsItemById(params.itemId);
+      const item = await getSmsItemById(params.smsitemId);
 
       if (!item) {
         return NextResponse.json(
@@ -60,7 +60,7 @@ export const PATCH = withAuth(
         );
       }
 
-      const itemUpdated = await updateSmsItemById(params.itemId, {
+      const itemUpdated = await updateSmsItemById(params.smsitemId, {
         name: body.data.name,
         description: body.data.description,
         unit: body.data.unit,
@@ -81,7 +81,7 @@ export const PATCH = withAuth(
 export const DELETE = withAuth(
   async ({ req, session, params }) => {
     try {
-      const item = await getSmsItemById(params.itemId);
+      const item = await getSmsItemById(params.smsitemId);
 
       if (!item) {
         return NextResponse.json(
@@ -92,7 +92,7 @@ export const DELETE = withAuth(
         );
       }
 
-      const itemDeleted = await deleteSmsItemById(params.itemId);
+      const itemDeleted = await deleteSmsItemById(params.smsitemId);
 
       return NextResponse.json(itemDeleted, { status: 200 });
     } catch (error) {

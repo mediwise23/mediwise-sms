@@ -16,11 +16,18 @@ type AppointmentItemProps = {
 const AppointmentItem: React.FC<AppointmentItemProps> = ({
   data,
   currentUser,
-}) => {  
-  const {onOpen} = useModal()
+}) => {
+  const { onOpen } = useModal();
 
   return (
-    <div className="relative flex gap-x-3 border-b flex-col cursor-pointer hover:bg-zinc-200 hover:rounded-md p-5" onClick={() => onOpen('deleteAppointment', {user: currentUser, appointment: data})}>
+    <div
+      className="relative flex gap-x-3 border-b flex-col cursor-pointer hover:bg-zinc-200 hover:rounded-md p-5"
+      onClick={() => {
+        if (currentUser?.id === data.patient?.id) {
+          onOpen("deleteAppointment", { user: currentUser, appointment: data });
+        }
+      }}
+    >
       {currentUser?.id === data.patient?.id && <DotYellow />}
       <div className="flex items-center gap-x-3">
         <Avatar src={data?.doctor?.image} />

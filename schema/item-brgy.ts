@@ -31,12 +31,14 @@ export const CreateBrgyItemSchema = ItemBrgySchema.pick({
   description: true,
   unit: true,
   stock: true,
+  dosage:true
 }).extend({
   brgyId: z.string().cuid(),
-  name: z.string().min(1).max(255),
-  description: z.string().min(1).max(255),
-  unit: z.string().min(1).max(255),
-  stock: z.string().min(1).max(255),
+  name: z.string().min(1,"Required").max(255),
+  description: z.string().min(1,"Required").max(255),
+  unit: z.string().min(1,"Required").max(255).optional(),
+  dosage: z.string().min(1,"Required").max(255),
+  stock: z.string().min(1,"Required").max(255),
 });
 
 export const UpdateBrgyItemSchema = ItemBrgySchema.pick({
@@ -44,9 +46,11 @@ export const UpdateBrgyItemSchema = ItemBrgySchema.pick({
   description: true,
   unit: true,
   stock: true,
+  dosage:true,
 }).extend({
-  name: z.string().min(1).max(255).optional(),
-  description: z.string().min(1).max(255).optional(),
-  unit: z.string().min(1).max(255).optional(),
-  stock: z.number().min(1).max(255).optional(),
+  name: z.string().min(1,"Required").max(255).optional(),
+  description: z.string().min(1,"Required").max(255).optional(),
+  unit: z.string().min(1,"Required").max(255).optional(),
+  dosage: z.string().min(1,"Required").max(255).optional(),
+  stock: z.coerce.number().min(1,"Required").max(255).optional(),
 });

@@ -8,7 +8,7 @@ import { NextResponse } from "next/server";
 export const GET = withAuth(
   async ({ req, session, params }) => {
     const queries = getQueryParams(req, ItemSmsGetQuerySchema);
-
+    console.log('hello')
     if (!queries.success) {
       return NextResponse.json(
         {

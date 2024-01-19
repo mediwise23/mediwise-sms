@@ -81,7 +81,7 @@ const CreateSmsItemModal = () => {
   const createItem = useMutateProcessor<TCreateSmsItem, TItemSms>({
     url: "/sms-item",
     method: "POST",
-    key: ["inventory-items", "sms"],
+    key:  ["inventory-items", "sms"],
   });
 
   const onSubmit: SubmitHandler<TCreateSmsItem> = async (values) => {

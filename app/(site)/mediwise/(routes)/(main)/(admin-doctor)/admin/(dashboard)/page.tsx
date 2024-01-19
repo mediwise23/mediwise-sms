@@ -25,7 +25,6 @@ const DashBoardHomePage = async ({ searchParams }: DashBoardHomePageProps) => {
     return redirect("/");
   }
   
-
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <DashboardClient tab={searchParams.tab} currentUser={session.user} />

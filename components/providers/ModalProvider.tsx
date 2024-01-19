@@ -20,6 +20,8 @@ import DeleteAppointmentModal from "../modals/mediwise/DeleteAppointmentModal";
 import DeletePrescriptionModal from "../modals/mediwise/DeletePrescriptionModal";
 import DeleteBarangayItemModal from "../modals/mediwise/DeleteBarangayItemModal";
 import UpdateBarangayItemModal from "../modals/mediwise/UpdateBarangayItemModal";
+import DeleteSmsItemModal from "../modals/sms/DeleteSmsItemModal";
+import UpdateSmsItemModal from "../modals/sms/UpdateSmsItemModal";
 
 
 const ModalProvider = () => {
@@ -55,6 +57,8 @@ const ModalProvider = () => {
       <DeletePrescriptionModal />
       <DeleteBarangayItemModal />
       <UpdateBarangayItemModal />
+      <DeleteSmsItemModal />
+      <UpdateSmsItemModal />
     </>
   );
 };

@@ -32,7 +32,7 @@ const MedicinesClient: React.FC<MedicinesClientProps> = ({ currentUser }) => {
 
   const items = useQueryProcessor<(TItemSms & {supplier: TSupplierSchema})[]>({
     url: "/sms-item",
-    key: ["inventory-items", "sms",],
+    key:  ["inventory-items", "sms"],
   });
 
   const [globalFilter, setGlobalFilter] = useState("");

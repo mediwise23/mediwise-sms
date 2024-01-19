@@ -64,6 +64,7 @@ export const PATCH = withAuth(
         description: body.data.description,
         unit: body.data.unit,
         stock: body.data.stock,
+        dosage: body?.data?.dosage
       });
 
       return NextResponse.json(itemUpdated, { status: 201 });

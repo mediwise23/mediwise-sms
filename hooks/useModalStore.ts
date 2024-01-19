@@ -1,5 +1,6 @@
 import { TAppointment } from "@/schema/appointment";
 import { TItemBrgy } from "@/schema/item-brgy";
+import { TItemSms } from "@/schema/item-sms";
 import { TPrescriptionSchema } from "@/schema/prescriptions";
 import { TUser } from "@/schema/user";
 import { ItemTransaction, Profile, User } from "@prisma/client";
@@ -28,6 +29,8 @@ export type ModalType =
   | "deletePrescription"
   | "updateBarangayItem"
   | "deleteBarangayItem"
+  | "deleteSmsItem"
+  | "updateSmsItem"
 // you can extend this type if you have more modal
 
 // export type ModalType = "..." | "...." | "...."
@@ -38,6 +41,7 @@ type ModalData = {
   prescription?: TPrescriptionSchema;
   brgyItems?: TItemBrgy[];
   brgyItem?: TItemBrgy;
+  smsItem?: TItemSms;
   transactionRequest?: ItemTransaction
   appointment?: TAppointment & {
     doctor: TUser & { profile: Profile };
