@@ -16,7 +16,7 @@ const page = () => {
           </span>
 
           <h1 className="text-5xl ">
-            We Care About You{" "}
+            We Care About Your{" "}
             <span className="text-[#5CA15D]">
               {" "}
               <br /> Health
