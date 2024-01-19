@@ -73,7 +73,7 @@ const UpdateBarangayItemModal = () => {
         console.log(data);
         toast({
           title: "Item has been updated",
-          description: "The item has been successfully created!",
+          description: "The item has been successfully updated!",
         });
         onClose();
       },
@@ -81,7 +81,7 @@ const UpdateBarangayItemModal = () => {
         console.error(error);
         toast({
           title: "Something went wrong",
-          description: "Item did not create.",
+          description: "Item did not update.",
           variant: "destructive",
         });
       },
