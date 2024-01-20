@@ -91,7 +91,7 @@ const PatientDetailPageClient = () => {
 
         <div className="w-full">
           <section className="flex flex-col ">
-            <h2 className="font-semibold my-5">Paient information</h2>
+            <h2 className="font-semibold my-5">Patient information</h2>
 
             <div className="flex w-full gap-x-3 mt-5">
               <div className="w-full">
