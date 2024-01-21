@@ -10,7 +10,7 @@ type NavbarProps = {
 };
 
 const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
-  const [openNav, setOpenNav] = useState(true);
+  const [openNav, setOpenNav] = useState(false);
   const routes = [
     {
       label: "Home",
@@ -31,6 +31,10 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
     {
       label: "Prescriptions",
       href: "/prescriptions",
+    },
+    {
+      label: "History",
+      href: "/history",
     },
   ];
   return (

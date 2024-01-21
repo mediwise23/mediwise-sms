@@ -1,4 +1,5 @@
 import { withAuth } from "@/lib/auth";
+import prisma from "@/lib/prisma";
 import { UpdateUserSchema } from "@/schema/user";
 import { getQueryParams } from "@/service/params";
 import { getUserById, updateUserById } from "@/service/user";
@@ -103,15 +104,23 @@ export const DELETE = withAuth(
         );
       }
 
+      const archivedAdmin = await prisma.user.update({
+        where: {
+          id: user.id,
+        },
+        data: {
+          isArchived:true,
+        }
+      })
       // const userDeleted = await deleteUserById({ id: params.userId });
 
-      return NextResponse.json({}, { status: 200 });
+      return NextResponse.json(archivedAdmin, { status: 200 });
     } catch (error) {
       console.log("[USER_DELETE]", error);
       return new NextResponse("Internal error", { status: 500 });
     }
   },
   {
-    requiredRole: ["ADMIN"],
+    requiredRole: ["ADMIN", "STOCK_MANAGER"],
   }
 );

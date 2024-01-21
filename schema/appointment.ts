@@ -25,6 +25,7 @@ export const AppointmentGetQuerySchema = AppointmentSchema.pick({
   date: true,
   barangayId: true,
   doctorId:true,
+  patientId:true,
 })
 .extend({
   date: z.coerce.date()
@@ -34,6 +35,7 @@ export const AppointmentGetQuerySchema = AppointmentSchema.pick({
   date: true,
   barangayId:true,
   doctorId:true,
+  patientId:true,
 })
 
 export const CreateAppointmentSchema = AppointmentSchema.pick({

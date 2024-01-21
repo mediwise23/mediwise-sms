@@ -10,6 +10,8 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest, { params }: { params: {} }) {
   const queries = getQueryParams(req, AppointmentGetQuerySchema);
   if (!queries.success) {
+
+    console.log('errrorrr')
     return NextResponse.json(
       {
         errors: queries.error.flatten().fieldErrors,
@@ -19,13 +21,13 @@ export async function GET(req: NextRequest, { params }: { params: {} }) {
     );
   }
 
-  console.log(queries.data)
   try {
     const appointments = await getAppointments({
       status: queries.data.status,
       date: queries.data.date,
       barangayId: queries.data.barangayId,
-      doctorId: queries.data.doctorId
+      doctorId: queries.data.doctorId,
+      patientId: queries.data.patientId
     });
 
     return NextResponse.json(appointments, { status: 200 });

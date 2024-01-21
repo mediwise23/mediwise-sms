@@ -360,6 +360,11 @@ const RegisterForm = () => {
                             type="number"
                             placeholder={`Enter contact number`}
                             {...field}
+                            onChange={(e) => {
+                              if(e.target.value.length <= 11) {
+                                field.onChange(e.target.value);
+                              }
+                            }}
                           />
                         </FormControl>
                         <FormMessage />

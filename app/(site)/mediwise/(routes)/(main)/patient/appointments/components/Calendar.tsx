@@ -95,6 +95,8 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
     },
   });
 
+  console.log(currentAppointment)
+
   const numberOfAppointments = currentAppointment?.data?.length || 0;
   const limit = 25;
   const limitExceeded = numberOfAppointments >= limit;
@@ -157,7 +159,7 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
   };
 
   return (
-    <div className="w-full h-full flex gap-x-3">
+    <div className="w-full h-full flex gap-x-3 flex-col md:flex-row">
       <div className="w-full md:flex-[0.8]">
         <FullCalendar
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}

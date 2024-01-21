@@ -14,7 +14,11 @@ export const getAllBarangay = async ({ name }: { name?: string }) => {
       createdAt: "desc",
     },
     include: {
-      users:true,
+      users:{
+        where: {
+          isArchived:false,
+        }
+      },
       items:true
     }
   });

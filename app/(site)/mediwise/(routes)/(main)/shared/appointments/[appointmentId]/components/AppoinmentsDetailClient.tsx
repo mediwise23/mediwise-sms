@@ -46,7 +46,7 @@ const AppoinmentsDetailClient: React.FC<AppoinmentsDetailClientProps> = ({
             <div className="flex justify-between ">
               <strong>Qr code provided</strong>
               <QRCode
-                value={`${process.env.NEXT_PUBLIC_SITE_URL}/shared/appointments/${appointment?.data?.id as string}` ?? ""}
+                value={`${process.env.NEXT_PUBLIC_SITE_URL}/mediwise/shared/appointments/${appointment?.data?.id as string}` ?? ""}
                 className="w-[100px] h-[100px]"
               />
             </div>

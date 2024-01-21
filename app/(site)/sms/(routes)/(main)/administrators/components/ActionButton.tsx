@@ -4,13 +4,26 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu";
+import { useToast } from "@/components/ui/use-toast";
   import { useModal } from "@/hooks/useModalStore";
+import { useMutateProcessor } from "@/hooks/useTanstackQuery";
+import { TBarangay } from "@/schema/barangay";
+import { TUser } from "@/schema/user";
+import { Profile } from "@prisma/client";
 
   import { Archive, MoreHorizontal, Pencil } from "lucide-react";
   import React from "react";
   
-  const ActionButton = () => {
-  
+  type ActionButtonProps ={
+    data: TUser & { profile: Profile, barangay: TBarangay }
+  }
+  const ActionButton:React.FC<ActionButtonProps> = ({data}) => {
+    const {toast} = useToast()
+    const deleteAdmin = useMutateProcessor<string, unknown>({
+      url: `/users/${data?.id}`,
+      method: 'DELETE',
+      key: ["Admin"],
+    });
     return (
       <div className={`h-full w-full cursor-pointer`}>
         <DropdownMenu>
@@ -19,16 +32,26 @@ import {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuItem
-              className="text-xs cursor-pointer hover:bg-zinc-400"
-            >
-              <Pencil className="h-4 w-4 mr-2" />
-              Update
-            </DropdownMenuItem>
-            <DropdownMenuItem
               className="text-xs cursor-pointer text-red-600 hover:!text-red-600 hover:!bg-red-100"
+              onClick={() => {
+                deleteAdmin.mutate(data?.id, {
+                  onSuccess(data, variables, context) {
+                    toast({
+                      title: 'Admin has been removed'
+                    })
+                  },
+                  onError(data, variables, context) {
+                    console.log(data)
+                    toast({
+                      title: 'Admin did not removed',
+                      variant: 'destructive'
+                    })
+                  },
+                })
+              }}
             >
               <Archive className="h-4 w-4 mr-2" />
-              Archive
+              Remove
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

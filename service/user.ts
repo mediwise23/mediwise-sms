@@ -85,6 +85,7 @@ export const getAllUsers = async ({
       role: {
         equals: role,
       },
+      isArchived:false,
     },
     select: userAllowedFields,
   });

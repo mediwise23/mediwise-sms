@@ -10,17 +10,20 @@ export const getAppointments = async ({
   date,
   barangayId,
   doctorId,
+  patientId
 }: {
   status: AppoinmentStatus | undefined;
   date: Date | string | undefined;
   barangayId: string | undefined;
   doctorId: string | undefined;
+  patientId: string | undefined;
 }) => {
   return await prisma.appointment.findMany({
     where: {
           status: status ?? undefined,
           doctorId: doctorId ?? undefined,
           barangayId: barangayId?? undefined,
+          patientId: patientId?? undefined,
           date: {
             equals: date ? moment(date).toDate() : undefined,
           },
