@@ -1,3 +1,4 @@
+"use client"
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -5,12 +6,20 @@ import {
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu";
   import { useModal } from "@/hooks/useModalStore";
+import { TBarangay } from "@/schema/barangay";
+import { TItemBrgy } from "@/schema/item-brgy";
+import { TUser } from "@/schema/user";
 
-  import { Archive, MoreHorizontal, Pencil } from "lucide-react";
+  import { Archive, Eye, MoreHorizontal, Pencil } from "lucide-react";
+import { useRouter } from "next/navigation";
   import React from "react";
   
-  const ActionButton = () => {
-  
+  type ActionButtonProps = {
+    data: TBarangay & {users:TUser[], items: TItemBrgy[]}
+  }
+
+  const ActionButton:React.FC<ActionButtonProps> = ({data}) => {
+    const router = useRouter()
     return (
       <div className={`h-full w-full cursor-pointer`}>
         <DropdownMenu>
@@ -20,16 +29,12 @@ import {
           <DropdownMenuContent align="end">
             <DropdownMenuItem
               className="text-xs cursor-pointer hover:bg-zinc-400"
+              onClick={() => router.push(`/sms/barangay/${data?.id}`)}
             >
-              <Pencil className="h-4 w-4 mr-2" />
-              Update
+              <Eye className="h-4 w-4 mr-2" />
+              View
             </DropdownMenuItem>
-            <DropdownMenuItem
-              className="text-xs cursor-pointer text-red-600 hover:!text-red-600 hover:!bg-red-100"
-            >
-              <Archive className="h-4 w-4 mr-2" />
-              Archive
-            </DropdownMenuItem>
+        
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

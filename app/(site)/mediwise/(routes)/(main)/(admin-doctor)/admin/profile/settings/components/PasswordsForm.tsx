@@ -1,6 +1,7 @@
 "use client";
 import { Loader2 } from "@/components/ui/Loader";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -14,7 +15,7 @@ import { useMutateProcessor } from "@/hooks/useTanstackQuery";
 import { TUser } from "@/schema/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Profile } from "@prisma/client";
-import React from "react";
+import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
@@ -24,6 +25,8 @@ type PasswordsProps = {
 };
 
 const Passwords: React.FC<PasswordsProps> = ({ data }) => {
+  const [showPass, setShowPass] = useState(false);
+
   const formSchema = z
     .object({
       password: z
@@ -97,7 +100,7 @@ const Passwords: React.FC<PasswordsProps> = ({ data }) => {
                   </FormLabel>
                   <FormControl>
                     <Input
-                      type="password"
+                      type={showPass ? "text" : "password"}
                       disabled={isLoading}
                       className="bg-white focus-visible:ring-0 text-black focus-visible:ring-offset-0 resize-none dark:bg-[#374151] dark:text-zinc-300"
                       placeholder={`Enter new password`}
@@ -119,7 +122,7 @@ const Passwords: React.FC<PasswordsProps> = ({ data }) => {
                   </FormLabel>
                   <FormControl>
                     <Input
-                      type="password"
+                      type={showPass ? "text" : "password"}
                       disabled={isLoading}
                       className="bg-white focus-visible:ring-0 text-black focus-visible:ring-offset-0 resize-none dark:bg-[#374151] dark:text-zinc-300"
                       placeholder={`Enter new password`}
@@ -142,7 +145,7 @@ const Passwords: React.FC<PasswordsProps> = ({ data }) => {
                 </FormLabel>
                 <FormControl>
                   <Input
-                    type="password"
+                    type={showPass ? "text" : "password"}
                     disabled={isLoading}
                     className="bg-white focus-visible:ring-0 text-black focus-visible:ring-offset-0 resize-none dark:bg-[#374151] dark:text-zinc-300"
                     placeholder={`Enter new password`}
@@ -154,6 +157,21 @@ const Passwords: React.FC<PasswordsProps> = ({ data }) => {
             )}
           />
         </div>
+
+              <div className="flex gap-x-3 items-center mt-5">
+                  <Checkbox
+                    id="showPass"
+                    checked={showPass === true}
+                    onCheckedChange={() => setShowPass((prev) => !prev)}
+                  />
+
+                  <label
+                    htmlFor="showPass"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    Show password
+                  </label>
+                </div>
 
         <div className="my-auto">
           <h3 className="text-sm font-semibold">Password requirements:</h3>

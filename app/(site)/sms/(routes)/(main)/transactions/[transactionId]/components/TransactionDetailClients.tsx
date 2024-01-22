@@ -172,9 +172,9 @@ const TransactionDetailClient: React.FC<TransactionDetailClientProps> = ({
                       <div className="flex w-full" key={item?.itemId}>
                         <div className="flex-1 p-5">{item?.name}</div>
                         <div className="flex-1 p-5">
-                          {item?.stock} {item.unit}
+                          {item?.stock} {item?.unit}
                         </div>
-                        <div className="flex-1 p-5">{item.supplier}</div>
+                        <div className="flex-1 p-5">{item?.supplier}</div>
                         <div className="flex gap-x-3 flex-1 items-center p-5">
                           <Button
                             variant="ghost"
@@ -261,10 +261,10 @@ const TransactionDetailClient: React.FC<TransactionDetailClientProps> = ({
                 <div className="h-[300px] overflow-y-auto">
                   {transaction.data.requested_items?.map(({ item, quantity }) => {
                     return (
-                      <div className="flex w-full" key={item.id}>
+                      <div className="flex w-full" key={item?.id}>
                         <div className="flex-1 p-5">{item?.name}</div>
                         <div className="flex-1 p-5">
-                          {quantity} {item.unit}
+                          {quantity} {item?.unit}
                         </div>
                       </div>
                     );

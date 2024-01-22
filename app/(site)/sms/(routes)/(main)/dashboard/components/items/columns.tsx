@@ -11,7 +11,6 @@ import {
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import ActionButton from "./ActionButton";
 import { TItemBrgy } from "@/schema/item-brgy";
 import { format } from "date-fns";
 import { TSupplierSchema } from "@/schema/supplier";
@@ -41,7 +40,7 @@ export const columns: ColumnDef<TItemSms & {supplier: TSupplierSchema}>[] = [
     header: ({ column }) => {
       return (
         <div
-          className="text-[#181a19] flex items-center cursor-pointer dark:text-white flex-1 line-clamp-1"
+          className="text-[#181a19] flex items-center cursor-pointer dark:text-white flex-1"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Item name <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -66,7 +65,7 @@ export const columns: ColumnDef<TItemSms & {supplier: TSupplierSchema}>[] = [
     },
     header: ({ column }) => (
       <div
-        className="text-[#181a19] flex items-center cursor-pointer dark:text-white flex-1 line-clamp-1"
+        className="text-[#181a19] flex items-center cursor-pointer dark:text-white flex-1"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
         Description <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -86,7 +85,7 @@ export const columns: ColumnDef<TItemSms & {supplier: TSupplierSchema}>[] = [
     },
     header: ({ column }) => (
       <div
-        className="text-[#181a19] flex items-center cursor-pointer dark:text-white flex-1 line-clamp-1"
+        className="text-[#181a19] flex items-center cursor-pointer dark:text-white flex-1"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
         Stock <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -107,7 +106,7 @@ export const columns: ColumnDef<TItemSms & {supplier: TSupplierSchema}>[] = [
     },
     header: ({ column }) => (
       <div
-        className="text-[#181a19] flex items-center cursor-pointer dark:text-white flex-1 line-clamp-1"
+        className="text-[#181a19] flex items-center cursor-pointer dark:text-white flex-1"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
         Unit <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -128,7 +127,7 @@ export const columns: ColumnDef<TItemSms & {supplier: TSupplierSchema}>[] = [
     },
     header: ({ column }) => (
       <div
-        className="text-[#181a19] flex items-center cursor-pointer dark:text-white flex-1 line-clamp-1"
+        className="text-[#181a19] flex items-center cursor-pointer dark:text-white flex-1"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
         Dosage <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -149,7 +148,7 @@ export const columns: ColumnDef<TItemSms & {supplier: TSupplierSchema}>[] = [
     },
     header: ({ column }) => (
       <div
-        className="text-[#181a19] flex items-center cursor-pointer dark:text-white flex-1 line-clamp-1"
+        className="text-[#181a19] flex items-center cursor-pointer dark:text-white flex-1"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
         Supplier <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -161,46 +160,4 @@ export const columns: ColumnDef<TItemSms & {supplier: TSupplierSchema}>[] = [
     },
   },
 
-  {
-    accessorKey: "createdAt",
-    accessorFn: (row) => {
-      const createdAt = row.createdAt;
-      return createdAt;
-    },
-    header: ({ column }) => {
-      return (
-        <div
-          className=" text-[#181a19]  flex items-center cursor-pointer dark:text-white flex-1"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          CreatedAt
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </div>
-      );
-    },
-    cell: ({ row }) => {
-      const createdAt = row.original?.createdAt;
-      return (
-        <div> {format(new Date(createdAt || new Date()), DATE_FORMAT)}</div>
-      );
-    },
-  },
-  {
-    accessorKey: "action",
-    header: ({ column }) => {
-      return (
-        <div
-          className=" text-[#181a19]  flex items-center cursor-pointer dark:text-white flex-1"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-        </div>
-      );
-    },
-    cell: ({ row }) => {
-      const createdAt = row.original?.createdAt;
-      return (
-        <ActionButton data={row.original}/>
-      );
-    },
-  },
 ];

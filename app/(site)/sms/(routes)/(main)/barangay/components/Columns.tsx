@@ -150,7 +150,9 @@ export const columns: ColumnDef<TBarangay & {users:TUser[], items: TItemBrgy[]}>
     cell: ({ row }) => {
       const createdAt = row.original?.createdAt;
       return (
-        <ActionButton />
+        // @ts-nocheck
+        // @ts-ignore
+        <ActionButton data={row.original} />
       );
     },
   },

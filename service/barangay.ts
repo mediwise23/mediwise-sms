@@ -30,6 +30,9 @@ export const getBarangayById = async ({ id }: { id: string }) => {
     where: {
       id,
     },
+    include: {
+      items:true
+    }
   });
 };
 
