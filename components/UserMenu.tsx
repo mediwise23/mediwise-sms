@@ -20,7 +20,8 @@ const UserMenu = ({ currentUser }: UserMenuProps) => {
   const router = useRouter();
 
   const url = currentUser?.role === 'STOCK_MANAGER' ? '/sms/profile' : `/mediwise/${currentUser?.role.toLowerCase()}/profile`
-
+  
+  console.log(currentUser)
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -40,7 +41,7 @@ const UserMenu = ({ currentUser }: UserMenuProps) => {
         >
           <div className=" relative w-10 h-10">
             <Image
-              src={(currentUser?.image as string) || `/images/placeholder.jpg`}
+              src={(currentUser?.image?.includes('https://platform-lookaside.fbsbx.com/platform/profilepic') ? null : currentUser?.image as string) || `/images/placeholder.jpg`}
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="rounded-full object-cover"

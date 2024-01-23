@@ -6,7 +6,7 @@ import React from 'react'
 const Page = () => {
     const router = useRouter()
   return (
-    <div className="bg-gray-100">
+    <div className="bg-gray-100 dark:bg-zinc-800">
         <ArrowLeft
           className="w-7 h-7 cursor-pointer rounded-md  absolute top-5 left-5 text-black"
           onClick={() => router.push(`/mediwise`)}
