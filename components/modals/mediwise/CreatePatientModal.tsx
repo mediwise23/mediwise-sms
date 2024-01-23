@@ -43,6 +43,7 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "@/components/ui/Loader";
+import { TBarangay } from "@/schema/barangay";
 
 const CreatePatientModal = () => {
   const { isOpen, type, onClose, data } = useModal();
@@ -58,24 +59,42 @@ const CreatePatientModal = () => {
   const form = useForm<TCreatePatientSchema>({
     resolver: zodResolver(CreatePatientSchema),
     defaultValues: {
-      city: "Caloocan",
-      zip: "1400",
+      
     },
     mode: "all",
   });
 
-  useEffect(() => {
-    if (data.user) {
-      form.setValue("barangay", data.user.barangayId as string);
-      form.setValue("role", Role.PATIENT);
-      form.setValue("isVerified", true);
-    }
+  const barangay = useQueryProcessor<TBarangay>({
+    url: `/barangay/${data?.user?.barangayId}`,
+    key: ['barangay', data?.user?.barangayId]
+  })
 
+  
+  // useEffect(() => {
+  //   if (data.user) {
+  //     form.setValue("barangay", data.user.barangayId as string);
+  //     form.setValue("role", Role.PATIENT);
+  //     form.setValue("isVerified", true);
+  //   }
+
+  //   return () => {
+  //     form.reset();
+  //   };
+  // }, [isModalOpen]);
+
+  useEffect(() => {
+    if(barangay.data && data?.user) {
+      form.setValue("barangay", data.user?.barangayId as string);
+      form.setValue("role", Role.PATIENT);
+      form.setValue('zip', barangay.data.zip ?? '1400')
+      form.setValue("isVerified", true);
+      form.setValue('city', 'Caloooan')
+    }
     return () => {
       form.reset();
       setPage(1);
     };
-  }, [isModalOpen]);
+  }, [isModalOpen, barangay.data])
 
   const createPatient = useMutateProcessor<TCreatePatientSchema, TUser>({
     url: `/users/patients`,

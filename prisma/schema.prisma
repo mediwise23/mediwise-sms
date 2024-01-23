@@ -38,6 +38,7 @@ enum ItemTransactionStatus {
 model Barangay {
   id              String            @id @unique @default(cuid())
   name            String?
+  zip             String?
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @default(now()) @updatedAt
   users           User[]

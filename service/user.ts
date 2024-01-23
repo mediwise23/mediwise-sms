@@ -129,6 +129,7 @@ export const createUser = async ({
     barangay,
     city,
     contactNo,
+    zip
   },
 }: {
   data: Omit<TRegister, "confirmPassword" | "password"> & {
@@ -156,6 +157,7 @@ export const createUser = async ({
           barangay,
           city,
           contactNo,
+          zip
         },
       },
     },

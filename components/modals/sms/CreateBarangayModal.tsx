@@ -125,6 +125,29 @@ const CreateBarangayModal = () => {
                 />
               </div>
 
+              <div className="w-full">
+                <FormField
+                  control={form.control}
+                  name="zip"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                        Zip code
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                        type="number"
+                          disabled={isLoading}
+                          className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0"
+                          placeholder={`Enter zip code`}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
               <DialogFooter className="py-4">
                 <Button
                   variant={"default"}

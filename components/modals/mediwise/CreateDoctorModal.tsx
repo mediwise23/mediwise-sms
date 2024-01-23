@@ -21,7 +21,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../../ui/input";
 import { useModal } from "@/hooks/useModalStore";
-import { useMutateProcessor } from "@/hooks/useTanstackQuery";
+import { useMutateProcessor, useQueryProcessor } from "@/hooks/useTanstackQuery";
 import { Loader2 } from "../../ui/Loader";
 
 import { useToast } from "../../ui/use-toast";
@@ -34,6 +34,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { TBarangay } from "@/schema/barangay";
 
 const CreateDoctorModal = () => {
   const { toast } = useToast();
@@ -43,6 +44,12 @@ const CreateDoctorModal = () => {
   const onHandleClose = () => {
     onClose();
   };
+
+  const barangay = useQueryProcessor<TBarangay>({
+    url: `/barangay/${data?.user?.barangayId}`,
+    key: ['barangay', data?.user?.barangayId]
+  })
+
   const form = useForm<TCreateDoctorSchema>({
     resolver: zodResolver(CreateDoctorSchema),
     defaultValues: {
@@ -59,6 +66,19 @@ const CreateDoctorModal = () => {
       enabled: !!data?.user?.barangayId,
     },
   });
+
+  useEffect(() => {
+    if(barangay.data && data?.user) {
+      form.setValue("barangay", data.user?.barangayId as string);
+      form.setValue("role", Role.DOCTOR);
+      form.setValue('zip', barangay.data.zip ?? '1400')
+      form.setValue('city', 'Caloooan')
+    }
+    return () => {
+      form.reset();
+    };
+  }, [isModalOpen, barangay.data])
+
   const onSubmit: SubmitHandler<TCreateDoctorSchema> = async (values) => {
     console.log("create doctor", values);
 
@@ -73,23 +93,16 @@ const CreateDoctorModal = () => {
       onError(error, variables, context) {
         toast({
           title: "Something went wrong.",
-          description: `Doctor failed to create`,
+          description: `Email already exist`,
+          variant: 'destructive'
         });
       },
     });
   };
 
+  console.log(form.formState.errors)
   const isLoading =
     form.formState.isSubmitting || createDoctor.status == "pending";
-
-  useEffect(() => {
-    form.setValue("barangay", data.user?.barangayId as string);
-    form.setValue("role", Role.DOCTOR);
-
-    return () => {
-      form.reset();
-    };
-  }, [isModalOpen]);
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onHandleClose}>
@@ -109,7 +122,7 @@ const CreateDoctorModal = () => {
             onSubmit={form.handleSubmit(onSubmit)}
             className="flex flex-col gap-y-5"
           >
-            <div className="flex gap-x-3 items-center">
+            <div className="flex gap-x-3 ">
               <div className="w-full">
                 <FormField
                   control={form.control}
@@ -159,7 +172,7 @@ const CreateDoctorModal = () => {
               </div>
             </div>
 
-            <div className="flex gap-x-3 items-center">
+            <div className="flex gap-x-3 ">
               <div className="w-full">
                 <FormField
                   control={form.control}
@@ -237,7 +250,7 @@ const CreateDoctorModal = () => {
                 )}
               />
             </div>
-
+            <div className="flex gap-x-3 ">
             <div className="w-full">
               <FormField
                 control={form.control}
@@ -261,8 +274,81 @@ const CreateDoctorModal = () => {
                 )}
               />
             </div>
+            <div className="w-full">
+              <FormField
+                control={form.control}
+                name="contactNo"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                      Contact No.
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={isLoading}
+                        className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0"
+                        type="number"
+                        placeholder={`Enter contact no`}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            </div>
 
-            {/* <div className="flex gap-x-3 items-center"> */}
+            <div className="flex gap-x-3 ">
+            <div className="w-full">
+              <FormField
+                control={form.control}
+                name="homeNo"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                      Home No.
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={isLoading}
+                        className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0"
+                        type="number"
+                        placeholder={`Enter Home No.`}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="w-full">
+              <FormField
+                control={form.control}
+                name="street"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                      Street
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={isLoading}
+                        className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0"
+                        placeholder={`Enter Street`}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            </div>
+            
+
+            <div className="flex gap-x-3 ">
             <div className="w-full">
               <FormField
                 control={form.control}
@@ -309,6 +395,9 @@ const CreateDoctorModal = () => {
                 )}
               />
             </div>
+            </div>
+            
+          
             {/* </div> */}
 
             <DialogFooter className="py-4">

@@ -201,6 +201,12 @@ export const CreateDoctorSchema = CreateUserSchema.pick({
   barangay: true,
   isVerified: true,
   gender: true,
+  city:true,
+  contactNo:true,
+  homeNo:true,
+  // dateOfBirth:true,
+  street:true,
+  zip:true,
 })
   .partial({
     suffix: true,

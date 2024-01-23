@@ -68,10 +68,12 @@ const RegisterForm = () => {
     key: ["register"],
     method: "POST",
   });
+
   const barangay = useQueryProcessor<Barangay[]>({
     url: "/barangay",
     key: ["barangay"],
   });
+
 
   const { toast } = useToast();
   const onSubmit: SubmitHandler<TRegister> = (values) => {
@@ -382,7 +384,11 @@ const RegisterForm = () => {
                         </FormLabel>
                         <FormControl>
                           <Select
-                            onValueChange={field.onChange}
+                            onValueChange={(e) => {
+                              field.onChange(e)
+                              const brgy = barangay.data?.find((brgy) => brgy.id == e)
+                              form.setValue('zip', brgy?.zip ?? '1400')
+                            }}
                             defaultValue={field.value}
                           >
                             <FormControl>
