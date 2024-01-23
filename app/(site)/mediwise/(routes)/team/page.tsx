@@ -132,7 +132,7 @@ const Page = () => {
             <div className="text-center text-gray-500 dark:text-gray-400">
                 <img className=" object-cover mx-auto mb-4 w-36 h-36 rounded-full" src="/images/team/Anton Virgil A. Dajalos.jpg" alt="Sofia Avatar"/>
                 <h3 className="mb-1 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                    <a href="#">ANTON VIRGIL A.</a>
+                    <a href="#">Anton Virgil</a>
                 </h3>
                 <p>Project Manager</p>
                 <ul className="flex justify-center mt-4 space-x-4">
@@ -161,7 +161,7 @@ const Page = () => {
             <div className="text-center text-gray-500 dark:text-gray-400">
                 <img className=" object-cover mx-auto mb-4 w-36 h-36 rounded-full" src="/images/team/Gesel V. Acula.jpg" alt="Leslie Avatar"/>
                 <h3 className="mb-1 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                    <a href="#">GESEL V. ACULA</a>
+                    <a href="#">Gesel Acula</a>
                 </h3>
                 <p>Developer</p>
                 <ul className="flex justify-center mt-4 space-x-4">
@@ -190,7 +190,7 @@ const Page = () => {
             <div className="text-center text-gray-500 dark:text-gray-400">
                 <img className=" object-cover mx-auto mb-4 w-36 h-36 rounded-full" src="/images/team/Justine Faith B. Ligutan.jpg" alt="Michael Avatar"/>
                 <h3 className="mb-1 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                    <a href="#">JUSTINE FAITH B. LIGUTAN</a>
+                    <a href="#">Justine Faith Liguan</a>
                 </h3>
                 <p>Developer</p>
                 <ul className="flex justify-center mt-4 space-x-4">
@@ -219,7 +219,7 @@ const Page = () => {
             <div className="text-center text-gray-500 dark:text-gray-400">
                 <img className=" object-cover mx-auto mb-4 w-36 h-36 rounded-full" src="/images/team/Alleah  D. Aguilar.jpg" alt="Neil Avatar"/>
                 <h3 className="mb-1 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                    <a href="#">ALLEAH D. AGUILAR</a>
+                    <a href="#">Alleah Aguilar</a>
                 </h3>
                 <p>Quality Assurance</p>
                 <ul className="flex justify-center mt-4 space-x-4">
