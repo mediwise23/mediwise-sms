@@ -114,14 +114,27 @@ const Calendar:React.FC<CalendarClientProps> = ({currentUser}) => {
 
   };
 
+  const deleteEvent = async (eventId: string) => {
+    try {
+      await apiClient.delete(`/work-schedules/${eventId}`);
+      toast({title:"Event deleted"});
+    } catch (error) {
+      console.error("error delete event");
+      toast({title:"Event did not delete", variant: 'destructive'});
+    } finally {
+      queryClient.invalidateQueries({ queryKey: ["work-schedules"] });
+    }
+  };
+
 
   const handleEventClick = (calendarApi: any) => {
-    // onOpen("viewEvent", { calendarApi });
+    onOpen("deleteEvent", { calendarApi });
   };
 
   const handleDeleteEvent = ({ event }: any) => {
     console.log("deleting event");
-    // deleteEvent(event.id);
+    console.log(event)
+    deleteEvent(event.id);
   };
 
   return (

@@ -47,3 +47,9 @@ export const WorkScheduleSchema = z.object({
   })
 
   export type UpdateWorkScheduleSchemaType = z.infer<typeof UpdateWorkScheduleSchema>;
+
+  export const DeleteWorkScheduleSchema = WorkScheduleSchema.pick({
+    id:true
+  })
+
+  export type DeleteWorkScheduleSchemaType = z.infer<typeof DeleteWorkScheduleSchema>;

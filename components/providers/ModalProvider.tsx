@@ -22,6 +22,7 @@ import DeleteBarangayItemModal from "../modals/mediwise/DeleteBarangayItemModal"
 import UpdateBarangayItemModal from "../modals/mediwise/UpdateBarangayItemModal";
 import DeleteSmsItemModal from "../modals/sms/DeleteSmsItemModal";
 import UpdateSmsItemModal from "../modals/sms/UpdateSmsItemModal";
+import DeleteEventModal from "../modals/mediwise/DeleteEventModal";
 
 
 const ModalProvider = () => {
@@ -59,6 +60,7 @@ const ModalProvider = () => {
       <UpdateBarangayItemModal />
       <DeleteSmsItemModal />
       <UpdateSmsItemModal />
+      <DeleteEventModal />
     </>
   );
 };

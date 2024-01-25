@@ -1,6 +1,6 @@
 import { withAuth } from "@/lib/auth";
 import prisma from "@/lib/prisma";
-import { UpdateWorkScheduleSchema } from "@/schema/work-schedule";
+import { DeleteWorkScheduleSchema, UpdateWorkScheduleSchema } from "@/schema/work-schedule";
 import moment from "moment-timezone";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -54,6 +54,53 @@ export const PATCH = withAuth(
     }
   },
   { requiredRole: ["DOCTOR"] }
+);
+
+export const DELETE = withAuth(
+  async ({ req, session, params }) => {
+    try {
+      const { workScheduleId } = params;
+      
+      const body = await DeleteWorkScheduleSchema.safeParseAsync({
+        id: workScheduleId
+      });
+
+      if (!body.success) {
+        console.log("[EVENT_DELETE]", body.error);
+        return NextResponse.json(
+          {
+            errors: body.error.flatten().fieldErrors,
+            message: "Invalid body parameters",
+          },
+          { status: 400 }
+        );
+      }
+
+      const workSchedule = await prisma.workSchedule.findUnique({
+        where: {
+          id: workScheduleId,
+          isArchived: false,
+        },
+      });
+
+      if (!workSchedule) {
+        return NextResponse.json("Event not found", { status: 404 });
+      }
+
+      
+      const deletedWorkSchedule = await prisma.workSchedule.delete({
+        where: {
+          id: workScheduleId,
+        },
+      });
+
+      return NextResponse.json(deletedWorkSchedule);
+    } catch (error) {
+      console.log("[EVENTS_DELETE]", error);
+      return new NextResponse("Internal error", { status: 500 });
+    }
+  },
+  { requiredRole: ["DOCTOR", "ADMIN"] }
 );
 
 export const GET = withAuth(async ({ req, session }) => {

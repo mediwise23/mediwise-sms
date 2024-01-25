@@ -47,7 +47,7 @@ const InventoryReportModal = () => {
     <Dialog open={isModalOpen} onOpenChange={onClose}>
       <DialogContent
         className={cn(
-          " min-w-[90vw] min-h-[95vh] bg-white text-black p-0 overflow-hidden  h-[80%] rounded-md flex flex-col items-center justify-center"
+          " min-w-[90vw] overflow-y-auto min-h-[95vh] bg-white text-black p-0 rounded-md flex flex-col items-center justify-center"
         )}
       >
         <div className="flex flex-col  min-w-[90vw]">
