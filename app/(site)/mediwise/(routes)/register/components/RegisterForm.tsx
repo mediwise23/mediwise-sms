@@ -304,51 +304,8 @@ const RegisterForm = () => {
                   />
                 </div>
                 <div className="flex justify-evenly gap-x-3">
-                  <FormField
-                    control={form.control}
-                    name="homeNo"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel className=" line-clamp-1 uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
-                          House Number
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            className="focus-visible:ring-0  focus-visible:ring-offset-0 border-zinc-500  bg-transparent"
-                            type="number"
-                            placeholder={`Enter house no.`}
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
 
-                  <FormField
-                    control={form.control}
-                    name="street"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel className=" line-clamp-1 uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
-                          Street
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            className="focus-visible:ring-0  focus-visible:ring-offset-0 border-zinc-500  bg-transparent"
-                            type="text"
-                            placeholder={`Enter street`}
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <div className="flex justify-evenly gap-x-3">
-                  <FormField
+                <FormField
                     control={form.control}
                     name="contactNo"
                     render={({ field }) => (
@@ -373,7 +330,54 @@ const RegisterForm = () => {
                       </FormItem>
                     )}
                   />
+                  
+                  <FormField
+                    control={form.control}
+                    name="homeNo"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel className=" line-clamp-1 uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                          House Number
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            className="focus-visible:ring-0  focus-visible:ring-offset-0 border-zinc-500  bg-transparent"
+                            type="number"
+                            placeholder={`Enter house no.`}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
+                 
+                </div>
+
+                <div className="flex justify-evenly gap-x-3">
+                 
+                <FormField
+                    control={form.control}
+                    name="street"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel className=" line-clamp-1 uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                          Street
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            className="focus-visible:ring-0  focus-visible:ring-offset-0 border-zinc-500  bg-transparent"
+                            type="text"
+                            placeholder={`Enter street`}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
                   <FormField
                     control={form.control}
                     name="barangay"

@@ -35,53 +35,53 @@ export const columns: ColumnDef<TUser & {profile: Profile}>[] = [
     },
   },
 
-  {
-    accessorKey: "licenseNo",
-    accessorFn: (row) => {
-      const licenseNo = row?.profile?.licenseNo;
-      return licenseNo;
-    },
-    header: ({ column }) => (
-      <div
-        className="text-[#181a19]  flex items-center cursor-pointer dark:text-white flex-1"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      >
-        License No. <ArrowUpDown className="ml-2 h-4 w-4" />
-      </div>
-    ),
-    cell: ({ row }) => {
-      // const yearEnrolled = row.getValue('') as Date
-      const licenseNo = row.original?.profile?.licenseNo as string;
+  // {
+  //   accessorKey: "licenseNo",
+  //   accessorFn: (row) => {
+  //     const licenseNo = row?.profile?.licenseNo;
+  //     return licenseNo;
+  //   },
+  //   header: ({ column }) => (
+  //     <div
+  //       className="text-[#181a19]  flex items-center cursor-pointer dark:text-white flex-1"
+  //       onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+  //     >
+  //       License No. <ArrowUpDown className="ml-2 h-4 w-4" />
+  //     </div>
+  //   ),
+  //   cell: ({ row }) => {
+  //     // const yearEnrolled = row.getValue('') as Date
+  //     const licenseNo = row.original?.profile?.licenseNo as string;
 
-      return (
-        <div className="">{licenseNo}</div>
-      );
-    },
-  },
+  //     return (
+  //       <div className="">{licenseNo}</div>
+  //     );
+  //   },
+  // },
 
-  {
-    accessorKey: "specialized",
-    accessorFn: (row) => {
-      const specialized = row?.profile?.specialist;
-      return specialized;
-    },
-    header: ({ column }) => (
-      <div
-        className="text-[#181a19]  flex items-center cursor-pointer dark:text-white flex-1"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      >
-        Specialized <ArrowUpDown className="ml-2 h-4 w-4" />
-      </div>
-    ),
-    cell: ({ row }) => {
-      // const yearEnrolled = row.getValue('') as Date
-      const specialized = row.original?.profile?.specialist as string;
+  // {
+  //   accessorKey: "specialized",
+  //   accessorFn: (row) => {
+  //     const specialized = row?.profile?.specialist;
+  //     return specialized;
+  //   },
+  //   header: ({ column }) => (
+  //     <div
+  //       className="text-[#181a19]  flex items-center cursor-pointer dark:text-white flex-1"
+  //       onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+  //     >
+  //       Specialized <ArrowUpDown className="ml-2 h-4 w-4" />
+  //     </div>
+  //   ),
+  //   cell: ({ row }) => {
+  //     // const yearEnrolled = row.getValue('') as Date
+  //     const specialized = row.original?.profile?.specialist as string;
 
-      return (
-        <div className="">{specialized}</div>
-      );
-    },
-  },
+  //     return (
+  //       <div className="">{specialized}</div>
+  //     );
+  //   },
+  // },
 
   {
     accessorKey: "firstname",

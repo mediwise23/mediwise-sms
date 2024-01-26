@@ -53,7 +53,7 @@ const CreateDoctorModal = () => {
   const form = useForm<TCreateDoctorSchema>({
     resolver: zodResolver(CreateDoctorSchema),
     defaultValues: {
-      isVerified: true,
+      isVerified: false,
     },
     mode: "all",
   });
@@ -299,7 +299,7 @@ const CreateDoctorModal = () => {
             </div>
             </div>
 
-            <div className="flex gap-x-3 ">
+            {/* <div className="flex gap-x-3 ">
             <div className="w-full">
               <FormField
                 control={form.control}
@@ -345,7 +345,7 @@ const CreateDoctorModal = () => {
                 )}
               />
             </div>
-            </div>
+            </div> */}
             
 
             <div className="flex gap-x-3 ">

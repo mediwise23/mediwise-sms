@@ -31,6 +31,7 @@ const InventoryDashboard: React.FC<InventoryDashboard> = ({
   const onFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
     setGlobalFilter(e.target.value);
   };
+  const itemData = inventoryData.filter((item) => (item.unit === "pcs" && item?.stock! < 25) || (item.unit === "box" && item?.stock! < 5) || ( item.stock! == 0))
   const COLORS = ["#FF8042"];
   const RADIAN = Math.PI / 180;
   const renderActiveShape = (props: any) => {
@@ -61,7 +62,6 @@ const InventoryDashboard: React.FC<InventoryDashboard> = ({
     return (
       <g>
         <text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}>
-          
         </text>
         <Sector
           cx={cx}
@@ -88,6 +88,7 @@ const InventoryDashboard: React.FC<InventoryDashboard> = ({
         />
         <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
         <text
+        className="text-xs"
           x={ex + (cos >= 0 ? 1 : -1) * 12}
           y={ey}
           textAnchor={textAnchor}
@@ -97,6 +98,7 @@ const InventoryDashboard: React.FC<InventoryDashboard> = ({
     );
   };
 
+  console.log(itemData)
   return (
     <div className="">
       <h1 className="text-2xl font-bold mb-4">Inventory Items </h1>
@@ -118,12 +120,12 @@ const InventoryDashboard: React.FC<InventoryDashboard> = ({
                   <Pie
                     activeIndex={activeIndex}
                     activeShape={renderActiveShape}
-                    data={inventoryData.filter((item) => (item.unit === "pcs" && item?.stock! < 25) || (item.unit === "box" && item?.stock! < 5))}
+                    data={itemData}
                     cx="50%"
                     cy="50%"
                     fill="#d33939"
                     innerRadius={0}
-                    outerRadius={150}
+                    outerRadius={110}
                     dataKey="stock"
                     onMouseEnter={onPieEnter}
                   />

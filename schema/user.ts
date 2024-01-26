@@ -203,9 +203,9 @@ export const CreateDoctorSchema = CreateUserSchema.pick({
   gender: true,
   city:true,
   contactNo:true,
-  homeNo:true,
+  // homeNo:true,
   // dateOfBirth:true,
-  street:true,
+  // street:true,
   zip:true,
 })
   .partial({

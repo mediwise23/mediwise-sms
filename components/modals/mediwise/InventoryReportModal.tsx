@@ -47,7 +47,7 @@ const InventoryReportModal = () => {
     <Dialog open={isModalOpen} onOpenChange={onClose}>
       <DialogContent
         className={cn(
-          " min-w-[90vw] overflow-y-auto min-h-[95vh] bg-white text-black p-0 rounded-md flex flex-col items-center justify-center"
+          " min-w-[90%] overflow-y-auto min-h-[75vh] bg-white text-black p-0 rounded-md flex flex-col items-center justify-center"
         )}
       >
         <div className="flex flex-col  min-w-[90vw]">
@@ -69,7 +69,7 @@ const InventoryReportModal = () => {
               </div>
               <div
                 className={cn(
-                  "max-h-[60vh] overflow-auto",
+                  "max-h-[50vh] overflow-auto",
                   reportClicked && "overflow-visible"
                 )}
               >
