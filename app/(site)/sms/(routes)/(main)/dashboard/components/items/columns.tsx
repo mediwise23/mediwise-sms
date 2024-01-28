@@ -68,12 +68,14 @@ export const columns: ColumnDef<TItemSms & {supplier: TSupplierSchema}>[] = [
         className="text-[#181a19] flex items-center cursor-pointer dark:text-white flex-1"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        Description <ArrowUpDown className="ml-2 h-4 w-4" />
+        Description & Dosage  <ArrowUpDown className="ml-2 h-4 w-4" />
       </div>
     ),
     cell: ({ row }) => {
       const description = row.original?.description;
-      return <div className={` flex items-center line-clamp-1 overflow-hidden max-w-40`}>{description}</div>;
+      const dosage = row.original?.dosage;
+
+      return <div className={` flex items-center line-clamp-1 overflow-hidden max-w-40`}>{description} - {dosage || 'N/A'}</div>;
     },
   },
 
@@ -93,71 +95,49 @@ export const columns: ColumnDef<TItemSms & {supplier: TSupplierSchema}>[] = [
     ),
     cell: ({ row }) => {
       const stock = row.original?.stock;
-
-      return <div className={` flex items-center`}>{stock}</div>;
-    },
-  },
-
-  {
-    accessorKey: "unit",
-    accessorFn: (row) => {
-      const unit = row.unit;
-      return unit;
-    },
-    header: ({ column }) => (
-      <div
-        className="text-[#181a19] flex items-center cursor-pointer dark:text-white flex-1"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      >
-        Unit <ArrowUpDown className="ml-2 h-4 w-4" />
-      </div>
-    ),
-    cell: ({ row }) => {
       const unit = row.original?.unit;
-
-      return <div className={` flex items-center`}>{unit}</div>;
+      return <div className={` flex items-center`}>{stock} {unit}</div>;
     },
   },
+    // {
+    //   accessorKey: "dosage",
+    //   accessorFn: (row) => {
+    //     const dosage = row?.dosage;
+    //     return dosage;
+    //   },
+    //   header: ({ column }) => (
+    //     <div
+    //       className="text-[#181a19] flex items-center cursor-pointer dark:text-white flex-1"
+    //       onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+    //     >
+    //       Dosage <ArrowUpDown className="ml-2 h-4 w-4" />
+    //     </div>
+    //   ),
+    //   cell: ({ row }) => {
+    //     const dosage = row.original?.dosage;
 
-  {
-    accessorKey: "dosage",
-    accessorFn: (row) => {
-      const dosage = row?.dosage;
-      return dosage;
-    },
-    header: ({ column }) => (
-      <div
-        className="text-[#181a19] flex items-center cursor-pointer dark:text-white flex-1"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      >
-        Dosage <ArrowUpDown className="ml-2 h-4 w-4" />
-      </div>
-    ),
-    cell: ({ row }) => {
-      const dosage = row.original?.dosage;
+    //     return <div className={` flex items-center`}>{dosage || 'N/A'}</div>;
+    //   },
+    // },
 
-      return <div className={` flex items-center`}>{dosage || 'N/A'}</div>;
-    },
-  },
-
-  {
-    accessorKey: "supplier",
-    accessorFn: (row) => {
-      const supplier = row?.supplier.name;
-      return supplier;
-    },
-    header: ({ column }) => (
-      <div
-        className="text-[#181a19] flex items-center cursor-pointer dark:text-white flex-1"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      >
-        Supplier <ArrowUpDown className="ml-2 h-4 w-4" />
-      </div>
-    ),
-    cell: ({ row }) => {
-      const supplier = row.original?.supplier?.name;
-      return <div className={` flex items-center`}>{supplier|| 'N/A'}</div>;
-    },
-  },
+  // {
+  //   accessorKey: "supplier",
+  //   accessorFn: (row) => {
+  //     const supplier = row?.supplier.name;
+  //     return supplier;
+  //   },
+  //   header: ({ column }) => (
+  //     <div
+  //       className="text-[#181a19] flex items-center cursor-pointer dark:text-white flex-1"
+  //       onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+  //     >
+  //       Supplier <ArrowUpDown className="ml-2 h-4 w-4" />
+  //     </div>
+  //   ),
+  //   cell: ({ row }) => {
+  //     const supplier = row.original?.supplier?.name;
+  //     return <div className={` flex items-center`}>{supplier|| 'N/A'}</div>;
+  //   },
+  // },
 
 ];

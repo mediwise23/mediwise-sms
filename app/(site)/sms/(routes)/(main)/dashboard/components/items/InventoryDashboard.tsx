@@ -98,12 +98,23 @@ const InventoryDashboard: React.FC<InventoryDashboard> = ({
     );
   };
 
-  console.log(itemData)
+  const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index, payload,value }:any) => {
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+  
+    return (
+      <text x={x} y={y} fill="black" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central"  className="text-xs font-semibold shadow-md">
+        {`${payload.name} ${value} ${payload.unit}`}
+      </text>
+    );
+  };
+
   return (
     <div className="">
       <h1 className="text-2xl font-bold mb-4">Inventory Items </h1>
-      <div className="w-full flex flex-col md:flex-row">
-            <div className="bg-white dark:bg-slate-900 p-4 rounded-md border border-gray-300 h-[70vh] overflow-y-auto w-full">
+      <div className="w-full flex flex-col lg:flex-row">
+            <div className="bg-white dark:bg-slate-900 p-4 rounded-md border border-gray-300 h-[70vh] overflow-y-auto w-full flex-[0.4]">
               <DataTable
               //@ts-ignore
               //@ts-nocheck
@@ -113,19 +124,19 @@ const InventoryDashboard: React.FC<InventoryDashboard> = ({
               setGlobalFilter={setGlobalFilter}
           />
             </div>
-            <div className="bg-red-100 dark:bg-slate-900 p-4 rounded-md border border-red-300 h-[70vh] w-full overflow-y-auto">
+            <div className="bg-red-100 dark:bg-slate-900 p-4 rounded-md border border-red-300 h-[70vh] w-full overflow-y-auto flex-[0.6]">
               <h2 className="text-lg font-semibold mb-2">Low Stock chart</h2>
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart width={700} height={600}>
                   <Pie
-                    activeIndex={activeIndex}
-                    activeShape={renderActiveShape}
+                    // activeIndex={activeIndex}
+                    // activeShape={renderActiveShape}
+                    label={renderCustomizedLabel}
+                    labelLine={false}
                     data={itemData}
                     cx="50%"
                     cy="50%"
                     fill="#d33939"
-                    innerRadius={0}
-                    outerRadius={110}
                     dataKey="stock"
                     onMouseEnter={onPieEnter}
                   />
