@@ -148,7 +148,7 @@ export const columns: ColumnDef<Appointment & { doctor: TUser & { profile: Profi
           <Badge className={cn(
               "dark:text-white bg-slate-500",
               status === "PENDING" && "bg-slate-500",
-              status === "REJECTED" && "bg-rose-700",
+              (status === "REJECTED" || status === "CANCELLED") && "bg-rose-700",
               status === "ACCEPTED" && "bg-[#107736]",
               status === "COMPLETED" && "bg-[#16A34A]"
             )}>

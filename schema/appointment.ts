@@ -80,3 +80,12 @@ export const UpdateAppointmentSchema = AppointmentSchema.pick({
 })
 
 export type TCreateAppointmentPrescriptionSchema = z.infer<typeof CreateAppointmentPrescriptionSchema>
+
+export const RescheduleAppointmentSchema = AppointmentSchema.pick({
+  date: true,
+})
+  .extend({
+    date: z.string().min(1, "Required")
+  })
+  
+export type TRescheduleAppointmentSchema = z.infer<typeof RescheduleAppointmentSchema>

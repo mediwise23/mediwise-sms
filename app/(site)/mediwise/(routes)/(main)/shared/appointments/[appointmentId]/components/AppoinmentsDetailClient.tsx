@@ -35,7 +35,9 @@ const AppoinmentsDetailClient: React.FC<AppoinmentsDetailClientProps> = ({
       <ArrowLeft
         className="w-7 h-7 cursor-pointer rounded-md text-black dark:text-white"
         onClick={() =>
-          router.push(`/mediwise/${currentUser.role.toLocaleLowerCase()}`)
+          // router.push(`/mediwise/${currentUser.role.toLocaleLowerCase()}`)
+          router.back()
+
         }
       />
 

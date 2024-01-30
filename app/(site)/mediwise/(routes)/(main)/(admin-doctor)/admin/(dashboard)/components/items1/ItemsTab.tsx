@@ -14,15 +14,17 @@ const ItemsTab:React.FC<ItemsTabProps> = ({currentUser}) => {
   // Example inventory data (you can replace this with data from your database)
 
   const items = useQueryProcessor<TItemBrgy[]>({
-    url: "/brgy-item",
-    key: ["inventory-items", "barangay"],
-    queryParams:{
-      barangayId: currentUser.barangayId
+    url: `/brgy-item`,
+    key: ['brgy-item-dashboard'],
+    queryParams: {
+        barangayId: currentUser.barangayId
     },
     options: {
-      enabled: !!currentUser.barangayId
+        enabled: !!currentUser.barangayId
     }
-  });
+  })
+
+  console.log(items.data)
 
   return (
     <div>
