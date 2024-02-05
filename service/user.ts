@@ -54,6 +54,7 @@ export const userAllowedFields = {
       city: true,
       contactNo: true,
       zip: true,
+      district: true,
       createdAt: true,
       updatedAt: true,
       userId: true,
@@ -129,7 +130,8 @@ export const createUser = async ({
     barangay,
     city,
     contactNo,
-    zip
+    zip,
+    district
   },
 }: {
   data: Omit<TRegister, "confirmPassword" | "password"> & {
@@ -146,6 +148,7 @@ export const createUser = async ({
       barangayId: barangay,
       profile: {
         create: {
+          district,
           firstname,
           lastname,
           middlename,

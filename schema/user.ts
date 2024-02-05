@@ -99,6 +99,7 @@ export const RegisterUserSchema = UserSchema.pick({
     street: z.string().min(1, "Required").max(50),
     barangay: z.string().min(1, "Required").max(50),
     zip: z.string(),
+    district: z.string(),
     city: z.string().min(1, "Required").max(50),
     contactNo: z.string().min(1, "Required").max(50),
     password: z

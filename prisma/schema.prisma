@@ -39,6 +39,7 @@ model Barangay {
   id              String            @id @unique @default(cuid())
   name            String?
   zip             String?
+  district        String?
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @default(now()) @updatedAt
   users           User[]
@@ -162,7 +163,7 @@ model User {
   ItemTransaction      ItemTransaction[]
   prescription         prescription[]
   events               Event[]
-  notifications         Notification[]
+  notifications        Notification[]
 
   @@index([id])
 }
@@ -186,9 +187,9 @@ model Appointment {
 }
 
 model appointment_item {
-  id       String    @id @unique @default(cuid())
-  brgyItemId   String?
-  brgyItem BrgyItem? @relation(fields: [brgyItemId], references: [id])
+  id         String    @id @unique @default(cuid())
+  brgyItemId String?
+  brgyItem   BrgyItem? @relation(fields: [brgyItemId], references: [id])
 
   appointmentId String?
   appointment   Appointment? @relation(fields: [appointmentId], references: [id])
@@ -285,6 +286,7 @@ model Profile {
   // province    String?
   contactNo   String?
   zip         String?
+  district     String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 

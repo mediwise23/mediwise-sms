@@ -85,12 +85,14 @@ const generateFakeUser = () => {
 const createBarangay = async (
   name: string,
   zip: string,
+  district: string,
   drugProducts: BarangayItemsType[]
 ) => {
   const barangay = await prisma.barangay.create({
     data: {
       name: name,
-      zip
+      zip, 
+      district
     },
     select: {
       id: true,
@@ -238,7 +240,7 @@ async function main() {
   // barangay
   // await createBarangay("174", items);
   for (const barangayName of barangayNames) {
-    await createBarangay(barangayName.barangayName, barangayName.zip.toString(), items);
+    await createBarangay(barangayName.barangayName, barangayName.zip.toString(), barangayName.district, items);
   }
 
   console.log("CREATING SMS ITEMS...");

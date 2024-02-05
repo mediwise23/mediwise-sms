@@ -148,6 +148,29 @@ const CreateBarangayModal = () => {
                   )}
                 />
               </div>
+              <div className="w-full">
+                <FormField
+                  control={form.control}
+                  name="district"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                      district
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                        type="text"
+                          disabled={isLoading}
+                          className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0"
+                          placeholder={`Enter district`}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
               <DialogFooter className="py-4">
                 <Button
                   variant={"default"}

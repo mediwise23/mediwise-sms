@@ -60,6 +60,59 @@ export const columns: ColumnDef<TBarangay & {users:TUser[], items: TItemBrgy[]}>
   },
 
   {
+    accessorKey: "zip",
+    accessorFn: (row) => {
+      const zip = row.zip;
+      return zip;
+    },
+    header: ({ column }) => {
+      return (
+        <div
+          className="text-[#181a19] flex items-center cursor-pointer dark:text-white flex-1"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Zip <ArrowUpDown className="ml-2 h-4 w-4" />
+        </div>
+      );
+    },
+    cell: ({ row }) => {
+      const zip = row.original.zip;
+      return (
+        <div className=" dark:text-white">
+          {zip}
+        </div>
+      );
+    },
+  },
+
+  {
+    accessorKey: "district",
+    accessorFn: (row) => {
+      const district = row.district;
+      return district;
+    },
+    header: ({ column }) => {
+      return (
+        <div
+          className="text-[#181a19] flex items-center cursor-pointer dark:text-white flex-1"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          District <ArrowUpDown className="ml-2 h-4 w-4" />
+        </div>
+      );
+    },
+    cell: ({ row }) => {
+      const district = row.original.district;
+      return (
+        <div className=" dark:text-white">
+          {district}
+        </div>
+      );
+    },
+  },
+
+
+  {
     accessorKey: "users",
     accessorFn: (row) => {
       const name = row.name;

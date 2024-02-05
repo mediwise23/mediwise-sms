@@ -47,7 +47,7 @@ export const POST = withAuth(async ({ req, session }) => {
         );
       }
 
-      const { name , zip} = body.data;
+      const { name , zip, district} = body.data;
 
       const isExisted = await prisma.barangay.findFirst({
         where: {
@@ -60,7 +60,8 @@ export const POST = withAuth(async ({ req, session }) => {
       }
       const barangay = await createBarangay({
         name: name,
-        zip: zip + ''
+        zip: zip + '',
+        district
       });
 
       return NextResponse.json(barangay, { status: 201 });

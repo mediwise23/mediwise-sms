@@ -37,11 +37,12 @@ export const getBarangayById = async ({ id }: { id: string }) => {
 };
 
 //create barangay
-export const createBarangay = async ({ name, zip }: { name: string, zip: string }) => {
+export const createBarangay = async ({ name, zip, district }: { name: string, zip: string, district: string }) => {
   return await prisma.barangay.create({
     data: {
       name,
       zip,
+      district
     },
   });
 };

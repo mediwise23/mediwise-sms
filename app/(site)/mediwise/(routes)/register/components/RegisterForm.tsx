@@ -55,7 +55,6 @@ const RegisterForm = () => {
     resolver: zodResolver(RegisterUserSchema),
     defaultValues: {
       city: "Caloocan",
-      zip: "1400",
       role: "PATIENT",
     },
     mode: "all",
@@ -391,7 +390,8 @@ const RegisterForm = () => {
                             onValueChange={(e) => {
                               field.onChange(e)
                               const brgy = barangay.data?.find((brgy) => brgy.id == e)
-                              form.setValue('zip', brgy?.zip ?? '1400')
+                              form.setValue('zip', brgy?.zip ?? "")
+                              form.setValue('district', brgy?.district ?? "")
                             }}
                             defaultValue={field.value}
                           >
@@ -419,20 +419,20 @@ const RegisterForm = () => {
                 </div>
 
                 <div className="flex justify-evenly gap-x-3">
-                  <FormField
+                <FormField
                     control={form.control}
-                    name="city"
+                    name="district"
                     render={({ field }) => (
                       <FormItem className="w-full">
                         <FormLabel className=" line-clamp-1 uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
-                          City
+                          District
                         </FormLabel>
                         <FormControl>
                           <Input
                             disabled={true}
                             className="focus-visible:ring-0  focus-visible:ring-offset-0"
                             type="text"
-                            placeholder={`Enter City`}
+                            placeholder={`Enter District`}
                             value={field.value}
                           />
                         </FormControl>
@@ -463,7 +463,32 @@ const RegisterForm = () => {
                     )}
                   />
                 </div>
+
+                <FormField
+                    control={form.control}
+                    name="city"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel className=" line-clamp-1 uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                          City
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            disabled={true}
+                            className="focus-visible:ring-0  focus-visible:ring-offset-0"
+                            type="text"
+                            placeholder={`Enter City`}
+                            value={field.value}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
               </div>
+
+              
             )}
 
             {step === 2 && (
