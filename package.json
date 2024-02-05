@@ -75,6 +75,7 @@
     "react-qr-code": "^2.0.12",
     "react-resizable-panels": "^1.0.9",
     "react-spinners": "^0.13.8",
+    "react-webcam": "^7.2.0",
     "recharts": "^2.10.3",
     "server-only": "^0.0.1",
     "socket.io": "^4.7.2",
