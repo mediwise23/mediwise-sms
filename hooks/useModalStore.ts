@@ -3,7 +3,7 @@ import { TItemBrgy } from "@/schema/item-brgy";
 import { TItemSms } from "@/schema/item-sms";
 import { TPrescriptionSchema } from "@/schema/prescriptions";
 import { TUser } from "@/schema/user";
-import { ItemTransaction, Profile, User } from "@prisma/client";
+import { Appointment, ItemTransaction, Profile, User } from "@prisma/client";
 import { Session } from "next-auth";
 import { create } from "zustand";
 
@@ -45,7 +45,7 @@ type ModalData = {
   brgyItem?: TItemBrgy;
   smsItem?: TItemSms;
   transactionRequest?: ItemTransaction
-  appointment?: TAppointment & {
+  appointment?: Appointment | TAppointment & {
     doctor: TUser & { profile: Profile };
     patient: TUser & { profile: Profile };
   };

@@ -89,6 +89,7 @@ const CreatePatientModal = () => {
       form.setValue('zip', barangay.data.zip ?? '1400')
       form.setValue("isVerified", true);
       form.setValue('city', 'Caloooan')
+      form.setValue('district', barangay.data.district ?? "district 1")
     }
     return () => {
       form.reset();
@@ -119,6 +120,7 @@ const CreatePatientModal = () => {
         toast({
           title: "Something went wrong.",
           description: `Patient failed to create`,
+          variant: "destructive"
         });
       },
     });
@@ -420,21 +422,23 @@ const CreatePatientModal = () => {
                       </div>
 
                       <div className="flex gap-x-3">
+                    
+
                         <div className="w-full">
                           <FormField
                             control={form.control}
-                            name="city"
-                            key="city"
+                            name="district"
+                            key="district"
                             render={({ field }) => (
                               <FormItem className="w-full">
                                 <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-white">
-                                  City
+                                  district
                                 </FormLabel>
                                 <FormControl>
                                   <Input
                                     disabled={true}
                                     className=" focus-visible:ring-0  focus-visible:ring-offset-0 resize-none"
-                                    placeholder={`Enter city`}
+                                    placeholder={`Enter district`}
                                     value={field.value}
                                   />
                                 </FormControl>
@@ -468,6 +472,32 @@ const CreatePatientModal = () => {
                           />
                         </div>
                       </div>
+
+                      <div className="w-full">
+                          <FormField
+                            control={form.control}
+                            name="city"
+                            key="city"
+                            render={({ field }) => (
+                              <FormItem className="w-full">
+                                <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-white">
+                                  City
+                                </FormLabel>
+                                <FormControl>
+                                  <Input
+                                    disabled={true}
+                                    className=" focus-visible:ring-0  focus-visible:ring-offset-0 resize-none"
+                                    placeholder={`Enter city`}
+                                    value={field.value}
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+
+                  
                     </>
                   );
                 }

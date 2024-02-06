@@ -42,6 +42,7 @@ export const ProfileSchema = z.object({
   city: z.string().nullable(),
   contactNo: z.string().nullable(),
   zip: z.string().nullable(),
+  district: z.string().nullable(),
   createdAt: z.date(),
   updatedAt: z.date(),
   userId: z.string(),
@@ -187,6 +188,7 @@ export const CreateUserSchema = UserSchema.pick({}).extend({
   province: z.string().min(1, "Required").max(50),
   contactNo: z.string().min(1, "Required").max(50),
   zip: z.string().min(1, "Required").max(50),
+  district: z.string().min(1, "Required").max(50),
 });
 
 // eto dinagdag ko para makapag create ng doctor
@@ -258,6 +260,7 @@ export const CreatePatientSchema = CreateUserSchema.pick({
   contactNo: true,
   homeNo: true,
   street: true,
+  district:true,
 })
   .partial({
     suffix: true,
