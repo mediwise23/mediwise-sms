@@ -1,3 +1,4 @@
+import { apiClient } from "@/hooks/useTanstackQuery";
 import { withAuth } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { CreateAppointmentPrescriptionSchema, UpdateAppointmentSchema } from "@/schema/appointment";
@@ -6,6 +7,7 @@ import {
   getAppointmentById,
   updateAppointmentById,
 } from "@/service/appointment";
+import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
@@ -132,6 +134,14 @@ export const PUT = withAuth(
           image_path: body.data.image
         }
       })
+
+      console.log(process.env.NEXT_PUBLIC_SITE_URL)
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_SITE_URL}/api/socket/notifications/prescriptions`, {
+        appointmentId: appointment.id,
+        userId: appointment.patientId
+      })
+
+      console.log(res.data)
       return NextResponse.json(appointment, { status: 200 });
     } catch (error) {
       console.log("[APPOINMENT_PUT_BY_ID]", error);

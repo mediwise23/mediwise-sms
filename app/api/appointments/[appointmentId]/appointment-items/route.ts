@@ -7,6 +7,7 @@ import {
 import { CreateAppointmentItemSchema } from "@/schema/appointment-item";
 import { createAppointment, getAppointmentById, getAppointments } from "@/service/appointment";
 import { getQueryParams } from "@/service/params";
+import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -95,6 +96,13 @@ export const POST = withAuth(
           })
           
           console.log(appointmentItems)
+
+          console.log(process.env.NEXT_PUBLIC_SITE_URL)
+          const res = await axios.post(`${process.env.NEXT_PUBLIC_SITE_URL}/api/socket/notifications/appointment-items`, {
+            appointmentId: appointment.id,
+            userId: appointment.patientId
+          })
+
 
         return NextResponse.json(appointmentItems, { status: 201 });
       } catch (error) {

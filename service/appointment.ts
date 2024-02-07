@@ -56,7 +56,11 @@ export const getAppointmentById = async ({ id }: { id: string }) => {
       barangay:true,
       doctor:true,
       patient:true,
-      appointment_item:true
+      appointment_item:{
+        include: {
+          brgyItem:true
+        }
+      }
     }
   });
 };

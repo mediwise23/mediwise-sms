@@ -13,6 +13,7 @@ import Image from "next/image";
 import { Camera, FileIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
+  mutationFn,
   useMutateProcessor,
   useQueryProcessor,
 } from "@/hooks/useTanstackQuery";
@@ -42,6 +43,7 @@ import {
   TCreateAppointmentPrescriptionSchema,
 } from "@/schema/appointment";
 import { useRouter } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
 const DATE_FORMAT = `MMM d yyyy`;
 
 const ManageAppointmentModal = () => {
@@ -107,11 +109,12 @@ const ManageAppointmentModal = () => {
       }
     );
   };
-  const submitItem = useMutateProcessor({
-    url: `/appointments/${data?.appointment?.id}/appointment-items`,
-    method: "POST",
-    key: ["appointments", data?.user?.barangayId],
-  });
+
+
+  const submitItem = useMutation({
+    mutationFn: (value) => mutationFn({ url: `/appointments/${data?.appointment?.id}/appointment-items`,method: "POST", value: value 
+    })
+  })
   const dispatchItem = () => {
     const items = itemsState.filter((item: any) => item.quantity > 0 && {});
     submitItem.mutate(items, {

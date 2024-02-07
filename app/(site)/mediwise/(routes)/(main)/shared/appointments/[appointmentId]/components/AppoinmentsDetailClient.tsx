@@ -1,5 +1,6 @@
 "use client";
 import Avatar from "@/components/Avatar";
+import { DataTable } from "@/components/DataTable";
 import { Badge } from "@/components/ui/badge";
 import { useQueryProcessor } from "@/hooks/useTanstackQuery";
 import { cn } from "@/lib/utils";
@@ -11,7 +12,9 @@ import { ArrowLeft } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import React from "react";
 import QRCode from "react-qr-code";
-
+import { columns } from "./Columns";
+import { appointment_item } from "@prisma/client";
+import { TItemBrgy } from "@/schema/item-brgy";
 type AppoinmentsDetailClientProps = {
   currentUser: TUserRaw;
 };
@@ -25,11 +28,18 @@ const AppoinmentsDetailClient: React.FC<AppoinmentsDetailClientProps> = ({
   const router = useRouter();
   const appointmentId = params?.appointmentId;
   const appointment = useQueryProcessor<
-    TAppointment & { patient: TUser; doctor: TUser; barangay: TBarangay }
+    TAppointment & {
+      patient: TUser;
+      doctor: TUser;
+      barangay: TBarangay;
+      appointment_item: appointment_item & { brgyItem: TItemBrgy }[];
+    }
   >({
     url: `/appointments/${appointmentId}`,
     key: ["view-appointment"],
   });
+
+  console.log(appointment.data);
   return (
     <div className="flex flex-col bg-white dark:bg-slate-900 shadow-md p-5 rounded-md">
       <ArrowLeft
@@ -37,7 +47,6 @@ const AppoinmentsDetailClient: React.FC<AppoinmentsDetailClientProps> = ({
         onClick={() =>
           // router.push(`/mediwise/${currentUser.role.toLocaleLowerCase()}`)
           router.back()
-
         }
       />
 
@@ -48,11 +57,27 @@ const AppoinmentsDetailClient: React.FC<AppoinmentsDetailClientProps> = ({
             <div className="flex justify-between ">
               <strong>Qr code provided</strong>
               <QRCode
-                value={`${process.env.NEXT_PUBLIC_SITE_URL}/mediwise/shared/appointments/${appointment?.data?.id as string}` ?? ""}
+                value={
+                  `${
+                    process.env.NEXT_PUBLIC_SITE_URL
+                  }/mediwise/shared/appointments/${
+                    appointment?.data?.id as string
+                  }` ?? ""
+                }
                 className="w-[100px] h-[100px]"
               />
             </div>
 
+            {appointment.data?.image_path && (
+              <div className="flex justify-between ">
+                <strong>Prescription uploaded</strong>
+                <img
+                  className="w-[150px] h-[150px]"
+                  src={appointment.data?.image_path}
+                  alt=""
+                />
+              </div>
+            )}
             <div className="flex justify-between ">
               <strong>Barangay</strong>{" "}
               <span>{appointment.data?.barangay?.name}</span>
@@ -85,6 +110,19 @@ const AppoinmentsDetailClient: React.FC<AppoinmentsDetailClientProps> = ({
                 </Badge>
               </span>
             </div>
+            {appointment.data && appointment.data?.appointment_item?.length > 0 && (
+              <div className="flex flex-col gap-y-3">
+                <strong>Medicine Items</strong>{" "}
+                <div className=" overflow-y-auto">
+                  <DataTable
+                    //@ts-ignore
+                    //@ts-nocheck
+                    columns={columns}
+                    data={appointment.data?.appointment_item || []}
+                  />
+                </div>
+              </div>
+            )}
           </div>
         </section>
 
