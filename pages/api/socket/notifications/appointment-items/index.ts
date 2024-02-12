@@ -31,7 +31,7 @@ export default async function handler(
 
   if(req.method === "POST") {
     const notification = await prisma.notification.create({
-      data: {
+      data: { 
         appointmentId,
         content: "Medicines has been dispatched",
         userId: userId

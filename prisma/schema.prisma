@@ -93,6 +93,7 @@ model SmsItem {
 
   supplierId String?
   supplier   Supplier? @relation(fields: [supplierId], references: [id], onDelete: SetNull)
+  Item       Item[]
 }
 
 model Event {
@@ -134,6 +135,18 @@ model BrgyItem {
   requestId        String?
   isArchive        Boolean            @default(false)
   appointmentItems appointment_item[]
+  items            Item[]
+}
+
+model Item {
+  id             String    @id @default(cuid())
+  product_number String
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @default(now()) @updatedAt
+  brgyItemId     String?
+  brgyItem       BrgyItem? @relation(fields: [brgyItemId], references: [id], onDelete: Cascade)
+  smsItemId      String?
+  smsItem        SmsItem?  @relation(fields: [smsItemId], references: [id], onDelete: Cascade)
 }
 
 model User {
@@ -286,7 +299,7 @@ model Profile {
   // province    String?
   contactNo   String?
   zip         String?
-  district     String?
+  district    String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 
