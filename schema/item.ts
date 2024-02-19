@@ -12,7 +12,13 @@ export const ItemSchema = z.object({
   
   export const CreateItemSchema = ItemSchema.pick({
     product_number: true,
-  });
+    brgyItemId:true,
+    smsItemId:true,
+  })
+  .partial({
+    brgyItemId:true,
+    smsItemId:true,
+  })
   
   export type TItemSchema = z.infer<typeof ItemSchema>
   export type TCreateItemSchema = z.infer<typeof CreateItemSchema>

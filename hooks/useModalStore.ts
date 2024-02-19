@@ -33,6 +33,7 @@ export type ModalType =
   | "updateSmsItem"
   | "deleteEvent"
   | "rescheduleAppointment"
+  | "addNewItemStock"
 // you can extend this type if you have more modal
 
 // export type ModalType = "..." | "...." | "...."

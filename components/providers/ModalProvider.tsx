@@ -24,6 +24,7 @@ import DeleteSmsItemModal from "../modals/sms/DeleteSmsItemModal";
 import UpdateSmsItemModal from "../modals/sms/UpdateSmsItemModal";
 import DeleteEventModal from "../modals/mediwise/DeleteEventModal";
 import RecheduleAppointmentModal from "../modals/mediwise/RescheduleAppointmentModal";
+import AddNewItemStockModal from "../modals/mediwise/AddNewItemStockModal";
 
 
 const ModalProvider = () => {
@@ -63,6 +64,7 @@ const ModalProvider = () => {
       <UpdateSmsItemModal />
       <DeleteEventModal />
     <RecheduleAppointmentModal />
+    <AddNewItemStockModal />
     </>
   );
 };

@@ -22,6 +22,9 @@ export const getAllBarangayItem = async (data: {
     orderBy: {
       createdAt: "desc",
     },
+    include: {
+      items:true
+    }
   });
 };
 
@@ -33,6 +36,9 @@ export const getBarangayItemById = async (
     where: {
       id: id,
     },
+    include: {
+      items:true
+    }
   });
 };
 
@@ -40,13 +46,12 @@ export const getBarangayItemById = async (
 export const createBarangayItem = async (
   data: TCreateBrgyItem
 ): Promise<TItemBrgy> => {
-  console.log('data', data)
   return await prisma.brgyItem.create({
     data: {
       name: data.name,
       unit: data.unit,
       description: data.description,
-      stock: Number(data.stock),
+      // stock: Number(data.stock),
       barangayId: data.brgyId,
       dosage:data?.dosage
     },

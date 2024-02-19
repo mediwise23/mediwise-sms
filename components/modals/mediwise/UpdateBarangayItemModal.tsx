@@ -52,7 +52,7 @@ const UpdateBarangayItemModal = () => {
     if(data?.brgyItem) {
         form.setValue("description", data?.brgyItem.description as string);
         form.setValue("name", data?.brgyItem.name as string);
-        form.setValue("stock", data?.brgyItem.stock as number);
+        // form.setValue("stock", data?.brgyItem.stock as number);
         form.setValue("dosage", data?.brgyItem.dosage as string);
         form.setValue("unit", data?.brgyItem.unit as string);
     }
@@ -133,7 +133,7 @@ const UpdateBarangayItemModal = () => {
               />
             </div>
 
-            <div className="w-full">
+            {/* <div className="w-full">
               <FormField
                 control={form.control}
                 name="stock"
@@ -155,7 +155,7 @@ const UpdateBarangayItemModal = () => {
                   </FormItem>
                 )}
               />
-            </div>
+            </div> */}
 
             <div className="w-full">
               <FormField

@@ -130,7 +130,7 @@ const CreateBarangayItemModal = () => {
               />
             </div>
 
-            <div className="w-full">
+            {/* <div className="w-full">
               <FormField
                 control={form.control}
                 name="stock"
@@ -152,7 +152,7 @@ const CreateBarangayItemModal = () => {
                   </FormItem>
                 )}
               />
-            </div>
+            </div> */}
 
             <div className="w-full">
               <FormField
