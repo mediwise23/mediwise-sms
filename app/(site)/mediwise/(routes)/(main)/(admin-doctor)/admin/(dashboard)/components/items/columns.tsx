@@ -15,11 +15,12 @@ import { TItemBrgy } from "@/schema/item-brgy";
 import { format } from "date-fns";
 import { TSupplierSchema } from "@/schema/supplier";
 import { TItemSms } from "@/schema/item-sms";
+import { Item } from "@prisma/client";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 const DATE_FORMAT = `MMM d yyyy`;
-export const columns: ColumnDef<TItemBrgy>[] = [
+export const columns: ColumnDef<TItemBrgy & {items: Item[]}>[] = [
   {
     accessorKey: "id",
     header: () => {

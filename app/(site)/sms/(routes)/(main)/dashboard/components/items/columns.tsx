@@ -15,11 +15,12 @@ import { TItemBrgy } from "@/schema/item-brgy";
 import { format } from "date-fns";
 import { TSupplierSchema } from "@/schema/supplier";
 import { TItemSms } from "@/schema/item-sms";
+import { Item } from "@prisma/client";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 const DATE_FORMAT = `MMM d yyyy`;
-export const columns: ColumnDef<TItemSms & {supplier: TSupplierSchema}>[] = [
+export const columns: ColumnDef<TItemSms & {supplier: TSupplierSchema, items: Item[]}>[] = [
   {
     accessorKey: "id",
     header: () => {
@@ -82,7 +83,7 @@ export const columns: ColumnDef<TItemSms & {supplier: TSupplierSchema}>[] = [
   {
     accessorKey: "stock",
     accessorFn: (row) => {
-      const stock = row.stock;
+      const stock = row.items?.length;
       return stock;
     },
     header: ({ column }) => (
@@ -94,7 +95,7 @@ export const columns: ColumnDef<TItemSms & {supplier: TSupplierSchema}>[] = [
       </div>
     ),
     cell: ({ row }) => {
-      const stock = row.original?.stock;
+      const stock = row.original?.items?.length;
       const unit = row.original?.unit;
       return <div className={` flex items-center`}>{stock} {unit}</div>;
     },

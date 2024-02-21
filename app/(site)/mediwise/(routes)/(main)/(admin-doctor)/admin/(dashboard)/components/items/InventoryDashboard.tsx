@@ -6,14 +6,16 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import { PieChart, Pie, Sector, ResponsiveContainer } from "recharts";
+import { PieChart, Pie, Sector, ResponsiveContainer, BarChart, CartesianGrid, XAxis, YAxis, Bar, Cell, Legend, ReferenceLine, Brush, Tooltip } from "recharts";
+
 import { columns } from "./columns";
 import { DataTable } from "@/components/DataTable";
 import useWindowSize from "@/hooks/useWindowSize";
 import { TItemBrgy } from "@/schema/item-brgy";
+import { Item } from "@prisma/client";
 
 type InventoryDashboard = {
-  inventoryData: TItemBrgy[];
+  inventoryData: (TItemBrgy & {items: Item[]})[];
 };
 const InventoryDashboard: React.FC<InventoryDashboard> = ({
   inventoryData,
@@ -33,6 +35,7 @@ const InventoryDashboard: React.FC<InventoryDashboard> = ({
     setGlobalFilter(e.target.value);
   };
   const itemData = inventoryData.filter((item) => (item.unit === "pcs" && item?.stock! < 25) || (item.unit === "box" && item?.stock! < 5) || ( item.stock! == 0))
+  const itemData2 = inventoryData.map((item) => ({...item, stock: item.items?.length || 0}))
   const COLORS = ["#FF8042"];
   const RADIAN = Math.PI / 180;
   const renderActiveShape = (props: any) => {
@@ -120,7 +123,7 @@ const InventoryDashboard: React.FC<InventoryDashboard> = ({
               //@ts-ignore
               //@ts-nocheck
               columns={columns}
-              data={inventoryData || []}
+              data={itemData2 || []}
               globalFilter={globalFilter}
               setGlobalFilter={setGlobalFilter}
           />
@@ -128,20 +131,30 @@ const InventoryDashboard: React.FC<InventoryDashboard> = ({
             <div className="bg-red-100 dark:bg-slate-900 p-4 rounded-md border border-red-300 h-[70vh] w-full overflow-y-auto">
               <h2 className="text-lg font-semibold mb-2">Low Stock chart</h2>
               <ResponsiveContainer width="100%" height="100%">
-                <PieChart width={700} height={600}>
-                  <Pie
-                    // activeIndex={activeIndex}
-                    // activeShape={renderActiveShape}
-                    label={renderCustomizedLabel}
-                    labelLine={false}
-                    data={itemData}
-                    cx="50%"
-                    cy="50%"
-                    fill="#d33939"
-                    dataKey="stock"
-                    onMouseEnter={onPieEnter}
-                  />
-                </PieChart>
+              <BarChart
+      width={500}
+      height={300}
+      data={itemData2}
+      margin={{
+        top: 20,
+        right: 30,
+        left: 20,
+        bottom: 5,
+      }}
+    >
+      <CartesianGrid strokeDasharray="3 3" />
+      <XAxis dataKey="name" />
+      {/* <YAxis /> */}
+      <Tooltip />
+          {/* <Legend verticalAlign="top" wrapperStyle={{ lineHeight: '40px' }} /> */}
+          <ReferenceLine y={0} stroke="#000" />
+          {/* <Brush dataKey="name" height={30} stroke="#8884d8" /> */}
+      <Bar dataKey="stock" fill="#8884d8"  label={{ position: 'top', }} >
+        {itemData2.map((data, index) => (
+          <Cell key={`cell-${index}`} fill={((data.unit === "pcs" && data?.items?.length! < 25) || (data.unit === "box" && data?.items?.length! < 5) || ( data?.items?.length! == 0)) ? "red" : "#00C49F"} />
+        ))}
+      </Bar>
+    </BarChart>
               </ResponsiveContainer>
             </div>
         {/* <div className="bg-white dark:bg-slate-900 p-4 rounded-md border border-gray-300 h-[70vh] overflow-y-auto">

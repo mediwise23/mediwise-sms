@@ -93,7 +93,7 @@ model SmsItem {
 
   supplierId String?
   supplier   Supplier? @relation(fields: [supplierId], references: [id], onDelete: SetNull)
-  Item       Item[]
+  items       Item[]
 }
 
 model Event {

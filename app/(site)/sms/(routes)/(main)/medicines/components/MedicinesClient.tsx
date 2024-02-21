@@ -23,6 +23,7 @@ import { useQueryProcessor } from "@/hooks/useTanstackQuery";
 import { TItemBrgy } from "@/schema/item-brgy";
 import { TItemSms } from "@/schema/item-sms";
 import { TSupplierSchema } from "@/schema/supplier";
+import { Item } from "@prisma/client";
 
 type MedicinesClientProps = {
   currentUser: Session["user"];
@@ -30,7 +31,7 @@ type MedicinesClientProps = {
 const MedicinesClient: React.FC<MedicinesClientProps> = ({ currentUser }) => {
   const { onOpen } = useModal();
 
-  const items = useQueryProcessor<(TItemSms & {supplier: TSupplierSchema})[]>({
+  const items = useQueryProcessor<(TItemSms & {supplier: TSupplierSchema, items: Item[]})[]>({
     url: "/sms-item",
     key:  ["inventory-items", "sms"],
   });
