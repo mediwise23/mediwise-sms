@@ -27,7 +27,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "@/components/ui/Loader";
-
+import Image from 'next/image'
+import { Download, X } from "lucide-react";
+import { dataURItoBlob, uploadPhoto } from "@/lib/utils";
 const CreateEventModal = () => {
   const { isOpen, type, onClose, data } = useModal();
   const isModalOpen = isOpen && type === "createEvent";
@@ -65,10 +67,20 @@ const CreateEventModal = () => {
   }, [calendarApi, form]);
 
   const onSubmit: SubmitHandler<TCreateEventSchema> = async (values) => {
-    calendarApi?.view?.calendar?.addEvent(values);
-    console.log(values);
+    console.log('values',values);
+    if(values.image_url) {
+      const { url } = await uploadPhoto(
+        dataURItoBlob(values.image_url as string) as File
+      );
+      
+      calendarApi?.view?.calendar?.addEvent({...values, image_url: url});
+    }
+    else {
+      calendarApi?.view?.calendar?.addEvent(values);
+    }
+    
   };
-  console.log(form.formState.errors);
+  form.watch(['image_url'])
   return (
     <div>
       <Dialog open={isModalOpen} onOpenChange={onHandleClose}>
@@ -85,6 +97,78 @@ const CreateEventModal = () => {
 
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="">
+
+            {(() => {
+                const value = form.getValues("image_url");
+                if (!value) {
+                  return (
+                    <FormField
+                      control={form.control}
+                      name="image_url"
+                      render={({ field }) => (
+                        <FormItem className="w-full">
+                          <label
+                            htmlFor="upload"
+                            className=" hover:bg-zinc-200 w-[60%] transition-all m-auto cursor-pointer py-5 border-zinc-300 border-2 rounded-lg flex flex-col justify-center items-center gap-5 "
+                          >
+                            <Download className=" text-gray-400 ml-2 h-10 w-10 " />
+                            <span className="text-[#42579E] text-sm font-semibold">
+                              Choose a file
+                            </span>
+                            <span className="text-xs text-zinc-500 font-semibold">
+                              Photo (png, jpg, etc)
+                            </span>
+                          </label>
+                          <FormControl>
+                            <Input
+                              className="hidden"
+                              id="upload"
+                              type="file"
+                              accept="image/*"
+                              onChange={(e) => {
+                                if (e?.target?.files?.[0]) {
+                                  const reader = new FileReader();
+                                  reader.readAsDataURL(e?.target?.files?.[0]);
+
+                                  reader.onloadend = () => {
+                                    field.onChange(reader.result);
+                                  };
+                                } else {
+                                  field.onChange("");
+                                }
+                              }}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  );
+                }
+
+                return (
+                  <div className="relative h-20 w-20 mx-auto border rounded-full">
+                    <Image
+                      src={value}
+                      fill
+                      alt="group chat image upload"
+                      className="rounded-full object-cover"
+                    />
+                    <button
+                      className="bg-rose-500 text-white p-1 rounded-full absolute top-0 right-0 shadow-sm"
+                      type="button"
+                      onClick={() => form.setValue("image_url", null)}
+                    >
+                      <X
+                        className="h-4 w-4"
+                        
+                      />
+                    </button>
+                  </div>
+                );
+              })()}
+
+
               <div className="w-full mt-5">
                 <FormField
                   control={form.control}

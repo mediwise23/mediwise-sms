@@ -9,6 +9,7 @@ export const EventSchema = z.object({
   isArchived: z.boolean(),
   start: z.date(),
   end: z.date(),
+  image_url: z.string().nullable(),
   allDay: z.boolean(),
   createdAt: z.date(),
   updatedAt: z.date(),
@@ -22,6 +23,7 @@ export type EventSchemaType = z.infer<typeof EventSchema>;
 export const CreateEventSchema = EventSchema.pick({
   id: true,
   title: true,
+  image_url:true,
   description: true,
   allDay: true,
   start:true,
@@ -30,6 +32,9 @@ export const CreateEventSchema = EventSchema.pick({
 .extend({
   start: z.coerce.date(),
   end: z.coerce.date()
+})
+.partial({
+  image_url:true
 })
 export type TCreateEventSchema = z.infer<typeof CreateEventSchema>;
 

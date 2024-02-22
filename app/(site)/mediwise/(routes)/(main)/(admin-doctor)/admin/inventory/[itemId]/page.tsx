@@ -38,7 +38,7 @@ const ItemPage = () => {
           <label htmlFor="" className="font-semibold text-[#17A2B8]">
             Item Name
           </label>
-          <p> {"amoxicilin"}</p>
+          <p> {brgyItem.data?.name}</p>
         </span>
 
         <span>
@@ -46,12 +46,7 @@ const ItemPage = () => {
             Description
           </label>
           <p className="text-sm">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi
-            tenetur nemo accusantium atque voluptate, necessitatibus eaque
-            aperiam, id corrupti et unde odio debitis quidem fugiat sit optio
-            dolores neque natus amet maxime labore eius quaerat sequi? Dolores
-            odio veritatis, molestias qui voluptatem deserunt quia numquam, quo
-            vero nisi consectetur nesciunt!
+          {brgyItem.data?.description}
           </p>
         </span>
 
@@ -59,7 +54,7 @@ const ItemPage = () => {
           <label htmlFor="" className="font-semibold text-[#17A2B8]">
             Dosage
           </label>
-          <p>{"500mg"}</p>
+          <p> {brgyItem.data?.dosage}</p>
         </span>
       </section>
       <Button

@@ -72,7 +72,7 @@ export const POST = withAuth(
         );
       }
 
-      const { title, allDay, description, end, id, start } =
+      const { title, allDay, description, end, id, start, image_url } =
         body.data;
 
       const event = await prisma.event.create({
@@ -81,6 +81,7 @@ export const POST = withAuth(
             allDay,
             end,
             start,
+            image_url,
             title,
             barangayId: currentUser?.barangayId as string
         }

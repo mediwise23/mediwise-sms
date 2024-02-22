@@ -55,6 +55,7 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
     id: string;
     title: string;
     description: string;
+    image_url: string | null;
     start: Date;
     end: Date;
     allDay: boolean;
@@ -71,6 +72,7 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
       id: event.id,
       title: event.title,
       description: event._def.extendedProps.description,
+      image_url: event._def.extendedProps.image_url,
       start: event.start,
       end: event.end,
       allDay: event.allDay,
@@ -121,6 +123,7 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
       title: event.title,
       start: event.start,
       description: event._def.extendedProps.description,
+      image_url: event._def.extendedProps.image_url,
       end: event.end,
       allDay: event.allDay,
     };

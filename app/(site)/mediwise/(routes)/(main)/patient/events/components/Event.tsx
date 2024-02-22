@@ -42,30 +42,34 @@ const Event: React.FC<EventProps> = ({ data }) => {
   });
 
   const endTime = new Date(
-    new Date(data?.start)?.getTime() + 9 * 60 * 60 * 1000
-  ); // Assuming the event lasts for 9 hours
-  const formattedEndTime = endTime.toLocaleTimeString("en-US", {
+    data?.end
+    ).toLocaleTimeString("en-US", {
     hour: "numeric",
     minute: "numeric",
   });
 
-  const formattedString = `${formattedDate} at ${startTime} to ${formattedEndTime}`;
+  const formattedString = `${formattedDate} at ${startTime} to ${endTime}`;
   return (
-    <div className="flex gap-x-16">
+    <div className="flex gap-16  flex-col items-center lg:flex-row lg:items-start"  >
+      <div className="flex gap-y-5">
+      {
+        data?.image_url && <img className="h-full  object-contain w-full rounded-md" src={data?.image_url} />
+      }
+      </div>
+
       <div className="flex flex-col gap-y-5 items-center">
         <span className="text-[#90EE74] text-4xl font-extrabold">{month}</span>
         <Separator className="h-1" />
         <span className="text-white text-4xl font-extrabold">{day}</span>
       </div>
-
       <div className="flex flex-col gap-y-3">
         <h1 className="text-3xl font-semibold text-white">{data.title}</h1>
 
         <div className="flex flex-col gap-y-1">
-          <span className="flex items-center gap-x-3 text-white">
+          {/* <span className="flex items-center gap-x-3 text-white">
             <MapPin className="w-5 h-5 text-[#90EE74]" />
             <p> {data.barangay.name} Caloocan city </p>
-          </span>
+          </span> */}
           <span className="flex items-center gap-x-3 text-white">
             <Clock className="w-5 h-5 text-[#90EE74]" />
             <p>{formattedString}</p>

@@ -30,7 +30,7 @@ const EventsClient: React.FC<EventsClientProps> = ({ currentUser }) => {
     <div className="w-full">
       <h1 className="text-5xl md:text-[10em] font-black text-center">FORUMS</h1>
 
-      <section className="bg-[#212121] w-full px-40 overflow-auto h-screen ">
+      <section className="bg-[#212121] w-full overflow-auto h-screen px-14 lg:px-40">
         <div className="gap-y-10 flex flex-col">
           <h1 className="capitalize text-white text-lg md:text-3xl mt-10">
             Upcoming events
