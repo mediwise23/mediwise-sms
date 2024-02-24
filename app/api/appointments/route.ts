@@ -6,6 +6,8 @@ import {
 import { createAppointment, getAppointments } from "@/service/appointment";
 import { getQueryParams } from "@/service/params";
 import { NextRequest, NextResponse } from "next/server";
+import moment from "moment-timezone";
+import prisma from "@/lib/prisma";
 
 export async function GET(req: NextRequest, { params }: { params: {} }) {
   const queries = getQueryParams(req, AppointmentGetQuerySchema);
@@ -27,9 +29,9 @@ export async function GET(req: NextRequest, { params }: { params: {} }) {
       date: queries.data.date,
       barangayId: queries.data.barangayId,
       doctorId: queries.data.doctorId,
-      patientId: queries.data.patientId
+      patientId: queries.data.patientId,
+      workScheduleId: queries.data.workScheduleId
     });
-
     return NextResponse.json(appointments, { status: 200 });
   } catch (error) {
     console.log("[APPOINMENT_GET]", error);
@@ -54,7 +56,40 @@ export const POST = withAuth(
       }
 
       const { title, doctorId, patientId, date, status, image_path, barangayId } =
-        body.data;
+      body.data;
+
+      date.setDate(date.getDate() - 1);
+      const today = moment.utc(date).tz("Asia/Manila").format();
+
+    const workSchedule = await prisma.workSchedule.findFirst({
+      where: {
+        doctorId: doctorId,
+        barangayId: barangayId,
+        start: {
+          gte: today,
+        },
+        isArchived: false,
+      },
+      orderBy: {
+        start: "desc",
+      },
+      include: {
+        doctor: {
+          include: {
+            profile:true
+          }
+        },
+      }
+    });
+
+    if(!workSchedule) {
+      return NextResponse.json(
+        {
+          message: "Work scheule not found",
+        },
+        { status: 404 }
+      );
+    }
 
       const appointment = await createAppointment({
         title,
@@ -64,6 +99,7 @@ export const POST = withAuth(
         date: date,
         status,
         image_path,
+        workScheduleId: workSchedule?.id
       });
 
       return NextResponse.json(appointment, { status: 201 });

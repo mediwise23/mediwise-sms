@@ -17,6 +17,7 @@ export const AppointmentSchema = z.object({
   createdAt: z.date(),
   updatedAt: z.date(),
   barangayId: z.string(),
+  workScheduleId: z.string(),
 
 }) satisfies z.ZodType<Appointment>;
 
@@ -26,6 +27,7 @@ export const AppointmentGetQuerySchema = AppointmentSchema.pick({
   barangayId: true,
   doctorId:true,
   patientId:true,
+  workScheduleId:true,
 })
 .extend({
   date: z.coerce.date()
@@ -36,6 +38,7 @@ export const AppointmentGetQuerySchema = AppointmentSchema.pick({
   barangayId:true,
   doctorId:true,
   patientId:true,
+  workScheduleId:true,
 })
 
 export const CreateAppointmentSchema = AppointmentSchema.pick({

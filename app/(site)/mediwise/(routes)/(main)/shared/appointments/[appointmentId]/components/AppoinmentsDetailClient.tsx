@@ -15,6 +15,9 @@ import QRCode from "react-qr-code";
 import { columns } from "./Columns";
 import { appointment_item } from "@prisma/client";
 import { TItemBrgy } from "@/schema/item-brgy";
+import moment from "moment-timezone";
+
+
 type AppoinmentsDetailClientProps = {
   currentUser: TUserRaw;
 };
@@ -39,7 +42,12 @@ const AppoinmentsDetailClient: React.FC<AppoinmentsDetailClientProps> = ({
     key: ["view-appointment"],
   });
 
-  console.log(appointment.data);
+  console.log(appointment.data?.date);
+
+  const date = new Date(appointment.data?.date || new Date())
+
+  date.setDate(date.getDate() + 1)
+  const newDate = moment.utc(date).tz("Asia/Manila").format()
   return (
     <div className="flex flex-col bg-white dark:bg-slate-900 shadow-md p-5 rounded-md">
       <ArrowLeft
@@ -87,12 +95,11 @@ const AppoinmentsDetailClient: React.FC<AppoinmentsDetailClientProps> = ({
               <strong>Date</strong>{" "}
               <span>
                 {format(
-                  new Date(appointment.data?.date || new Date()),
+                  new Date(newDate),
                   DATE_FORMAT
                 )}
               </span>
             </div>
-
             <div className="flex justify-between">
               <strong>Status</strong>{" "}
               <span>

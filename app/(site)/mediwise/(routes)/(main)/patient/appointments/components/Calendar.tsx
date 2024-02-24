@@ -95,14 +95,14 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
     },
   });
 
-  console.log(currentAppointment)
-
   const numberOfAppointments = currentAppointment?.data?.length || 0;
   const limit = 25;
   const limitExceeded = numberOfAppointments >= limit;
+
   useEffect(() => {
     currentAppointment.refetch();
   }, [selectInfo]);
+
   const createAppointment = useMutateProcessor<EventData, null>({
     url: "/appointments",
     method: "POST",

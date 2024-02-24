@@ -48,7 +48,7 @@ const Event: React.FC<EventProps> = ({ data }) => {
     minute: "numeric",
   });
 
-  const formattedString = `${formattedDate} at ${startTime} to ${endTime}`;
+  const formattedString = `${formattedDate} at ${startTime}`;
   return (
     <div className="flex gap-16  flex-col items-center lg:flex-row lg:items-start"  >
       <div className="flex gap-y-5">

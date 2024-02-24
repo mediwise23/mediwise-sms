@@ -92,7 +92,7 @@ const Calendar:React.FC<CalendarClientProps> = ({currentUser}) => {
     data: Omit<EventData, "description">
   ) => {
     try {
-      await apiClient.patch(`/work-schedules/${workScheduleId}`, data);
+      await apiClient.patch(`/socket/work-schedules/${workScheduleId}`, data);
     } catch (error) {
       console.error("error update");
     } finally {

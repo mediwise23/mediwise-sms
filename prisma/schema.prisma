@@ -93,7 +93,7 @@ model SmsItem {
 
   supplierId String?
   supplier   Supplier? @relation(fields: [supplierId], references: [id], onDelete: SetNull)
-  items       Item[]
+  items      Item[]
 }
 
 model Event {
@@ -199,6 +199,9 @@ model Appointment {
   updatedAt        DateTime           @default(now()) @updatedAt
   notifications    Notification[]
   appointment_item appointment_item[]
+
+  workScheduleId String
+  workSchedule   WorkSchedule @relation(fields: [workScheduleId], references: [id], onDelete: Cascade)
 }
 
 model appointment_item {
@@ -240,13 +243,14 @@ model WorkSchedule {
   end        DateTime?
   allDay     Boolean?
 
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
   // doctor who owns the work schedule
-  doctorId   String
-  doctor     User     @relation(fields: [doctorId], references: [id], onDelete: Cascade)
-  barangayId String
-  barangay   Barangay @relation(fields: [barangayId], references: [id], onDelete: Cascade)
+  doctorId    String
+  doctor      User          @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  barangayId  String
+  barangay    Barangay      @relation(fields: [barangayId], references: [id], onDelete: Cascade)
+  appointments Appointment[]
 }
 
 enum Gender {
