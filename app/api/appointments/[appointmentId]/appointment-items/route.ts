@@ -42,7 +42,6 @@ export const POST = withAuth(
               { status: 404 }
             );
           }
-          console.log()
 
           const formattedAppointmentItems = body.data.map(
             (item) => {
@@ -94,10 +93,16 @@ export const POST = withAuth(
           const appointmentItems = await prisma.appointment_item.createMany({
             data:formattedAppointmentItems
           })
-          
-          console.log(appointmentItems)
 
-          console.log(process.env.NEXT_PUBLIC_SITE_URL)
+          await prisma.appointment.update({
+            where: {
+              id: appointment.id,
+            },
+            data: {
+              dispensing_status: "SUPPLIED"
+            }
+          })
+          
           const res = await axios.post(`${process.env.NEXT_PUBLIC_SITE_URL}/api/socket/notifications/appointment-items`, {
             appointmentId: appointment.id,
             userId: appointment.patientId

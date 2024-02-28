@@ -139,6 +139,7 @@ export const columns: ColumnDef<Appointment & { doctor: TUser & { profile: Profi
         Status <ArrowUpDown className="ml-2 h-4 w-4" />
       </div>
     ),
+    
     cell: ({ row }) => {
       // const yearEnrolled = row.getValue('') as Date
       const status = row.original.status as string;
@@ -151,6 +152,38 @@ export const columns: ColumnDef<Appointment & { doctor: TUser & { profile: Profi
               status === "REJECTED" && "bg-rose-700",
               status === "ACCEPTED" && "bg-[#107736]",
               status === "COMPLETED" && "bg-[#16A34A]"
+            )}>
+            {status}
+          </Badge>{" "}
+        </div>
+      );
+    },
+  },
+
+  {
+    accessorKey: "dispatchStatus",
+    accessorFn: (row) => {
+      const status = row.dispensing_status;
+      return status;
+    },
+    header: ({ column }) => (
+      <div
+        className="text-[#181a19]  flex items-center cursor-pointer dark:text-white flex-1"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Dispatch Status <ArrowUpDown className="ml-2 h-4 w-4" />
+      </div>
+    ),
+    
+    cell: ({ row }) => {
+      const status = row.original.dispensing_status as string;
+
+      return (
+        <div className={``}>
+          <Badge className={cn(
+              "dark:text-white bg-slate-500",
+              status === "PENDING" && "bg-slate-500",
+              status === "SUPPLIED" && "bg-[#16A34A]"
             )}>
             {status}
           </Badge>{" "}

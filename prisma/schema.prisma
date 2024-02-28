@@ -26,6 +26,12 @@ enum AppoinmentStatus {
   CANCELLED
 }
 
+enum DispensingStatus {
+  PENDING
+  SUPPLIED
+}
+
+
 enum ItemTransactionStatus {
   PENDING
   ACCEPTED
@@ -192,6 +198,7 @@ model Appointment {
   patient          User               @relation(name: "patient", fields: [patientId], references: [id], onDelete: Cascade)
   date             DateTime
   status           AppoinmentStatus   @default(PENDING)
+  dispensing_status  DispensingStatus @default(PENDING)
   image_path       String?
   barangayId       String
   barangay         Barangay           @relation(fields: [barangayId], references: [id], onDelete: Cascade)
