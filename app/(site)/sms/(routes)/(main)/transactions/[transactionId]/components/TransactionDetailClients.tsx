@@ -16,6 +16,7 @@ import {
   UpdateItemTransactionSchema,
 } from "@/schema/item-transaction";
 import {
+  Item,
   ItemTransaction,
   ItemTransactionStatus,
   RequestedItem,
@@ -56,7 +57,7 @@ const TransactionDetailClient: React.FC<TransactionDetailClientProps> = ({
     key: ["transactions", transactionId],
   });
 
-  const items = useQueryProcessor<(TItemSms & { supplier: TSupplierSchema })[]>(
+  const items = useQueryProcessor<(TItemSms & { items: Item[], supplier: TSupplierSchema })[]>(
     {
       url: "/sms-item",
       key: ["inventory-items", "sms"],
@@ -79,7 +80,8 @@ const TransactionDetailClient: React.FC<TransactionDetailClientProps> = ({
         itemId: item?.id,
         quantity: 0,
         name: item?.name,
-        stock: item?.stock,
+        stock: item.items?.length,
+        items: item.items,
         unit: item?.unit,
         supplier: item.supplier?.name,
       }))
@@ -172,7 +174,7 @@ const TransactionDetailClient: React.FC<TransactionDetailClientProps> = ({
                       <div className="flex w-full" key={item?.itemId}>
                         <div className="flex-1 p-5">{item?.name}</div>
                         <div className="flex-1 p-5">
-                          {item?.stock} {item?.unit}
+                          {item?.items?.length} {item?.unit}
                         </div>
                         <div className="flex-1 p-5">{item?.supplier}</div>
                         <div className="flex gap-x-3 flex-1 items-center p-5">

@@ -31,7 +31,8 @@ export const getSmsItemById = async (id: string): Promise<TItemSms | null> => {
       id: id,
     },
     include: {
-      supplier:true
+      supplier:true,
+      items:true
     }
   });
 };

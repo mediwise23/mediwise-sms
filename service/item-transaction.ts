@@ -45,7 +45,11 @@ export const getItemTransactionById = async ({
     include: {
       requested_items: {
         include: {
-          item:true
+          item:{
+            include: {
+              items:true
+            }
+          }
         }
       },
       barangay:true,

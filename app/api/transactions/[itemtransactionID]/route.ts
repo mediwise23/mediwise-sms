@@ -138,11 +138,15 @@ export const PATCH = withAuth(
           id: {
             in: formattedRequestedItems.map((item) => item.itemId) as string[]
           }
+        },
+        include: {
+          items:true
         }
       })
+      
       const isNotAvailable = smsItems.some((item) => {
         const findItem = formattedRequestedItems.find((formattedItem) => formattedItem.itemId === item.id)
-        return item.stock! <= 0 || (findItem && item?.stock! < findItem?.quantity)
+        return item?.items.length! <= 0 || (findItem && item?.items.length! < findItem?.quantity)
       })
 
       // console.log(isSmsItemsAvailable)
@@ -183,6 +187,7 @@ export const PATCH = withAuth(
             status: body.data.status, // data can be ACCEPTED or REJECTED
           },
         });
+
       } else if (
         session.user.role === Role.STOCK_MANAGER &&
         transaction.status === ItemTransactionStatus.ONGOING &&
@@ -204,17 +209,55 @@ export const PATCH = withAuth(
 
         const itemsToCreate = smsItems.map((smsItem) => {
           const item = formattedRequestedItems.find(formattedItem => formattedItem.itemId === smsItem.id)
-          return {barangayId: transaction.barangayId,
+          return {
+          barangayId: transaction.barangayId,
           name: smsItem.name,
           dosage: smsItem.dosage,
           stock: item?.quantity,
           unit: smsItem.unit,
           requestId: transaction.id,
+          items: smsItem.items
           }
         })
-        const updateSmsItemToBarangay = await prisma.brgyItem.createMany({
-          data: itemsToCreate
-        })
+
+        const updateSmsItemToBarangay = async (data: typeof smsItems[number]) => {
+          const item = formattedRequestedItems.find(formattedItem => formattedItem.itemId === data.id)
+          let items = []
+          for(let i = 0; i < item?.quantity!; i++) {
+            items.push({
+              id: data.items[i].id,
+              product_number: data.items[i].product_number,
+            })
+          }
+
+          const brgyItem = await prisma.brgyItem.create({
+            data: {
+              barangayId: transaction.barangayId,
+              name: data.name,
+              dosage: data.dosage,
+              stock: item?.quantity,
+              unit: data.unit,
+              requestId: transaction.id,
+            }
+          })
+          await Promise.all(items.map((data) => {
+            return prisma.item.update({
+              where: {
+                id: data.id
+              },
+              data: {
+                brgyItemId: brgyItem.id,
+                product_number: data.product_number,
+                smsItemId: null,
+              }
+            })
+          }))
+        }
+
+        const items = await Promise.all(
+          smsItems.map((data) => updateSmsItemToBarangay(data))
+        );
+
 
         formattedRequestedItems.forEach(async (smsItem) => (
           prisma.smsItem.update({
