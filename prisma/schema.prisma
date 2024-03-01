@@ -31,7 +31,6 @@ enum DispensingStatus {
   SUPPLIED
 }
 
-
 enum ItemTransactionStatus {
   PENDING
   ACCEPTED
@@ -54,6 +53,7 @@ model Barangay {
   WorkSchedule    WorkSchedule[]
   Appointment     Appointment[]
   events          Event[]
+  prescriptions    prescription[]
 }
 
 model RequestedItem {
@@ -190,22 +190,22 @@ model User {
 }
 
 model Appointment {
-  id               String             @id @unique @default(cuid())
-  title            String             @db.VarChar(255)
-  doctorId         String
-  doctor           User               @relation(name: "doctor", fields: [doctorId], references: [id], onDelete: Cascade)
-  patientId        String
-  patient          User               @relation(name: "patient", fields: [patientId], references: [id], onDelete: Cascade)
-  date             DateTime
-  status           AppoinmentStatus   @default(PENDING)
-  dispensing_status  DispensingStatus @default(PENDING)
-  image_path       String?
-  barangayId       String
-  barangay         Barangay           @relation(fields: [barangayId], references: [id], onDelete: Cascade)
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime           @default(now()) @updatedAt
-  notifications    Notification[]
-  appointment_item appointment_item[]
+  id                String             @id @unique @default(cuid())
+  title             String             @db.VarChar(255)
+  doctorId          String
+  doctor            User               @relation(name: "doctor", fields: [doctorId], references: [id], onDelete: Cascade)
+  patientId         String
+  patient           User               @relation(name: "patient", fields: [patientId], references: [id], onDelete: Cascade)
+  date              DateTime
+  status            AppoinmentStatus   @default(PENDING)
+  dispensing_status DispensingStatus   @default(PENDING)
+  image_path        String?
+  barangayId        String
+  barangay          Barangay           @relation(fields: [barangayId], references: [id], onDelete: Cascade)
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @default(now()) @updatedAt
+  notifications     Notification[]
+  appointment_item  appointment_item[]
 
   workScheduleId String
   workSchedule   WorkSchedule @relation(fields: [workScheduleId], references: [id], onDelete: Cascade)
@@ -250,13 +250,13 @@ model WorkSchedule {
   end        DateTime?
   allDay     Boolean?
 
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
   // doctor who owns the work schedule
-  doctorId    String
-  doctor      User          @relation(fields: [doctorId], references: [id], onDelete: Cascade)
-  barangayId  String
-  barangay    Barangay      @relation(fields: [barangayId], references: [id], onDelete: Cascade)
+  doctorId     String
+  doctor       User          @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  barangayId   String
+  barangay     Barangay      @relation(fields: [barangayId], references: [id], onDelete: Cascade)
   appointments Appointment[]
 }
 
@@ -290,6 +290,9 @@ model prescription {
   user          User?    @relation(fields: [userId], references: [id])
   createdAt     DateTime @default(now())
   updatedAt     DateTime @default(now()) @updatedAt
+
+  barangayId String
+  barangay   Barangay @relation(fields: [barangayId], references: [id], onDelete: Cascade)
 }
 
 model Profile {

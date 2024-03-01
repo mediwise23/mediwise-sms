@@ -61,7 +61,7 @@ export const POST = withAuth(
         );
       }
 
-      const { userId, image } = body.data;
+      const { userId, image, } = body.data;
 
       const res = await ocrSpace(image, {apiKey: '2227cfc83888957', language:'eng', OCREngine: "2"})
 
@@ -72,7 +72,8 @@ export const POST = withAuth(
         data: {
           userId,
           image,
-          convertedText
+          convertedText,
+          barangayId: session.user.barangayId!
         }
       })
 

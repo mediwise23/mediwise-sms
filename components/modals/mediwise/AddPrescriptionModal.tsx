@@ -50,6 +50,7 @@ const AddPrescriptionModal = () => {
       userId: data?.user?.id,
     },
   });
+  form.watch(['image'])
   const { toast } = useToast();
   const onHandleClose = () => {
     onClose();
@@ -180,7 +181,7 @@ const AddPrescriptionModal = () => {
                         disabled={isLoading}
                         onClick={() => {
                           form.setValue("image", "");
-                          form.reset();
+                          // form.reset();
                         }}
                         className="bg-rose-500 text-white p-1 rounded-full absolute top-0 right-0 shadow-sm"
                         type="button"

@@ -9,7 +9,7 @@ export const PrescriptionSchema = z.object({
   createdAt: z.date(),
   updatedAt: z.date(),
   userId: z.string().cuid(),
-
+  barangayId: z.string(),
 }) satisfies z.ZodType<prescription>;
 export type TPrescriptionSchema = z.infer<typeof PrescriptionSchema>
 

@@ -8,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Filter, Paperclip, Search, UserPlus } from "lucide-react";
+import { Filter, Search, UserPlus } from "lucide-react";
 import React, { useState } from "react";
 import { DataTable } from "@/components/DataTable";
 import { columns } from "./Columns";
@@ -31,9 +31,9 @@ const PrescriptionClients: React.FC<PrescriptionClientProps> = ({
     (TPrescriptionSchema & { user: User & { profile: Profile } })[]
   >({
     url: `/prescriptions`,
-    queryParams: {
-      userId: currentUser.id,
-    },
+    // queryParams: {
+    //   userId: currentUser.id,
+    // },
     key: ["prescriptions"],
   });
 
@@ -47,15 +47,15 @@ const PrescriptionClients: React.FC<PrescriptionClientProps> = ({
 
   return (
     <div className="flex flex-col px-10">
-      <div className="flex justify-end gap-x-5">
+      {/* <div className="flex justify-end gap-x-5">
         <Button
           className="text-zinc-500 dark:text-white bg-transparent"
           variant={"outline"}
           onClick={() => onOpen("addPrescription", { user: currentUser })}
         >
-          <Paperclip className="w-5 h-5 mr-2" /> Add new prescription
+          <UserPlus className="w-5 h-5 mr-2" /> Add new prescription
         </Button>
-      </div>
+      </div> */}
 
       <div className="flex items-center gap-5 my-10">
         <div className="border flex items-center rounded-md px-2 w-full flex-1">

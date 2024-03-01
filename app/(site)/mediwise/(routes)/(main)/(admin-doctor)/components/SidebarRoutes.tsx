@@ -12,6 +12,7 @@ import {
   Megaphone,
   History,
   Blocks,
+  Paperclip,
 } from "lucide-react";
 import { MdHive } from "react-icons/md";
 import { SidebarItem } from "./SidebarItem";
@@ -79,6 +80,13 @@ const routesList: routeListType[] = [
     icon: CalendarDays,
     label: "Events",
     href: "/events",
+    roles: ["ADMIN"],
+  },
+
+  {
+    icon: Paperclip,
+    label: "Prescriptions",
+    href: "/prescriptions",
     roles: ["ADMIN"],
   },
 
