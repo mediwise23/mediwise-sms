@@ -1,4 +1,4 @@
-import { AppoinmentStatus, Appointment } from "@prisma/client";
+import { AppoinmentStatus, Appointment, DispensingStatus } from "@prisma/client";
 import { z } from "zod";
 
 export type TAppointment = z.infer<typeof AppointmentSchema>;
@@ -18,7 +18,7 @@ export const AppointmentSchema = z.object({
   updatedAt: z.date(),
   barangayId: z.string(),
   workScheduleId: z.string(),
-
+  dispensing_status:z.nativeEnum(DispensingStatus)
 }) satisfies z.ZodType<Appointment>;
 
 export const AppointmentGetQuerySchema = AppointmentSchema.pick({
