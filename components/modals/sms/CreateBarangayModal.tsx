@@ -35,7 +35,10 @@ import {
   TBarangay,
   TCreateBarangay,
 } from "@/schema/barangay";
-
+// @ts-ignore
+// @ts-nocheck
+import { barangayNames } from "@/prisma/data";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 const CreateBarangayModal = () => {
   const { isOpen, type, onClose, data } = useModal();
   const isModalOpen = isOpen && type === "createBarangay";
@@ -63,6 +66,9 @@ const CreateBarangayModal = () => {
       form.reset();
     };
   }, [isModalOpen]);
+
+  
+  barangayNames
   const onSubmit: SubmitHandler<TCreateBarangay> = async (values) => {
     createBarangay.mutate(values, {
       onSuccess(data, variables, context) {
@@ -103,26 +109,44 @@ const CreateBarangayModal = () => {
               className="flex flex-col gap-y-5"
             >
               <div className="w-full">
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
-                        Barangay name
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={isLoading}
-                          className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0"
-                          placeholder={`Enter supplier name`}
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+              <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel className=" line-clamp-1 uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                          Barangay
+                        </FormLabel>
+                        <FormControl>
+                          <Select
+                            onValueChange={(e) => {
+                              field.onChange(e)
+                              const brgy = barangayNames.find((brgy) => brgy.barangayName == e)
+                              form.setValue('zip', Number(brgy?.zip))
+                              form.setValue('district', brgy?.district ?? "")
+                            }}
+                            defaultValue={field.value}
+                          >
+                            <FormControl>
+                              <SelectTrigger className="focus-visible:ring-0  focus-visible:ring-offset-0 border-zinc-500  bg-transparent">
+                                <SelectValue placeholder="Select a barangay" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent className="focus-visible:ring-0  focus-visible:ring-offset-0">
+                              {barangayNames?.map((barangay) => (
+                                <SelectItem
+                                  value={barangay?.barangayName || "null"}
+                                >
+                                  {barangay.barangayName}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
               </div>
 
               <div className="w-full">
