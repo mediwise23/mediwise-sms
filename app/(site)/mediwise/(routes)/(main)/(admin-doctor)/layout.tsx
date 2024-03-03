@@ -18,10 +18,10 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
       <div className="h-[80px] md:pl-auto fixed inset-y-0 right-0 w-full z-50">
         <Navbar currentUser={user} />
       </div>
-      <div className="hidden md:block h-[90vh] max-h-[90vh] w-80 fixed left-10 top-10 shadow-2xl rounded-xl bg-white overflow-hidden">
+      <div className="hidden md:block h-[90vh] max-h-[90vh] w-80 fixed left-10 top-10 shadow-2xl rounded-xl bg-white overflow-hidden mt-16 md:mt-10">
         <Sidebar currentUser={user} />
       </div>
-      <div className="md:ml-80 w-full h-[90vh] max-h-[90vh] shadow-2xl rounded-xl overflow-x-auto bg-white dark:bg-[#020817] dark:text-white mt-20 md:mt-0">
+      <div className="md:ml-80 w-full h-[90vh] max-h-[90vh] shadow-2xl rounded-xl overflow-x-auto bg-white dark:bg-[#020817] dark:text-white mt-16 md:mt-16">
         {children}
       </div>
     </main>

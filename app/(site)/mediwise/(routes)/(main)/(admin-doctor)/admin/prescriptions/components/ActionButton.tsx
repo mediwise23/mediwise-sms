@@ -31,14 +31,14 @@ import { Profile, User} from "next-auth";
               <Eye className="h-4 w-4 mr-2" />
               View
             </DropdownMenuItem>
-            <DropdownMenuItem
+            {/* <DropdownMenuItem
               className="text-xs cursor-pointer text-red-600 hover:!text-red-600 hover:!bg-red-100"
               onClick={() => onOpen('deletePrescription', {prescription: data})}
               
             >
               <Archive className="h-4 w-4 mr-2" />
               Delete
-            </DropdownMenuItem>
+            </DropdownMenuItem> */}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

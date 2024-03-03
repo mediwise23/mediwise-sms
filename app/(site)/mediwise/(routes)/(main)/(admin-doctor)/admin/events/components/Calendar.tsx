@@ -132,15 +132,10 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
   };
 
   const handleEventClick = (calendarApi: any) => {
-    const willDelete = window.confirm('Delete event?')
-
-    if(willDelete) {
-      calendarApi.event.remove();
-    }
+    onOpen("deleteAnnouncement", {calendarApi})
   };
 
   const handleDeleteEvent = ({ event }: any) => {
-    console.log("deleting event");
     deleteEvent(event.id);
   };
 

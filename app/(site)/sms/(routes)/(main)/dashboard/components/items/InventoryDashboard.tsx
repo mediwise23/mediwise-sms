@@ -11,6 +11,8 @@ import { columns } from "./columns";
 import { DataTable } from "@/components/DataTable";
 import useWindowSize from "@/hooks/useWindowSize";
 import { Item } from "@prisma/client";
+import { Search } from "lucide-react";
+import { Input } from "@/components/ui/input";
 
 type InventoryDashboard = {
   inventoryData: (TItemSms & {items: Item[]})[];
@@ -120,6 +122,18 @@ const InventoryDashboard: React.FC<InventoryDashboard> = ({
       <h1 className="text-2xl font-bold mb-4">Inventory Items </h1>
       <div className="w-full flex flex-col-reverse lg:flex-col-reverse">
             <div className="bg-white dark:bg-slate-900 p-4 rounded-md border border-gray-300 h-[70vh] overflow-y-auto w-full">
+
+            <div className="border flex items-center rounded-md px-2 w-full flex-1">
+        <Search className="w-5 h-5 font-semibold text-zinc-500 dark:text-white" />
+        <Input
+          className="inset-0 outline-none border-none active:outline-none hover:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 text-sm bg-transparent"
+          onChange={onFilter}
+          type="text"
+          value={globalFilter}
+          placeholder="Search for item"
+        />
+      </div>
+      
               <DataTable
               //@ts-ignore
               //@ts-nocheck
@@ -147,7 +161,9 @@ const InventoryDashboard: React.FC<InventoryDashboard> = ({
       <CartesianGrid strokeDasharray="3 3" />
       <XAxis dataKey="name" />
       {/* <YAxis /> */}
-      <Tooltip />
+      <Tooltip contentStyle={{
+        color:"black"
+      }} />
           {/* <Legend verticalAlign="top" wrapperStyle={{ lineHeight: '40px' }} /> */}
           <ReferenceLine y={0} stroke="#000" />
           {/* <Brush dataKey="name" height={30} stroke="#8884d8" /> */}

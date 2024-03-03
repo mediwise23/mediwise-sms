@@ -72,7 +72,7 @@ const AppoinmentsDetailClient: React.FC<AppoinmentsDetailClientProps> = ({
                     appointment?.data?.id as string
                   }` ?? ""
                 }
-                className="w-[100px] h-[100px]"
+                className="w-[100px] h-[100px] hover:scale-[2] transition-all"
               />
             </div>
 
@@ -80,7 +80,7 @@ const AppoinmentsDetailClient: React.FC<AppoinmentsDetailClientProps> = ({
               <div className="flex justify-between ">
                 <strong>Prescription uploaded</strong>
                 <img
-                  className="w-[150px] h-[150px]"
+                  className="w-[150px] h-[150px] hover:scale-[2] transition-all"
                   src={appointment.data?.image_path}
                   alt=""
                 />

@@ -32,7 +32,9 @@ export default function PatientChart({ data }: PatientChartProps) {
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="month" />
-        <Tooltip />
+        <Tooltip contentStyle={{
+        color:"black"
+      }} />
         <Area
           type="monotone"
           dataKey="numberOfPatients"

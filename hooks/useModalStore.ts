@@ -3,7 +3,7 @@ import { TItemBrgy } from "@/schema/item-brgy";
 import { TItemSms } from "@/schema/item-sms";
 import { TPrescriptionSchema } from "@/schema/prescriptions";
 import { TUser } from "@/schema/user";
-import { Appointment, ItemTransaction, Profile, User } from "@prisma/client";
+import { Appointment, Item, ItemTransaction, Profile, User } from "@prisma/client";
 import { Session } from "next-auth";
 import { create } from "zustand";
 
@@ -32,6 +32,7 @@ export type ModalType =
   | "deleteSmsItem"
   | "updateSmsItem"
   | "deleteEvent"
+  | "deleteAnnouncement"
   | "rescheduleAppointment"
   | "addNewItemStock"
   | "addNewItemStockSms"
@@ -43,7 +44,7 @@ type ModalData = {
   calendarApi?: any;
   user?: User | Session['user'];
   prescription?: TPrescriptionSchema;
-  brgyItems?: TItemBrgy[];
+  brgyItems?: (TItemBrgy & {items: Item[]}) [];
   brgyItem?: TItemBrgy;
   smsItem?: TItemSms;
   transactionRequest?: ItemTransaction

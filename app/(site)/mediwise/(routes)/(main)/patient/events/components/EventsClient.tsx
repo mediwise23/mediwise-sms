@@ -28,7 +28,7 @@ const EventsClient: React.FC<EventsClientProps> = ({ currentUser }) => {
 
   return (
     <div className="w-full">
-      <h1 className="text-5xl md:text-[10em] font-black text-center">FORUMS</h1>
+      {/* <h1 className="text-5xl md:text-[10em] font-black text-center">FORUMS</h1> */}
 
       <section className="bg-[#212121] w-full overflow-auto h-screen px-14 lg:px-40">
         <div className="gap-y-10 flex flex-col">

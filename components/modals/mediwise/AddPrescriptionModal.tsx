@@ -28,7 +28,9 @@ import { useToast } from "../../ui/use-toast";
 import axios, { AxiosError } from "axios";
 import { Loader2 } from "../../ui/Loader";
 import {
+  ACCEPTED_IMAGE_TYPES,
   CreatePrescriptionSchema,
+  MAX_FILE_SIZE,
   TCreatePrescriptionSchema,
 } from "@/schema/prescriptions";
 import { dataURItoBlob, uploadPhoto } from "@/lib/utils";
@@ -137,7 +139,7 @@ const AddPrescriptionModal = () => {
                             >
                               <Download className=" text-gray-400 ml-2 h-10 w-10 " />
                               <span className="text-[#42579E] text-sm font-semibold">
-                                Choose a file
+                                Choose a file (Max of 5mb)
                               </span>
                               <span className="text-xs text-zinc-500 font-semibold">
                                 Photo (png, jpg, etc)
@@ -152,6 +154,20 @@ const AddPrescriptionModal = () => {
                                 accept="image/*"
                                 onChange={(e) => {
                                   if (e?.target?.files?.[0]) {
+                                    if(e?.target?.files?.[0].size > MAX_FILE_SIZE) {
+                                      form.setError("image", {
+                                        message: "Max image size is 5MB."
+                                      })
+
+                                      return;
+                                    }
+
+                                    if(!ACCEPTED_IMAGE_TYPES.includes(e?.target?.files?.[0].type)) {
+                                      form.setError("image", {
+                                        message: "Only .jpg, .jpeg, .png and .webp formats are supported."
+                                      })
+                                      return;
+                                    }
                                     const reader = new FileReader();
                                     reader.readAsDataURL(e?.target?.files?.[0]);
 

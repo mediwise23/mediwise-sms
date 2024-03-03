@@ -9,7 +9,7 @@ const Page = () => {
 
   return (
     <div className="flex flex-col items-center w-full gap-y-32">
-      <section className=" flex flex-col md:flex-row mt-32 justify-between  w-[60%]">
+      <section className=" flex flex-col md:flex-row mt-32 justify-between w-[90%] lg:w-[60%] ">
         <div className="w-full flex flex-col font-semibold gap-y-3 ">
           <span className="text-[#5CA15D]">
             Welcome to mediwise barangay center
@@ -36,7 +36,7 @@ const Page = () => {
         </div>
       </section>
 
-      <section className=" w-[60%] max-h-[400px] grid sm:grid-cols-1 md:grid-cols-4  lg:grid-cols-4 grid-rows-1 gap-5">
+      <section className="w-[90%] lg:w-[60%]  max-h-[400px] grid sm:grid-cols-1 md:grid-cols-4  lg:grid-cols-4 grid-rows-1 gap-5">
         <div className="col-span-2">
           <img
             src="/images/doctor1.jpg"

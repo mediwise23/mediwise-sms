@@ -12,7 +12,7 @@ const InventoryReportModal = () => {
 
   const isModalOpen = isOpen && type === "inventoryReport";
   const totalStocks = data?.brgyItems?.reduce(
-    (sum, item) => sum + (item?.stock || 0),
+    (sum, item) => sum + (item?.items.length || 0),
     0
   );
   const pdfExportYearComponent = useRef<any>(null);
@@ -53,6 +53,7 @@ const InventoryReportModal = () => {
         <div className="flex flex-col  min-w-[90vw]">
           <PDFExport ref={pdfExportYearComponent} margin="2cm">
             <div className="container mx-auto mt-8 w-full p-5">
+              <div className="flex justify-between items-center">
               <div className="">
                 <h1 className="text-4xl font-bold mb-2">
                   Barangay Inventory Report
@@ -61,6 +62,8 @@ const InventoryReportModal = () => {
                   A summary of available items in the inventory as of{" "}
                   {months[new Date().getMonth()]} {new Date().getFullYear()}
                 </p>
+              </div>
+              <img src="/images/bhaLogo.png" className="w-[150px]" alt="" />
               </div>
 
               <div className="mt-10">
@@ -88,7 +91,7 @@ const InventoryReportModal = () => {
                         <td className="py-2 pl-4">{item.id}</td>
                         <td className="py-2">{item.name}</td>
                         <td className="py-2">
-                          {item.stock} {item.unit}
+                          {item?.items.length} {item.unit}
                         </td>
                         <td className="py-2">{item.dosage}</td>
                       </tr>

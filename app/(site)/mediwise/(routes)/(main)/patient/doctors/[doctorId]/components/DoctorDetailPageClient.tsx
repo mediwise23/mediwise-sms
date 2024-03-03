@@ -149,7 +149,7 @@ const DoctorDetailPageClient = () => {
 
           <Separator className="mt-10 bg-zinc-200 h-1 dark:bg-zinc-600" />
 
-          <section className="flex flex-col ">
+          {/* <section className="flex flex-col ">
             <h2 className="font-semibold my-5">Physical Address</h2>
 
             <div className="flex w-full gap-x-3 mt-5">
@@ -183,7 +183,7 @@ const DoctorDetailPageClient = () => {
                 <div>{doctor?.data?.barangay?.name}</div>
               </div>
             </div>
-          </section>
+          </section> */}
 
           {/* <section className="mt-10">
             <Button

@@ -35,7 +35,7 @@ const routesList: routeListType[] = [
 
   {
     icon: Home,
-    label: "home",
+    label: "Home",
     href: "/",
     roles: ["DOCTOR"],
   },
