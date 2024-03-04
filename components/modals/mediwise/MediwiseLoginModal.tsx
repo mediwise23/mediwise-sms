@@ -66,7 +66,7 @@ const MediwiseLoginModal = () => {
       }
       if (variants == "LOGIN") {
         const response = await signIn("credentials", {
-          ...values,
+          ...values, type: "mediwise",
           redirect: false,
         });
 

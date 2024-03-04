@@ -1,5 +1,6 @@
 import { withAuth } from "@/lib/auth";
 import { CreateSmsItemSchema, ItemSmsGetQuerySchema } from "@/schema/item-sms";
+import { getAllBarangayItem } from "@/service/item-brgy";
 
 import { createSmsItem, getAllSmsItem } from "@/service/item-sms";
 import { getQueryParams } from "@/service/params";
@@ -19,11 +20,35 @@ export const GET = withAuth(
     }
 
     try {
-      const item = await getAllSmsItem({
+      const items = await getAllSmsItem({
         name: queries.data.name,
       });
 
-      return NextResponse.json(item, { status: 200 });
+      if (queries.data.barangayId) {
+        const brgyItemsLowStock = await getAllBarangayItem({
+          barangayId: queries.data.barangayId,
+        });
+
+        const getAllMedicineName = brgyItemsLowStock.map((brgyItem) => {
+          if (
+            (brgyItem.unit === "pcs" && brgyItem?.items?.length! < 25) ||
+            (brgyItem.unit === "box" && brgyItem?.items?.length! < 5) ||
+            brgyItem?.items?.length! == 0
+          ) {
+            return brgyItem.name;
+          }
+        });
+
+        const filteredItems = items.filter((i) => {
+          return getAllMedicineName.includes(i.name!);
+        });
+
+        console.log("filteredItems", getAllMedicineName, filteredItems.length);
+        return NextResponse.json(filteredItems, { status: 200 });
+      }
+
+      console.log(items.length)
+      return NextResponse.json(items, { status: 200 });
     } catch (error) {
       console.log("[SMSITEM_GET]", error);
       return new NextResponse("Internal error", { status: 500 });

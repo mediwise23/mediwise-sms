@@ -46,6 +46,7 @@ export const authOptions: AuthOptions = {
       credentials: {
         email: { label: "email", type: "text" },
         password: { label: "password", type: "password" },
+        type: { label: "type", type: "text" },
       },
       async authorize(credentials) {
         /* 
@@ -56,6 +57,8 @@ export const authOptions: AuthOptions = {
           You can also use the `req` object to obtain additional parameters
           (i.e., the request IP address) 
         */
+
+          console.log(credentials)
         if (!credentials?.email || !credentials?.password) {
           throw new Error("Invalid credentials. Please fill in all fields");
         }
@@ -69,6 +72,7 @@ export const authOptions: AuthOptions = {
         if (!user || !user?.hashedPassword) {
           throw new Error("Invalid credentials");
         }
+        
 
         const isCorrectPassword = await bcrypt.compare(
           credentials.password,
@@ -77,7 +81,12 @@ export const authOptions: AuthOptions = {
         if (!isCorrectPassword) {
           throw new Error("Invalid credentials");
         }
-        return user;
+
+        if(credentials.type === "sms" && user.role === "STOCK_MANAGER" || credentials.type === "mediwise" && user.role !== "STOCK_MANAGER") {
+          return user;
+        }
+
+        return null
         // return { ...user, role: user.role.toString() };
         /* 
           If no error and we have user data, return it

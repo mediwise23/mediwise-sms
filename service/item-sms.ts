@@ -6,6 +6,7 @@ import { TCreateSmsItem, TItemSms, TUpdateSmsItem } from "@/schema/item-sms";
 // getAllSmsItem
 export const getAllSmsItem = async (data: {
   name?: string;
+  medicineNames?: string[]
 }): Promise<TItemSms[]> => {
   return await prisma.smsItem.findMany({
     where: {

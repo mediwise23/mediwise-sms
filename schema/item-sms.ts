@@ -22,7 +22,9 @@ export const ItemSmsSchema = z.object({
 export const ItemSmsGetQuerySchema = z.object({
   name: z.string().optional(),
   supplierId: z.string().cuid().optional(),
-});
+}).extend({
+  barangayId: z.string().optional()
+})
 
 export const CreateSmsItemSchema = ItemSmsSchema.pick({
   name: true,

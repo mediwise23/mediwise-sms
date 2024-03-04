@@ -60,9 +60,12 @@ const TransactionDetailClient: React.FC<TransactionDetailClientProps> = ({
   const items = useQueryProcessor<(TItemSms & { items: Item[], supplier: TSupplierSchema })[]>(
     {
       url: "/sms-item",
-      key: ["inventory-items", "sms"],
+      key: ["inventory-items", "sms", "transaction"],
       options: {
-        enabled: transaction.data?.status === 'PENDING'
+        enabled: transaction.data?.status === 'PENDING' && !!transaction.data?.barangayId
+      },
+      queryParams: {
+        barangayId: transaction.data?.barangayId
       }
     }
   );

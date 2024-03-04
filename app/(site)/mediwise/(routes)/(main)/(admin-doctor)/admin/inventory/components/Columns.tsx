@@ -92,7 +92,7 @@ export const columns: ColumnDef<TItemBrgy & {items: Item[]}>[] = [
       </div>
     ),
     cell: ({ row }) => {
-      const stock = row.original?.items.length;
+      const stock = row.original?.items?.length;
 
       return <div className={` flex items-center`}>{stock}</div>;
     },

@@ -47,7 +47,7 @@ const AuthForm = () => {
   const onSubmit: SubmitHandler<formSchemaType> = async (values) => {
     try {
       const response = await signIn("credentials", {
-        ...values,
+        ...values, type: "sms",
         redirect: false,
       });
 

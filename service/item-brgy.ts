@@ -6,12 +6,13 @@ import {
   TItemBrgy,
   TUpdateBrgyItem,
 } from "@/schema/item-brgy";
+import { Item } from "@prisma/client";
 
 // getAllBarangayItem
 export const getAllBarangayItem = async (data: {
   name?: string,
   barangayId?:string,
-}): Promise<TItemBrgy[]> => {
+}): Promise<(TItemBrgy & {items: Item[]})[]> => {
   return await prisma.brgyItem.findMany({
     where: {
       name: {

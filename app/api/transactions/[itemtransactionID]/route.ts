@@ -230,6 +230,33 @@ export const PATCH = withAuth(
             })
           }
 
+          const existingItem = await prisma.brgyItem.findFirst({
+            where: {
+              name: data.name,
+              barangayId:transaction.barangayId,
+              unit: data.unit
+            }
+          })
+
+
+          if(existingItem) {
+            const updatedItems = await Promise.all(items.map((data) => {
+              return prisma.item.update({
+                where: {
+                  id: data.id
+                },
+                data: {
+                  brgyItemId: existingItem.id,
+                  product_number: data.product_number,
+                  smsItemId: null,
+                }
+              })
+            }))
+
+            console.log(updatedItems)
+            return updatedItems
+          }
+
           const brgyItem = await prisma.brgyItem.create({
             data: {
               barangayId: transaction.barangayId,
@@ -240,6 +267,7 @@ export const PATCH = withAuth(
               requestId: transaction.id,
             }
           })
+
           await Promise.all(items.map((data) => {
             return prisma.item.update({
               where: {
@@ -252,25 +280,26 @@ export const PATCH = withAuth(
               }
             })
           }))
+
+          return brgyItem
         }
 
         const items = await Promise.all(
           smsItems.map((data) => updateSmsItemToBarangay(data))
         );
 
-
-        formattedRequestedItems.forEach(async (smsItem) => (
-          prisma.smsItem.update({
-            where: {
-              id: smsItem.itemId as string,
-            },
-            data: {
-              stock: {
-                decrement: smsItem.quantity
-              }
-            }
-          })
-        ))
+        // formattedRequestedItems.forEach(async (smsItem) => (
+        //   prisma.smsItem.update({
+        //     where: {
+        //       id: smsItem.itemId as string,
+        //     },
+        //     data: {
+        //       stock: {
+        //         decrement: smsItem.quantity
+        //       }
+        //     }
+        //   })
+        // ))
         
       } 
 

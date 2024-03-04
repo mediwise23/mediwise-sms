@@ -145,7 +145,7 @@ export const columns: ColumnDef<TItemSms & {supplier: TSupplierSchema, items: It
   {
     accessorKey: "supplier",
     accessorFn: (row) => {
-      const supplier = row?.supplier.name;
+      const supplier = row?.supplier?.name;
       return supplier;
     },
     header: ({ column }) => (
