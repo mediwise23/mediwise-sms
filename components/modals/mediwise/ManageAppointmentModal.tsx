@@ -18,7 +18,7 @@ import {
   useQueryProcessor,
 } from "@/hooks/useTanstackQuery";
 import { TUpdateItemTransactionSchemaStatus } from "@/schema/item-transaction";
-import { ItemTransactionStatus } from "@prisma/client";
+import { Item, ItemTransactionStatus } from "@prisma/client";
 import { useToast } from "@/components/ui/use-toast";
 import { TItemBrgy } from "@/schema/item-brgy";
 // type and validation for excel sheet to json
@@ -50,7 +50,7 @@ const ManageAppointmentModal = () => {
   const { isOpen, onClose, type, data } = useModal();
   const { toast } = useToast();
   const isModalOpen = isOpen && type === "manageAppointment";
-  const items = useQueryProcessor<TItemBrgy[]>({
+  const items = useQueryProcessor<(TItemBrgy & {items: Item[]} )[]>({
     url: "/brgy-item",
     key: ["inventory-items", "sms"],
     options: {
@@ -71,6 +71,7 @@ const ManageAppointmentModal = () => {
         name: item?.name,
         stock: item?.stock,
         unit: item?.unit,
+        items: item.items
       }))
     );
   }, [items.status, isModalOpen]);
@@ -267,7 +268,7 @@ const ManageAppointmentModal = () => {
                     <div className="flex w-full" key={item?.itemId}>
                       <div className="flex-1 p-5">{item?.name}</div>
                       <div className="flex-1 p-5">
-                        {item?.stock} {item.unit}
+                        {item?.items?.length} {item.unit}
                       </div>
                       <div className="flex gap-x-3 flex-1 items-center p-5">
                         <Button
@@ -307,7 +308,7 @@ const ManageAppointmentModal = () => {
                                 (itemState: any) =>
                                   itemState.itemId === item.itemId
                               );
-                              if (!!data && data.quantity + 1 <= data.stock) {
+                              if (!!data && data.quantity + 1 <= data.items.length) {
                                 const updateItem = {
                                   ...data,
                                   quantity: data.quantity + 1,

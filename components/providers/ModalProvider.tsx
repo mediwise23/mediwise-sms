@@ -27,6 +27,7 @@ import RecheduleAppointmentModal from "../modals/mediwise/RescheduleAppointmentM
 import AddNewItemStockModal from "../modals/mediwise/AddNewItemStockModal";
 import AddNewItemStockModalSms from "../modals/sms/AddNewItemStockModal";
 import DeleteAnnouncementModal from "../modals/mediwise/DeleteAnnouncementModal";
+import ViewPhotoModal from "../modals/mediwise/ViewPhotoModal";
 
 
 const ModalProvider = () => {
@@ -69,6 +70,7 @@ const ModalProvider = () => {
     <RecheduleAppointmentModal />
     <AddNewItemStockModal />
     <AddNewItemStockModalSms />
+    <ViewPhotoModal />
     </>
   );
 };

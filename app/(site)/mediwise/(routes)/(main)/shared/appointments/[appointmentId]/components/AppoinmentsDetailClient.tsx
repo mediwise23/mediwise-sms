@@ -16,6 +16,7 @@ import { columns } from "./Columns";
 import { appointment_item } from "@prisma/client";
 import { TItemBrgy } from "@/schema/item-brgy";
 import moment from "moment-timezone";
+import { useModal } from "@/hooks/useModalStore";
 
 
 type AppoinmentsDetailClientProps = {
@@ -42,8 +43,7 @@ const AppoinmentsDetailClient: React.FC<AppoinmentsDetailClientProps> = ({
     key: ["view-appointment"],
   });
 
-  console.log(appointment.data?.date);
-
+  const {onOpen} = useModal()
   const date = new Date(appointment.data?.date || new Date())
 
   date.setDate(date.getDate() + 1)
@@ -72,17 +72,20 @@ const AppoinmentsDetailClient: React.FC<AppoinmentsDetailClientProps> = ({
                     appointment?.data?.id as string
                   }` ?? ""
                 }
-                className="w-[100px] h-[100px] hover:scale-[2] transition-all"
+                className="w-[100px] h-[100px] transition-all"
+                
               />
+
             </div>
 
             {appointment.data?.image_path && (
               <div className="flex justify-between ">
                 <strong>Prescription uploaded</strong>
                 <img
-                  className="w-[150px] h-[150px] hover:scale-[2] transition-all"
+                  className="w-[150px] h-[150px] transition-all cursor-pointer"
                   src={appointment.data?.image_path}
                   alt=""
+                  onClick={(() => onOpen('viewPhoto', {photoUrl: appointment.data?.image_path as string}))}
                 />
               </div>
             )}

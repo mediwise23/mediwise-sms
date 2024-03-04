@@ -185,7 +185,7 @@ export const columns: ColumnDef<appointment_item & {brgyItem:TItemBrgy}>[] = [
       const unit = row?.original?.brgyItem.unit;
       return (
         <div className=" dark:text-white">
-          {quantity} {unit}
+          {quantity}
         </div>
       );
     },

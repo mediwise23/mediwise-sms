@@ -36,6 +36,7 @@ export type ModalType =
   | "rescheduleAppointment"
   | "addNewItemStock"
   | "addNewItemStockSms"
+  | "viewPhoto"
 // you can extend this type if you have more modal
 
 // export type ModalType = "..." | "...." | "...."
@@ -47,11 +48,13 @@ type ModalData = {
   brgyItems?: (TItemBrgy & {items: Item[]}) [];
   brgyItem?: TItemBrgy;
   smsItem?: TItemSms;
+  photoUrl?: string;
   transactionRequest?: ItemTransaction
   appointment?: Appointment | TAppointment & {
     doctor: TUser & { profile: Profile };
     patient: TUser & { profile: Profile };
   };
+ 
 };
 
 type ModalStore = {

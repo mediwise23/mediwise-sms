@@ -64,7 +64,11 @@ export const getAppointmentById = async ({ id }: { id: string }) => {
       patient:true,
       appointment_item:{
         include: {
-          brgyItem:true
+          brgyItem:{
+            include: {
+              items:true
+            }
+          },
         }
       }
     }
