@@ -21,7 +21,7 @@ export const getAppointments = async ({
   workScheduleId: string | undefined;
 }) => {
   const d = new Date(date || new Date())
-  d.setDate(d.getDate() - 1);
+  // d.setDate(d.getDate() - 1);
   console.log(moment(d).toDate())
   return await prisma.appointment.findMany({
     where: {

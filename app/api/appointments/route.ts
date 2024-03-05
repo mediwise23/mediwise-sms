@@ -90,7 +90,7 @@ export const POST = withAuth(
         { status: 404 }
       );
     }
-
+    date.setDate(date.getDate() + 1);
       const appointment = await createAppointment({
         title,
         doctorId,

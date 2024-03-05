@@ -13,6 +13,7 @@ export const GET = withAuth(async ({ req, session }) => {
     year: z.string(),
     barangayId: z.string().optional()
   });
+  
   // @ts-ignore
   // @ts-nocheck
   const queries = Object.fromEntries(req.nextUrl.searchParams.entries());

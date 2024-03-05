@@ -46,7 +46,6 @@ const AppoinmentsDetailClient: React.FC<AppoinmentsDetailClientProps> = ({
   const {onOpen} = useModal()
   const date = new Date(appointment.data?.date || new Date())
 
-  date.setDate(date.getDate() + 1)
   const newDate = moment.utc(date).tz("Asia/Manila").format()
   return (
     <div className="flex flex-col bg-white dark:bg-slate-900 shadow-md p-5 rounded-md">

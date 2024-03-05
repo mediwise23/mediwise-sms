@@ -22,12 +22,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "@/components/ui/Loader";
 import { useModal } from "@/hooks/useModalStore";
-import { useMutateProcessor } from "@/hooks/useTanstackQuery";
+import { useMutateProcessor, useQueryProcessor } from "@/hooks/useTanstackQuery";
 import toast from "react-hot-toast";
 
 import { Checkbox } from "@/components/ui/checkbox";
 import { RescheduleAppointmentSchema, TRescheduleAppointmentSchema } from "@/schema/appointment";
 import { useToast } from "@/components/ui/use-toast";
+
+import { useState } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { Calendar } from "lucide-react";
+import { WorkSchedule } from "@prisma/client";
 
 const RecheduleAppointmentModal = () => {
   const { isOpen, type, onClose, data } = useModal();
@@ -36,8 +42,6 @@ const RecheduleAppointmentModal = () => {
   const onHandleClose = () => {
     onClose();
   };
-  
-  
 
   const form = useForm<TRescheduleAppointmentSchema>({
     resolver: zodResolver(RescheduleAppointmentSchema),
@@ -46,12 +50,26 @@ const RecheduleAppointmentModal = () => {
     mode: "all",
   });
 
+  const availableSchedule = useQueryProcessor<WorkSchedule[]>({
+    url: `/work-schedules`,
+    key: ["appointments-doctor"],
+    queryParams: {
+      userId: data?.user?.id
+    },
+    options: {
+      enabled: !!data.user && isModalOpen
+    }
+  })
+
+  
+
 
   const rescheduleAppointment = useMutateProcessor({
     url: `/socket/appointments/${data?.appointment?.id}`,
     method: "PUT",
     key: ["appointments-doctor", data?.appointment?.barangayId]
   })
+
   useEffect(() => {
     if(data?.appointment?.date) {
         const date = new Date(data?.appointment?.date)
@@ -84,10 +102,23 @@ const RecheduleAppointmentModal = () => {
 
   const isLoading = form.formState.isSubmitting;
 
+
+  const availableDates = availableSchedule.data?.map(schedule => {
+    const date = new Date(schedule?.start || new Date())
+
+    return date.toISOString().split("T")[0]
+  });
+  const [selectedDate, setSelectedDate] = useState(null);
+  
+  const filterDates = (date:Date) => {
+    const day = date.toISOString().split('T')[0];
+    return availableDates?.includes(day);
+};
+
   return (
     <div>
       <Dialog open={isModalOpen} onOpenChange={onHandleClose}>
-        <DialogContent className="max-h-[95vh] max-w-[90vw] md:w-[550px] overflow-y-auto dark:bg-[#020817] dark:text-white">
+        <DialogContent className="max-h-[95vh] max-w-[90vw] md:w-[550px] dark:bg-[#020817] dark:text-white">
           <DialogHeader className="pt-3 px-6">
             <DialogTitle className="text-2xl text-center font-bold m-2 dark:text-white">
               Reschedule Appointment
@@ -108,18 +139,36 @@ const RecheduleAppointmentModal = () => {
                     control={form.control}
                     name="date"
                     render={({ field }) => (
-                      <FormItem className="w-full">
+                      <FormItem className="w-full flex items-center gap-x-5">
                         <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
                           Date
                         </FormLabel>
                         <FormControl>
-                          <Input
+                          {/* <Input
                             type="date"
                             disabled={isLoading}
                             className=" focus-visible:ring-0  focus-visible:ring-offset-0 resize-none"
                             placeholder={`Enter the year you started the job`}
                             {...field}
-                          />
+                          /> */}
+                          <div className="border rounded-md cursor-pointer  px-2 py-1 flex items-center gap-x-5 w-fit z-50">
+                          <Calendar className="h-5 w-5" />
+                          <DatePicker
+                          id="datePicker"
+                          className=" focus-visible:ring-0  focus-visible:ring-offset-0 resize-none   outline-none w-full cursor-pointer"
+                          {...field}
+                          onChange={(e) => {
+
+                            e?.setDate(e.getDate() + 1)
+                            field.onChange(e?.toISOString().split("T")[0])
+                          }}
+
+                          // @ts-ignore
+                          // @ts-nocheck
+                            filterDate={filterDates}
+                            />
+                          </div>
+
                         </FormControl>
                         <FormMessage />
                       </FormItem>

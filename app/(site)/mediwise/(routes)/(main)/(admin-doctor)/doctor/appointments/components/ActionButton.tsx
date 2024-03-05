@@ -119,7 +119,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({ data }) => {
                 <DropdownMenuItem
                   className="text-xs cursor-pointer text-yellow-600 hover:!text-yellow-600 hover:!bg-yellow-100"
                   onClick={() =>
-                    onOpen("rescheduleAppointment", { appointment: data })
+                    onOpen("rescheduleAppointment", { appointment: data, user: data.doctor  })
                   }
                 >
                   <Pencil className="h-4 w-4 mr-2" />
