@@ -150,6 +150,7 @@ export const UpdateProfileSchema = ProfileSchema.pick({
     city: z.string().min(1).max(50),
     zip: z.string().min(1).max(50),
     contactNo: z.string().min(1).max(50),
+    imageUrl: z.string().min(1)
   })
   .partial();
 
@@ -281,6 +282,7 @@ export const UpdateUserSchema = UserSchema.pick({
   .extend({
     role: z.nativeEnum(Role),
     barangayId: z.string().min(1).max(50),
+    imageUrl: z.string().min(1)
   })
   .partial();
 

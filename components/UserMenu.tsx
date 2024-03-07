@@ -48,7 +48,7 @@ const UserMenu = ({ currentUser }: UserMenuProps) => {
               className="rounded-full object-cover"
               alt="profile image"
             /> */}
-            <Avatar src={null} />
+            <Avatar src={currentUser?.image} />
           </div>
         </div>
       </DropdownMenuTrigger>

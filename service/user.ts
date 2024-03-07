@@ -179,7 +179,11 @@ export const updateUserById = async ({
     where: {
       id,
     },
-    data,
+    data: {
+      role: data.role,
+      image: data.imageUrl,
+      barangayId: data.barangayId,
+    },
     select: userAllowedFields,
   });
 };

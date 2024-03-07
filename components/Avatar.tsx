@@ -18,8 +18,8 @@ const Avatar = ({ src, className }: AvatarProps) => {
         fill
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         alt="Avatar"
-        // src={(src?.includes('https://platform-lookaside.fbsbx.com/platform/profilepic') ? null : src as string) || "/images/placeholder.jpg"}
-        src={"/images/placeholder.jpg"}
+        src={(src?.includes('https://platform-lookaside.fbsbx.com/platform/profilepic') ? null : src as string) || "/images/placeholder.jpg"}
+        // src={"/images/placeholder.jpg"}
       />
     </div>
   );

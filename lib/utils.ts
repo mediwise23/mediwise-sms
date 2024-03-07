@@ -2,6 +2,7 @@ import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { apiClient } from "@/hooks/useTanstackQuery";
 import { Role } from "@prisma/client";
+import imageCompression from "browser-image-compression";
 import axios from "axios";
 
 
@@ -41,8 +42,9 @@ export const handleImageDeleteOrReplace = async (publicId: string) => {
 
 export const uploadPhoto = async (file: File) => {
   const formData = new FormData();
+  const compressedFile = await handleImageCompression(file) as File
   formData.append("upload_preset", "mediwise-sms");
-  formData.append("file", file);
+  formData.append("file", compressedFile);
 
   const res = await axios.post(
     `https://api.cloudinary.com/v1_1/iamprogrammer/auto/upload`,
@@ -74,5 +76,24 @@ export const dataURItoBlob = (dataURI:string) => {
   }
 
   return new Blob([ab], {type: mimeString});
+
+}
+
+export const handleImageCompression = async (file:File) => {
+  const options = {
+    maxSizeMB: 1,
+    maxWidthOrHeight: 1920,
+    useWebWorker: true,
+  }
+  try {
+    console.log('before compressed', file.size / 1024 / 1024 + 'MB')
+    const compressedFile = await imageCompression(file, options);
+    console.log(`compressedFile size ${compressedFile.size / 1024 / 1024} MB`); // smaller than maxSizeMB
+
+    console.log('compressed file', compressedFile)
+    return compressedFile
+  } catch (error) {
+    console.log(error);
+  }
 
 }

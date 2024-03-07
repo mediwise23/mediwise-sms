@@ -86,7 +86,7 @@ export const PATCH = withAuth(
     }
   },
   {
-    requiredRole: ["ADMIN"],
+    requiredRole: ["ADMIN", "PATIENT", "DOCTOR", "STOCK_MANAGER"],
   }
 );
 
