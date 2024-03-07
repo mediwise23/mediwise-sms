@@ -136,6 +136,7 @@ const CreateBarangayModal = () => {
                               {barangayNames?.map((barangay) => (
                                 <SelectItem
                                   value={barangay?.barangayName || "null"}
+                                  key={barangay.barangayName}
                                 >
                                   {barangay.barangayName}
                                 </SelectItem>
