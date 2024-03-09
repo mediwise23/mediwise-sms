@@ -39,7 +39,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
   ];
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900 px-4">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto">
+      <div className="max-w-screen-xl flex flex-nowrap items-center justify-between mx-auto ">
         <img
           src="/images/bhaLogo.png"
           className="w-20 h-20 object-contain"

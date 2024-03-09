@@ -31,8 +31,8 @@ const page = async () => {
       >
         <div className="w-[95%] md:w-[85%] flex flex-col md:flex-row-reverse gap-x-10 gap-y-10 items-center">
           <img
-            src="/images/BGPNU.jpeg"
-            className="w-full md:w-[50%] h-[400px] object-cover rounded-md"
+            src="/images/pics/content1.png"
+            className="w-full md:w-[50%] h-[400px] object-contain rounded-"
             alt=""
           />
           <div className="flex flex-col w-full md:w-[50%] gap-y-10">

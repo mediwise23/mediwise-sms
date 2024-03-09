@@ -18,6 +18,8 @@ import {
   EffectFade,
   Keyboard
 } from "swiper/modules";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 const CarouselComponent = () => {
   return (
@@ -34,6 +36,33 @@ const CarouselComponent = () => {
       onSwiper={(swiper) => console.log(swiper)}
       onSlideChange={() => console.log("slide change")}
     >
+<SwiperSlide className="flex justify-center">
+  
+
+        <div className="flex justify-center w-[70%] flex-col lg:flex-row mx-auto">
+          <div className="flex-1 flex justify-center" >
+            <img className=" object-cover" src={"/images/Clogo.png"} />
+          </div>
+          <div className="flex flex-col gap-y-10 py-10  flex-1 mt-10">
+            <h1 className="text-5xl text-[#137174] font-extrabold">A path to a better health</h1>
+            <p className="text-xl  text-black">
+            A platform gives healthcare providers the tools they need to
+              manage medical inventory effectively, ensuring that patients get
+              the treatment they deserve, when they need it.
+            </p>
+            <Link href={"/mediwise/register"} className="w-fit">
+              <Button
+                variant={"outline"}
+                className="w-fit text-md text-primary border-primary hover:text-primary"
+              >
+                Get started
+              </Button>
+            </Link>
+          </div>
+        </div>
+        
+      </SwiperSlide>
+
       <SwiperSlide className="flex justify-center">
         <div className="flex justify-center w-[70%] flex-col lg:flex-row mx-auto">
           <div className="flex-1 flex justify-center" >
@@ -45,6 +74,14 @@ const CarouselComponent = () => {
               A pediatrician is a doctor who focuses on the health of infants,
               children, adolescents and young adults.
             </p>
+            <Link href={"/mediwise/register"} className="w-fit">
+              <Button
+                variant={"outline"}
+                className="w-fit text-md text-primary border-primary hover:text-primary"
+              >
+                Get started
+              </Button>
+            </Link>
           </div>
         </div>
       </SwiperSlide>
@@ -53,12 +90,20 @@ const CarouselComponent = () => {
           <div className="flex-1 flex justify-center" >
             <img className=" object-cover" src={"/images/pics/slide2.png"} />
           </div>
-          <div className="flex flex-col gap-y-10 py-10  text-center flex-1 mt-10">
+          <div className="flex flex-col gap-y-10 py-10 items-center flex-1 mt-10">
             <h1 className="text-5xl text-[#137174] font-extrabold">DENTIST</h1>
             <p className="text-xl  text-black  ">
             A dentist is a healthcare provider who diagnoses and treats oral
               health conditions.
             </p>
+            <Link href={"/mediwise/register"} className="w-fit">
+              <Button
+                variant={"outline"}
+                className="w-fit text-md text-primary border-primary hover:text-primary"
+              >
+                Get started
+              </Button>
+            </Link>
           </div>
         </div>
       </SwiperSlide>
@@ -76,6 +121,14 @@ const CarouselComponent = () => {
               confined to specific fields of medicine, and they have particular
               skills in treating people with multiple health issues.
             </p>
+            <Link href={"/mediwise/register"} className="w-fit">
+              <Button
+                variant={"outline"}
+                className="w-fit text-md text-primary border-primary hover:text-primary"
+              >
+                Get started
+              </Button>
+            </Link>
           </div>
         </div>
       </SwiperSlide>
