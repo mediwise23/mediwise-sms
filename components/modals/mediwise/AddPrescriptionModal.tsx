@@ -152,7 +152,7 @@ const AddPrescriptionModal = () => {
                                 type="file"
                                 disabled={isLoading}
                                 accept="image/*"
-                                onChange={(e) => {
+                                onChange={async (e) => {
                                   if (e?.target?.files?.[0]) {
                                     if(e?.target?.files?.[0].size > MAX_FILE_SIZE) {
                                       form.setError("image", {
@@ -168,6 +168,37 @@ const AddPrescriptionModal = () => {
                                       })
                                       return;
                                     }
+
+                                    // const formData = new FormData();
+                                    // formData.append('document', e?.target?.files?.[0]);
+                                    // const response = await axios.post(`https://api.mindee.net/v1/products/AndroPyro28/doctor_prescriptions/v1/predict_async`,formData, {
+                                    //   headers: {
+                                    //      Authorization: 'e2f7938aa7928914b1798c4bb218be45' 
+                                    //   }
+                                    // })
+
+                                    // console.log('hellooo', response.data)
+                                    // const res = await axios.get(response.data.api_request.url, {
+                                    //   headers: {
+                                    //     Authorization: 'e2f7938aa7928914b1798c4bb218be45' 
+                                    //  }
+                                    // })
+
+                                    // console.log('resss', res.data)
+                                    // const response2 = await axios.get(`https://api.mindee.net/v1/products/AndroPyro28/doctor_prescriptions/v1/documents/queue/${response.data.job.id}`, {
+                                    //   headers: {
+                                    //     Authorization: 'e2f7938aa7928914b1798c4bb218be45' 
+                                    //  }
+                                    // })
+                                    // console.log('hellooo 2', response2.data)
+
+                                    // const response3 = await axios.get(`https://api.mindee.net/v1/products/AndroPyro28/doctor_prescriptions/v1/documents/queue/${response2.data.job.id}`, {
+                                    //   headers: {
+                                    //     Authorization: 'e2f7938aa7928914b1798c4bb218be45' 
+                                    //  }
+                                    // })
+                                    // console.log('hellooo 3', response3.data)
+
                                     const reader = new FileReader();
                                     reader.readAsDataURL(e?.target?.files?.[0]);
 

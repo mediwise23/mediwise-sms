@@ -31,15 +31,15 @@ const page = async () => {
       >
         <div className="w-[95%] md:w-[85%] flex flex-col md:flex-row-reverse gap-x-10 gap-y-10 items-center">
           <img
-            src="/images/pics/content1.png"
+            src="/images/pics/content2.png"
             className="w-full md:w-[50%] h-[400px] object-contain rounded-"
             alt=""
           />
           <div className="flex flex-col w-full md:w-[50%] gap-y-10">
-            <h1 className="text-center md:text-left font-bold text-[40px] uppercase">
+            <h1 className="text-center md:text-left font-bold text-[40px] uppercase text-[#137174]">
               Find Out A Little More About Us
             </h1>
-            <p className="text-zinc-500 text-md text-justify ">
+            <p className="text-black text-lg  text-justify dark:text-white  ">
               MediWise, a meticulously designed web-based and mobile
               application, is tailor-made for use by the City Health Department
               and Barangays. This essential intermediary platform fosters
@@ -123,7 +123,7 @@ const page = async () => {
 
       <footer className=" dark:bg-gray-900 w-full">
         <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
-          <div className="md:flex md:justify-between">
+          <div className="md:flex md:justify-evenly">
             <div className="mb-6 md:mb-0">
               <a href="#" className="flex items-center">
                 <img

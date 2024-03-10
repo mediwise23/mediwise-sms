@@ -44,8 +44,8 @@ const CarouselComponent = () => {
             <img className=" object-cover" src={"/images/Clogo.png"} />
           </div>
           <div className="flex flex-col gap-y-10 py-10  flex-1 mt-10">
-            <h1 className="text-5xl text-[#137174] font-extrabold">A path to a better health</h1>
-            <p className="text-xl  text-black">
+            <h1 className="text-5xl text-[#137174]  font-extrabold">A path to a better health</h1>
+            <p className="text-xl  text-black dark:text-white">
             A platform gives healthcare providers the tools they need to
               manage medical inventory effectively, ensuring that patients get
               the treatment they deserve, when they need it.
@@ -70,7 +70,7 @@ const CarouselComponent = () => {
           </div>
           <div className="flex flex-col gap-y-10 py-10  flex-1 mt-10">
             <h1 className="text-5xl text-[#137174] font-extrabold">PEDIATRICIAN</h1>
-            <p className="text-xl  text-black">
+            <p className="text-xl  text-black dark:text-white">
               A pediatrician is a doctor who focuses on the health of infants,
               children, adolescents and young adults.
             </p>
@@ -92,7 +92,7 @@ const CarouselComponent = () => {
           </div>
           <div className="flex flex-col gap-y-10 py-10 items-center flex-1 mt-10">
             <h1 className="text-5xl text-[#137174] font-extrabold">DENTIST</h1>
-            <p className="text-xl  text-black  ">
+            <p className="text-xl  text-black  dark:text-white">
             A dentist is a healthcare provider who diagnoses and treats oral
               health conditions.
             </p>
@@ -114,7 +114,7 @@ const CarouselComponent = () => {
           </div>
           <div className="flex flex-col gap-y-10 py-10 flex-1 mt-10">
             <h1 className="text-5xl text-[#137174] font-extrabold">GENERAL PRACTITIONER</h1>
-            <p className="text-lg  text-black">
+            <p className="text-lg  text-black dark:text-white">
             a general practitioner (GP) or family physician is a physician who
               treats acute and chronic illnesses and provides preventive care
               and health education to patients of all ages. GPs` duties are not
