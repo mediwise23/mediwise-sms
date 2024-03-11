@@ -53,7 +53,7 @@ const Event: React.FC<EventProps> = ({ data }) => {
     <div className="flex gap-16  flex-col items-center lg:flex-row lg:items-start"  >
       <div className="flex gap-y-5">
       {
-        data?.image_url && <img className="h-full  object-contain w-full rounded-md" src={data?.image_url} />
+        data?.image_url && <img className="h-full  object-contain w-full rounded-md max-h-[500px]" src={data?.image_url} />
       }
       </div>
 
