@@ -53,7 +53,7 @@ const CarouselComponent = () => {
             <h1 className="text-5xl text-[#137174]  font-extrabold">
               A path to a better health
             </h1>
-            <p className="text-xl  text-black dark:text-white">
+            <p className="text-xl  text-black dark:text-white text-justify">
               A platform gives healthcare providers the tools they need to
               manage medical inventory effectively, ensuring that patients get
               the treatment they deserve, when they need it.
@@ -79,7 +79,7 @@ const CarouselComponent = () => {
             <h1 className="text-5xl text-[#137174] font-extrabold">
               PEDIATRICIAN
             </h1>
-            <p className="text-xl  text-black dark:text-white">
+            <p className="text-xl  text-black dark:text-white text-justify">
               A pediatrician is a doctor who focuses on the health of infants,
               children, adolescents and young adults.
             </p>
@@ -101,7 +101,7 @@ const CarouselComponent = () => {
           </div>
           <div className="flex flex-col gap-y-10 py-10 items-center flex-1 mt-10">
             <h1 className="text-5xl text-[#137174] font-extrabold">DENTIST</h1>
-            <p className="text-xl  text-black  dark:text-white">
+            <p className="text-xl  text-black  dark:text-white text-justify">
               To provide outstanding dental care with a commitment of
               honesty,compassion, quality and integrity. To change lives
               everyday by creating healthy and beautiful smiles.
@@ -126,7 +126,7 @@ const CarouselComponent = () => {
             <h1 className="text-5xl text-[#137174] font-extrabold">
               GENERAL PRACTITIONER
             </h1>
-            <p className="text-lg  text-black dark:text-white">
+            <p className="text-lg  text-black dark:text-white text-justify">
               A general practitioner focuses on your overall health: physical
               and mental. They serve an important role in a much wider
               healthcare system. One of their main goals is to keep you healthy
