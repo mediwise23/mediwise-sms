@@ -32,7 +32,7 @@ const page = async () => {
         <div className="w-[95%] md:w-[85%] flex flex-col md:flex-row-reverse gap-x-10 gap-y-10 items-center">
           <img
             src="/images/pics/content2.png"
-            className="w-full md:w-[50%] h-[400px] object-contain rounded-"
+            className="w-full md:w-[60%] h-[500px] object-contain rounded-"
             alt=""
           />
           <div className="flex flex-col w-full md:w-[50%] gap-y-10">
