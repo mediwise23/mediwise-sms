@@ -51,7 +51,7 @@ const AddNewItemStockModal = () => {
     },
   });
 
-  const params = useParams()
+  const params = useParams() // fix deploy error 2
   const id = params?.itemId
 
   useEffect(() => {
