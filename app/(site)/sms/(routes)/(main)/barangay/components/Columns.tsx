@@ -36,7 +36,7 @@ export const columns: ColumnDef<TBarangay & {users:TUser[], items: TItemBrgy[]}>
   {
     accessorKey: "name",
     accessorFn: (row) => {
-      const name = row.name;
+      const name = row?.name;
       return name;
     },
     header: ({ column }) => {
@@ -50,7 +50,7 @@ export const columns: ColumnDef<TBarangay & {users:TUser[], items: TItemBrgy[]}>
       );
     },
     cell: ({ row }) => {
-      const name = row.original.name;
+      const name = row.original?.name;
       return (
         <div className=" dark:text-white">
           {name}
@@ -62,7 +62,7 @@ export const columns: ColumnDef<TBarangay & {users:TUser[], items: TItemBrgy[]}>
   {
     accessorKey: "zip",
     accessorFn: (row) => {
-      const zip = row.zip;
+      const zip = row?.zip;
       return zip;
     },
     header: ({ column }) => {
@@ -76,7 +76,7 @@ export const columns: ColumnDef<TBarangay & {users:TUser[], items: TItemBrgy[]}>
       );
     },
     cell: ({ row }) => {
-      const zip = row.original.zip;
+      const zip = row.original?.zip;
       return (
         <div className=" dark:text-white">
           {zip}
@@ -88,7 +88,7 @@ export const columns: ColumnDef<TBarangay & {users:TUser[], items: TItemBrgy[]}>
   {
     accessorKey: "district",
     accessorFn: (row) => {
-      const district = row.district;
+      const district = row?.district;
       return district;
     },
     header: ({ column }) => {
@@ -102,7 +102,7 @@ export const columns: ColumnDef<TBarangay & {users:TUser[], items: TItemBrgy[]}>
       );
     },
     cell: ({ row }) => {
-      const district = row.original.district;
+      const district = row.original?.district;
       return (
         <div className=" dark:text-white">
           {district}
@@ -115,7 +115,7 @@ export const columns: ColumnDef<TBarangay & {users:TUser[], items: TItemBrgy[]}>
   {
     accessorKey: "users",
     accessorFn: (row) => {
-      const name = row.name;
+      const name = row?.name;
       return name;
     },
     header: ({ column }) => {
@@ -129,7 +129,7 @@ export const columns: ColumnDef<TBarangay & {users:TUser[], items: TItemBrgy[]}>
       );
     },
     cell: ({ row }) => {
-      const numberOfUsers = row.original.users.length || 0;
+      const numberOfUsers = row.original?.users?.length || 0;
       return (
         <div className=" dark:text-white">
           {numberOfUsers}
@@ -141,7 +141,7 @@ export const columns: ColumnDef<TBarangay & {users:TUser[], items: TItemBrgy[]}>
   {
     accessorKey: "items",
     accessorFn: (row) => {
-      const name = row.name;
+      const name = row?.name;
       return name;
     },
     header: ({ column }) => {
@@ -155,7 +155,7 @@ export const columns: ColumnDef<TBarangay & {users:TUser[], items: TItemBrgy[]}>
       );
     },
     cell: ({ row }) => {
-      const numberOfItems = row.original.items.length || 0;
+      const numberOfItems = row.original?.items?.length || 0;
       return (
         <div className=" dark:text-white">
           {numberOfItems}
@@ -168,7 +168,7 @@ export const columns: ColumnDef<TBarangay & {users:TUser[], items: TItemBrgy[]}>
   {
     accessorKey: "createdAt",
     accessorFn: (row) => {
-      const createdAt = row.createdAt;
+      const createdAt = row?.createdAt;
       return createdAt;
     },
     header: ({ column }) => {
