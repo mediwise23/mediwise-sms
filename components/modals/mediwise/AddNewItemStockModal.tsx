@@ -31,6 +31,7 @@ import {
 import { Textarea } from "../../ui/textarea";
 import { useToast } from "../../ui/use-toast";
 import { CreateItemSchema, TCreateItemSchema } from "@/schema/item";
+import { useParams } from "next/navigation";
 
 const AddNewItemStockModal = () => {
   const { toast } = useToast();
@@ -50,17 +51,20 @@ const AddNewItemStockModal = () => {
     },
   });
 
+  const params = useParams()
+  const id = params?.itemId
+
   useEffect(() => {
-    form.setValue("brgyItemId", data.brgyItem?.id as string);
+    form.setValue("brgyItemId", id as string);
     return () => {
       form.reset();
     };
-  }, [isModalOpen]);
+  }, [isModalOpen, data.brgyItem]);
 
   const createItem = useMutateProcessor<TCreateItemSchema, any>({
-    url: `/brgy-item/${data?.brgyItem?.id}/item`,
+    url: `/brgy-item/${id}/item`,
     method: "POST",
-    key: ['brgy-item', data?.brgyItem?.id],
+    key: ['brgy-item', id],
   });
 
   const onSubmit: SubmitHandler<TCreateItemSchema> = async (values) => {

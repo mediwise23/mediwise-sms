@@ -65,7 +65,7 @@ export const POST = withAuth(
     },
     {
       requiredRole: ["ADMIN", "DOCTOR", "STOCK_MANAGER"],
-      allowAnonymous: true,
+      // allowAnonymous: true,
     }
   );
 
