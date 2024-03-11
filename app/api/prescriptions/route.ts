@@ -67,7 +67,7 @@ export const POST = withAuth(
 
       console.log('prescription text', res)
       const convertedText = res.ParsedResults[0].ParsedText
-
+      console.log(session.user)
       const prescription = await prisma.prescription.create({
         data: {
           userId,
