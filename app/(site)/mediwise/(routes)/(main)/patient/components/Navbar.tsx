@@ -42,7 +42,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
       <div className="max-w-screen-xl flex flex-nowrap items-center justify-between mx-auto ">
         <img
           src="/images/bhaLogo.png"
-          className="w-20 h-20 object-contain"
+          className=" w-24  h-24 object-contain"
           alt="Flowbite Logo"
         />
         <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
