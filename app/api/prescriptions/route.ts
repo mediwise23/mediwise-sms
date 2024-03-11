@@ -46,7 +46,7 @@ export async function GET(req: NextRequest, { params }: { params: {} }) {
 
 
 export const POST = withAuth(
-  async ({ req, session }) => {
+  async ({ req, session, currentUser }) => {
     try {
       const body = await CreatePrescriptionSchema.safeParseAsync(
         await req.json()
@@ -73,7 +73,7 @@ export const POST = withAuth(
           userId,
           image,
           convertedText,
-          barangayId: session.user.barangayId!
+          barangayId: currentUser?.barangayId! // fix deploy error 1
         }
       })
 
