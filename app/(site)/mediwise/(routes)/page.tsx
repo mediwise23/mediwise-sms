@@ -140,7 +140,7 @@ const page = async () => {
             </div>
             <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
               <div>
-                <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">
+                <h2 className="mb-6 text-sm font-semibold text-[#137174] uppercase dark:text-white ">
                   Quick links
                 </h2>
                 <ul className="text-gray-500 dark:text-gray-400 font-medium">
@@ -167,7 +167,7 @@ const page = async () => {
                 </ul>
               </div>
               <div>
-                <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">
+                <h2 className="mb-6 text-sm font-semibold text-[#137174] uppercase dark:text-white">
                   Our team
                 </h2>
                 <ul className="text-gray-500 dark:text-gray-400 font-medium">
@@ -184,7 +184,7 @@ const page = async () => {
                 </ul>
               </div>
               <div>
-                <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">
+                <h2 className="mb-6 text-sm font-semibold text-[#137174] uppercase dark:text-white">
                   Legal
                 </h2>
                 <ul className="text-gray-500 dark:text-gray-400 font-medium">
