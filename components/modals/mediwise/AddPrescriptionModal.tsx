@@ -89,6 +89,7 @@ const AddPrescriptionModal = () => {
       { userId: values.userId, image: url },
       {
         onError(error, variables, context) {
+          console.log('error', error)
           toast({
             title: "Upload prescription failed",
             description: "Your prescription did not upload",
@@ -96,6 +97,7 @@ const AddPrescriptionModal = () => {
           });
         },
         onSuccess(data, variables, context) {
+          console.log('success', data)
           toast({
             title: "Upload prescription success",
             description:
