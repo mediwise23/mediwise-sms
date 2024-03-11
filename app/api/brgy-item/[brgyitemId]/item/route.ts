@@ -49,6 +49,7 @@ export const POST = withAuth(
           );
         }
 
+        console.log(body.data, params)
         const item = await prisma.item.create({
             data: {
                 product_number: body.data.product_number,
