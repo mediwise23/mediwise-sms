@@ -52,7 +52,7 @@ const InventoryReportModal = () => {
       >
         <div className="flex flex-col  min-w-[90vw]">
           <PDFExport ref={pdfExportYearComponent} margin="2cm">
-            <div className="container mx-auto mt-8 w-full p-5">
+            <div className="container mx-auto w-full p-2">
               <div className="flex justify-between items-center">
               <div className="">
                 <h1 className="text-4xl font-bold mb-2">
@@ -72,7 +72,7 @@ const InventoryReportModal = () => {
               </div>
               <div
                 className={cn(
-                  "max-h-[50vh] overflow-auto",
+                  "max-h-[30vh] overflow-auto",
                   reportClicked && "overflow-visible"
                 )}
               >
@@ -85,7 +85,7 @@ const InventoryReportModal = () => {
                       <th className="py-2">Dosage</th>
                     </tr>
                   </thead>
-                  <tbody className=" overflow-y-auto">
+                  <tbody className="overflow-y-auto">
                     {data.brgyItems?.map((item) => (
                       <tr key={item.id} className="border-t border-gray-200 ">
                         <td className="py-2 pl-4">{item.id}</td>
@@ -103,7 +103,7 @@ const InventoryReportModal = () => {
           </PDFExport>
 
           <Button
-            className="bg-[#16A34A] text-white border py-5 px-10 self-center w-fit rounded-md"
+            className="bg-[#16A34A] text-white border py-3 px-5 self-center w-fit rounded-md"
             onClick={handleExportYearlyPdf}
           >
             Print Report (PDF)

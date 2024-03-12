@@ -16,6 +16,7 @@ import { UpdateProfileSchema } from "@/schema/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Profile } from "@prisma/client";
 import { UploadCloud } from "lucide-react";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -30,6 +31,7 @@ const UserCard: React.FC<UserCardProps> = ({ data }) => {
     imageUrl: z.string().min(1),
   });
 
+   const router = useRouter()
   type formSchemaType = z.infer<typeof formSchema>;
   const form = useForm<formSchemaType>({
     defaultValues: {
@@ -106,6 +108,7 @@ const UserCard: React.FC<UserCardProps> = ({ data }) => {
                         }, {
                           onSuccess(data, variables, context) {
                             toast.success('Image updated')
+                            router.refresh()
                           },
                         })
                       }

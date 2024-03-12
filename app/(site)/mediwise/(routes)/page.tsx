@@ -91,12 +91,12 @@ const page = async () => {
       >
         <img
           src="/images/contact2.png"
-          className="absolute top-0 left-0 w-[200px] md:w-[300px] lg:w-[500px]"
+          className="absolute top-0 left-0 w-[200px] md:w-[300px] lg:w-[400px]"
           alt=""
         />
         <img
           src="/images/contact4.png"
-          className="absolute bottom-0 right-0 w-[200px] md:w-[300px] lg:w-[500px]"
+          className="absolute bottom-0 right-0 w-[200px] md:w-[300px] lg:w-[400px]"
         />
         <div className="flex flex-col gap-y-10 w-[90%] md:w-[50%] mx-auto z-10 dark:bg-black bg-opacity-30 p-10 rounded-xl">
           <h1 className="text-3xl uppercase text-center">
@@ -107,7 +107,7 @@ const page = async () => {
             gladly assist you.
           </p>
 
-          <div className="flex justify-between">
+          <div className="flex justify-evenly">
             <div className="address">
               <h3 className="font-semibold">Location</h3>
               <p>Caloocan City North - Philippines</p>
