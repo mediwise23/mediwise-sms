@@ -115,7 +115,7 @@ const page = async () => {
 
             <div className="Phone">
               <h3 className="font-semibold">Email</h3>
-              <p className="drop-shadow-2xl">Mediwise@email.com</p>
+              <p className="drop-shadow-2xl">Mediwise@gmail.com</p>
             </div>
           </div>
         </div>
