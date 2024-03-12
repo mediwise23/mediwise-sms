@@ -45,7 +45,7 @@ const CarouselComponent = () => {
       onSlideChange={() => console.log("slide change")}
     >
       <SwiperSlide className="flex justify-center">
-        <div className="flex justify-center w-[70%] flex-col lg:flex-row mx-auto">
+        <div className="flex justify-center gap-x-10 w-[70%] flex-col lg:flex-row mx-auto">
           <div className="flex-1 flex justify-center">
             <img className=" object-cover" src={"/images/Clogo.png"} />
           </div>
@@ -71,7 +71,7 @@ const CarouselComponent = () => {
       </SwiperSlide>
 
       <SwiperSlide className="flex justify-center">
-        <div className="flex justify-center w-[70%] flex-col lg:flex-row mx-auto">
+        <div className="flex justify-center gap-x-10 w-[70%] flex-col lg:flex-row mx-auto">
           <div className="flex-1 flex justify-center">
             <img className=" object-cover" src={"/images/pics/slide1.png"} />
           </div>
@@ -94,8 +94,8 @@ const CarouselComponent = () => {
           </div>
         </div>
       </SwiperSlide>
-      <SwiperSlide className="flex justify-center">
-        <div className=" flex flex-col justify-center w-[70%] mx-auto lg:flex-row-reverse ">
+      <SwiperSlide className="flex justify-center ">
+        <div className=" flex flex-col justify-center gap-x-10 w-[70%] mx-auto lg:flex-row-reverse ">
           <div className="flex-1 flex justify-center">
             <img className=" object-cover" src={"/images/pics/slide2.png"} />
           </div>
@@ -118,7 +118,7 @@ const CarouselComponent = () => {
         </div>
       </SwiperSlide>
       <SwiperSlide>
-        <div className="flex justify-center w-[70%] flex-col lg:flex-row mx-auto">
+        <div className="flex justify-center gap-x-10 w-[70%] flex-col lg:flex-row mx-auto">
           <div className="flex-1 flex justify-center">
             <img className=" object-cover" src={"/images/pics/slide3.png"} />
           </div>
