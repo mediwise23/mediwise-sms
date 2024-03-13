@@ -55,7 +55,7 @@ const InventoryReportModal = () => {
             <div className="container mx-auto w-full p-2">
               <div className="flex justify-between items-center">
               <div className="">
-                <h1 className="text-4xl font-bold mb-2">
+                <h1 className="text-4xl font-bold mb-2 text-[#FD7E14]">
                   Barangay Inventory Report
                 </h1>
                 <p className="text-gray-600">

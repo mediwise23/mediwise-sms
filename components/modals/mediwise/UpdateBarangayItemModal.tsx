@@ -30,6 +30,7 @@ import {
 } from "@/schema/item-brgy";
 import { Textarea } from "../../ui/textarea";
 import { useToast } from "../../ui/use-toast";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const UpdateBarangayItemModal = () => {
   const { toast } = useToast();
@@ -182,7 +183,7 @@ const UpdateBarangayItemModal = () => {
             
 
             <div className="w-full">
-              <FormField
+            <FormField
                 control={form.control}
                 name="unit"
                 render={({ field }) => (
@@ -191,13 +192,30 @@ const UpdateBarangayItemModal = () => {
                       Unit
                     </FormLabel>
                     <FormControl>
-                      <Input
-                        disabled={isLoading}
-                        className="bg-transparent  focus-visible:ring-0  focus-visible:ring-offset-0 resize-none"
-                        type="text"
-                        placeholder={`Enter unit`}
-                        {...field}
-                      />
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger className="focus-visible:ring-0  focus-visible:ring-offset-0  bg-transparent">
+                            <SelectValue placeholder="Select a unit" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent className="focus-visible:ring-0  focus-visible:ring-offset-0">
+                            <SelectItem
+                              value={"pcs"}
+                              key={"pcs"}
+                            >
+                              Pcs
+                            </SelectItem>
+                            <SelectItem
+                              value={"box"}
+                              key={"box"}
+                            >
+                              Box
+                            </SelectItem>
+                        </SelectContent>
+                      </Select>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
