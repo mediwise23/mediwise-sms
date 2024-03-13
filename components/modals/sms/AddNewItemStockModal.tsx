@@ -121,8 +121,9 @@ const AddNewItemStockModalSms = () => {
                       <Input
                         disabled={isLoading}
                         className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0"
-                        placeholder={`Enter name`}
+                        placeholder={`Enter Product Number`}
                         {...field}
+                        type="number"
                       />
                     </FormControl>
                     <FormMessage />
@@ -135,7 +136,7 @@ const AddNewItemStockModalSms = () => {
               <Button
                 variant={"default"}
                 type="submit"
-                className=" dark:text-white"
+                className=" dark:text-white sms-bg sms-bg-hover"
                 disabled={isLoading}
               >
                 {(() => {
