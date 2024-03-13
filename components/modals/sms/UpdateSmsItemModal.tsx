@@ -54,7 +54,7 @@ const UpdateSmsItemModal = () => {
         form.setValue("description", data?.smsItem.description as string);
         form.setValue("name", data?.smsItem.name as string);
         form.setValue("dosage", data?.smsItem.dosage as string);
-        form.setValue("stock", data?.smsItem.stock as number);
+        // form.setValue("stock", data?.smsItem.stock as number);
         form.setValue("unit", data?.smsItem.unit as string);
     }
 
@@ -136,7 +136,7 @@ const UpdateSmsItemModal = () => {
               />
             </div>
 
-            <div className="w-full">
+            {/* <div className="w-full">
               <FormField
                 control={form.control}
                 name="stock"
@@ -158,7 +158,7 @@ const UpdateSmsItemModal = () => {
                   </FormItem>
                 )}
               />
-            </div>
+            </div> */}
 
             <div className="w-full">
               <FormField

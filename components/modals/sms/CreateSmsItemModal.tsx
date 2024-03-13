@@ -148,7 +148,7 @@ const CreateSmsItemModal = () => {
               />
             </div>
 
-            <div className="w-full">
+            {/* <div className="w-full">
               <FormField
                 control={form.control}
                 name="stock"
@@ -170,7 +170,7 @@ const CreateSmsItemModal = () => {
                   </FormItem>
                 )}
               />
-            </div>
+            </div> */}
 
             <div className="w-full">
               <FormField
