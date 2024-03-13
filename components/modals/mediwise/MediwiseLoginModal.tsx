@@ -248,10 +248,10 @@ const MediwiseLoginModal = () => {
               icon={BsGithub}
               onClick={() => socialActions("github")}
             /> */}
-            <AuthSocialButton
+            {/* <AuthSocialButton
               icon={BsFacebook}
               onClick={() => socialActions("facebook")}
-            />
+            /> */}
             <AuthSocialButton
               icon={BsGoogle}
               onClick={() => socialActions("google")}
