@@ -61,14 +61,41 @@ export const POST = withAuth(
       date.setDate(date.getDate() - 1);
       const today = moment.utc(date).tz("Asia/Manila").format();
 
+      const hasAppointment = await prisma.appointment.findFirst({
+        where: {
+          status: 'PENDING'
+        }
+      })
+
+      if(hasAppointment) {
+        return NextResponse.json(
+          {
+            message: "Already have an appointment",
+          },
+          { status: 400 }
+        );
+      }
+
     const workSchedule = await prisma.workSchedule.findFirst({
       where: {
-        doctorId: doctorId,
-        barangayId: barangayId,
-        start: {
-          gte: today,
-        },
-        isArchived: false,
+        OR: [
+          {
+            doctorId: doctorId,
+            barangayId: barangayId,
+            start: {
+              gte: today,
+            },
+            isArchived: false,
+          },
+          {
+            doctorId: doctorId,
+            barangayId: barangayId,
+            end: {
+              gte: today,
+            },
+            isArchived: false,
+          },
+        ]
       },
       orderBy: {
         start: "desc",
@@ -90,6 +117,7 @@ export const POST = withAuth(
         { status: 404 }
       );
     }
+    
     date.setDate(date.getDate() + 1);
       const appointment = await createAppointment({
         title,

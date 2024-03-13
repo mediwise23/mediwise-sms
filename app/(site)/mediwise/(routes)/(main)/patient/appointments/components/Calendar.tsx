@@ -128,10 +128,10 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
           title: "Appointment has been added",
         });
       },
-      onError(error, variables, context) {
-        console.error(error);
+      onError(error:any, variables, context) {
+        console.error(error.response.data.message);
         toast({
-          title: "Appointment failed",
+          title: error.response.data.message,
           variant: "destructive",
         });
       },

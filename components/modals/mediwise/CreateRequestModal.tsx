@@ -84,6 +84,7 @@ const CreateRequestModal = () => {
             title: "Request failed",
             variant: "destructive",
           });
+          console.log(error)
         },
         onSuccess(data, variables, context) {
           toast({
