@@ -9,11 +9,11 @@ const Page = () => {
     router.push(`/${page}`);
   };
   
-  router.push(`/${'mediwise'}`);
+  // router.push(`/${'mediwise'}`);
 
-  // useEffect(() => {
-  //   router.push(`/${'mediwise'}`);
-  // }, [])
+  useEffect(() => {
+    router.push(`/${'mediwise'}`);
+  }, [])
 
   return (
     <section className="bg-gray-200 dark:bg-gray-900">
