@@ -18,14 +18,14 @@ const page = async () => {
   return (
     <div className="flex flex-col  w-full mx-auto dark:bg-dark">
       <Navbar />
-    <div className="flex flex-col  w-full mx-auto items-center gap-y-16 dark:bg-dark">
-      <section
+    <div className="flex flex-col  w-full mx-auto items-center gap-y-16 dark:bg-dark overflow-x-hidden">
+      <div
         className="w-full flex justify-center  h-fit md:h-[800px] items-center bg-[#def0db]  dark:bg-gray-800"
         id="home"
       >
         <CarouselComponent />
-      </section>
-      <section
+      </div>
+      <div
         id="about-us"
         className="w-full flex justify-center  h-fit md:h-[700px]  dark:bg-gray-800"
       >
@@ -57,9 +57,9 @@ const page = async () => {
             </p>
           </div>
         </div>
-      </section>
+      </div>
 
-      <section className="w-[75%] flex flex-col " id="guidelines">
+      <div className="w-[75%] flex flex-col " id="guidelines">
         <h1 className="text-center text-[25px] font-semibold my-20 uppercase">
           A Few Guidelines On How To Use It
         </h1>
@@ -80,9 +80,9 @@ const page = async () => {
             <img src="/images/3.png" alt="" />
           </div>
         </div>
-      </section>
+      </div>
 
-      <section
+      <div
         className=" w-full p-10 h-[600px] flex items-center relative bg-[#c5ebd3] dark:bg-gray-800"
         id="contact-us"
         style={{
@@ -119,7 +119,7 @@ const page = async () => {
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
       <footer className=" dark:bg-gray-900 w-full">
         <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">

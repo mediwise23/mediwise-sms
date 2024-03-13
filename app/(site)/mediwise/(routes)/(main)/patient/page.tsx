@@ -20,8 +20,8 @@ const Page = () => {
           </div>
 
           {/* Right Column (Text) */}
-          <div className="lg:w-1/2 lg:pl-10 text-black gap-y-3 py-10 ">
-            <h1 className="text-4xl lg:text-5xl font-bold mb-4  text-nowrap">
+          <div className="w-full  lg:pl-10 text-black gap-y-3 py-10 overflow-x-hidden">
+            <h1 className="text-4xl lg:text-5xl font-bold mb-4  text-wrap">
               {" "}
               <span className="text-[#147174]">Bringin Health</span> To <br />{" "}
               Life For The Whole Family
