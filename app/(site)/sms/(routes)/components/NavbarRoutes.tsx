@@ -8,6 +8,7 @@ type NavbarRoutesProps = {
 };
 
 export const NavbarRoutes = ({ currentUser }: NavbarRoutesProps) => {
+
   return (
     <>
       {/* <div className="dark:bg-[#020817] dark:text-white">NAV LINKS</div> */}
