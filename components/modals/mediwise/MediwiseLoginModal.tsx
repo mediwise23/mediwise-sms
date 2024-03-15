@@ -107,6 +107,7 @@ const MediwiseLoginModal = () => {
     } catch (error) {
       console.error(error);
     } finally {
+      
     }
   };
 
