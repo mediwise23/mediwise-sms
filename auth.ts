@@ -12,6 +12,7 @@ export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     FacebookProviders({
+
       clientId: process.env.FACEBOOK_CLIENT_ID as string,
       clientSecret: process.env.FACEBOOK_CLIENT_SECRETS as string,
 
@@ -19,6 +20,7 @@ export const authOptions: AuthOptions = {
         params: {
           role: "PATIENT" || "ADMIN",
         },
+        
       },
     }),
     GithubProviders({
@@ -29,6 +31,7 @@ export const authOptions: AuthOptions = {
           role: "PATIENT" || "ADMIN",
         },
       },
+
     }),
     GoogleProviders({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
@@ -128,10 +131,11 @@ export const authOptions: AuthOptions = {
       session.user.barangayId = token.barangayId;
       return session;
     },
-    // signIn(params) {
-    //   params.user.role = "PATIENT";
-    //   return true;
-    // },
+    signIn(params) {
+      // params.user.role = "PATIENT";
+      console.log(params)
+      return !!params.user;
+    },
     // is user sign in using credentials send email
   },
   pages: {

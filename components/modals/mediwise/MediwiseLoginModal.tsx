@@ -94,7 +94,7 @@ const MediwiseLoginModal = () => {
       const response = await signIn(
         action,
         { redirect: false },
-        { role: "PATIENT" }
+        { role: "PATIENT",  },
       );
         console.log("response", response)
       if (response?.error) {
