@@ -12,6 +12,7 @@ export default withAuth(
   },
   {
     callbacks: {
+        
       authorized: ({ token }) => {
         console.log('callback authorized', token)
 

@@ -41,6 +41,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../ui/select";
+import moment from "moment-timezone";
 
 const AddAppointmentModal = () => {
   const { toast } = useToast();
@@ -57,7 +58,7 @@ const AddAppointmentModal = () => {
     },
     mode: "all",
   });
-  const date = new Date(data?.calendarApi?.startStr);
+  const date =  new Date(moment.utc(new Date(data?.calendarApi?.startStr)).tz("Asia/Manila").format());
   const availableDoctors = useQueryProcessor<(User & { profile: Profile })[]>({
     url: `/work-schedules/available`,
     key: ["available-doctors", data.calendarApi?.startStr],
