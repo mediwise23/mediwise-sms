@@ -40,7 +40,7 @@ export const GET = withAuth(async ({ req, session }) => {
       },
       where: {
         start: {
-            lt: moment(date).endOf('day').toDate(),
+            lte: moment(date).startOf('day').toDate(),
           },
           end: {
             gt: moment(date).startOf('day').toDate(),
