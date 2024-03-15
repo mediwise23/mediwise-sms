@@ -96,7 +96,7 @@ const MediwiseLoginModal = () => {
         { redirect: false },
         { role: "PATIENT" }
       );
-        console.log(response)
+        console.log("response", response)
       if (response?.error) {
         toast.error("invalid credentials");
       }
