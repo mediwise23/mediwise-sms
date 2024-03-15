@@ -93,8 +93,9 @@ const MediwiseLoginModal = () => {
     try {
       const response = await signIn(
         action,
-        { redirect: false },
+        { redirect: false, },
         { role: "PATIENT",  },
+        
       );
         console.log("response", response)
       if (response?.error) {
@@ -107,7 +108,7 @@ const MediwiseLoginModal = () => {
     } catch (error) {
       console.error(error);
     } finally {
-      
+
     }
   };
 

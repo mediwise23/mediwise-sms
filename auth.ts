@@ -10,6 +10,7 @@ import prisma from "@/lib/prisma";
 import { redirect } from "next/navigation";
 
 export const authOptions: AuthOptions = {
+
   adapter: PrismaAdapter(prisma),
   providers: [
     FacebookProviders({
@@ -34,6 +35,7 @@ export const authOptions: AuthOptions = {
 
     }),
     GoogleProviders({
+      
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRETS as string,
       authorization: {
@@ -98,8 +100,10 @@ export const authOptions: AuthOptions = {
         */
       },
     }),
+
   ],
   callbacks: {
+    
     // Ref: https://authjs.dev/guides/basics/role-based-access-control#with-jwt
     /* comment ko muna start */
     // jwt({ token, user }) {
@@ -132,20 +136,12 @@ export const authOptions: AuthOptions = {
       session.user.barangayId = token.barangayId;
       return session;
     },
-    signIn(params) {
-      // params.user.role = "PATIENT";
-      console.log(params)
-
-      if(!params) {
-        return redirect("/medwise?error='Account already exist'")
-      }
-
-      return !!params.user;
-    },
+    
     // is user sign in using credentials send email
   },
   pages: {
     signIn: "/",
+    error: '/mediwise?error="User Already exists"'
   },
   debug: process.env.NODE_ENV === "development",
   session: {
