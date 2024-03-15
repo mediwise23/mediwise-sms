@@ -244,10 +244,10 @@ const MediwiseLoginModal = () => {
           </div>
 
           <div className="mt-6 flex gap-2">
-            {/* <AuthSocialButton
+            <AuthSocialButton
               icon={BsGithub}
               onClick={() => socialActions("github")}
-            /> */}
+            />
             {/* <AuthSocialButton
               icon={BsFacebook}
               onClick={() => socialActions("facebook")}
