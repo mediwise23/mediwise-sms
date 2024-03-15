@@ -29,7 +29,10 @@ export const GET = withAuth(async ({ req, session }) => {
   date.setDate(Number(day));
   date.setFullYear(Number(year));
   date.setMonth(Number(month));
+  
   // get the selected date in appointment calendar
+
+  console.log( moment(date).endOf('day').toDate())
   try {
     const workSchedules = await prisma.workSchedule.findMany({
       include: {
