@@ -141,7 +141,6 @@ export const authOptions: AuthOptions = {
   },
   pages: {
     signIn: "/",
-    error: '/mediwise?error="User Already exists"'
   },
   debug: process.env.NODE_ENV === "development",
   session: {
