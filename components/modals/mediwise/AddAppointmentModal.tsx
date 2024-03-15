@@ -58,8 +58,8 @@ const AddAppointmentModal = () => {
     },
     mode: "all",
   });
-  const date = new Date(data?.calendarApi?.startStr);
-  // const date = moment.utc(new Date(data?.calendarApi?.startStr)).tz("Asia/Manila").toDate();
+  // const date = new Date(data?.calendarApi?.startStr);
+  const date = moment.utc(new Date(data?.calendarApi?.startStr)).tz("Asia/Manila").toDate();
   const availableDoctors = useQueryProcessor<(User & { profile: Profile })[]>({
     url: `/work-schedules/available`,
     key: ["available-doctors", data.calendarApi?.startStr],
