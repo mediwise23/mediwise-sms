@@ -7,15 +7,14 @@ import FacebookProviders from "next-auth/providers/facebook";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
 import prisma from "@/lib/prisma";
+import { redirect } from "next/navigation";
 
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     FacebookProviders({
-
       clientId: process.env.FACEBOOK_CLIENT_ID as string,
       clientSecret: process.env.FACEBOOK_CLIENT_SECRETS as string,
-
       authorization: {
         params: {
           role: "PATIENT" || "ADMIN",
@@ -30,18 +29,20 @@ export const authOptions: AuthOptions = {
         params: {
           role: "PATIENT" || "ADMIN",
         },
+
       },
 
     }),
     GoogleProviders({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRETS as string,
-
       authorization: {
+
         params: {
           role: "PATIENT" || "ADMIN",
         },
       },
+      
     }),
 
     CredentialsProvider({
@@ -134,6 +135,11 @@ export const authOptions: AuthOptions = {
     signIn(params) {
       // params.user.role = "PATIENT";
       console.log(params)
+
+      if(!params) {
+        return redirect("/medwise?error='Account already exist'")
+      }
+
       return !!params.user;
     },
     // is user sign in using credentials send email
