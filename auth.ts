@@ -5,7 +5,7 @@ import GoogleProviders from "next-auth/providers/google";
 import GithubProviders from "next-auth/providers/github";
 import FacebookProviders from "next-auth/providers/facebook";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-
+import Auth0Provider from "next-auth/providers/auth0";
 import prisma from "@/lib/prisma";
 import { redirect } from "next/navigation";
 
@@ -22,6 +22,11 @@ export const authOptions: AuthOptions = {
         },
         
       },
+    }),
+    Auth0Provider({
+      clientId: process.env.AUTH0_CLIENT_ID || "",
+      clientSecret: process.env.AUTH0_CLIENT_SECRET || "",
+      issuer: process.env.AUTH0_ISSUER,
     }),
     GithubProviders({
       clientId: process.env.GITHUB_CLIENT_ID as string,
