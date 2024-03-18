@@ -8,7 +8,6 @@
   "scripts": {
     "dev": "next dev",
     "prod": "next build && next start",
-    "install": "npm install",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
