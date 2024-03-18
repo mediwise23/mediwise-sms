@@ -32,9 +32,10 @@ import { Barangay } from "@prisma/client";
 import { Loader2 } from "@/components/ui/Loader";
 import UserMenu from "@/components/UserMenu";
 import { Checkbox } from "@/components/ui/checkbox";
+import { TGetUserById } from "@/service/user";
 
 type SetupClientProps = {
-  currentUser: Session["user"];
+  currentUser: TGetUserById | null;
 };
 const SetupClient: React.FC<SetupClientProps> = ({ currentUser }) => {
   const { toast } = useToast();

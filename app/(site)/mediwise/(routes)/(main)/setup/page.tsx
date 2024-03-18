@@ -25,7 +25,7 @@ const page = async () => {
   }
   
   return (
-    <SetupClient currentUser={user} />
+    <SetupClient currentUser={data} />
   )
 }
 

@@ -20,7 +20,7 @@ const page = async () => {
   }
 
   return (
-    <VerifyClient currentUser={user} />
+    <VerifyClient currentUser={data} />
   );
 };
 

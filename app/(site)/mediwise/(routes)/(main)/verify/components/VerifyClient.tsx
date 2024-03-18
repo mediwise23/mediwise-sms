@@ -23,9 +23,10 @@ import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "@/components/ui/Loader";
 import UserMenu from "@/components/UserMenu";
+import { TGetUserById } from "@/service/user";
 
 type VerifyClientProps = {
-  currentUser: Session["user"];
+  currentUser: TGetUserById | null;
 };
 const VerifyClient: React.FC<VerifyClientProps> = ({ currentUser }) => {
   const { toast } = useToast();
@@ -33,7 +34,7 @@ const VerifyClient: React.FC<VerifyClientProps> = ({ currentUser }) => {
   const refreshCode = useQueryProcessor({
     url: `/auth/verify`,
     queryParams: {
-      userId: currentUser.id,
+      userId: currentUser?.id,
     },
     key: ["resend-code"],
     options: {
