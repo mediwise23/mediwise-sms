@@ -67,6 +67,10 @@ html {
 .fc {
   /* the calendar root */
   max-width: 1400px;
+  @media (max-width: 767px) {
+  width:1000px;
+    
+  }
   /* margin: 0 auto; */
 }
 
