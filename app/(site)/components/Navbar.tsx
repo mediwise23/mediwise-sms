@@ -26,7 +26,7 @@ const Navbar = () => {
           alt=""
         />
         <ul className="flex items-center gap-x-1 md:gap-x-5 text-sm">
-          <Link href="#home" className="px-5 py-3 font-semibold text-[16px]">
+          <Link href="#home" className="hidden md:block px-5 py-3 font-semibold text-[16px]">
             Home
           </Link>
           <Link

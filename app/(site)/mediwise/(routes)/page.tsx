@@ -36,10 +36,10 @@ const page = async () => {
             alt=""
           />
           <div className="flex flex-col w-full md:w-[50%] gap-y-10">
-            <h1 className="text-center md:text-left font-bold text-[40px] uppercase text-[#137174]">
+            <h1 className="text-center md:text-left font-bold text-2xl md:text-[40px] uppercase text-[#137174]">
               Find Out A Little More About Us
             </h1>
-            <p className="text-black text-lg  text-justify dark:text-white  ">
+            <p className="text-black md:text-lg  text-justify dark:text-white text-sm ">
               MediWise, a meticulously designed web-based and mobile
               application, is tailor-made for use by the City Health Department
               and Barangays. This essential intermediary platform fosters
@@ -99,23 +99,23 @@ const page = async () => {
           className="absolute bottom-0 right-0 w-[200px] md:w-[300px] lg:w-[400px]"
         />
         <div className="flex flex-col gap-y-10 w-[90%] md:w-[50%] mx-auto z-10 dark:bg-black bg-opacity-30 p-10 rounded-xl">
-          <h1 className="text-3xl uppercase text-center">
+          <h1 className="text-lg md:text-3xl uppercase text-center">
             C o n t a c t &nbsp; U s
           </h1>
-          <p className=" text-center">
+          <p className=" text-center text-sm md:text-lg">
             You can contact us from here, you can write a message to us, we will
             gladly assist you.
           </p>
 
           <div className="flex justify-evenly">
-            <div className="address">
-              <h3 className="font-semibold">Location</h3>
-              <p>Caloocan City North - Philippines</p>
+            <div className="address flex-1">
+              <h3 className="font-semibold text-sm md:text-xl">Location</h3>
+              <p className="line-clamp-1">Caloocan City North - Philippines</p>
             </div>
 
-            <div className="Phone">
-              <h3 className="font-semibold">Email</h3>
-              <p className="drop-shadow-2xl">Mediwise@gmail.com</p>
+            <div className="Phone flex-1">
+              <h3 className="font-semibold text-sm md:text-xl">Email</h3>
+              <p className="line-clamp-1">Mediwise@gmail.com</p>
             </div>
           </div>
         </div>

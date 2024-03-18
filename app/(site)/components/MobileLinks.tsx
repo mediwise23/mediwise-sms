@@ -27,6 +27,11 @@ const MobileLinks = (props: Props) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
         <DropdownMenuGroup>
+        <DropdownMenuItem>
+            <Link href="#home" className="px-5 py-3 font-semibold">
+              Home
+            </Link>
+          </DropdownMenuItem>
           <DropdownMenuItem>
             <Link href="#about-us" className="px-5 py-3 font-semibold">
               About us
