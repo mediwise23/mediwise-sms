@@ -1,3 +1,4 @@
+
 {
   "name": "mediwise-sms",
   "version": "0.1.0",
@@ -8,8 +9,6 @@
   "scripts": {
     "dev": "next dev",
     "prod": "next build && next start",
-    "preinstall": "npm install --force",
-    "install": "npm install --force",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
