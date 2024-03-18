@@ -13,9 +13,10 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Session } from "next-auth";
 import Avatar from "./Avatar";
+import { TGetUserById } from "@/service/user";
 
 type UserMenuProps = {
-  currentUser?: Session["user"] | null;
+  currentUser?: TGetUserById | null;
 };
 const UserMenu = ({ currentUser }: UserMenuProps) => {
   const router = useRouter();
@@ -54,7 +55,7 @@ const UserMenu = ({ currentUser }: UserMenuProps) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>
-          {capitalizeWords(currentUser?.role!)}
+          {capitalizeWords(currentUser?.role!)} {currentUser?.role !== 'STOCK_MANAGER' && `- ${currentUser?.barangay?.name}` }
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         {

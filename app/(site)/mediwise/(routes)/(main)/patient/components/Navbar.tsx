@@ -1,12 +1,13 @@
 "use client";
 import UserMenu from "@/components/UserMenu";
 import UserNotification from "@/components/UserNotification";
+import { TGetUserById } from "@/service/user";
 import { Session } from "next-auth";
 import Link from "next/link";
 import React, { useState } from "react";
 
 type NavbarProps = {
-  currentUser: Session["user"] | null;
+  currentUser: TGetUserById | null;
 };
 
 const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {

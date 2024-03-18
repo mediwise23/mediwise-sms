@@ -11,7 +11,6 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
   if (!currentUser?.user) {
     return redirect("/mediwise");
   }
-
   
   const { user } = currentUser;
   

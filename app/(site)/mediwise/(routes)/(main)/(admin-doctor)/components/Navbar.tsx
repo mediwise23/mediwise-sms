@@ -1,9 +1,10 @@
 import { Session } from "next-auth";
 import { MobileSidebar } from "./MobileSidebar";
 import { NavbarRoutes } from "./NavbarRoutes";
+import { TGetUserById } from "@/service/user";
 
 type NavbarProps = {
-  currentUser: Session["user"] | null;
+  currentUser: TGetUserById | null;
 };
 
 export const Navbar = ({ currentUser }: NavbarProps) => {

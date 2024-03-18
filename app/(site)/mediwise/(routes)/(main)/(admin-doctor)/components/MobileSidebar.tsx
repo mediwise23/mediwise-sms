@@ -2,9 +2,10 @@ import { Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import Sidebar from "./Sidebar";
 import { Session } from "next-auth";
+import { TGetUserById } from "@/service/user";
 
 type MobileSidebarProps = {
-  currentUser: Session['user'] | null;
+  currentUser: TGetUserById | null;
 };
 
 export const MobileSidebar = ({ currentUser }: MobileSidebarProps) => {

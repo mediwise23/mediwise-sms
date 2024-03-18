@@ -1,10 +1,11 @@
 "use client";
 
 import UserMenu from "@/components/UserMenu";
+import { TGetUserById } from "@/service/user";
 import { Session } from "next-auth";
 
 type NavbarRoutesProps = {
-  currentUser?: Session['user'] | null;
+  currentUser?: TGetUserById | null;
 };
 
 export const NavbarRoutes = ({ currentUser }: NavbarRoutesProps) => {

@@ -92,13 +92,15 @@ export const getAllUsers = async ({
   });
 };
 
+
+
 export const getUserById = async ({
   id,
   role
 }: {
   id: string;
   role?: Role
-}): Promise<TUserRaw | null | TUserRaw & {profile: Profile, barangay: TBarangay}> => {
+}) => {
   const data = await prisma.user.findUnique({
     where: {
       id,
@@ -112,6 +114,7 @@ export const getUserById = async ({
 
   return data;
 };
+export type TGetUserById = Awaited<ReturnType<typeof getUserById>>;
 
 export const createUser = async ({
   data: {
