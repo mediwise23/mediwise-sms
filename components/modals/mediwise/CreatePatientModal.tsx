@@ -126,6 +126,13 @@ const CreatePatientModal = () => {
     });
   };
 
+  const today = new Date();
+  const [maxDate, setMaxDate] = useState(
+    new Date(today.getFullYear() - 18, today.getMonth(), today.getDate())
+      .toISOString()
+      .split("T")[0]
+  );
+  
   return (
     <div>
       <Dialog open={isModalOpen} onOpenChange={onHandleClose}>
@@ -167,6 +174,12 @@ const CreatePatientModal = () => {
                                     className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0"
                                     placeholder={`Enter firstname`}
                                     {...field}
+                                    onChange={(e) => {
+                                      const value = e.target.value;
+                                      const validatedtext = value.replace(/[0-9]/g, "");
+                                      field.onChange(validatedtext);
+                                    }}
+
                                     value={field.value}
                                   />
                                 </FormControl>
@@ -192,6 +205,11 @@ const CreatePatientModal = () => {
                                     className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0 resize-none"
                                     placeholder={`Enter lastname`}
                                     {...field}
+                                    onChange={(e) => {
+                                      const value = e.target.value;
+                                      const validatedtext = value.replace(/[0-9]/g, "");
+                                      field.onChange(validatedtext);
+                                    }}
                                   />
                                 </FormControl>
                                 <FormMessage />
@@ -218,6 +236,11 @@ const CreatePatientModal = () => {
                                     className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0 resize-none"
                                     placeholder={`Enter middlename`}
                                     {...field}
+                                    onChange={(e) => {
+                                      const value = e.target.value;
+                                      const validatedtext = value.replace(/[0-9]/g, "");
+                                      field.onChange(validatedtext);
+                                    }}
                                   />
                                 </FormControl>
                                 <FormMessage />
@@ -242,6 +265,11 @@ const CreatePatientModal = () => {
                                     className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0 resize-none"
                                     placeholder={`Enter suffix`}
                                     {...field}
+                                    onChange={(e) => {
+                                      const value = e.target.value;
+                                      const validatedtext = value.replace(/[0-9]/g, "");
+                                      field.onChange(validatedtext);
+                                    }}
                                   />
                                 </FormControl>
                                 <FormMessage />
@@ -269,6 +297,7 @@ const CreatePatientModal = () => {
                                     type="date"
                                     placeholder={`Enter birthdate`}
                                     {...field}
+                                    max={maxDate} // Set the maximum date dynamically
                                   />
                                 </FormControl>
                                 <FormMessage />
@@ -360,6 +389,11 @@ const CreatePatientModal = () => {
                                     className=" focus-visible:ring-0  focus-visible:ring-offset-0 resize-none"
                                     placeholder={`Enter contact number`}
                                     {...field}
+                                    onChange={(e) => {
+                                      if(e.target.value.length <= 11) {
+                                        field.onChange(e.target.value);
+                                      }
+                                    }}
                                   />
                                 </FormControl>
                                 <FormMessage />

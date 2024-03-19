@@ -139,6 +139,11 @@ const CreateDoctorModal = () => {
                           className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0"
                           placeholder={`Enter firstname`}
                           {...field}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            const validatedtext = value.replace(/[0-9]/g, "");
+                            field.onChange(validatedtext);
+                          }}
                         />
                       </FormControl>
                       <FormMessage />
@@ -163,6 +168,11 @@ const CreateDoctorModal = () => {
                           className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0"
                           placeholder={`Enter Lastname`}
                           {...field}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            const validatedtext = value.replace(/[0-9]/g, "");
+                            field.onChange(validatedtext);
+                          }}
                         />
                       </FormControl>
                       <FormMessage />
@@ -189,6 +199,11 @@ const CreateDoctorModal = () => {
                           className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0"
                           placeholder={`Enter middlename`}
                           {...field}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            const validatedtext = value.replace(/[0-9]/g, "");
+                            field.onChange(validatedtext);
+                          }}
                         />
                       </FormControl>
                       <FormMessage />
@@ -213,6 +228,11 @@ const CreateDoctorModal = () => {
                           className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0"
                           placeholder={`Enter suffix`}
                           {...field}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            const validatedtext = value.replace(/[0-9]/g, "");
+                            field.onChange(validatedtext);
+                          }}
                         />
                       </FormControl>
                       <FormMessage />
@@ -290,6 +310,11 @@ const CreateDoctorModal = () => {
                         type="number"
                         placeholder={`Enter contact no`}
                         {...field}
+                        onChange={(e) => {
+                          if(e.target.value.length <= 11) {
+                            field.onChange(e.target.value);
+                          }
+                        }}
                       />
                     </FormControl>
                     <FormMessage />
@@ -386,6 +411,7 @@ const CreateDoctorModal = () => {
                       <Input
                         disabled={isLoading}
                         className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0"
+                        type="number"
                         placeholder={`Enter license no.`}
                         {...field}
                       />

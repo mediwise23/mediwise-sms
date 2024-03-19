@@ -50,6 +50,7 @@ const RegisterForm = () => {
       .toISOString()
       .split("T")[0]
   );
+
   const [age, setAge] = useState<number | null>(null);
   const form = useForm<TRegister>({
     resolver: zodResolver(RegisterUserSchema),
@@ -248,25 +249,6 @@ const RegisterForm = () => {
                             type="date"
                             placeholder={`Enter birthdate`}
                             {...field}
-                            onChange={(e) => {
-                              const enteredDate = e.target.value;
-                              const birthDate = new Date(enteredDate);
-                              const ageDiff =
-                                today.getFullYear() - birthDate.getFullYear();
-
-                              // Check if birthday has occurred this year
-                              const hasBirthdayOccurred =
-                                today.getMonth() > birthDate.getMonth() ||
-                                (today.getMonth() === birthDate.getMonth() &&
-                                  today.getDate() >= birthDate.getDate());
-
-                              const calculatedAge = hasBirthdayOccurred
-                                ? ageDiff
-                                : ageDiff - 1;
-                              setAge(calculatedAge);
-
-                              field.onChange(e.target.value);
-                            }}
                           />
                         </FormControl>
                         <FormMessage />
