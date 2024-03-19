@@ -48,11 +48,12 @@ options:{
           <Bell className="relative w-5 h-5 fill-orange-300 text-orange-300 cursor-pointer" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="center" className=" max-w-[300px] md:max-w-[412px] max-h-[250px] overflow-y-auto">
+      <DropdownMenuContent align="center" className=" max-w-[300px] md:max-w-[412px] ">
         <DropdownMenuLabel>
           <h1 className="text-sm text-center">Notifications</h1>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
+            <div className="max-h-[370px] overflow-y-auto flex flex-col">
 
         {notifications?.data?.map((notification) => (
           <div
@@ -80,6 +81,7 @@ options:{
             </div>
           </div>
         ))}
+            </div>
       </DropdownMenuContent>
     </DropdownMenu>
   );
