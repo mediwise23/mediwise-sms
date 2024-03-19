@@ -55,7 +55,7 @@ const UserMenu = ({ currentUser }: UserMenuProps) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>
-          {capitalizeWords(currentUser?.role!)} {currentUser?.role !== 'STOCK_MANAGER' && `- ${currentUser?.barangay?.name}` }
+          {capitalizeWords(currentUser?.role!)} {(currentUser?.role !== 'STOCK_MANAGER' && currentUser?.barangay?.name) && `- ${currentUser?.barangay?.name}` }
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         {

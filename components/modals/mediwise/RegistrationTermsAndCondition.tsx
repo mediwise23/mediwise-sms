@@ -36,9 +36,9 @@ const RegistrationTermsAndCondition = () => {
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
-      <DialogContent className=" p-10 bg-white text-black overflow-hidden dark:bg-[#020817] dark:text-white rounded-md flex flex-col items-center justify-center">
+      <DialogContent className=" p-10 bg-white text-black max-h-[80%] dark:bg-[#020817] dark:text-white rounded-md flex flex-col items-center justify-center">
         <h1 className="text-xl text-center font-bold">Healthcare Registration</h1>
-        <ul className="flex flex-col gap-y-5">
+        <ul className="flex flex-col gap-y-5 overflow-y-auto">
           {termsAndConditions.map((termAndCondition, index) => {
             return (
               <li key={index} className="flex flex-col">
