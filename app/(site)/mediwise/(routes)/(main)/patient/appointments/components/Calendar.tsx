@@ -104,13 +104,15 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
     },
   });
 
-  const numberOfAppointments = currentAppointment?.data?.length || 0;
+  const numberOfAppointments = currentAppointment.data?.filter((appointment) => appointment.status === 'ACCEPTED' || appointment.status === 'PENDING' )?.length || 0;
   const limit = 25;
   const limitExceeded = numberOfAppointments >= limit;
 
   useEffect(() => {
     currentAppointment.refetch();
   }, [selectInfo]);
+
+  const appointments = currentAppointment.data?.filter((appointment) => appointment.status === 'ACCEPTED' || appointment.status === 'PENDING' )
 
   const createAppointment = useMutateProcessor<EventData, null>({
     url: "/appointments",
@@ -245,14 +247,14 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
               if (currentAppointment.status === "error") {
                 return null;
               }
-              if (currentAppointment?.data?.length <= 0) {
+              if (numberOfAppointments <= 0) {
                 return (
                   <h1 className="text-center font-semibold">
                     No appointments found
                   </h1>
                 );
               }
-              return currentAppointment.data?.map((appointment) => (
+              return appointments?.map((appointment) => (
                 <AppointmentItem
                   data={appointment}
                   currentUser={currentUser}

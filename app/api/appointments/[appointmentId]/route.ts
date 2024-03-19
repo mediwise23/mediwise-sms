@@ -169,10 +169,21 @@ export const DELETE = withAuth(
         );
       }
 
+      if(appointments.status === 'ACCEPTED') {
+        const appoinmentCancelled = await prisma.appointment.update({
+          where: {
+            id: appointments.id
+          },
+          data: {
+            status: 'CANCELLED'
+          }
+        })
+      return NextResponse.json(appoinmentCancelled);
+
+      }
       const appointmentDeleted = await deleteAppointmentById({
         id: params.appointmentId,
       });
-
       return NextResponse.json(appointmentDeleted);
     } catch (error) {
       console.log("[APPOINMENT_DELETE_BY_ID]", error);
