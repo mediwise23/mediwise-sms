@@ -30,6 +30,7 @@ import { Button } from "@/components/ui/button";
 import { Divide } from "lucide-react";
 import { Loader2 } from "@/components/ui/Loader";
 import { cn } from "@/lib/utils";
+import useWindowSize from "@/hooks/useWindowSize";
 type CalendarClientProps = {
   currentUser: TUser;
 };
@@ -47,6 +48,10 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
       barangayId: currentUser.barangayId,
     },
   });
+
+  const { width } = useWindowSize();
+  const isMobileOrTablet = width < 768; 
+  
 
   const currentworkSchedules =
     typeof workSchedules.data !== "undefined" && workSchedules?.data?.length > 0
@@ -67,6 +72,10 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
   const handleDateSelect = (selectInfo: any) => {
     const calendarApi = selectInfo;
     setSelectInfo(calendarApi);
+
+    if(isMobileOrTablet) {
+      onOpen('appointmentSide', {calendarApi, user:currentUser})
+    }
     // onOpen("addWorkSchedule", { calendarApi, user: currentUser });
   };
 
@@ -213,7 +222,7 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
         />
       </div>
 
-      {selectInfo && (
+      {selectInfo && !isMobileOrTablet &&(
         <div className=" flex-[0.2] mt-10 flex flex-col h-[80vh] justify-between">
           <h1 className="text-center text-lg font-semibold">Appointments</h1>
           <h2
