@@ -59,14 +59,18 @@ export const POST = withAuth(
       body.data;
 
       date.setDate(date.getDate() - 1);
-      const today = moment.utc(date).tz("Asia/Manila").format();
+      const d = moment.utc(date).tz("Asia/Manila").format();
+      const today = moment.tz("Asia/Manila").startOf('day');
 
       const hasAppointment = await prisma.appointment.findFirst({
         where: {
-          status: 'PENDING'
+          status: 'PENDING',
+          patientId,
+          date: {
+            gt: today.toDate() // Ensures the appointment date is in the future
+          }
         }
       })
-
       if(hasAppointment) {
         return NextResponse.json(
           {
@@ -83,7 +87,7 @@ export const POST = withAuth(
             doctorId: doctorId,
             barangayId: barangayId,
             start: {
-              gte: today,
+              gte: d,
             },
             isArchived: false,
           },
@@ -91,7 +95,7 @@ export const POST = withAuth(
             doctorId: doctorId,
             barangayId: barangayId,
             end: {
-              gte: today,
+              gte: d,
             },
             isArchived: false,
           },
@@ -112,7 +116,7 @@ export const POST = withAuth(
     if(!workSchedule) {
       return NextResponse.json(
         {
-          message: "Work scheule not found",
+          message: "Work schedule not found",
         },
         { status: 404 }
       );

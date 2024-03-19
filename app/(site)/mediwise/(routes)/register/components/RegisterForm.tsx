@@ -60,7 +60,7 @@ const RegisterForm = () => {
     mode: "all",
   });
   const [showPass, setShowPass] = useState(false);
-
+  const [acceptTerm, setAcceptTerm] = useState(false)
   const router = useRouter();
   const register = useMutateProcessor<TRegister, string>({
     url: "/auth/register",
@@ -72,7 +72,6 @@ const RegisterForm = () => {
     url: "/barangay",
     key: ["barangay"],
   });
-
 
   const { toast } = useToast();
   const onSubmit: SubmitHandler<TRegister> = (values) => {
@@ -575,6 +574,22 @@ const RegisterForm = () => {
                     Show password
                   </label>
                 </div>
+
+                <div className="flex gap-x-3 items-center">
+                  <Checkbox
+                    id="termCondition"
+                    checked={acceptTerm === true}
+                    onCheckedChange={() => setAcceptTerm((prev) => !prev)}
+                  />
+
+                  <label
+                    className=" cursor-pointer hover:underline text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    onClick={() => onOpen('registerTermsAndCondition')}
+                  >
+                    Terms & Conditions
+                  </label>
+                </div>
+
               </div>
             )}
           </section>
@@ -609,7 +624,7 @@ const RegisterForm = () => {
                 >
                   Prev
                 </Button>
-                <Button type="submit" className="ml-auto">
+                <Button type="submit" disabled={!acceptTerm} className="ml-auto">
                   Submit
                 </Button>
               </>

@@ -197,7 +197,7 @@ const page = async () => {
                     </a>
                   </li>
                   <li>
-                    <a href="#" className="hover:underline">
+                    <a href="mediwise/terms-conditions" className="hover:underline">
                       Terms &amp; Conditions
                     </a>
                   </li>

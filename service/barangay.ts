@@ -11,7 +11,7 @@ export const getAllBarangay = async ({ name }: { name?: string }) => {
       },
     },
     orderBy: {
-      createdAt: "desc",
+      createdAt: "asc",
     },
     include: {
       users:{

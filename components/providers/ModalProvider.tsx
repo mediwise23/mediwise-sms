@@ -28,6 +28,7 @@ import AddNewItemStockModal from "../modals/mediwise/AddNewItemStockModal";
 import AddNewItemStockModalSms from "../modals/sms/AddNewItemStockModal";
 import DeleteAnnouncementModal from "../modals/mediwise/DeleteAnnouncementModal";
 import ViewPhotoModal from "../modals/mediwise/ViewPhotoModal";
+import RegistrationTermsAndCondition from "../modals/mediwise/RegistrationTermsAndCondition";
 
 
 const ModalProvider = () => {
@@ -71,6 +72,7 @@ const ModalProvider = () => {
     <AddNewItemStockModal />
     <AddNewItemStockModalSms />
     <ViewPhotoModal />
+    <RegistrationTermsAndCondition />
     </>
   );
 };
