@@ -125,7 +125,7 @@ const RegisterForm = () => {
           <section className="flex h-full overflow-x-auto mt-10">
             {step === 1 && (
               <div className="flex flex-col gap-y-3 w-full">
-                <div className="flex justify-evenly gap-x-3">
+                <div className="flex flex-col md:flex-row justify-evenly gap-x-3 gap-y-3">
                   <FormField
                     control={form.control}
                     name="firstname"
@@ -179,7 +179,7 @@ const RegisterForm = () => {
                   />
                 </div>
 
-                <div className="flex justify-evenly gap-x-3">
+                <div className="flex justify-evenly gap-x-3 flex-col md:flex-row gap-y-3">
                   <FormField
                     control={form.control}
                     name="lastname"
@@ -233,7 +233,7 @@ const RegisterForm = () => {
                   />
                 </div>
 
-                <div className="flex justify-evenly gap-x-3">
+                <div className="flex justify-evenly gap-x-3 flex-col md:flex-row gap-y-3">
                   <FormField
                     control={form.control}
                     name="dateOfBirth"
@@ -283,7 +283,7 @@ const RegisterForm = () => {
                     )}
                   />
                 </div>
-                <div className="flex justify-evenly gap-x-3">
+                <div className="flex justify-evenly gap-x-3 flex-col md:flex-row gap-y-3">
 
                 <FormField
                     control={form.control}
@@ -335,7 +335,7 @@ const RegisterForm = () => {
                  
                 </div>
 
-                <div className="flex justify-evenly gap-x-3">
+                <div className="flex justify-evenly gap-x-3 flex-col md:flex-row gap-y-3">
                  
                 <FormField
                     control={form.control}
@@ -399,7 +399,7 @@ const RegisterForm = () => {
                   />
                 </div>
 
-                <div className="flex justify-evenly gap-x-3">
+                <div className="flex justify-evenly gap-x-3 flex-col md:flex-row gap-y-3">
                 <FormField
                     control={form.control}
                     name="district"
