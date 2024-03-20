@@ -52,7 +52,7 @@ export const columns: ColumnDef<(TPrescriptionSchema & {user: User & { profile: 
     ),
     cell: ({ row }) => {
       // const yearEnrolled = row.getValue('') as Date
-      const name = row?.original?.user.profile.firstname  + " " + row?.original?.user.profile.lastname
+      const name = row?.original?.user?.profile?.firstname  + " " + row?.original?.user?.profile?.lastname
 
       return (
         <div className="">
