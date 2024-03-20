@@ -76,7 +76,7 @@ export const columns: ColumnDef<(TRequestedItem & {item: TItemSms | TItemBrgy })
     ),
     cell: ({ row }) => {
       const description = row.original?.item?.description;
-      return <div className={` flex items-center line-clamp-1 overflow-hidden max-w-40`}>{description}</div>;
+      return <div className={` flex items-center line-clamp-1 overflow-y-auto max-w-40 max-h-20`}>{description} Lorem ipsum, dolor sit amet consectetur adipisicing elit. Distinctio, nesciunt repudiandae. Alias impedit saepe eveniet eaque possimus odit? Neque tempora nihil, quaerat a fugiat libero quis, necessitatibus laudantium tenetur, veniam rem consequuntur sit quibusdam adipisci. Repudiandae commodi aperiam recusandae doloremque hic alias in voluptatum, cumque reiciendis consectetur laboriosam veritatis fugiat illo at quaerat. Impedit praesentium itaque adipisci est nostrum ipsum optio error dolore quis atque a non, odio quae ut architecto natus dicta vitae tempore, inventore delectus expedita! Ea libero ipsum quaerat eligendi suscipit, obcaecati pariatur nobis totam, distinctio nemo odit sequi, quis aliquam inventore esse aut autem voluptatem iusto.</div>;
     },
   },
 

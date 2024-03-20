@@ -57,16 +57,17 @@ const TransactionDetails: React.FC<TransactionDetailsProps> = ({
   console.log(transaction.data)
   const newDate = moment.utc(date).tz("Asia/Manila").format()
   return (
-    <div className="flex flex-col bg-white h-[97vh] dark:bg-slate-900 shadow-md p-3 md:p-5 rounded-md">
+    <div className="flex flex-col bg-white h-[97vh] overflow-y-auto dark:bg-slate-900 shadow-md p-3 md:p-5 rounded-md">
+      
+
+      <div className="flex justify-center w-full flex-col items-center gap-5">
       <ArrowLeft
-        className="w-7 h-7 cursor-pointer rounded-md text-black dark:text-white"
+        className="w-7 h-7 cursor-pointer self-start rounded-md text-black dark:text-white"
         onClick={() =>
           // router.push(`/mediwise/${currentUser.role.toLocaleLowerCase()}`)
           router.back()
         }
       />
-
-      <div className="flex justify-center w-full flex-col items-center gap-5">
         <section className="flex flex-col mt-10 w-[80vw] lg:w-[50vw]  gap-y-5">
           <h1 className="text-3xl font-semibold">Transaction detail</h1>
           <div className="flex flex-col mt-10 gap-y-5">
