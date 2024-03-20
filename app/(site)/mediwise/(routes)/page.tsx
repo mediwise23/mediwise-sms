@@ -122,7 +122,7 @@ const page = async () => {
       </div>
 
       <footer className=" dark:bg-gray-900 w-full">
-        <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
+        <div className="mx-auto w-full max-w-screen-xl py-3">
           <div className="md:flex md:justify-evenly">
             <div className="mb-6 md:mb-0">
               <a href="#" className="flex items-center">

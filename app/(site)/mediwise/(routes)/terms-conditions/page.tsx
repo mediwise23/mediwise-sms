@@ -35,12 +35,12 @@ const Page = () => {
       ];
 
   return (
-    <div className="bg-gray-100 dark:bg-zinc-800 md:h-screen flex items-center">
+    <div className="bg-white dark:bg-zinc-800 md:h-auto flex items-center">
         <ArrowLeft
           className="w-7 h-7 cursor-pointer rounded-md  absolute top-5 left-5 text-black"
           onClick={() => router.push(`/mediwise`)}
         />
-    <div className="container mx-auto px-10 py-8">
+    <div className="container mx-auto px-10 py-8 mt-20">
         <h1 className="text-3xl font-bold mb-10">Terms & Conditions</h1>
 
         <ul className="flex flex-col gap-y-5">
