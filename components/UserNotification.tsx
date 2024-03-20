@@ -62,8 +62,18 @@ options:{
             onClick={async () => {
               try {
                 await apiClient.patch(`/notifications/${notification.id}`, {isRead:true})
-                router.push(`/mediwise/shared/appointments/${notification.appointmentId}`)
-                notifications.refetch()
+                if(notification.appointmentId) {
+                  router.push(`/mediwise/shared/appointments/${notification.appointmentId}`)
+                  return notifications.refetch()
+                }
+                if(notification.transactionId && currentUser?.role != 'STOCK_MANAGER') {
+                  router.push(`/shared/transactions/${notification.transactionId}`)
+                  return notifications.refetch()
+                } 
+                if(notification.transactionId && currentUser?.role == 'STOCK_MANAGER') {
+                  router.push(`/sms/transactions/${notification.transactionId}`)
+                  return notifications.refetch()
+                }
               } catch (error) {
                 console.error(error)
               }

@@ -13,6 +13,7 @@ import {
   updateItemTransaction,
 } from "@/service/item-transaction";
 import { ItemTransactionStatus, Role } from "@prisma/client";
+import axios from "axios";
 
 import { NextResponse } from "next/server";
 
@@ -64,7 +65,7 @@ export const PUT = withAuth(
         );
       }
 
-      await prisma.itemTransaction.update({
+      const transaction = await prisma.itemTransaction.update({
         where: {
           id: transactionId.id
         },
@@ -77,6 +78,14 @@ export const PUT = withAuth(
           }
         }
       })
+
+      const res = await axios.put(
+        `${process.env.NEXT_PUBLIC_SITE_URL}/api/socket/transactions/${transaction.id}`,
+        {
+          transactionId: transaction.id,
+        }
+      );
+
       
       return NextResponse.json({}, { status: 201 });
     } catch (error) {
@@ -188,6 +197,14 @@ export const PATCH = withAuth(
           },
         });
 
+        const res = await axios.patch(
+          `${process.env.NEXT_PUBLIC_SITE_URL}/api/socket/transactions/${transaction.id}`,
+          {
+            transactionId: transaction.id,
+            status: body.data.status
+          }
+        );
+
       } else if (
         session.user.role === Role.STOCK_MANAGER &&
         transaction.status === ItemTransactionStatus.ONGOING &&
@@ -203,6 +220,9 @@ export const PATCH = withAuth(
             status: body.data.status,
           },
         });
+
+        
+
 
         // console.log(transaction)
         // // update the quantity of the items in the sms item database and barangay item database
@@ -287,6 +307,15 @@ export const PATCH = withAuth(
         const items = await Promise.all(
           smsItems.map((data) => updateSmsItemToBarangay(data))
         );
+
+        const res = await axios.patch(
+          `${process.env.NEXT_PUBLIC_SITE_URL}/api/socket/transactions/${transaction.id}`,
+          {
+            transactionId: transaction.id,
+            status: "COMPLETED"
+          }
+        );
+
 
         // formattedRequestedItems.forEach(async (smsItem) => (
         //   prisma.smsItem.update({

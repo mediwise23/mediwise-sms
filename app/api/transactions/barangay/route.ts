@@ -11,6 +11,7 @@ import {
 } from "@/service/item-transaction";
 
 import { getQueryParams } from "@/service/params";
+import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = withAuth(
@@ -79,6 +80,13 @@ export const POST = withAuth(
       const transaction = await prisma.itemTransaction.create({
         data: body.data
       })
+
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_SITE_URL}/api/socket/transactions/${transaction.id}`,
+        {
+          transactionId: transaction.id
+        }
+      );
 
       return NextResponse.json(transaction, { status: 201 });
     } catch (error) {

@@ -53,7 +53,11 @@ export const getItemTransactionById = async ({
         }
       },
       barangay:true,
-      barangayUser:true,
+      barangayUser:{
+        include: {
+          profile:true
+        }
+      },
     },
   });
 };

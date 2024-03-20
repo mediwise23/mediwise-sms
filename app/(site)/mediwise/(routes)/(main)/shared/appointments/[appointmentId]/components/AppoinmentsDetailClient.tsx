@@ -58,10 +58,10 @@ const AppoinmentsDetailClient: React.FC<AppoinmentsDetailClientProps> = ({
       />
 
       <div className="flex justify-center w-full flex-col items-center gap-5">
-        <section className="flex flex-col mt-10 w-[50vw] gap-y-5">
+        <section className="flex flex-col mt-10  w-[80vw] lg:w-[50vw] gap-y-5">
           <h1 className="text-3xl font-semibold">Appointment detail</h1>
           <div className="flex flex-col mt-10 gap-y-5">
-            <div className="flex justify-between ">
+            <div className="flex justify-between text-sm md:text-md">
               <strong>Qr code provided</strong>
               <QRCode
                 value={
@@ -78,7 +78,7 @@ const AppoinmentsDetailClient: React.FC<AppoinmentsDetailClientProps> = ({
             </div>
 
             {appointment.data?.image_path && (
-              <div className="flex justify-between ">
+              <div className="flex justify-between text-sm md:text-md">
                 <strong>Prescription uploaded</strong>
                 <img
                   className="w-[150px] h-[150px] transition-all cursor-pointer"
@@ -88,7 +88,7 @@ const AppoinmentsDetailClient: React.FC<AppoinmentsDetailClientProps> = ({
                 />
               </div>
             )}
-            <div className="flex justify-between ">
+            <div className="flex justify-between text-sm md:text-md">
               <strong>Barangay</strong>{" "}
               <span>{appointment.data?.barangay?.name}</span>
             </div>
@@ -102,7 +102,7 @@ const AppoinmentsDetailClient: React.FC<AppoinmentsDetailClientProps> = ({
                 )}
               </span>
             </div>
-            <div className="flex justify-between">
+            <div className="flex justify-between text-sm md:text-md">
               <strong>Status</strong>{" "}
               <span>
                 <Badge
@@ -120,7 +120,7 @@ const AppoinmentsDetailClient: React.FC<AppoinmentsDetailClientProps> = ({
               </span>
             </div>
             {appointment.data && appointment.data?.appointment_item?.length > 0 && (
-              <div className="flex flex-col gap-y-3">
+              <div className="flex flex-col gap-y-3 text-sm md:text-md">
                 <strong>Medicine Items</strong>{" "}
                 <div className=" overflow-y-auto">
                   <DataTable

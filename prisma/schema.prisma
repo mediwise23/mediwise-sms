@@ -53,7 +53,7 @@ model Barangay {
   WorkSchedule    WorkSchedule[]
   Appointment     Appointment[]
   events          Event[]
-  prescriptions    prescription[]
+  prescriptions   prescription[]
 }
 
 model RequestedItem {
@@ -80,9 +80,10 @@ model ItemTransaction {
 
   requested_items RequestedItem[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-  isArchive Boolean  @default(false)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @default(now()) @updatedAt
+  isArchive     Boolean        @default(false)
+  notifications Notification[]
 }
 
 model SmsItem {
@@ -236,6 +237,9 @@ model Notification {
   // User who is receiving the notification
   user   User   @relation(fields: [userId], references: [id])
   userId String
+
+  transaction   ItemTransaction? @relation(fields: [transactionId], references: [id])
+  transactionId String?
 
   // appointment-related fields
   appointment   Appointment? @relation(fields: [appointmentId], references: [id])
