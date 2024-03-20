@@ -8,14 +8,14 @@ const Page = () => {
 
   return (
     <div className="flex flex-col items-center w-full gap-y-32 pb-10">
-      <div className=" bg-[#def0db] w-full h-[700px] flex items-center">
+      <div className=" bg-[#def0db] w-full min-h-[700px] flex items-center">
         <div className="container mx-auto flex flex-col lg:flex-row items-center">
           {/* Left Column (Image) */}
           <div className="lg:w-1/2 mb-10 lg:mb-0">
             <img
               src="/images/bhaLogo2.png"
               alt="Your Image"
-              className="mx-auto lg:mx-0 w-full rounded-lg object-contain"
+              className="mx-auto lg:mx-0 w-full rounded-lg object-contain mt-20 md:mt-0"
             />
           </div>
 
