@@ -48,7 +48,7 @@ const AppoinmentsDetailClient: React.FC<AppoinmentsDetailClientProps> = ({
 
   const newDate = moment.utc(date).tz("Asia/Manila").format()
   return (
-    <div className="flex flex-col bg-white dark:bg-slate-900 shadow-md p-5 rounded-md">
+    <div className="flex flex-col bg-white dark:bg-slate-900 shadow-md p-3 md:p-5 rounded-md">
       <ArrowLeft
         className="w-7 h-7 cursor-pointer rounded-md text-black dark:text-white"
         onClick={() =>

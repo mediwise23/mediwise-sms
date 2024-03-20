@@ -19,7 +19,7 @@ const page = async () => {
   const queryClient = new QueryClient();
 
   return (
-    <div className="p-10">
+    <div className="p-3 md:p-10">
       <AppoinmentsDetailClient currentUser={currentUser} />
     </div>
   );
