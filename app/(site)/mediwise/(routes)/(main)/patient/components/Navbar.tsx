@@ -41,11 +41,13 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900 px-4">
       <div className="max-w-screen-xl flex flex-nowrap items-center justify-between mx-auto ">
-        <img
-          src="/images/bhaLogo.png"
-          className=" w-24  h-24 object-contain"
-          alt="Flowbite Logo"
-        />
+        <Link href={'/mediwise/patient'}>
+          <img
+            src="/images/bhaLogo.png"
+            className=" w-24  h-24 object-contain"
+            alt="Mediwise Logo"
+          />
+        </Link>
         <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
           <UserNotification currentUser={currentUser} />
           <UserMenu currentUser={currentUser} />
