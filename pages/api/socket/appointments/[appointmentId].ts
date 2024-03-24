@@ -55,6 +55,7 @@ export default async function handler(
           image_path,
         },
         include: {
+          workSchedule:true,
           doctor: {
             include: {
               profile:true
@@ -76,12 +77,24 @@ export default async function handler(
         }
       })
 
+      const getTime = (date: Date) => {
+        const formattedTime = date.toLocaleString('en-US', {  hour: '2-digit', minute: '2-digit', hour12: true });
+        return formattedTime
+      }
+
+
+// Combine the date parts
+      const formattedDate = `${appointmentUpdated.date?.getFullYear()}-${(appointmentUpdated.date?.getMonth() + 1)}-${appointmentUpdated.date?.getDate()}`;
+      const timeStart = getTime(appointmentUpdated.workSchedule.start!)
+      const timeEnd = getTime(appointmentUpdated.workSchedule.end!)
+      console.log(appointmentUpdated.workSchedule)
       const content = `
     <div> 
       <h3> Hello ${appointmentUpdated.patient.profile?.firstname} ${appointmentUpdated.patient.profile?.lastname} </h3>
       <p> Your appointment has been ${appointmentUpdated.status.toLocaleLowerCase()}</p>
-      <p> Queue number: ${appointmentUpdated.queue_number} </p>
-      
+      ${appointmentUpdated?.status === 'ACCEPTED' && `<p>Date: ${formattedDate} </p>`}
+      ${appointmentUpdated?.status === 'ACCEPTED' && `<p>Time: ${timeStart} - ${timeEnd}</p>`}
+      ${appointmentUpdated?.status === 'ACCEPTED' && `<p> Queue number: ${appointmentUpdated.queue_number} </p>`}
       <small> - SMS ADMIN </small>
     </div>
     `;
