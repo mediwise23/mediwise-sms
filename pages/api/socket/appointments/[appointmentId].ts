@@ -70,7 +70,7 @@ export default async function handler(
 
      const notification = await prisma.notification.create({
         data: {
-          content: `${appointmentUpdated.doctor.profile?.firstname} ${appointmentUpdated.doctor.profile?.lastname} ${appointmentUpdated.status.toLocaleLowerCase()} your appointment`,
+          content: `Your appointment has been ${appointmentUpdated.status.toLocaleLowerCase()}`,
           appointmentId: appointmentUpdated.id,
           userId: appointmentUpdated.patientId,
         }
@@ -78,13 +78,15 @@ export default async function handler(
 
       const content = `
     <div> 
-      <h3> hello ${appointmentUpdated.patient.profile?.firstname} ${appointmentUpdated.patient.profile?.lastname} </h3>
-      <p> ${appointmentUpdated.doctor.profile?.firstname} ${appointmentUpdated.doctor.profile?.lastname} ${appointmentUpdated.status.toLocaleLowerCase()} your appointment </p>
+      <h3> Hello ${appointmentUpdated.patient.profile?.firstname} ${appointmentUpdated.patient.profile?.lastname} </h3>
+      <p> Your appointment has been ${appointmentUpdated.status.toLocaleLowerCase()}</p>
+      <p> Queue number: ${appointmentUpdated.queue_number} </p>
+      
       <small> - SMS ADMIN </small>
     </div>
     `;
 
-    sendMail({ content, subject: "Email verification", emailTo: appointmentUpdated.patient.email as string });
+    sendMail({ content, subject: "Appointment", emailTo: appointmentUpdated.patient.email as string });
 
       const Key = `notification:${notification.userId}:create`;
             console.log("new notification socket:", Key);
@@ -139,7 +141,7 @@ export default async function handler(
           id: notification?.id as string
         },
           data: {
-            content: `${appointmentUpdated.doctor.profile?.firstname} ${appointmentUpdated.doctor.profile?.lastname} your appointment has been rescheduled`,
+            content: `Your appointment has been rescheduled`,
             appointmentId: appointmentUpdated.id,
             userId: appointmentUpdated.patientId,
             isRead:false,
@@ -149,8 +151,10 @@ export default async function handler(
 
       const content = `
     <div> 
-      <h3> hello ${appointmentUpdated.patient.profile?.firstname} ${appointmentUpdated.patient.profile?.lastname} </h3>
-      <p> ${appointmentUpdated.doctor.profile?.firstname} ${appointmentUpdated.doctor.profile?.lastname} your appointment has been rescheduled </p>
+      <h3> Hello ${appointmentUpdated.patient.profile?.firstname} ${appointmentUpdated.patient.profile?.lastname} </h3>
+      <p> Your appointment has been rescheduled </p>
+
+      <p> Queue number: ${appointmentUpdated.queue_number} </p>
       <small> - SMS ADMIN </small>
     </div>
     `;

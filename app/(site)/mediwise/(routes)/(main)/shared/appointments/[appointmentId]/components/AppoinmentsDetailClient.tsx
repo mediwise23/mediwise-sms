@@ -2,9 +2,9 @@
 import Avatar from "@/components/Avatar";
 import { DataTable } from "@/components/DataTable";
 import { Badge } from "@/components/ui/badge";
-import { useQueryProcessor } from "@/hooks/useTanstackQuery";
+import { useMutateProcessor, useQueryProcessor } from "@/hooks/useTanstackQuery";
 import { cn } from "@/lib/utils";
-import { TAppointment } from "@/schema/appointment";
+import { TAppointment, TUpdateAppointment } from "@/schema/appointment";
 import { TBarangay } from "@/schema/barangay";
 import { TUser, TUserRaw } from "@/schema/user";
 import { format } from "date-fns";
@@ -13,10 +13,11 @@ import { useParams, useRouter } from "next/navigation";
 import React from "react";
 import QRCode from "react-qr-code";
 import { columns } from "./Columns";
-import { appointment_item } from "@prisma/client";
+import { AppoinmentStatus, appointment_item } from "@prisma/client";
 import { TItemBrgy } from "@/schema/item-brgy";
 import moment from "moment-timezone";
 import { useModal } from "@/hooks/useModalStore";
+import { Button } from "@/components/ui/button";
 
 
 type AppoinmentsDetailClientProps = {
@@ -28,6 +29,8 @@ const DATE_FORMAT = `MMM d yyyy`;
 const AppoinmentsDetailClient: React.FC<AppoinmentsDetailClientProps> = ({
   currentUser,
 }) => {
+  
+  
   const params = useParams();
   const router = useRouter();
   const appointmentId = params?.appointmentId;
@@ -42,6 +45,29 @@ const AppoinmentsDetailClient: React.FC<AppoinmentsDetailClientProps> = ({
     url: `/appointments/${appointmentId}`,
     key: ["view-appointment"],
   });
+
+  const updateAppointment = useMutateProcessor<TUpdateAppointment, unknown>({
+    url: `/socket/appointments/${appointmentId}`,
+    key: ["view-appointment"],
+    method: "PATCH",
+  });
+
+  const updateAppointmentStatus = (status: AppoinmentStatus) => {
+    updateAppointment.mutate(
+      {
+        status,
+      },
+      {
+        onSuccess(data, variables, context) {
+          console.log(data);
+        },
+        onError(error, variables, context) {
+          console.error(error);
+        },
+      }
+    );
+  };
+  
 
   const {onOpen} = useModal()
   const date = new Date(appointment.data?.date || new Date())
@@ -203,6 +229,12 @@ const AppoinmentsDetailClient: React.FC<AppoinmentsDetailClientProps> = ({
             </div>
           </div>
         </section>
+        {
+          appointment.data?.patientId === currentUser.id && appointment.data.status === 'ACCEPTED' && (
+            <Button variant={'destructive'} onClick={() => updateAppointmentStatus('CANCELLED')}>Cancel</Button>
+          )
+        }
+        
       </div>
     </div>
   );
