@@ -262,7 +262,7 @@ const RegisterForm = () => {
                     render={({ field }) => (
                       <FormItem className="w-full">
                         <FormLabel className=" line-clamp-1 uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
-                          Gender
+                          Sex
                         </FormLabel>
                         <Select
                           onValueChange={field.onChange}
@@ -270,7 +270,7 @@ const RegisterForm = () => {
                         >
                           <FormControl>
                             <SelectTrigger className="focus-visible:ring-0  focus-visible:ring-offset-0 border-zinc-500  bg-transparent">
-                              <SelectValue placeholder="Select a gender" />
+                              <SelectValue placeholder="Select a Sex" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent className="focus-visible:ring-0  focus-visible:ring-offset-0">

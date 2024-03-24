@@ -63,7 +63,7 @@ const CarouselComponent = () => {
                 variant={"outline"}
                 className="w-fit text-md text-primary text-sm md:text-xl border-primary hover:text-primary"
               >
-                Get started
+                Sign up
               </Button>
             </Link>
           </div>
@@ -88,7 +88,7 @@ const CarouselComponent = () => {
                 variant={"outline"}
                 className="w-fit text-md text-sm md:text-xl text-primary border-primary hover:text-primary"
               >
-                Get started
+                Sign up
               </Button>
             </Link>
           </div>
@@ -111,7 +111,7 @@ const CarouselComponent = () => {
                 variant={"outline"}
                 className="w-fit text-md text-sm md:text-xl text-primary border-primary hover:text-primary"
               >
-                Get started
+                Sign up
               </Button>
             </Link>
           </div>
@@ -137,7 +137,7 @@ const CarouselComponent = () => {
                 variant={"outline"}
                 className="w-fit text-md text-sm md:text-xl text-primary border-primary hover:text-primary"
               >
-                Get started
+                Sign up
               </Button>
             </Link>
           </div>
