@@ -73,9 +73,8 @@ const routesList: routeListType[] = [
     icon: CalendarDays,
     label: "Schedules",
     href: "/schedules",
-    roles: ["DOCTOR"],
+    roles: ["DOCTOR", "ADMIN"],
   },
-
   {
     icon: CalendarDays,
     label: "Events",

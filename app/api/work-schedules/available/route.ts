@@ -32,7 +32,7 @@ export const GET = withAuth(async ({ req, session }) => {
   
   // get the selected date in appointment calendar
 
-  console.log( moment(date).endOf('day').toDate())
+  console.log( 'range date', moment(date).startOf('day').toDate(), moment(date).startOf('day').toDate())
   try {
     const workSchedules = await prisma.workSchedule.findMany({
       include: {
@@ -40,7 +40,7 @@ export const GET = withAuth(async ({ req, session }) => {
       },
       where: {
         start: {
-            lte: moment(date).startOf('day').toDate(),
+            lte: moment(date).endOf('day').toDate(),
           },
           end: {
             gt: moment(date).startOf('day').toDate(),
@@ -48,6 +48,8 @@ export const GET = withAuth(async ({ req, session }) => {
           barangayId
       },
     });
+
+    // console.log('workschedulessss', workSchedules)
     // fetching the doctors that are available
     const doctorsAvailable = await prisma.user.findMany({
       where: {

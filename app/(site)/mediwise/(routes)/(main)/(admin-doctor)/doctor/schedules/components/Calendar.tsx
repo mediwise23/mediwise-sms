@@ -52,6 +52,7 @@ const Calendar:React.FC<CalendarClientProps> = ({currentUser}) => {
     end: Date;
     allDay: boolean;
   };
+  
   const addWorkSchedule = useMutateProcessor({
     url: '/work-schedules',
     method:'POST',

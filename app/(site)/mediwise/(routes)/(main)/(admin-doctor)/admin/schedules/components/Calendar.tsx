@@ -43,7 +43,7 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
     (WorkSchedule & { doctor: TUser & { profile: Profile } })[]
   >({
     url: `/work-schedules`,
-    key: ["work-schedules"],
+    key: ["work-schedules",  currentUser.barangayId],
     queryParams: {
       barangayId: currentUser.barangayId,
     },
@@ -52,7 +52,6 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
   const { width } = useWindowSize();
   const isMobileOrTablet = width < 768; 
   
-
   const currentworkSchedules =
     typeof workSchedules.data !== "undefined" && workSchedules?.data?.length > 0
       ? workSchedules.data.map((workSchedule) => {
@@ -63,7 +62,7 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
             start: workSchedule?.start,
             end: workSchedule?.end,
             allDay: workSchedule?.allDay,
-            doctorName: `${doctor.profile.firstname} ${doctor.profile.lastname}`,
+            doctorName: `${doctor?.profile?.firstname} ${doctor?.profile?.lastname}`,
             image: doctor?.image,
           };
         })
@@ -71,76 +70,71 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
 
   const handleDateSelect = (selectInfo: any) => {
     const calendarApi = selectInfo;
-    setSelectInfo(calendarApi);
-
-    if(isMobileOrTablet) {
-      onOpen('appointmentSide', {calendarApi, user:currentUser})
-    }
+    
+      onOpen('addDoctorSchedule', {calendarApi, user:currentUser})
+    
     // onOpen("addWorkSchedule", { calendarApi, user: currentUser });
   };
 
   type EventData = {
     id: string;
     title: string;
-    date: Date;
+    start: Date;
+    end: Date;
     allDay: boolean;
     doctorId: string;
-    patientId: string;
-    status: AppoinmentStatus;
     barangayId: string;
   };
 
-  const currentAppointment = useQueryProcessor<
-    (Appointment & {
-      doctor: TUser & { profile: TProfile };
-      patient: TUser & { profile: TProfile };
-    })[]
-  >({
-    url: "/appointments",
-    key: ["appointments", currentUser.id],
-    queryParams: {
-      date: selectInfo?.startStr,
-      barangayId: currentUser.barangayId,
-    },
-  });
+  // const currentAppointment = useQueryProcessor<
+  //   (Appointment & {
+  //     doctor: TUser & { profile: TProfile };
+  //     patient: TUser & { profile: TProfile };
+  //   })[]
+  // >({
+  //   url: "/appointments",
+  //   key: ["appointments", currentUser.id],
+  //   queryParams: {
+  //     date: selectInfo?.startStr,
+  //     barangayId: currentUser.barangayId,
+  //   },
+  // });
 
-  const numberOfAppointments = currentAppointment.data?.filter((appointment) => appointment.status === 'ACCEPTED' || appointment.status === 'PENDING' )?.length || 0;
-  const limit = 25;
-  const limitExceeded = numberOfAppointments >= limit;
+  // useEffect(() => {
+  //   currentAppointment.refetch();
+  // }, [selectInfo]);
 
-  useEffect(() => {
-    currentAppointment.refetch();
-  }, [selectInfo]);
+  // const appointments = currentAppointment.data?.filter((appointment) => appointment.status === 'ACCEPTED' || appointment.status === 'PENDING' )
 
-  const appointments = currentAppointment.data?.filter((appointment) => appointment.status === 'ACCEPTED' || appointment.status === 'PENDING' )
-
-  const createAppointment = useMutateProcessor<EventData, null>({
-    url: "/appointments",
+  const createDoctorSchedule = useMutateProcessor<EventData, null>({
+    url: "/work-schedules/admin",
     method: "POST",
-    key: ["appointments", currentUser.id],
+    key: ["work-schedules",  currentUser.barangayId],
   });
 
   const handleAddEvent = ({ event }: any) => {
+
     const eventData = {
       id: event.id,
       title: event.title,
-      date: event.start,
+      start: event.start,
+      end: event.end,
+      allDay: event.allDay,
       doctorId: event?._def.extendedProps.doctorId,
-      patientId: event?._def.extendedProps.patientId,
-      status: event?._def.extendedProps.status,
-      barangayId:
-        event?._def.extendedProps.barangayId || currentUser.barangayId,
+      barangayId: event?._def?.extendedProps?.barangayId
     } as EventData;
 
-    createAppointment.mutate(eventData, {
+    console.log("event Data", eventData)
+    createDoctorSchedule.mutate(eventData, {
       onSuccess(data, variables, context) {
         console.log(data);
         toast({
-          title: "Appointment has been added",
+          title: "Schedule has been added",
         });
       },
       onError(error:any, variables, context) {
         console.error(error.response.data.message);
+        console.log(error)
         toast({
           title: error.response.data.message,
           variant: "destructive",
@@ -171,7 +165,7 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
 
   return (
     <div className="w-full h-full flex gap-x-3 flex-col md:flex-row">
-      <div className="w-full md:flex-[0.8]">
+      <div className="w-full">
         <FullCalendar
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           headerToolbar={{
@@ -187,20 +181,20 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
           initialView="dayGridMonth"
           // longPressDelay={0}
 
-          selectAllow={(event) => {
-            const dateStart = new Date(event.startStr);
-            const dateEnd = new Date(event.endStr);
+          // selectAllow={(event) => {
+          //   const dateStart = new Date(event.startStr);
+          //   const dateEnd = new Date(event.endStr);
 
-            // To calculate the time difference of two dates
-            const Difference_In_Time = dateEnd.getTime() - dateStart.getTime();
+          //   // To calculate the time difference of two dates
+          //   const Difference_In_Time = dateEnd.getTime() - dateStart.getTime();
 
-            // To calculate the no. of days between two dates
-            const Difference_In_Days = Math.round(
-              Difference_In_Time / (1000 * 3600 * 24)
-            );
+          //   // To calculate the no. of days between two dates
+          //   const Difference_In_Days = Math.round(
+          //     Difference_In_Time / (1000 * 3600 * 24)
+          //   );
 
-            return Difference_In_Days === 1;
-          }}
+          //   return Difference_In_Days === 1;
+          // }}
           eventContent={EventContent}
           editable={false}
           selectable={true}
@@ -223,67 +217,15 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
           eventRemove={handleDeleteEvent} // triggen when you delete an event in event api
         />
       </div>
-
-      {selectInfo && !isMobileOrTablet &&(
-        <div className=" flex-[0.2] mt-10 flex flex-col h-[80vh] justify-between">
-          <h1 className="text-center text-lg font-semibold">Appointments</h1>
-          <h2
-            className={cn(
-              "text-center text-md font-semibold",
-              limitExceeded && "text-rose-500"
-            )}
-          >
-            slot: {numberOfAppointments}/{limit}
-          </h2>
-          <div className="flex flex-col mt-10 max-h-[550px] h-[550px] overflow-y-auto gap-y-2">
-            {(() => {
-              if (currentAppointment.status === "pending") {
-                return (
-                  <div className="flex items-center justify-center">
-                    <Loader2 size={30} />
-                  </div>
-                );
-              }
-              if (currentAppointment.status === "error") {
-                return null;
-              }
-              if (numberOfAppointments <= 0) {
-                return (
-                  <h1 className="text-center font-semibold">
-                    No appointments found
-                  </h1>
-                );
-              }
-              return appointments?.map((appointment) => (
-                <AppointmentItem
-                  data={appointment}
-                  currentUser={currentUser}
-                  key={appointment.id}
-                />
-              ));
-            })()}
-          </div>
-          <Button
-            className={cn("mx-auto")}
-            disabled={limitExceeded}
-            onClick={() => {
-              if (!limitExceeded) {
-                onOpen("addAppointment", {
-                  calendarApi: selectInfo,
-                  user: currentUser,
-                });
-              }
-            }}
-          >
-            Add a appointment
-          </Button>
-        </div>
-      )}
     </div>
   );
+
+ 
+
 };
 
 export default Calendar;
+
 
 const EventContent: React.FC = (eventInfo: any) => {
   
@@ -341,3 +283,6 @@ const EventContent: React.FC = (eventInfo: any) => {
     </div>
   );
 };
+
+
+

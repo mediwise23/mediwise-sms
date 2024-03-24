@@ -39,6 +39,7 @@ export type ModalType =
   | "viewPhoto"
   | "registerTermsAndCondition"
   | "appointmentSide"
+  | "addDoctorSchedule"
 // you can extend this type if you have more modal
 
 // export type ModalType = "..." | "...." | "...."

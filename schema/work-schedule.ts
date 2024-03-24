@@ -26,10 +26,14 @@ export const WorkScheduleSchema = z.object({
     start: true,
     end: true,
     barangayId: true,
+    doctorId:true
   })
   .extend({
     start: z.string(),
     end: z.string(),
+  })
+  .partial({
+    doctorId:true
   })
 
 
