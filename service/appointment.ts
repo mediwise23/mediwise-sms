@@ -3,6 +3,7 @@ import "server-only";
 import prisma from "@/lib/prisma";
 import { AppoinmentStatus } from "@prisma/client";
 import moment from "moment-timezone";
+import shortUniqueId from "short-unique-id"
 
 // get all appointments by role
 export const getAppointments = async ({
@@ -95,11 +96,14 @@ export const createAppointment = async ({
   status: AppoinmentStatus;
   image_path?: string;
 }) => {
+  const {randomUUID} = new shortUniqueId({length:5, dictionary: 'number'})
+  console.log('iiidd', randomUUID())
   return await prisma.appointment.create({
     data: {
       title,
       doctorId,
       patientId,
+      queue_number:randomUUID(),
       date,
       status,
       image_path,

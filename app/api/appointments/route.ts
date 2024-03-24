@@ -8,7 +8,6 @@ import { getQueryParams } from "@/service/params";
 import { NextRequest, NextResponse } from "next/server";
 import moment from "moment-timezone";
 import prisma from "@/lib/prisma";
-
 export async function GET(req: NextRequest, { params }: { params: {} }) {
   const queries = getQueryParams(req, AppointmentGetQuerySchema);
   if (!queries.success) {

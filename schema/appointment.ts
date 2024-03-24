@@ -14,6 +14,7 @@ export const AppointmentSchema = z.object({
   date: z.date(),
   status: z.nativeEnum(AppoinmentStatus),
   image_path: z.string().nullable(),
+  queue_number: z.string().nullable(),
   createdAt: z.date(),
   updatedAt: z.date(),
   barangayId: z.string(),

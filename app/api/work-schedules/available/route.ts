@@ -39,14 +39,30 @@ export const GET = withAuth(async ({ req, session }) => {
         doctor: true,
       },
       where: {
-        start: {
-            lte: moment(date).endOf('day').toDate(),
+        OR: [
+          {
+            start: {
+                  lte: moment(date).endOf('day').toDate(),
+                },
+                end: {
+                  gt: moment(date).startOf('day').toDate(),
+                },
+                barangayId,
+                allDay: false
           },
-          end: {
-            gt: moment(date).startOf('day').toDate(),
+          {
+            start: {
+                lte: moment(date).startOf('day').toDate(),
+              },
+              end: {
+                gt: moment(date).startOf('day').toDate(),
+              },
+              barangayId,
+              allDay: true
           },
-          barangayId
-      },
+        ]
+      }
+      
     });
 
     // console.log('workschedulessss', workSchedules)
