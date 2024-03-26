@@ -31,6 +31,7 @@ import ViewPhotoModal from "../modals/mediwise/ViewPhotoModal";
 import RegistrationTermsAndCondition from "../modals/mediwise/RegistrationTermsAndCondition";
 import AppointmentSideModal from "../modals/mediwise/AppointmentSideModal";
 import AddDoctorScheduleModal from "../modals/mediwise/AddDoctorScheduleModal";
+import UpdatePrescriptionModal from "../modals/mediwise/UpdatePrescriptionModal";
 
 
 const ModalProvider = () => {
@@ -77,6 +78,7 @@ const ModalProvider = () => {
     <RegistrationTermsAndCondition />
     <AppointmentSideModal />
     <AddDoctorScheduleModal />
+    <UpdatePrescriptionModal />
     </>
   );
 };

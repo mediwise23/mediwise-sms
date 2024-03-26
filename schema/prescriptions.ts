@@ -11,9 +11,11 @@ export const PrescriptionSchema = z.object({
   userId: z.string().cuid(),
   barangayId: z.string(),
 }) satisfies z.ZodType<prescription>;
+
 export type TPrescriptionSchema = z.infer<typeof PrescriptionSchema>
 export const MAX_FILE_SIZE = 5000000;
 export const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+
 export const CreatePrescriptionSchema = PrescriptionSchema.pick({
     userId:true
 })
@@ -26,8 +28,12 @@ export const CreatePrescriptionSchema = PrescriptionSchema.pick({
   // )
   // .refine((file) => file?.size <= MAX_FILE_SIZE, `Max image size is 5MB.`),
 })
+export const UpdatePrescriptionSchema = PrescriptionSchema.pick({
+  convertedText:true
+})
 
 export type TCreatePrescriptionSchema = z.infer<typeof CreatePrescriptionSchema>
+export type TUpdatePrescriptionSchema = z.infer<typeof UpdatePrescriptionSchema>
 
 export const PrescriptionQuerySchema = PrescriptionSchema.pick({
   userId:true,
@@ -35,3 +41,4 @@ export const PrescriptionQuerySchema = PrescriptionSchema.pick({
 .partial({
   userId:true,
 })
+

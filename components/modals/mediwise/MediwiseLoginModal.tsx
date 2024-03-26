@@ -30,6 +30,7 @@ import { IconType } from "react-icons";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Checkbox } from "../../ui/checkbox";
+import { Eye, EyeOff } from "lucide-react";
 const MediwiseLoginModal = () => {
   const { isOpen, type, onClose } = useModal();
   const isModalOpen = isOpen && type === "mediwiseLogin";
@@ -170,13 +171,16 @@ const MediwiseLoginModal = () => {
                       Password
                     </FormLabel>
                     <FormControl>
-                      <Input
-                        disabled={isLoading}
-                        type={showPass ? "text" : "password"}
-                        className="focus-visible:ring-0  focus-visible:ring-offset-0 resize-none bg-transparent"
-                        placeholder={`Enter Password`}
-                        {...field}
-                      />
+                      <div className="border rounded-md flex">
+                        <Input
+                          disabled={isLoading}
+                          type={showPass ? "text" : "password"}
+                          className="focus-visible:ring-0  focus-visible:ring-offset-0 resize-none bg-transparent border-none"
+                          placeholder={`Enter Password`}
+                          {...field}
+                          />
+                          <Button variant={'ghost'} size={'icon'} onClick={() => setShowPass((prev) => !prev)} > {!showPass ? <Eye/> : <EyeOff />} </Button>
+                        </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -184,7 +188,7 @@ const MediwiseLoginModal = () => {
               />
             </div>
 
-            <div className="flex gap-x-3 items-center">
+            {/* <div className="flex gap-x-3 items-center">
               <Checkbox
                 id="showPass"
                 checked={showPass === true}
@@ -197,7 +201,7 @@ const MediwiseLoginModal = () => {
               >
                 Show password
               </label>
-            </div>
+            </div> */}
 
             <DialogFooter className="py-4">
               <Button

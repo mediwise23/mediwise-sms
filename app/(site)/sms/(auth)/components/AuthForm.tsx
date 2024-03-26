@@ -12,12 +12,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { ArrowLeft, Loader2 } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff, Loader2 } from "lucide-react";
 import { signIn } from "next-auth/react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/ui/button";
 
 const formSchema = z.object({
   email: z.string().min(1, {
@@ -111,31 +112,32 @@ const AuthForm = () => {
             )}
           />
 
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel className="uppercase text-xs font-bold text-zinc-300">
-                  Password
-                </FormLabel>
-
-                <FormControl>
-                  <Input
-                    disabled={isLoading}
-                    className="bg-zinc-300 border border-zinc-700 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
-                    placeholder={`Enter Password`}
-                    type={showPass ? "text" : "password"}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                      Password
+                    </FormLabel>
+                    <FormControl>
+                      <div className="border rounded-md flex bg-zinc-300">
+                        <Input
+                          type={showPass ? "text" : "password"}
+                          className="bg-zinc-300 border-none focus-visible:ring-0 text-black focus-visible:ring-offset-0"
+                          placeholder={`Enter Password`}
+                          {...field}
+                          />
+                          <Button className="" variant={'ghost'} size={'icon'} onClick={() => setShowPass((prev) => !prev)} > {!showPass ? <Eye/> : <EyeOff />} </Button>
+                        </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
         </div>
 
-        <div className="w-fit flex self-start mt-5 items-center gap-x-3">
+        {/* <div className="w-fit flex self-start mt-5 items-center gap-x-3">
           <Checkbox
             id="showPass"
             className="border-[#FD7E14] data-[state=checked]:bg-[##FD7E14] data-[state=checked]:text-zinc-300 data-[state=checked]:bg-[#FD7E14]"
@@ -150,7 +152,7 @@ const AuthForm = () => {
           >
             Show Password
           </label>
-        </div>
+        </div> */}
         <button
           disabled={isLoading}
           className="bg-[#FD7E14] p-1.5 w-full rounded-sm text-zinc-300 text-md mt-5 flex justify-center disabled:cursor-not-allowed"

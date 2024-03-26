@@ -102,7 +102,7 @@ export const RegisterUserSchema = UserSchema.pick({
     zip: z.string(),
     district: z.string(),
     city: z.string().min(1, "Required").max(50),
-    contactNo: z.string().min(1, "Required").max(50),
+    contactNo: z.string().min(1, "Required").max(50).refine((value) => value.startsWith('9'), "Contact must start at 9*********"),
     password: z
       .string()
       .refine(
@@ -219,6 +219,7 @@ export const CreateDoctorSchema = CreateUserSchema.pick({
   .extend({
     middlename: z.string().optional(),
     suffix: z.string().optional(),
+    contactNo: z.string().refine((value) => value.startsWith('9'), "Contact must start at 9*********")
   });
 
 export type TCreateDoctorSchema = z.infer<typeof CreateDoctorSchema>;
@@ -271,6 +272,7 @@ export const CreatePatientSchema = CreateUserSchema.pick({
     dateOfBirth: z.string(),
     middlename: z.string().optional(),
     suffix: z.string().optional(),
+    contactNo: z.string().refine((value) => value.startsWith('9'), "Contact must start at 9*********")
   });
 
 export type TCreatePatientSchema = z.infer<typeof CreatePatientSchema>;

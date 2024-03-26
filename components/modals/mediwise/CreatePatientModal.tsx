@@ -373,33 +373,40 @@ const CreatePatientModal = () => {
                         </div>
 
                         <div className="w-full">
-                          <FormField
-                            control={form.control}
-                            name="contactNo"
-                            key="contactNo"
-                            render={({ field }) => (
-                              <FormItem className="w-full">
-                                <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-white">
-                                  Contact No.
-                                </FormLabel>
-                                <FormControl>
-                                  <Input
-                                    disabled={isLoading}
-                                    type="number"
-                                    className=" focus-visible:ring-0  focus-visible:ring-offset-0 resize-none"
-                                    placeholder={`Enter contact number`}
-                                    {...field}
-                                    onChange={(e) => {
-                                      if(e.target.value.length <= 11) {
-                                        field.onChange(e.target.value);
-                                      }
-                                    }}
-                                  />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
+                        <FormField
+                    control={form.control}
+                    name="contactNo"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel className=" line-clamp-1 uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                          Contact No.
+                        </FormLabel>
+                        <FormControl>
+                          <div className="flex items-center border rounded-md pl-3">
+                            <span className="text-sm">+63</span>
+                          <Input
+                            className=" border-none focus-visible:ring-0  focus-visible:ring-offset-0   bg-transparent"
+                            // type="number"
+                            placeholder={`9123456789`}
+                            {...field}
+                            onChange={(e) => {
+
+                              if(e.target.value.length > 10 ) {
+                                return ;
+                              }
+
+                              const validatedtext = e.target.value.replace(/\D/g, "");
+                              field.onChange(validatedtext);
+
+                            }}
                           />
+                          </div>
+
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                         </div>
                       </div>
 

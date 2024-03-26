@@ -24,7 +24,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
-import { Calendar as CalendarIcon } from "lucide-react";
+import { Calendar as CalendarIcon, Eye, EyeOff } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { useModal } from "@/hooks/useModalStore";
 import {
@@ -249,6 +249,25 @@ const RegisterForm = () => {
                             type="date"
                             placeholder={`Enter birthdate`}
                             {...field}
+                            onChange={(e) => {
+                              const enteredDate = e.target.value;
+                              const birthDate = new Date(enteredDate);
+                              const ageDiff =
+                                today.getFullYear() - birthDate.getFullYear();
+
+                              // Check if birthday has occurred this year
+                              const hasBirthdayOccurred =
+                                today.getMonth() > birthDate.getMonth() ||
+                                (today.getMonth() === birthDate.getMonth() &&
+                                  today.getDate() >= birthDate.getDate());
+
+                              const calculatedAge = hasBirthdayOccurred
+                                ? ageDiff
+                                : ageDiff - 1;
+                              setAge(calculatedAge);
+
+                              field.onChange(e.target.value);
+                            }}
                           />
                         </FormControl>
                         <FormMessage />
@@ -294,17 +313,26 @@ const RegisterForm = () => {
                           Contact No.
                         </FormLabel>
                         <FormControl>
+                          <div className="flex items-center border rounded-md border-zinc-500 pl-3">
+                            <span className="text-sm">+63</span>
                           <Input
-                            className="focus-visible:ring-0  focus-visible:ring-offset-0 border-zinc-500  bg-transparent"
-                            type="number"
-                            placeholder={`Enter contact number`}
+                            className=" border-none focus-visible:ring-0  focus-visible:ring-offset-0   bg-transparent"
+                            // type="number"
+                            placeholder={`9123456789`}
                             {...field}
                             onChange={(e) => {
-                              if(e.target.value.length <= 11) {
-                                field.onChange(e.target.value);
+
+                              if(e.target.value.length > 10 ) {
+                                return ;
                               }
+
+                              const validatedtext = e.target.value.replace(/\D/g, "");
+                              field.onChange(validatedtext);
+
                             }}
                           />
+                          </div>
+
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -497,52 +525,59 @@ const RegisterForm = () => {
                   />
                 </div>
                 <div className="flex justify-evenly gap-x-3">
-                  <FormField
-                    control={form.control}
-                    name="password"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel className=" line-clamp-1 uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
-                          Password
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            className="focus-visible:ring-0  focus-visible:ring-offset-0"
-                            type={showPass ? 'text' : 'password'}
-                            placeholder={`Enter password`}
-                            {...field}
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                      Password
+                    </FormLabel>
+                    <FormControl>
+                      <div className="border rounded-md flex">
+                        <Input
+                          type={showPass ? "text" : "password"}
+                          className="focus-visible:ring-0  focus-visible:ring-offset-0 resize-none bg-transparent border-none"
+                          placeholder={`Enter Password`}
+                          {...field}
                           />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                          <Button variant={'ghost'} size={'icon'} onClick={() => setShowPass((prev) => !prev)} > {!showPass ? <Eye/> : <EyeOff />} </Button>
+                        </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            
                 </div>
 
                 <div className="flex justify-evenly gap-x-3">
-                  <FormField
-                    control={form.control}
-                    name="confirmPassword"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel className=" line-clamp-1 uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
-                          Confirm Password
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            className="focus-visible:ring-0  focus-visible:ring-offset-0"
-                            type={showPass ? 'text' : 'password'}
-                            placeholder={`Enter password confirmation`}
-                            {...field}
+                <FormField
+                control={form.control}
+                name="confirmPassword"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                      Confirm Password
+                    </FormLabel>
+                    <FormControl>
+                      <div className="border rounded-md flex">
+                        <Input
+                          type={showPass ? "text" : "password"}
+                          className="focus-visible:ring-0  focus-visible:ring-offset-0 resize-none bg-transparent border-none"
+                          placeholder={`Enter Password Confirmation`}
+                          {...field}
                           />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                          <Button variant={'ghost'} size={'icon'} onClick={() => setShowPass((prev) => !prev)} > {!showPass ? <Eye/> : <EyeOff />} </Button>
+                        </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
                 </div>
 
-                <div className="flex gap-x-3 items-center">
+                {/* <div className="flex gap-x-3 items-center">
                   <Checkbox
                     id="showPass"
                     checked={showPass === true}
@@ -555,7 +590,7 @@ const RegisterForm = () => {
                   >
                     Show password
                   </label>
-                </div>
+                </div> */}
 
                 <div className="flex gap-x-3 items-center">
                   <Checkbox
