@@ -136,7 +136,6 @@ const AuthForm = () => {
                 )}
               />
         </div>
-
         {/* <div className="w-fit flex self-start mt-5 items-center gap-x-3">
           <Checkbox
             id="showPass"
