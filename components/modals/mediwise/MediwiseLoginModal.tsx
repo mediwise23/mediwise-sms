@@ -179,7 +179,7 @@ const MediwiseLoginModal = () => {
                           placeholder={`Enter Password`}
                           {...field}
                           />
-                          <Button variant={'ghost'} size={'icon'} onClick={() => setShowPass((prev) => !prev)} > {!showPass ? <Eye/> : <EyeOff />} </Button>
+                          <Button type="button" variant={'ghost'} size={'icon'} onClick={() => setShowPass((prev) => !prev)} > {!showPass ? <Eye/> : <EyeOff />} </Button>
                         </div>
                     </FormControl>
                     <FormMessage />
