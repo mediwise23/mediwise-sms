@@ -128,7 +128,7 @@ const AuthForm = () => {
                           placeholder={`Enter Password`}
                           {...field}
                           />
-                          <Button className="" variant={'ghost'} size={'icon'} onClick={() => setShowPass((prev) => !prev)} > {!showPass ? <Eye/> : <EyeOff />} </Button>
+                          <Button type="button" className="" variant={'ghost'} size={'icon'} onClick={() => setShowPass((prev) => !prev)} > {!showPass ? <Eye/> : <EyeOff />} </Button>
                         </div>
                     </FormControl>
                     <FormMessage />
