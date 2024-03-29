@@ -247,6 +247,7 @@ export const PATCH = withAuth(
             items.push({
               id: data.items[i].id,
               product_number: data.items[i].product_number,
+              expiration_date: data.items[i]?.expiration_date,
             })
           }
 
@@ -268,6 +269,7 @@ export const PATCH = withAuth(
                 data: {
                   brgyItemId: existingItem.id,
                   product_number: data.product_number,
+                  expiration_date: data?.expiration_date,
                   smsItemId: null,
                 }
               })
@@ -296,6 +298,7 @@ export const PATCH = withAuth(
               data: {
                 brgyItemId: brgyItem.id,
                 product_number: data.product_number,
+                expiration_date: data?.expiration_date,
                 smsItemId: null,
               }
             })

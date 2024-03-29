@@ -53,6 +53,7 @@ export const POST = withAuth(
         const item = await prisma.item.create({
             data: {
                 product_number: body.data.product_number,
+                expiration_date: new Date(body.data.expiration_date),
                 smsItemId: params.smsitemId,
             }
         })

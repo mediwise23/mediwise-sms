@@ -148,14 +148,15 @@ model BrgyItem {
 }
 
 model Item {
-  id             String    @id @default(cuid())
-  product_number String
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @default(now()) @updatedAt
-  brgyItemId     String?
-  brgyItem       BrgyItem? @relation(fields: [brgyItemId], references: [id], onDelete: Cascade)
-  smsItemId      String?
-  smsItem        SmsItem?  @relation(fields: [smsItemId], references: [id], onDelete: Cascade)
+  id              String    @id @default(cuid())
+  product_number  String
+  expiration_date DateTime?  @default(now())
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @default(now()) @updatedAt
+  brgyItemId      String?
+  brgyItem        BrgyItem? @relation(fields: [brgyItemId], references: [id], onDelete: Cascade)
+  smsItemId       String?
+  smsItem         SmsItem?  @relation(fields: [smsItemId], references: [id], onDelete: Cascade)
 }
 
 model User {

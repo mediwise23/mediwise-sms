@@ -132,6 +132,30 @@ const AddNewItemStockModal = () => {
               />
             </div>
 
+            <div className="w-full">
+              <FormField
+                control={form.control}
+                name="expiration_date"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                      Expiration Date
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={isLoading}
+                        type="date"
+                        className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+
             <DialogFooter className="py-4">
               <Button
                 variant={"default"}

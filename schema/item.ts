@@ -4,6 +4,7 @@ import { z } from "zod";
 export const ItemSchema = z.object({
     id: z.string(),
     product_number: z.string(),
+    expiration_date: z.date(),
     brgyItemId: z.string(),
     smsItemId: z.string(),
     updatedAt: z.date(),
@@ -12,12 +13,16 @@ export const ItemSchema = z.object({
   
   export const CreateItemSchema = ItemSchema.pick({
     product_number: true,
+    expiration_date: true,
     brgyItemId:true,
     smsItemId:true,
   })
   .partial({
     brgyItemId:true,
     smsItemId:true,
+  })
+  .extend({
+    expiration_date:z.string()
   })
   
   export type TItemSchema = z.infer<typeof ItemSchema>

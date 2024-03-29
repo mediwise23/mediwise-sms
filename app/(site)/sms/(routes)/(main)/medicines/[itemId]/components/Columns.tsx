@@ -56,6 +56,27 @@ export const columns: ColumnDef<Item>[] = [
     },
   },
   {
+    accessorKey: "expiration_date",
+    accessorFn: (row) => {
+      const expiration_date = row?.expiration_date;
+      return expiration_date;
+    },
+    header: ({ column }) => (
+      <div
+        className="text-[#181a19]  flex items-center cursor-pointer dark:text-white flex-1"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Expiration Date <ArrowUpDown className="ml-2 h-4 w-4" />
+      </div>
+    ),
+    cell: ({ row }) => {
+      const expiration_date = row.original?.expiration_date
+      return <div className="">
+      {format(new Date(expiration_date || new Date()), DATE_FORMAT)}
+    </div>
+    },
+  },
+  {
     accessorKey: "createdAt",
     accessorFn: (row) => {
       const createdAt = row.createdAt;
