@@ -110,3 +110,9 @@ export const handleImageCompression = async (file: File) => {
     console.log(error);
   }
 };
+
+
+export const getTime = (date: Date) => {
+  const formattedTime = date.toLocaleString('en-US', {  hour: '2-digit', minute: '2-digit', hour12: true });
+  return formattedTime
+}

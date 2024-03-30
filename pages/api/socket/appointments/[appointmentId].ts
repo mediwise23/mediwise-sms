@@ -1,11 +1,12 @@
 import getCurrentUserPages from "@/actions/getCurrentUser-Page";
 import prisma from "@/lib/prisma";
 import sendMail from "@/lib/smtp";
+import { getTime } from "@/lib/utils";
 import { RescheduleAppointmentSchema, UpdateAppointmentSchema } from "@/schema/appointment";
 import { getAppointmentById, updateAppointmentById } from "@/service/appointment";
 import { NextApiResponseServerIo } from "@/types/types";
 import { NextApiRequest } from "next";
-
+import nodeSchedule from "node-schedule"
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponseServerIo
@@ -77,17 +78,13 @@ export default async function handler(
         }
       })
 
-      const getTime = (date: Date) => {
-        const formattedTime = date.toLocaleString('en-US', {  hour: '2-digit', minute: '2-digit', hour12: true });
-        return formattedTime
-      }
+      
 
 
 // Combine the date parts
       const formattedDate = `${appointmentUpdated.date?.getFullYear()}-${(appointmentUpdated.date?.getMonth() + 1)}-${appointmentUpdated.date?.getDate()}`;
       const timeStart = getTime(appointmentUpdated.workSchedule.start!)
       const timeEnd = getTime(appointmentUpdated.workSchedule.end!)
-      console.log(appointmentUpdated.workSchedule)
       const content = `
     <div> 
       <h3> Hello ${appointmentUpdated.patient.profile?.firstname} ${appointmentUpdated.patient.profile?.lastname} </h3>
@@ -100,6 +97,27 @@ export default async function handler(
     `;
 
     sendMail({ content, subject: "Appointment", emailTo: appointmentUpdated.patient.email as string });
+
+    if(appointmentUpdated.status === 'ACCEPTED') {
+      const reminderTime = new Date(appointmentUpdated.workSchedule?.start! || appointmentUpdated.date);
+      reminderTime.setHours(reminderTime.getHours() - 1);
+      nodeSchedule.scheduleJob(appointmentUpdated.id, reminderTime, () => {
+        const reminderContent = `
+        <div> 
+          <h3> Hello ${appointmentUpdated.patient.profile?.firstname} ${appointmentUpdated.patient.profile?.lastname} </h3>
+          <p> Reminder that you have an appointment today at ${timeStart}</p>
+          <p> Queue number: ${appointmentUpdated.queue_number} </p>
+          <small> - SMS ADMIN </small>
+        </div>
+        `;
+        sendMail({ content:reminderContent, subject: "Appointment Reminder", emailTo: appointmentUpdated.patient.email as string });
+      })
+    }
+
+    if(appointmentUpdated.status === 'CANCELLED') {
+      nodeSchedule.cancelJob(appointmentUpdated.id)
+    }
+
 
       const Key = `notification:${notification.userId}:create`;
             console.log("new notification socket:", Key);
@@ -130,6 +148,7 @@ export default async function handler(
           date: new Date(date)
         },
         include: {
+          workSchedule:true,
           doctor: {
             include: {
               profile:true
@@ -142,6 +161,24 @@ export default async function handler(
           }
         }
       })  
+
+      nodeSchedule.cancelJob(appointmentUpdated.id)
+      const timeStart = getTime(appointmentUpdated.workSchedule.start!)
+      const timeEnd = getTime(appointmentUpdated.workSchedule.end!)
+      const reminderTime = new Date(appointmentUpdated.workSchedule?.start! || appointmentUpdated.date);
+      reminderTime.setHours(reminderTime.getHours() - 1);
+      
+      nodeSchedule.scheduleJob(appointmentUpdated.id, reminderTime, () => {
+        const reminderContent = `
+        <div> 
+          <h3> Hello ${appointmentUpdated.patient.profile?.firstname} ${appointmentUpdated.patient.profile?.lastname} </h3>
+          <p> Reminder that you have an appointment today at ${timeStart} </p>
+          <p> Queue number: ${appointmentUpdated.queue_number} </p>
+          <small> - SMS ADMIN </small>
+        </div>
+        `;
+        sendMail({ content:reminderContent, subject: "Appointment Reminder", emailTo: appointmentUpdated.patient.email as string });
+      })
 
      const notification = await prisma.notification.findFirst({
       where: {

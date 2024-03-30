@@ -134,8 +134,8 @@ const AddAppointmentModal = () => {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent className="focus-visible:ring-0  focus-visible:ring-offset-0">
-                        <SelectItem value={"General checkup"}>
-                          General checkup
+                        <SelectItem value={"Checkup"}>
+                          Checkup
                         </SelectItem>
                         <SelectItem value={"Follow up checkup"}>
                           Follow up checkup
