@@ -145,18 +145,20 @@ model BrgyItem {
   isArchive        Boolean            @default(false)
   appointmentItems appointment_item[]
   items            Item[]
+  // notifications     Notification[]
 }
 
 model Item {
-  id              String    @id @default(cuid())
+  id              String         @id @default(cuid())
   product_number  String
-  expiration_date DateTime?  @default(now())
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @default(now()) @updatedAt
+  expiration_date DateTime?      @default(now())
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @default(now()) @updatedAt
   brgyItemId      String?
-  brgyItem        BrgyItem? @relation(fields: [brgyItemId], references: [id], onDelete: Cascade)
+  brgyItem        BrgyItem?      @relation(fields: [brgyItemId], references: [id], onDelete: Cascade)
   smsItemId       String?
-  smsItem         SmsItem?  @relation(fields: [smsItemId], references: [id], onDelete: Cascade)
+  smsItem         SmsItem?       @relation(fields: [smsItemId], references: [id], onDelete: Cascade)
+  notifications    Notification[]
 }
 
 model User {
@@ -239,6 +241,12 @@ model Notification {
   // User who is receiving the notification
   user   User   @relation(fields: [userId], references: [id])
   userId String
+
+  Item   Item?   @relation(fields: [itemId], references: [id])
+  itemId String?
+
+  // barangay_item  BrgyItem? @relation(fields: [barangayItemId], references: [id])
+  // barangayItemId String?
 
   transaction   ItemTransaction? @relation(fields: [transactionId], references: [id])
   transactionId String?

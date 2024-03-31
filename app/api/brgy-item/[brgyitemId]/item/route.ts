@@ -8,6 +8,7 @@ import {
   updateBarangayItemById,
 } from "@/service/item-brgy";
 import { NextResponse } from "next/server";
+import nodeSchedule from 'node-schedule'
 
 export const GET = withAuth(
   async ({ req, session, params }) => {
@@ -36,7 +37,7 @@ export const GET = withAuth(
 );
 
 export const POST = withAuth(
-    async ({ req, session, params }) => {
+    async ({ req, session, params, currentUser }) => {
       try {
         const body = await CreateItemSchema.safeParseAsync(await req.json());
   
@@ -49,7 +50,7 @@ export const POST = withAuth(
           );
         }
 
-        console.log(body.data, params)
+       
         const item = await prisma.item.create({
             data: {
                 product_number: body.data.product_number,
@@ -57,6 +58,31 @@ export const POST = withAuth(
                 brgyItemId: params.brgyitemId,
             }
         })
+
+
+        const reminderTime = new Date(item.expiration_date || new Date());
+        reminderTime.setDate(reminderTime.getDate() - 7);
+        nodeSchedule.scheduleJob(item.id, reminderTime, async () => {
+        const administrators = await prisma.user.findMany({
+          where: {
+            role: 'ADMIN',
+            barangayId: currentUser?.barangayId
+          }
+        })
+
+        Promise.all(administrators.map(async(admin) => {
+          const notification = await prisma.notification.create({
+            data: {
+              content: `Your Item will be expire in 7 days`,
+              itemId:item.id,
+              userId: admin.id,
+            }
+          })
+
+          return notification
+        }))
+      })
+
   
         return NextResponse.json(item);
       } catch (error) {
