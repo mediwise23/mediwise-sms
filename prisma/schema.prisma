@@ -144,7 +144,8 @@ model BrgyItem {
   requestId        String?
   isArchive        Boolean            @default(false)
   appointmentItems appointment_item[]
-  items            Item[]
+  items            Item[]             @relation("items")
+  onhand_items     Item[]             @relation("onhand")
   // notifications     Notification[]
 }
 
@@ -154,11 +155,13 @@ model Item {
   expiration_date DateTime?      @default(now())
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @default(now()) @updatedAt
+  onhandItemId    String?
+  onhandItem      BrgyItem?      @relation(name: "onhand", fields: [onhandItemId], references: [id], onDelete: Cascade)
   brgyItemId      String?
-  brgyItem        BrgyItem?      @relation(fields: [brgyItemId], references: [id], onDelete: Cascade)
+  brgyItem        BrgyItem?      @relation(name: "items", fields: [brgyItemId], references: [id], onDelete: Cascade)
   smsItemId       String?
   smsItem         SmsItem?       @relation(fields: [smsItemId], references: [id], onDelete: Cascade)
-  notifications    Notification[]
+  notifications   Notification[]
 }
 
 model User {
