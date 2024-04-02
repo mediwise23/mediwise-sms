@@ -6,6 +6,7 @@ export const ItemSchema = z.object({
     product_number: z.string(),
     expiration_date: z.date(),
     brgyItemId: z.string(),
+    onhandItemId: z.string(),
     smsItemId: z.string(),
     updatedAt: z.date(),
     createdAt: z.date(),
@@ -22,7 +23,8 @@ export const ItemSchema = z.object({
     smsItemId:true,
   })
   .extend({
-    expiration_date:z.string()
+    expiration_date:z.string(),
+    product_number:z.string().min(1, "Required")
   })
   
   export type TItemSchema = z.infer<typeof ItemSchema>

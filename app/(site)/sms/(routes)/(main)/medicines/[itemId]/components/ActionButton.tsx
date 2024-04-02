@@ -20,9 +20,9 @@ import { useRouter } from "next/navigation";
     //   const {onOpen} = useModal()
 
       const deleteItem = useMutateProcessor<string, any>({
-        url: `/sms-item/${data.brgyItemId}/item/${data?.id}`,
+        url: `/sms-item/${data.smsItemId}/item/${data?.id}`,
         method: 'DELETE',
-        key: ['sms-item', data.brgyItemId]
+        key: ['sms-item', data.smsItemId]
       })
 
     return (

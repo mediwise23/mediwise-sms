@@ -107,16 +107,31 @@ export const POST = withAuth(
           }
         }
 
-        await prisma.brgyItem.update({
-          where: {
-            id: brgyItem.brgyItemId as string,
-          },
-          data: {
-            items: {
-              deleteMany: items.map((item) => ({ id: item?.id })),
+        // await prisma.brgyItem.update({
+        //   where: {
+        //     id: brgyItem.brgyItemId as string,
+        //   },
+        //   data: {
+        //     items: {
+        //       deleteMany: items.map((item) => ({ id: item?.id })),
+        //     },
+        //   },
+        // });
+
+        Promise.all(items.map(async(item) => {
+          const itemsUpdated = await prisma.item.update({
+            where: {
+              id: item?.id
             },
-          },
-        });
+            data: {
+              brgyItemId: null,
+            }
+          })
+
+          return itemsUpdated
+        }))
+
+        
 
         const appointmentItems = await prisma.appointment_item.createMany({
           data: [

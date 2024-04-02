@@ -14,6 +14,7 @@ import {
 } from "@/service/item-transaction";
 import { ItemTransactionStatus, Role } from "@prisma/client";
 import axios from "axios";
+import nodeSchedule from 'node-schedule'
 
 import { NextResponse } from "next/server";
 
@@ -261,18 +262,45 @@ export const PATCH = withAuth(
 
 
           if(existingItem) {
-            const updatedItems = await Promise.all(items.map((data) => {
-              return prisma.item.update({
+            const updatedItems = await Promise.all(items.map(async(data) => {
+              const item = await prisma.item.update({
                 where: {
                   id: data.id
                 },
                 data: {
+                  onhandItemId:existingItem.id,
                   brgyItemId: existingItem.id,
                   product_number: data.product_number,
                   expiration_date: data?.expiration_date,
                   smsItemId: null,
                 }
               })
+
+              const reminderTime = new Date(item.expiration_date || new Date());
+              reminderTime.setDate(reminderTime.getDate() - 7);
+              nodeSchedule.scheduleJob(item.id, reminderTime, async () => {
+              const administrators = await prisma.user.findMany({
+                where: {
+                  role: 'ADMIN',
+                  barangayId: transaction.barangayId
+                }
+              })
+      
+              Promise.all(administrators.map(async(admin) => {
+                const notification = await prisma.notification.create({
+                  data: {
+                    content: `Your Item will be expire in 7 days`,
+                    itemId:item.id,
+                    userId: admin.id,
+                  }
+                })
+      
+                return notification
+              }))
+            })
+
+
+              return item;
             }))
 
             console.log(updatedItems)
@@ -290,18 +318,45 @@ export const PATCH = withAuth(
             }
           })
 
-          await Promise.all(items.map((data) => {
-            return prisma.item.update({
+          await Promise.all(items.map(async(data) => {
+            const item = await  prisma.item.update({
               where: {
                 id: data.id
               },
               data: {
+                onhandItemId: brgyItem.id,
                 brgyItemId: brgyItem.id,
                 product_number: data.product_number,
                 expiration_date: data?.expiration_date,
                 smsItemId: null,
               }
             })
+
+            const reminderTime = new Date(item.expiration_date || new Date());
+            reminderTime.setDate(reminderTime.getDate() - 7);
+            nodeSchedule.scheduleJob(item.id, reminderTime, async () => {
+            const administrators = await prisma.user.findMany({
+              where: {
+                role: 'ADMIN',
+                barangayId: transaction.barangayId
+              }
+            })
+    
+            Promise.all(administrators.map(async(admin) => {
+              const notification = await prisma.notification.create({
+                data: {
+                  content: `Your Item will be expire in 7 days`,
+                  itemId:item.id,
+                  userId: admin.id,
+                }
+              })
+    
+              return notification
+            }))
+          })
+
+
+            return item;
           }))
 
           return brgyItem

@@ -14,12 +14,12 @@ import { Badge } from "@/components/ui/badge";
 import ActionButton from "./ActionButton";
 import { TItemBrgy } from "@/schema/item-brgy";
 import { format } from "date-fns";
-import { Item } from "@prisma/client";
+import { Item, appointment_item } from "@prisma/client";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 const DATE_FORMAT = `MMM d yyyy`;
-export const columns: ColumnDef<TItemBrgy & {items: Item[]}>[] = [
+export const columns: ColumnDef<TItemBrgy & {items: Item[], onhand_items: Item[], appointmentItems: appointment_item[]}>[] = [
   {
     accessorKey: "id",
     header: () => {
@@ -78,6 +78,28 @@ export const columns: ColumnDef<TItemBrgy & {items: Item[]}>[] = [
   },
 
   {
+    accessorKey: "onhand",
+    accessorFn: (row) => {
+      const stock = row?.onhand_items?.length;
+      return stock;
+    },
+    header: ({ column }) => (
+      <div
+        className="text-[#181a19] flex items-center cursor-pointer dark:text-white flex-1"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        On hand <ArrowUpDown className="ml-2 h-4 w-4" />
+      </div>
+    ),
+    cell: ({ row }) => {
+      const stock = row.original?.onhand_items?.length;
+
+      return <div className={` flex items-center`}>{stock}</div>;
+    },
+  },
+
+
+  {
     accessorKey: "stock",
     accessorFn: (row) => {
       const stock = row.items.length;
@@ -88,7 +110,7 @@ export const columns: ColumnDef<TItemBrgy & {items: Item[]}>[] = [
         className="text-[#181a19] flex items-center cursor-pointer dark:text-white flex-1"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        Stock <ArrowUpDown className="ml-2 h-4 w-4" />
+        Quantity <ArrowUpDown className="ml-2 h-4 w-4" />
       </div>
     ),
     cell: ({ row }) => {
@@ -97,6 +119,33 @@ export const columns: ColumnDef<TItemBrgy & {items: Item[]}>[] = [
       return <div className={` flex items-center`}>{stock}</div>;
     },
   },
+
+  {
+    accessorKey: "outhand",
+    accessorFn: (row) => {
+      const stock = row?.appointmentItems.reduce((sum, item) => {
+        return (item?.quantity || 0) + sum
+      }, 0);
+      return stock;
+    },
+    header: ({ column }) => (
+      <div
+        className="text-[#181a19] flex items-center cursor-pointer dark:text-white flex-1"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Out hand <ArrowUpDown className="ml-2 h-4 w-4" />
+      </div>
+    ),
+    cell: ({ row }) => {
+      console.log(row?.original)
+      const stock = row?.original?.appointmentItems.reduce((sum, item) => {
+        return (item?.quantity || 0) + sum
+      }, 0);
+
+      return <div className={` flex items-center`}>{stock}</div>;
+    },
+  },
+
 
   {
     accessorKey: "dosage",

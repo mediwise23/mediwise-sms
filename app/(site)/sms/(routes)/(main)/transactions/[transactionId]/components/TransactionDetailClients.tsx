@@ -30,7 +30,8 @@ import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-
+// import PDFViewer from 'pdf-viewer-reactjs'
+import { Document, Page } from 'react-pdf';
 type TransactionDetailClientProps = {
   currentUser: Session["user"];
 };
@@ -57,6 +58,7 @@ const TransactionDetailClient: React.FC<TransactionDetailClientProps> = ({
     key: ["transactions", transactionId],
   });
 
+  console.log(transaction.data)
   const items = useQueryProcessor<(TItemSms & { items: Item[], supplier: TSupplierSchema })[]>(
     {
       url: "/sms-item",
@@ -146,7 +148,7 @@ const TransactionDetailClient: React.FC<TransactionDetailClientProps> = ({
             </Badge> */}
           </span>
 
-          <span>
+          {/* <span>
             <div className="relative flex items-center p-2 mt-2 rounded-md flex-col">
               <FileIcon className="h-10 w-10 fill-green-200" />
               <a
@@ -157,7 +159,12 @@ const TransactionDetailClient: React.FC<TransactionDetailClientProps> = ({
                 View report
               </a>
             </div>
+          </span> */}
+
+          <span>
+          <iframe className="w-[75vw] h-[50vh] overflow-y-auto" src={`https://docs.google.com/viewer?embedded=true&url=${transaction.data?.fileReport}`} ></iframe>
           </span>
+
         </section>
 
         {(() => {
@@ -285,6 +292,7 @@ const TransactionDetailClient: React.FC<TransactionDetailClientProps> = ({
                         updateStatus.mutate({
                           status: "CANCELLED",
                         });
+
                       }}
                     >
                       Cancel

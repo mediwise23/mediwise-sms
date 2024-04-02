@@ -24,7 +24,9 @@ export const getAllBarangayItem = async (data: {
       createdAt: "desc",
     },
     include: {
-      items:true
+      items:true,
+      onhand_items:true,
+      appointmentItems:true
     }
   });
 };
