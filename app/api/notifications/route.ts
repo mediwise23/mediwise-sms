@@ -37,8 +37,20 @@ export const GET = withAuth(
         },
         orderBy: {
           createdAt: 'desc'
+        },
+        include: {
+          Item:{
+            include: {
+              brgyItem:true,
+            }
+          },
+          appointment:true,
+          transaction:true,
+          user:true,
         }
       });
+
+      console.log("notf",notifications)
 
       return NextResponse.json(notifications, { status: 200 });
     } catch (error) {

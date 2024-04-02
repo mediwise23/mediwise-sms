@@ -14,14 +14,14 @@ import { format } from "timeago.js";
 import { apiClient, useQueryProcessor } from "@/hooks/useTanstackQuery";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
-import {Notification} from '@prisma/client'
+import {BrgyItem, Item, Notification} from '@prisma/client'
 import { Session } from "next-auth";
 import { useNotification } from "@/hooks/useNotification";
 type UserNotificationProps = {
   currentUser?: Session["user"] | null;
 };
 const UserNotification = ({ currentUser }: UserNotificationProps) => {
-  const notifications = useQueryProcessor<Notification[]>({url:"/notifications", key:["notifications"], queryParams: {
+  const notifications = useQueryProcessor<(Notification & {Item: Item & {brgyItem: BrgyItem}}) []>({url:"/notifications", key:["notifications"], queryParams: {
     userId: currentUser?.id
   },
 options:{
@@ -62,16 +62,20 @@ options:{
             onClick={async () => {
               try {
                 await apiClient.patch(`/notifications/${notification.id}`, {isRead:true})
-                if(notification.appointmentId) {
+                if(notification?.appointmentId) {
                   router.push(`/mediwise/shared/appointments/${notification.appointmentId}`)
                   return notifications.refetch()
                 }
-                if(notification.transactionId && currentUser?.role != 'STOCK_MANAGER') {
+                if(notification?.transactionId && currentUser?.role != 'STOCK_MANAGER') {
                   router.push(`/shared/transactions/${notification.transactionId}`)
                   return notifications.refetch()
                 } 
-                if(notification.transactionId && currentUser?.role == 'STOCK_MANAGER') {
+                if(notification?.transactionId && currentUser?.role == 'STOCK_MANAGER') {
                   router.push(`/sms/transactions/${notification.transactionId}`)
+                  return notifications.refetch()
+                }
+                if(notification?.itemId && currentUser?.role == 'ADMIN') {
+                  router.push(`/mediwise/admin/inventory/${notification.Item?.brgyItem?.id}`)
                   return notifications.refetch()
                 }
               } catch (error) {

@@ -24,7 +24,7 @@ import { Session } from "next-auth";
 import { useModal } from "@/hooks/useModalStore";
 import { useQueryProcessor } from "@/hooks/useTanstackQuery";
 import { TItemBrgy } from "@/schema/item-brgy";
-import { Item, ItemTransaction, ItemTransactionStatus } from "@prisma/client";
+import { Item, ItemTransaction, ItemTransactionStatus, appointment_item } from "@prisma/client";
 
 type InventoryClientProps = {
   currentUser: Session["user"];
@@ -32,7 +32,7 @@ type InventoryClientProps = {
 const InventoryClient: React.FC<InventoryClientProps> = ({ currentUser }) => {
   const { onOpen } = useModal();
 
-  const items = useQueryProcessor<(TItemBrgy & {items: Item[]}) []>({
+  const items = useQueryProcessor<(TItemBrgy & {items: Item[], appointmentItems: appointment_item[],onhand_items: Item[]}) []>({
     url: "/brgy-item",
     key: ["inventory-items", "barangay"],
     queryParams:{
