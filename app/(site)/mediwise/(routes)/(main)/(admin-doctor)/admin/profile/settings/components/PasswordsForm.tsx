@@ -15,6 +15,7 @@ import { useMutateProcessor } from "@/hooks/useTanstackQuery";
 import { TUser } from "@/schema/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Profile } from "@prisma/client";
+import { Eye, EyeOff } from "lucide-react";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -99,14 +100,16 @@ const Passwords: React.FC<PasswordsProps> = ({ data }) => {
                     New password
                   </FormLabel>
                   <FormControl>
-                    <Input
-                      type={showPass ? "text" : "password"}
-                      disabled={isLoading}
-                      className="bg-white focus-visible:ring-0 text-black focus-visible:ring-offset-0 resize-none dark:bg-[#374151] dark:text-zinc-300"
-                      placeholder={`Enter new password`}
-                      {...field}
-                    />
-                  </FormControl>
+                      <div className="border rounded-md flex">
+                        <Input
+                          type={showPass ? "text" : "password"}
+                          className="focus-visible:ring-0  focus-visible:ring-offset-0 resize-none bg-transparent border-none"
+                          placeholder={`Enter Password`}
+                          {...field}
+                          />
+                          <Button type="button" variant={'ghost'} size={'icon'} onClick={() => setShowPass((prev) => !prev)} > {!showPass ? <Eye/> : <EyeOff />} </Button>
+                        </div>
+                    </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
@@ -121,14 +124,16 @@ const Passwords: React.FC<PasswordsProps> = ({ data }) => {
                     Confirm password
                   </FormLabel>
                   <FormControl>
-                    <Input
-                      type={showPass ? "text" : "password"}
-                      disabled={isLoading}
-                      className="bg-white focus-visible:ring-0 text-black focus-visible:ring-offset-0 resize-none dark:bg-[#374151] dark:text-zinc-300"
-                      placeholder={`Enter new password`}
-                      {...field}
-                    />
-                  </FormControl>
+                      <div className="border rounded-md flex">
+                        <Input
+                          type={showPass ? "text" : "password"}
+                          className="focus-visible:ring-0  focus-visible:ring-offset-0 resize-none bg-transparent border-none"
+                          placeholder={`Enter Password Confirmation`}
+                          {...field}
+                          />
+                          <Button type="button" variant={'ghost'} size={'icon'} onClick={() => setShowPass((prev) => !prev)} > {!showPass ? <Eye/> : <EyeOff />} </Button>
+                        </div>
+                    </FormControl>
                   <FormMessage />
                 </FormItem>
               )}

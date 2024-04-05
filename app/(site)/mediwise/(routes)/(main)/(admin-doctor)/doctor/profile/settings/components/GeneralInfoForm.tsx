@@ -28,7 +28,7 @@ const GeneralInfo: React.FC<GeneralInfoProps> = ({ data }) => {
   const formSchema = z.object({
     firstname: z.string().min(1, { message: "Firstname is required" }),
     lastname: z.string().min(1, { message: "Lastname is required" }),
-    middlename: z.string().min(1, { message: "Middlename is required" }),
+    middlename: z.string(),
     email: z
       .string()
       .email()
@@ -160,9 +160,21 @@ const GeneralInfo: React.FC<GeneralInfoProps> = ({ data }) => {
                   <Input
                     disabled={isLoading}
                     className="bg-white focus-visible:ring-0 text-black focus-visible:ring-offset-0 resize-none dark:bg-[#374151] dark:text-zinc-300"
+                    
                     placeholder={`Enter phone number`}
                     // type="number"
                     {...field}
+
+                    onChange={(e) => {
+
+                      if(e.target.value.length > 10 ) {
+                        return ;
+                      }
+
+                      const validatedtext = e.target.value.replace(/\D/g, "");
+                      field.onChange(validatedtext);
+
+                    }}
                   />
                 </FormControl>
                 <FormMessage />
@@ -251,7 +263,7 @@ const GeneralInfo: React.FC<GeneralInfoProps> = ({ data }) => {
                 </FormLabel>
                 <FormControl>
                   <Input
-                    disabled={isLoading}
+                    disabled={true}
                     className="bg-white focus-visible:ring-0 text-black focus-visible:ring-offset-0 resize-none dark:bg-[#374151] dark:text-zinc-300"
                     placeholder={`Enter city`}
                     {...field}

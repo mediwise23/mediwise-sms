@@ -115,21 +115,21 @@ const TransactionDetailClient: React.FC<TransactionDetailClientProps> = ({
       <div className="flex flex-col w-full">
         <section className="flex flex-col gap-y-5 items-start">
           <span>
-            <label htmlFor="" className="font-semibold text-[#17A2B8]">
+            <label htmlFor="" className="font-semibold text-[#FD7E14]">
               Barangay Name
             </label>
             <p> {transaction.data?.barangay?.name}</p>
           </span>
 
           <span>
-            <label htmlFor="" className="font-semibold text-[#17A2B8]">
+            <label htmlFor="" className="font-semibold text-[#FD7E14]">
               Remarks / Description
             </label>
             <p>{transaction.data?.description}</p>
           </span>
 
           <span className="flex flex-col">
-            <label htmlFor="" className="font-semibold text-[#17A2B8]">
+            <label htmlFor="" className="font-semibold text-[#FD7E14]">
               Status
             </label>
             <p>{transaction.data?.status}</p>

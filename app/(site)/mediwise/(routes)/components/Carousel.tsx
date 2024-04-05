@@ -95,11 +95,11 @@ const CarouselComponent = () => {
         </div>
       </SwiperSlide>
       <SwiperSlide className="flex justify-center ">
-        <div className=" flex flex-col justify-center gap-x-10 w-[70%] mx-auto lg:flex-row-reverse ">
+        <div className=" flex flex-col  gap-x-10 w-[70%] mx-auto lg:flex-row-reverse ">
           <div className="flex-1 flex justify-center">
             <img className=" object-cover" src={"/images/pics/slide2.png"} />
           </div>
-          <div className="flex flex-col gap-y-10 py-10 items-center flex-1 mt-10">
+          <div className="flex flex-col gap-y-10 py-10  flex-1 mt-10">
             <h1 className="text-2xl md:text-5xl text-[#137174] font-extrabold">DENTIST</h1>
             <p className="text-sm md:text-xl  text-black  dark:text-white text-justify">
               To provide outstanding dental care with a commitment of
@@ -109,7 +109,7 @@ const CarouselComponent = () => {
             <Link href={"/mediwise/register"} className="w-fit">
               <Button
                 variant={"outline"}
-                className="w-fit text-md text-sm md:text-xl text-primary border-primary hover:text-primary"
+                className="w-fit text-md text-sm md:text-xl text-primary self-start border-primary hover:text-primary"
               >
                 Sign up
               </Button>

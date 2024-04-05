@@ -33,6 +33,7 @@ import { Loader2 } from "@/components/ui/Loader";
 import UserMenu from "@/components/UserMenu";
 import { Checkbox } from "@/components/ui/checkbox";
 import { TGetUserById } from "@/service/user";
+import { Eye, EyeOff } from "lucide-react";
 
 type SetupClientProps = {
   currentUser: TGetUserById | null;
@@ -122,6 +123,12 @@ const SetupClient: React.FC<SetupClientProps> = ({ currentUser }) => {
                             disabled={isLoading}
                             placeholder={`Enter firstname`}
                             {...field}
+
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              const validatedtext = value.replace(/[0-9]/g, "");
+                              field.onChange(validatedtext);
+                            }}
                           />
                         </FormControl>
                         <FormMessage />
@@ -143,6 +150,12 @@ const SetupClient: React.FC<SetupClientProps> = ({ currentUser }) => {
                             disabled={isLoading}
                             placeholder={`Enter lastname`}
                             {...field}
+
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              const validatedtext = value.replace(/[0-9]/g, "");
+                              field.onChange(validatedtext);
+                            }}
                           />
                         </FormControl>
                         <FormMessage />
@@ -164,6 +177,12 @@ const SetupClient: React.FC<SetupClientProps> = ({ currentUser }) => {
                             disabled={isLoading}
                             placeholder={`Enter middlename`}
                             {...field}
+
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              const validatedtext = value.replace(/[0-9]/g, "");
+                              field.onChange(validatedtext);
+                            }}
                           />
                         </FormControl>
                         <FormMessage />
@@ -185,6 +204,12 @@ const SetupClient: React.FC<SetupClientProps> = ({ currentUser }) => {
                             disabled={isLoading}
                             placeholder={`Enter suffix`}
                             {...field}
+
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              const validatedtext = value.replace(/[0-9]/g, "");
+                              field.onChange(validatedtext);
+                            }}
                           />
                         </FormControl>
                         <FormMessage />
@@ -235,19 +260,21 @@ const SetupClient: React.FC<SetupClientProps> = ({ currentUser }) => {
                     control={form.control}
                     name="password"
                     render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                      <FormItem className="w-full  ">
+                        <FormLabel className="uppercase text-xs font-bold  text-zinc-500 dark:text-zinc-400">
                           Password
                         </FormLabel>
                         <FormControl>
-                          <Input
-                            className="bg-transparent border-zinc-500 focus-visible:ring-0  focus-visible:ring-offset-0"
-                            type={showPass ? 'text' : 'password'}
-                            disabled={isLoading}
-                            placeholder={`Enter password`}
-                            {...field}
+                      <div className="border rounded-md flex border-zinc-500">
+                        <Input
+                          type={showPass ? "text" : "password"}
+                          className="focus-visible:ring-0  border-zinc-500 focus-visible:ring-offset-0 resize-none bg-transparent border-none"
+                          placeholder={`Enter Password`}
+                          {...field}
                           />
-                        </FormControl>
+                          <Button type="button" variant={'ghost'} size={'icon'} onClick={() => setShowPass((prev) => !prev)} > {!showPass ? <Eye/> : <EyeOff />} </Button>
+                        </div>
+                    </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -257,24 +284,26 @@ const SetupClient: React.FC<SetupClientProps> = ({ currentUser }) => {
                     control={form.control}
                     name="confirmPassword"
                     render={({ field }) => (
-                      <FormItem className="w-full">
+                      <FormItem className="w-full border-zinc-500 ">
                         <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
                           Confirm password
                         </FormLabel>
                         <FormControl>
-                          <Input
-                            className="bg-transparent border-zinc-500 focus-visible:ring-0  focus-visible:ring-offset-0"
-                            type={showPass ? 'text' : 'password'}
-                            disabled={isLoading}
-                            placeholder={`Enter password confirmation`}
-                            {...field}
+                      <div className="border rounded-md flex border-zinc-500">
+                        <Input
+                          type={showPass ? "text" : "password"}
+                          className="focus-visible:ring-0  focus-visible:ring-offset-0 resize-none bg-transparent border-none"
+                          placeholder={`Enter Password Confirmation`}
+                          {...field}
                           />
-                        </FormControl>
+                          <Button type="button" variant={'ghost'} size={'icon'} onClick={() => setShowPass((prev) => !prev)} > {!showPass ? <Eye/> : <EyeOff />} </Button>
+                        </div>
+                    </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
-
+{/* 
  <div className="flex gap-x-3 items-center mt-5">
                   <Checkbox
                     id="showPass"
@@ -288,7 +317,7 @@ const SetupClient: React.FC<SetupClientProps> = ({ currentUser }) => {
                   >
                     Show password
                   </label>
-                </div>
+                </div> */}
                 </div>
               </div>
               <div className="flex flex-col gap-y-3">

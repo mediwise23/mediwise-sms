@@ -84,6 +84,27 @@ export const columns: ColumnDef<TUser & {profile: Profile}>[] = [
   // },
 
   {
+    accessorKey: "lastname",
+    accessorFn: (row) => {
+      const lastname = row?.profile?.lastname || {};
+      return lastname;
+    },
+    header: ({ column }) => (
+      <div
+        className="text-[#181a19]  flex items-center cursor-pointer dark:text-white flex-1"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Lastname <ArrowUpDown className="ml-2 h-4 w-4" />
+      </div>
+    ),
+    cell: ({ row }) => {
+      // const {firstname, middlename, lastname} = row?.original.profile?
+      const lastname = row.original?.profile?.lastname;
+      return <div className={` flex items-center`}>{lastname}</div>;
+    },
+  },
+  
+  {
     accessorKey: "firstname",
     accessorFn: (row) => {
       const firstname = row?.profile?.firstname;
