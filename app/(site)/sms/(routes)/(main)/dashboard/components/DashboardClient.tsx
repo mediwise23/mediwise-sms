@@ -5,18 +5,22 @@ import PatientsTab from "./patients/PatientsTab";
 import { useQueryProcessor } from "@/hooks/useTanstackQuery";
 import { TItemTransaction } from "@/schema/item-transaction";
 import Widget from "./Widget";
-import { Columns, LayoutDashboard } from "lucide-react";
+import { Columns, LayoutDashboard, Box, Users, StickyNote } from "lucide-react";
 import qs from "query-string";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import ItemsTab from "./items/ItemsTab";
 import { Session } from "next-auth";
 import { TItemSms } from "@/schema/item-sms";
-import { Item, Role } from "@prisma/client";
+import { Item, ItemTransaction, RequestedItem, Role } from "@prisma/client";
 import { TSupplierSchema } from "@/schema/supplier";
 import { TUser } from "@/schema/user";
 import { TAppointment } from "@/schema/appointment";
 import IllnessTab from "./illness/IllnessTab";
+import AdminListTab from "./admin-list/AdminListTab";
+import { TBarangay } from "@/schema/barangay";
+import SuppliersTab from "./suppliers/SuppliersTab";
+import Analytics from "./Analytics";
 type DashboardClientProps = {
   tab: string;
   currentUser: Session['user']
@@ -34,13 +38,13 @@ const DashboardClient = ({ tab = "requests", currentUser }: DashboardClientProps
     key: ['sms-item-dashboard'],
   })
 
-  const suppliers = useQueryProcessor<(TSupplierSchema)[]>({
+  const suppliers = useQueryProcessor<(TSupplierSchema & {smsItems: TItemSms & {items: Item[]} []})[]>({
     url: `/supplier`,
     key: ['suppliers'],
   })
 
-  const adminList = useQueryProcessor<(TUser[])>({
-    url: `/users`,
+  const adminList = useQueryProcessor<(TBarangay & {users: TUser[]})[]>({
+    url: `/users/admin`,
     key: ['users', 'admin'],
     queryParams:{
       role: Role.ADMIN
@@ -56,6 +60,8 @@ const DashboardClient = ({ tab = "requests", currentUser }: DashboardClientProps
     url: `/appointments/illness`,
     key: ['appointment', 'illness'],
   })
+
+ 
   
 
   const monthlyRequestCounts:any = {};
@@ -117,14 +123,14 @@ const handleSelectedTab = (tab: string) => {
         </div>
 
         <div onClick={() => handleSelectedTab("illness")}>
-          <Widget title="Common Disease" total={illness?.data?.length || 0} icon={Columns} />
+          <Widget title="Common Illness" total={illness?.data?.length || 0} showTotal icon={StickyNote} />
         </div>
         <div onClick={() => handleSelectedTab("suppliers")}>
-          <Widget title="Suppliers" total={suppliers?.data?.length || 0}   icon={Columns} />
+          <Widget title="Suppliers" total={suppliers?.data?.length || 0}  showTotal icon={Box} />
         </div>
 
         <div onClick={() => handleSelectedTab("admin-list")}>
-          <Widget title="Admin list" total={adminList?.data?.length || 0} icon={Columns} />
+          <Widget title="Admin list" total={adminList?.data?.length || 0}showTotal  icon={Users} />
         </div>
 
       </div>
@@ -134,7 +140,12 @@ const handleSelectedTab = (tab: string) => {
           if (tab === "requests") return <PatientsTab data={data} />;
           if (tab === "items") return <ItemsTab data={items?.data} currentUser={currentUser} />;
           if (tab === "illness") return <IllnessTab data={illness?.data || []}  />;
+          if (tab === "admin-list") return <AdminListTab data={adminList?.data || []}  />;
+          if (tab === "suppliers") return <SuppliersTab data={suppliers?.data || []}  />;
         })()}
+      </div>
+      <div className="w-full h-[500px]">
+        <Analytics/>
       </div>
     </div>
   );

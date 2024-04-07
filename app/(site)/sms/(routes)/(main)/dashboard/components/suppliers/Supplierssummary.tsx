@@ -10,31 +10,44 @@ import {
 } from "@/components/ui/table";
 import { PatientsTotalType } from "./SuppliersTab";
 import { useMemo } from "react";
+import { TSupplierSchema } from "@/schema/supplier";
+import { TItemSms } from "@/schema/item-sms";
+import { Item } from "@prisma/client";
 
 type SuppliersSummaryProps = {
-  data: PatientsTotalType[];
+  data: (TSupplierSchema & {smsItems: TItemSms & {items: Item[]} []})[]
 };
 
 const SuppliersSummary = ({ data }: SuppliersSummaryProps) => {
-  const fullTotal = useMemo(() => {
-    return data.reduce((acc, curr) => acc + curr.numberOfRequest, 0);
-  }, [data]);
+  const newData = data.map((supplier) => {
+
+    const totalSuppliedItem = supplier.smsItems.reduce((total, supplier) => {
+      return total + (supplier?.items?.length || 0)
+    }, 0);
+
+    return {
+      name: supplier.name,
+      items: totalSuppliedItem
+    }
+  })
+
+  const fullTotal = newData.reduce((total, curr) => (total + curr.items), 0)
 
   return (
     <Table>
-      <TableCaption>A list of barangay request per month</TableCaption>
+      <TableCaption>A list of supplier</TableCaption>
       <TableHeader>
         <TableRow>
-          <TableHead>Month</TableHead>
-          <TableHead>Request</TableHead>
+          <TableHead>Supplier</TableHead>
+          <TableHead>Supplied Items Count</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data.map((invoice) => (
-          <TableRow key={invoice.id}>
-            <TableCell className="font-medium">{invoice.month}</TableCell>
+        {newData.map((invoice, index) => (
+          <TableRow key={index}>
+            <TableCell className="font-medium">{invoice.name}</TableCell>
             <TableCell className="text-left">
-              {invoice.numberOfRequest}
+              {invoice.items}
             </TableCell>
           </TableRow>
         ))}

@@ -12,8 +12,15 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest, { params }: { params: {} }) {
   try {
 
-    const suppliers = await prisma.supplier.findMany()
-
+    const suppliers = await prisma.supplier.findMany({
+      include: {
+        smsItems:{
+          include: {
+            items:true
+          }
+        }
+      }
+    })
     return NextResponse.json(suppliers, { status: 200 });
   } catch (error) {
     console.log("[SUPPLIER_GET]", error);

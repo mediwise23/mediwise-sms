@@ -76,15 +76,17 @@ export default function IllnessChart({ data }: IllnessChartProps) {
       </ResponsiveContainer>
       <div className="flex flex-col">
         {data.map((illness, index) => {
+
           console.log(colors[index % colors.length])
           return (
             <div className="flex items-center gap-2" key={index}>
               <div
-                className={`w-2 h-2 rounded-full  bg-[${
-                  colors[index % colors.length]
-                }]`}
+              style={{
+                background: `${colors[index % colors.length]}`
+              }}
+                className={`w-2 h-2 rounded-full`}
               />
-              <span>{illness.illness}</span>
+              <span>{illness?.illness}</span>
             </div>
           );
         })}

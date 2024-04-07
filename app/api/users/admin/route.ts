@@ -96,3 +96,22 @@ export const POST = withAuth(
     requiredRole: ["STOCK_MANAGER"],
   }
 );
+
+export async function GET(req: NextRequest, { params }: { params: {} }) {
+    try {
+        const adminlist = await prisma.barangay.findMany({
+            include:{
+              users: {
+                where: {
+                  role:'ADMIN'
+                }
+              }
+            }
+        })
+
+      return NextResponse.json(adminlist, { status: 200 });
+    } catch (error) {
+      console.log("[APPOINMENT_ILLNESS_GET]", error);
+      return new NextResponse("Internal error", { status: 500 });
+    }
+  }

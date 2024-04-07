@@ -1,6 +1,5 @@
-import { TItemSms } from "@/schema/item-sms";
-import { TSupplierSchema } from "@/schema/supplier";
-import { Item } from "@prisma/client";
+import { TBarangay } from "@/schema/barangay";
+import { TUser } from "@/schema/user";
 import React, { PureComponent } from "react";
 import {
   AreaChart,
@@ -12,22 +11,17 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-type SuppliersChartProps = {
-  data: (TSupplierSchema & {smsItems: TItemSms & {items: Item[]} []})[]
+type AdminListProps = {
+  data: (TBarangay & {users: TUser[]})[]
 };
 
-export default function SuppliersChart({ data }: SuppliersChartProps) {
+export default function AdminList({ data }: AdminListProps) {
   // 768px
 
-  const newData = data.map((supplier) => {
-
-    const totalSuppliedItem = supplier.smsItems.reduce((total, supplier) => {
-      return total + (supplier?.items?.length || 0)
-    }, 0);
-
+  const newData = data.map((barangay) => {
     return {
-      name: supplier.name,
-      items: totalSuppliedItem
+      name: barangay.name,
+      count: barangay?.users?.length || 0
     }
   })
   return (
@@ -50,7 +44,7 @@ export default function SuppliersChart({ data }: SuppliersChartProps) {
       }} />
         <Area
           type="monotone"
-          dataKey="items"
+          dataKey="count"
           stackId="1"
           stroke="#2b240d"
           fill="#FD7E14"
