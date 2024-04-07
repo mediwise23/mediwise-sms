@@ -34,7 +34,7 @@ const AdminList = ({ data }: AdminListProps) => {
       <TableBody>
         {data.map((barangay,index) => (
           <TableRow key={index}>
-            <TableCell className="font-medium">{barangay.name}</TableCell>
+            <TableCell className="font-medium">{barangay?.name}</TableCell>
             <TableCell className="text-left">
               {barangay?.users?.length || 0}
             </TableCell>

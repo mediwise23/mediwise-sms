@@ -20,7 +20,7 @@ export default function AdminList({ data }: AdminListProps) {
 
   const newData = data.map((barangay) => {
     return {
-      name: barangay.name,
+      name: barangay?.name,
       count: barangay?.users?.length || 0
     }
   })

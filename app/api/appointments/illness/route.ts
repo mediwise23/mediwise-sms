@@ -7,6 +7,11 @@ export async function GET(req: NextRequest, { params }: { params: {} }) {
             by: ['illness'],
             _count: {
                 illness:true
+            },
+            where: {
+              illness: {
+                not: ""
+              }
             }
         })
       return NextResponse.json(illness, { status: 200 });
