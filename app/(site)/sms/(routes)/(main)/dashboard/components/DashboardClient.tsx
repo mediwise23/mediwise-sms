@@ -11,6 +11,12 @@ import qs from "query-string";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import ItemsTab from "./items/ItemsTab";
 import { Session } from "next-auth";
+import { TItemSms } from "@/schema/item-sms";
+import { Item, Role } from "@prisma/client";
+import { TSupplierSchema } from "@/schema/supplier";
+import { TUser } from "@/schema/user";
+import { TAppointment } from "@/schema/appointment";
+import IllnessTab from "./illness/IllnessTab";
 type DashboardClientProps = {
   tab: string;
   currentUser: Session['user']
@@ -22,6 +28,35 @@ const DashboardClient = ({ tab = "requests", currentUser }: DashboardClientProps
     url: `/transactions`,
     key: ['transactions-request']
   })
+
+  const items = useQueryProcessor<(TItemSms & {items: Item[]})[]>({
+    url: `/sms-item`,
+    key: ['sms-item-dashboard'],
+  })
+
+  const suppliers = useQueryProcessor<(TSupplierSchema)[]>({
+    url: `/supplier`,
+    key: ['suppliers'],
+  })
+
+  const adminList = useQueryProcessor<(TUser[])>({
+    url: `/users`,
+    key: ['users', 'admin'],
+    queryParams:{
+      role: Role.ADMIN
+    }
+  })
+
+  const illness = useQueryProcessor<({
+		_count: {
+			illness: number
+		},
+		illness: string
+	}[])>({
+    url: `/appointments/illness`,
+    key: ['appointment', 'illness'],
+  })
+  
 
   const monthlyRequestCounts:any = {};
 
@@ -43,7 +78,7 @@ getOnlyTransactionThisYear?.forEach(item => {
 
 // Create an array with all 12 months, setting count to 0 for the missing ones
 const data = Array.from({ length: 12 }, (_, index) => {
-  const monthName = new Date(2024, index, 1).toLocaleString('en-US', { month: 'short' }); // Get month abbreviation
+  const monthName = new Date(new Date().getFullYear(), index, 1).toLocaleString('en-US', { month: 'short' }); // Get month abbreviation
   return {
     id: index + 1,
     numberOfRequest: monthlyRequestCounts[monthName] || 0,
@@ -66,26 +101,39 @@ const handleSelectedTab = (tab: string) => {
   }
 };
 
-console.log('Monthly Request Counts:', data);
   return (
     <div className="p-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5">
       <div onClick={() => handleSelectedTab("requests")}>
           <Widget
             title="Barangay requests"
-            total={100 || 0}
+            total={transactions.data?.length || 0}
             icon={LayoutDashboard}
+            showTotal={true}
           />
         </div>
         <div onClick={() => handleSelectedTab("items")}>
-          <Widget title="Inventory Items" total={100 || 0} icon={Columns} />
+          <Widget title="Inventory Items" total={items?.data?.length || 0} showTotal={true} icon={Columns} />
         </div>
+
+        <div onClick={() => handleSelectedTab("illness")}>
+          <Widget title="Common Disease" total={illness?.data?.length || 0} icon={Columns} />
+        </div>
+        <div onClick={() => handleSelectedTab("suppliers")}>
+          <Widget title="Suppliers" total={suppliers?.data?.length || 0}   icon={Columns} />
+        </div>
+
+        <div onClick={() => handleSelectedTab("admin-list")}>
+          <Widget title="Admin list" total={adminList?.data?.length || 0} icon={Columns} />
+        </div>
+
       </div>
       
       <div className="flex flex-col mt-5">
         {(() => {
           if (tab === "requests") return <PatientsTab data={data} />;
-          if (tab === "items") return <ItemsTab currentUser={currentUser} />;
+          if (tab === "items") return <ItemsTab data={items?.data} currentUser={currentUser} />;
+          if (tab === "illness") return <IllnessTab data={illness?.data || []}  />;
         })()}
       </div>
     </div>

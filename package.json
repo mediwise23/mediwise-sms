@@ -55,6 +55,7 @@
     "cloudinary": "^2.0.3",
     "clsx": "^2.0.0",
     "csv-parse": "^5.5.3",
+    "d3-scale-chromatic": "^3.1.0",
     "date-fns": "^3.3.1",
     "embla-carousel-react": "^8.0.0-rc17",
     "html2pdf.js": "^0.10.1",
@@ -102,6 +103,7 @@
   "devDependencies": {
     "@faker-js/faker": "^8.3.1",
     "@types/bcrypt": "^5.0.2",
+    "@types/d3-scale-chromatic": "^3.0.3",
     "@types/node": "^20.10.6",
     "@types/node-schedule": "^2.1.6",
     "@types/nodemailer": "^6.4.14",

@@ -203,6 +203,7 @@ model Appointment {
   doctorId          String
   doctor            User               @relation(name: "doctor", fields: [doctorId], references: [id], onDelete: Cascade)
   patientId         String
+  illness           String?
   patient           User               @relation(name: "patient", fields: [patientId], references: [id], onDelete: Cascade)
   date              DateTime
   status            AppoinmentStatus   @default(PENDING)

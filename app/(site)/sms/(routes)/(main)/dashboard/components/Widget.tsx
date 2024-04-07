@@ -6,8 +6,9 @@ type WidgetProps = {
   title: string;
   total: number;
   icon: LucideIcon;
+  showTotal?:boolean;
 };
-const Widget = ({ title, total, icon }: WidgetProps) => {
+const Widget = ({ title, total, icon, showTotal=false}: WidgetProps) => {
   return (
     <div className="group hover:shadow-md hover:shadow-primary transition overflow-hidden border rounded-lg p-3 h-full cursor-pointer dark:shadow-none dark:bg-slate-900 dark:text-white">
       <div className="flex">
@@ -16,7 +17,9 @@ const Widget = ({ title, total, icon }: WidgetProps) => {
             {title}
             <Separator />
           </div>
-          {/* <p className="text-sm text-muted-foreground">{total}</p> */}
+          {
+            showTotal && <p className="text-sm text-muted-foreground">{total}</p>
+          }
         </div>
         <div className="ml-auto self-end">
           <IconBadge icon={icon} size={"md"} variant={"default"} />

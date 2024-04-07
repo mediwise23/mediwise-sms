@@ -104,6 +104,29 @@ export const columns: ColumnDef<Appointment & { doctor: TUser & { profile: Profi
       return <div className={` flex items-center`}>{title}</div>;
     },
   },
+
+  {
+    accessorKey: "illness",
+    accessorFn: (row) => {
+      const illness = row?.illness || {};
+      return illness;
+    },
+    header: ({ column }) => (
+      <div
+        className="text-[#181a19]  flex items-center cursor-pointer dark:text-white flex-1"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Illness <ArrowUpDown className="ml-2 h-4 w-4" />
+      </div>
+    ),
+    cell: ({ row }) => {
+      // const {firstname, middlename, lastname} = row.original.profile
+      const illness = row.original?.illness;
+
+      return <div className={` flex items-center`}>{illness}</div>;
+    },
+  },
+
   {
     accessorKey: "patient",
     accessorFn: (row) => {

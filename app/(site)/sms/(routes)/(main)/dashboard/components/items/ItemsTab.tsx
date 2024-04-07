@@ -9,23 +9,16 @@ import { Item } from '@prisma/client';
 
 
 type ItemsTabProps = {
-  currentUser: Session['user']
+  currentUser: Session['user'],
+  data:(TItemSms & {items: Item[]})[] | undefined
 };
 
-const ItemsTab:React.FC<ItemsTabProps> = ({currentUser}) => {
+const ItemsTab:React.FC<ItemsTabProps> = ({currentUser, data}) => {
   // Example inventory data (you can replace this with data from your database)
-
-  const items = useQueryProcessor<(TItemSms & {items: Item[]})[]>({
-    url: `/sms-item`,
-    key: ['sms-item-dashboard'],
-    
-  })
-
-  console.log(items.data)
 
   return (
     <div>
-      <InventoryDashboard inventoryData={items?.data || []} />
+      <InventoryDashboard inventoryData={data || []} />
     </div>
   );
 };

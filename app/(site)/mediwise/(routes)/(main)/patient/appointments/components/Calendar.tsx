@@ -86,6 +86,7 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
     allDay: boolean;
     doctorId: string;
     patientId: string;
+    illness: string;
     status: AppoinmentStatus;
     barangayId: string;
   };
@@ -127,6 +128,7 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
       date: event.start,
       doctorId: event?._def.extendedProps.doctorId,
       patientId: event?._def.extendedProps.patientId,
+      illness: event?._def.extendedProps.illness,
       status: event?._def.extendedProps.status,
       barangayId:
         event?._def.extendedProps.barangayId || currentUser.barangayId,

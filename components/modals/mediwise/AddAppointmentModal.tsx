@@ -79,6 +79,7 @@ const AddAppointmentModal = () => {
     };
   }, [isModalOpen]);
   const onSubmit: SubmitHandler<TCreateAppointment> = async (values) => {
+    
     data.calendarApi?.view?.calendar?.addEvent(values);
     onClose();
   };
@@ -147,6 +148,31 @@ const AddAppointmentModal = () => {
                 )}
               />
             </div>
+
+            <div className="w-full">
+                <FormField
+                  control={form.control}
+                  name="illness"
+                  disabled={isLoading}
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                        Illness
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={isLoading}
+                          className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0"
+                          placeholder={`Enter illness`}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
 
             {(() => {
               if (availableDoctors.status === "pending")

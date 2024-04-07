@@ -11,6 +11,7 @@ export const AppointmentSchema = z.object({
   title: z.string(),
   doctorId: z.string(),
   patientId: z.string(),
+  illness: z.string().nullable(),
   date: z.date(),
   status: z.nativeEnum(AppoinmentStatus),
   image_path: z.string().nullable(),
@@ -31,7 +32,7 @@ export const AppointmentGetQuerySchema = AppointmentSchema.pick({
   workScheduleId:true,
 })
 .extend({
-  date: z.coerce.date()
+  date: z.coerce.date(),
 })
 .partial({
   status: true,
@@ -52,6 +53,7 @@ export const CreateAppointmentSchema = AppointmentSchema.pick({
   barangayId: true,
 }).extend({
   title: z.string().min(3).max(255),
+  illness:z.string().min(1, "Required"),
   doctorId: z.string().cuid(),
   patientId: z.string().cuid(),
   date: z.coerce.date(),
