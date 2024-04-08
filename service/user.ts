@@ -161,7 +161,7 @@ export const createUser = async ({
           homeNo,
           street,
           barangay,
-          city,
+          city : 'Caloocan',
           contactNo,
           zip
         },
@@ -256,7 +256,7 @@ export const getUserByEmail = async ({
 }: {
   email: string;
   enableRawData?: boolean;
-}): Promise<TUser | null> => {
+}): Promise<TUser & {barangay?: TBarangay} | null> => {
   return await prisma.user.findUnique({
     where: {
       email,

@@ -1,11 +1,12 @@
 import Avatar from "@/components/Avatar";
+import { TBarangay } from "@/schema/barangay";
 import { TUser } from "@/schema/user";
 import { Profile } from "@prisma/client";
 import { MapPin, Waypoints } from "lucide-react";
 import React from "react";
 
 type IntialUserInfoProps = {
-  data: TUser & {profile:Profile};
+  data: TUser & {profile:Profile, barangay?: TBarangay};
 };
 const InitialUserInfo: React.FC<IntialUserInfoProps> = ({ data }) => {
   return (
@@ -40,7 +41,7 @@ const InitialUserInfo: React.FC<IntialUserInfoProps> = ({ data }) => {
         <span className="flex text-sm gap-x-1 text-black font-semibold dark:text-white">
            {data?.profile?.city}{" "}
           {data?.profile?.street} {data?.profile?.homeNo}{" "}
-          {data?.profile?.barangay}{" "}
+          {data?.barangay?.name || ''}{" "}
         </span>
       </div>
 

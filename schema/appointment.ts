@@ -51,9 +51,10 @@ export const CreateAppointmentSchema = AppointmentSchema.pick({
   status: true,
   image_path: true,
   barangayId: true,
+  illness:true
 }).extend({
   title: z.string().min(3).max(255),
-  illness:z.string().min(1, "Required"),
+  illness:z.string().optional(),
   doctorId: z.string().cuid(),
   patientId: z.string().cuid(),
   date: z.coerce.date(),
