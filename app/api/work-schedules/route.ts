@@ -55,6 +55,8 @@ export const POST = withAuth(async ({ req, session }) => {
   }
 
   const { id, title, allDay, end, start, barangayId } = result.data;
+  const startt = moment.utc(start).tz("Asia/Manila").format();
+  const endd = moment.utc(end).tz("Asia/Manila").format();
   console.log(result.data)
   try {
     const workSchedule = await prisma.workSchedule.create({
@@ -62,8 +64,8 @@ export const POST = withAuth(async ({ req, session }) => {
         id,
         title,
         allDay,
-        start,
-        end,
+        start:startt,
+        end:endd,
         doctorId: session.user.id,
         barangayId
       },

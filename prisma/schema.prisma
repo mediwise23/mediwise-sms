@@ -72,6 +72,7 @@ model ItemTransaction {
   description    String?               @db.VarChar(255)
   status         ItemTransactionStatus @default(PENDING)
   fileReport     String?
+  reference       String?
   barangay       Barangay?             @relation(fields: [barangayId], references: [id], onDelete: Cascade)
   barangayId     String?
   // A person from the barangay who requested the item

@@ -41,6 +41,7 @@ export type ModalType =
   | "appointmentSide"
   | "addDoctorSchedule"
   | "updatePrescription"
+  | "confirmRequest"
 // you can extend this type if you have more modal
 
 // export type ModalType = "..." | "...." | "...."

@@ -157,7 +157,7 @@ const AddAppointmentModal = () => {
                   render={({ field }) => (
                     <FormItem className="w-full">
                       <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
-                        Illness
+                        Sickness (optional)
                       </FormLabel>
                       <FormControl>
                         <Input

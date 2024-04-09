@@ -13,6 +13,7 @@ import {
 import { getQueryParams } from "@/service/params";
 import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
+import shortUniqueId from "short-unique-id"
 
 export const GET = withAuth(
   async ({ req, session, params }) => {
@@ -76,9 +77,11 @@ export const POST = withAuth(
       }
 
       // check if all the requested items are available
-
+      const {randomUUID} = new shortUniqueId({length:5})
       const transaction = await prisma.itemTransaction.create({
-        data: body.data
+        data: {...body.data,
+          reference: randomUUID()
+        }
       })
 
       const res = await axios.post(

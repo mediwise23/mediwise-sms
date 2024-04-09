@@ -32,7 +32,6 @@ export const GET = withAuth(async ({ req, session }) => {
   
   // get the selected date in appointment calendar
 
-  console.log( 'range date', moment(date).startOf('day').toDate(), moment(date).startOf('day').toDate())
   try {
     const workSchedules = await prisma.workSchedule.findMany({
       include: {

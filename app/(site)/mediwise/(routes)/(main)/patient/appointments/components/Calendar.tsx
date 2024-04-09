@@ -50,8 +50,7 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
   });
 
   const { width } = useWindowSize();
-  const isMobileOrTablet = width < 768; 
-  
+  const isMobileOrTablet = width < 768;
 
   const currentworkSchedules =
     typeof workSchedules.data !== "undefined" && workSchedules?.data?.length > 0
@@ -69,16 +68,86 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
         })
       : [];
 
+  console.log(currentworkSchedules);
+
   const handleDateSelect = (selectInfo: any) => {
     const calendarApi = selectInfo;
     setSelectInfo(calendarApi);
 
-    if(isMobileOrTablet) {
-      onOpen('appointmentSide', {calendarApi, user:currentUser})
+    if (isMobileOrTablet) {
+      onOpen("appointmentSide", { calendarApi, user: currentUser });
     }
     // onOpen("addWorkSchedule", { calendarApi, user: currentUser });
   };
 
+  // const dayCellContent = (arg:any) => {
+  //     console.log(arg)
+  // const currentDate = new Date(arg.date)
+  // const endDate = new Date(currentDate);
+  // // endDate.setDate(currentDate.getDate() + 1);
+
+  // const isDisabled = currentworkSchedules.some((event) => {
+  //   const eventStartDate = new Date(event?.start!);
+  //   const eventEndDate = new Date(event?.end!);
+
+  //   // Check if the current date falls within the event range
+  //   if (currentDate >= eventStartDate && currentDate < eventEndDate) {
+  //     return true;
+  //   }
+
+  //   // Check if the current date is the end date of a multi-day event
+  //   if (currentDate.getTime() === eventEndDate.getTime()) {
+  //     return true;
+  //   }
+
+  //   // Check if the current date is the start date of a multi-day event
+  //   if (endDate >= eventStartDate && endDate < eventEndDate) {
+  //     return true;
+  //   }
+
+  //   return false;
+  // });
+
+  // // const hasEvent = currentworkSchedules.some((event) => {
+  // //   const eventStartDate = event?.start?.toString()?.substring(0, 10); // Extracting date part
+  // //   return eventStartDate === currentDate;
+  // // });
+
+  // if (!isDisabled) {
+  //   arg.isDisabled = true
+  // }
+  // };
+
+
+  const dayCellContent = (arg: any) => {
+
+    const cellDate = new Date(arg.date);
+    
+    const isWithinEvent = currentworkSchedules.some((event) => {
+
+      if(event.allDay) {
+        const eventStartDate = new Date(event.start!);
+        const eventEndDate = new Date(event.end!);
+        return cellDate >= eventStartDate && cellDate < eventEndDate;
+      }
+      else {
+        const eventStartDate = new Date(event.start!)
+        const eventEndDate = new Date(event.end!)
+        eventStartDate.setDate(eventEndDate.getDate() - 1)
+        eventEndDate.setDate(eventEndDate.getDate() - 1)
+        const eventStartDate2 = eventEndDate.toISOString().substring(0, 10);
+        const eventEndDate2 = eventEndDate.toISOString().substring(0, 10);
+        return cellDate.toISOString().substring(0, 10) == eventStartDate2 || cellDate.toISOString().substring(0, 10) == eventEndDate2;
+      }
+      
+    });
+
+    if (!isWithinEvent) {
+      arg.el.classList.add("disabled-cell");
+    } 
+  };
+
+  // console.log(currentworkSchedules)
   type EventData = {
     id: string;
     title: string;
@@ -105,7 +174,11 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
     },
   });
 
-  const numberOfAppointments = currentAppointment.data?.filter((appointment) => appointment.status === 'ACCEPTED' || appointment.status === 'PENDING' )?.length || 0;
+  const numberOfAppointments =
+    currentAppointment.data?.filter(
+      (appointment) =>
+        appointment.status === "ACCEPTED" || appointment.status === "PENDING"
+    )?.length || 0;
   const limit = 25;
   const limitExceeded = numberOfAppointments >= limit;
 
@@ -113,7 +186,10 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
     currentAppointment.refetch();
   }, [selectInfo]);
 
-  const appointments = currentAppointment.data?.filter((appointment) => appointment.status === 'ACCEPTED' || appointment.status === 'PENDING' )
+  const appointments = currentAppointment.data?.filter(
+    (appointment) =>
+      appointment.status === "ACCEPTED" || appointment.status === "PENDING"
+  );
 
   const createAppointment = useMutateProcessor<EventData, null>({
     url: "/appointments",
@@ -141,13 +217,35 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
           title: "Appointment has been added",
         });
       },
-      onError(error:any, variables, context) {
+      onError(error: any, variables, context) {
         console.error(error.response.data.message);
         toast({
           title: error.response.data.message,
           variant: "destructive",
         });
       },
+    });
+  };
+
+  const isDateWithinEvents = (
+    dateStart: Date,
+    dateEnd: Date,
+    eventsArray: typeof currentworkSchedules
+  ) => {
+    return eventsArray.some((event) => {
+      const eventStartDate = new Date(event?.start!);
+      const eventEndDate = new Date(event?.end!);
+      eventEndDate.setDate(eventEndDate.getDate() + 1);
+      if(event.allDay) {
+        return dateStart >= eventStartDate && dateEnd <= eventEndDate;
+      }
+      else {
+        const eventStartDateISOS = new Date(event?.start!).toISOString().substring(0,10)
+        const eventEndDateISOS = new Date(event?.start!).toISOString().substring(0,10)
+
+        return eventStartDateISOS === dateStart.toISOString().substring(0,10) || eventEndDateISOS === dateStart.toISOString()
+      }
+      // Check if the dates fall within the event range
     });
   };
 
@@ -174,7 +272,8 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
   return (
     <div className="w-full h-full flex gap-x-3 flex-col md:flex-row">
       <div className="w-full md:flex-[0.8]">
-        <FullCalendar
+        {
+          workSchedules.status === "success"&& <FullCalendar
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           headerToolbar={{
             left: "prev,next today",
@@ -190,8 +289,18 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
           // longPressDelay={0}
 
           selectAllow={(event) => {
+            const isWithinEvents = isDateWithinEvents(
+              new Date(event.startStr),
+              new Date(event.endStr),
+              currentworkSchedules
+            );
+
+            // return isWithinEvents
+
             const dateStart = new Date(event.startStr);
             const dateEnd = new Date(event.endStr);
+            console.log(dateStart.toISOString(),
+              dateEnd.toISOString())
 
             // To calculate the time difference of two dates
             const Difference_In_Time = dateEnd.getTime() - dateStart.getTime();
@@ -201,7 +310,7 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
               Difference_In_Time / (1000 * 3600 * 24)
             );
 
-            return Difference_In_Days === 1;
+            return Difference_In_Days === 1 && isWithinEvents;
           }}
           eventContent={EventContent}
           editable={false}
@@ -212,6 +321,8 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
           eventBackgroundColor={"#449e65"}
           eventColor={"#449e65"}
           weekends={true}
+          dayCellDidMount={dayCellContent}
+          // dayCellContent={dayCellContent}
           // @ts-ignore
           // @ts-nocheck
           events={currentworkSchedules}
@@ -224,9 +335,11 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
           eventChange={handleUpdateEvent}
           eventRemove={handleDeleteEvent} // triggen when you delete an event in event api
         />
+        }
+       
       </div>
 
-      {selectInfo && !isMobileOrTablet &&(
+      {selectInfo && !isMobileOrTablet && (
         <div className=" flex-[0.2] mt-10 flex flex-col h-[80vh] justify-between">
           <h1 className="text-center text-lg font-semibold">Appointments</h1>
           <h2
@@ -288,57 +401,65 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
 export default Calendar;
 
 const EventContent: React.FC = (eventInfo: any) => {
-  
   const getTime = (date: Date) => {
-    const formattedTime = date.toLocaleString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
-    return formattedTime
-  }
+    const formattedTime = date.toLocaleString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+    return formattedTime;
+  };
 
-    const deleteEvent = async (eventId: string) => {
-        try {
-          await apiClient.delete(`/work-schedules/${eventId}`);
-          // toast({title:"Schedule deleted"});
-        } catch (error) {
-          console.error("error delete event");
-          // toast({title:"Schedule did not delete", variant: 'destructive'});
-        } finally {
-          // queryClient.invalidateQueries({ queryKey: ["work-schedules"] });
-        }
-      };
+  const deleteEvent = async (eventId: string) => {
+    try {
+      await apiClient.delete(`/work-schedules/${eventId}`);
+      // toast({title:"Schedule deleted"});
+    } catch (error) {
+      console.error("error delete event");
+      // toast({title:"Schedule did not delete", variant: 'destructive'});
+    } finally {
+      // queryClient.invalidateQueries({ queryKey: ["work-schedules"] });
+    }
+  };
 
-
-  if(!eventInfo.event.allDay) {
-    console.log(eventInfo.event?.startStr," - ", eventInfo.event?.endStr)
+  if (!eventInfo.event.allDay) {
 
     const dateStart = new Date(eventInfo.event?.startStr);
     const dateEnd = new Date(eventInfo.event?.endStr);
 
-
-    const formattedStartTime = getTime(dateStart)
-    const formattedEndTime = getTime(dateEnd)
+    const formattedStartTime = getTime(dateStart);
+    const formattedEndTime = getTime(dateEnd);
 
     console.log(formattedStartTime, formattedEndTime); // Output: 09:35 PM
-    
 
     return (
-      <div className="flex text-sm cursor-pointer gap-x-2 w-full overflow-auto" 
-      // onClick={() => deleteEvent(eventInfo.event?.id)}
+      <div
+        className="flex text-sm cursor-pointer gap-x-2 w-full overflow-auto"
+        // onClick={() => deleteEvent(eventInfo.event?.id)}
       >
-        <Avatar className="min-w-10" src={eventInfo.event?._def?.extendedProps?.image} />
+        <Avatar
+          className="min-w-10"
+          src={eventInfo.event?._def?.extendedProps?.image}
+        />
         <div className="flex items-center gap-x-3 flex-col">
           <span>{eventInfo.event?._def?.extendedProps?.doctorName}</span>
-          <span >{formattedStartTime} - {formattedEndTime}</span>
+          <span>
+            {formattedStartTime} - {formattedEndTime}
+          </span>
         </div>
       </div>
     );
-
   }
 
   return (
-    <div className="flex items-center gap-x-3 text-sm cursor-pointer overflow-auto" 
-    // onClick={() => deleteEvent(eventInfo.event?.id)}
+    <div
+      className="flex items-center gap-x-3 text-sm cursor-pointer overflow-auto"
+      // onClick={() => deleteEvent(eventInfo.event?.id)}
     >
-      <Avatar className="min-w-10" src={eventInfo.event?._def?.extendedProps?.image} />
+      <Avatar
+        className="min-w-10"
+        src={eventInfo.event?._def?.extendedProps?.image}
+      />
       <span>{eventInfo.event?._def?.extendedProps?.doctorName}</span>
     </div>
   );

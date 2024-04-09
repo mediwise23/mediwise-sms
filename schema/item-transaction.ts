@@ -33,6 +33,7 @@ export const ItemTransactionSchema = z.object({
   description: z.string().nullable(),
   status: z.nativeEnum(ItemTransactionStatus),
   barangayId: z.string().nullable(),
+  reference: z.string().nullable(),
   fileReport: z.string().nullable(),
   barangayUserId: z.string().nullable(),
   createdAt: z.date(),

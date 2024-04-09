@@ -84,6 +84,14 @@ so only write standard css!
 NOTE: for old browsers, will need to restart watcher after changing a variable
 */
 
+.disabled-cell {
+  background: #F1F1F1;
+  pointer-events: none;
+}
+.disabled-cell:hover {
+  cursor: not-allowed;
+}
+
 :root {
   --fc-small-font-size: 0.85em;
   --fc-page-bg-color: #fff;

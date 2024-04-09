@@ -20,7 +20,7 @@ import { useToast } from "@/components/ui/use-toast";
 // type and validation for excel sheet to json
 
 const ViewRequestModal = () => {
-  const { isOpen, onClose, type, data } = useModal();
+  const { isOpen, onClose, type, data, onOpen } = useModal();
   const { toast } = useToast();
   const isModalOpen = isOpen && type === "viewRequest";
 
@@ -76,6 +76,12 @@ const ViewRequestModal = () => {
         </div>
 
         <div>
+          <span className="font-semibold">Reference: </span>
+          <pre>{data?.transactionRequest?.reference}</pre>
+        </div>
+
+
+        <div>
           <span className="font-semibold">Remarks: </span>
           <pre>{data?.transactionRequest?.description}</pre>
         </div>
@@ -102,10 +108,7 @@ const ViewRequestModal = () => {
               <Button
                 type="button"
                 onClick={() =>
-                  updateRequestStatus(
-                    data?.transactionRequest?.id as string,
-                    "COMPLETED"
-                  )
+                  onOpen('confirmRequest', {transactionRequest: data.transactionRequest})
                 }
               >
                 Mark as completed

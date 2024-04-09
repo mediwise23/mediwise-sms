@@ -123,6 +123,13 @@ const TransactionDetailClient: React.FC<TransactionDetailClientProps> = ({
 
           <span>
             <label htmlFor="" className="font-semibold text-[#FD7E14]">
+              Reference
+            </label>
+            <p> {transaction.data?.reference}</p>
+          </span>
+
+          <span>
+            <label htmlFor="" className="font-semibold text-[#FD7E14]">
               Remarks / Description
             </label>
             <p>{transaction.data?.description}</p>
