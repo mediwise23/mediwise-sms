@@ -55,10 +55,10 @@ import {
 
     const newData = barangay?.data?.map((barangay) => {
 
-        const transactionCount = barangay.ItemTransaction.length;
+        const transactionCount = barangay?.ItemTransaction?.length;
 
-        const itemsCount = barangay.ItemTransaction.reduce((total, data) => {
-            const count = data.requested_items.reduce((total, curr) => {
+        const itemsCount = barangay?.ItemTransaction?.reduce((total, data) => {
+            const count = data?.requested_items?.reduce((total, curr) => {
                 return total + (curr?.quantity || 0)
             }, 0)
 
@@ -67,7 +67,7 @@ import {
 
         return {
             transactionCount,
-            name: barangay.name,
+            name: barangay?.name,
             itemsCount
         }
     })

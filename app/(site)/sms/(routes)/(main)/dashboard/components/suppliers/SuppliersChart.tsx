@@ -19,14 +19,14 @@ type SuppliersChartProps = {
 export default function SuppliersChart({ data }: SuppliersChartProps) {
   // 768px
 
-  const newData = data.map((supplier) => {
+  const newData = data?.map((supplier) => {
 
-    const totalSuppliedItem = supplier.smsItems.reduce((total, supplier) => {
+    const totalSuppliedItem = supplier?.smsItems?.reduce((total, supplier) => {
       return total + (supplier?.items?.length || 0)
     }, 0);
 
     return {
-      name: supplier.name,
+      name: supplier?.name,
       items: totalSuppliedItem
     }
   })

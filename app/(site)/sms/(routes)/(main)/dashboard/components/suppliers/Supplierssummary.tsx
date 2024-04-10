@@ -19,19 +19,19 @@ type SuppliersSummaryProps = {
 };
 
 const SuppliersSummary = ({ data }: SuppliersSummaryProps) => {
-  const newData = data.map((supplier) => {
+  const newData = data?.map((supplier) => {
 
     const totalSuppliedItem = supplier.smsItems.reduce((total, supplier) => {
       return total + (supplier?.items?.length || 0)
     }, 0);
 
     return {
-      name: supplier.name,
+      name: supplier?.name,
       items: totalSuppliedItem
     }
   })
 
-  const fullTotal = newData.reduce((total, curr) => (total + curr.items), 0)
+  const fullTotal = newData.reduce((total, curr) => (total + curr?.items), 0)
 
   return (
     <Table>
@@ -45,9 +45,9 @@ const SuppliersSummary = ({ data }: SuppliersSummaryProps) => {
       <TableBody>
         {newData.map((invoice, index) => (
           <TableRow key={index}>
-            <TableCell className="font-medium">{invoice.name}</TableCell>
+            <TableCell className="font-medium">{invoice?.name}</TableCell>
             <TableCell className="text-left">
-              {invoice.items}
+              {invoice?.items}
             </TableCell>
           </TableRow>
         ))}

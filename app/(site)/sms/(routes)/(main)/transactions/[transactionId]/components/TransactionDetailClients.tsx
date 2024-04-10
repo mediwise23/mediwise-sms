@@ -169,7 +169,7 @@ const TransactionDetailClient: React.FC<TransactionDetailClientProps> = ({
           </span> */}
 
           <span>
-          <iframe className="w-[75vw] h-[50vh] overflow-y-auto" src={`https://docs.google.com/viewer?embedded=true&url=${transaction.data?.fileReport}`} ></iframe>
+            <iframe className="w-[75vw] h-[50vh] overflow-y-auto" src={`https://docs.google.com/viewer?embedded=true&url=${transaction.data?.fileReport}`} ></iframe>
           </span>
 
         </section>
