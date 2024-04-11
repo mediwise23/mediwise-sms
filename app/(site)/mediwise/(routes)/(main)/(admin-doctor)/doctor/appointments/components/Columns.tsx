@@ -175,7 +175,27 @@ export const columns: ColumnDef<Appointment & { doctor: TUser & { profile: Profi
               status === "ACCEPTED" && "bg-[#107736]",
               status === "COMPLETED" && "bg-[#16A34A]"
             )}>
-            {status}
+             {(() => {
+              if (status === "PENDING") {
+                return "Appointment Pending";
+              }
+
+              if (status === "CANCELLED") {
+                return "Appointment Cancelled";
+              }
+
+              if (status === "REJECTED") {
+                return "Appointment Rejected";
+              }
+
+              if (status === "ACCEPTED") {
+                return "Appointment Accepted";
+              }
+              if (status === "COMPLETED") {
+                return "Appointment Done";
+              }
+              return null;
+            })()}
           </Badge>{" "}
         </div>
       );

@@ -72,7 +72,7 @@ model ItemTransaction {
   description    String?               @db.VarChar(255)
   status         ItemTransactionStatus @default(PENDING)
   fileReport     String?
-  reference       String?
+  reference      String?
   barangay       Barangay?             @relation(fields: [barangayId], references: [id], onDelete: Cascade)
   barangayId     String?
   // A person from the barangay who requested the item
@@ -87,6 +87,15 @@ model ItemTransaction {
   notifications Notification[]
 }
 
+model Category {
+  id        String     @id @default(cuid())
+  name      String     @db.VarChar(255)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @default(now()) @updatedAt
+  SmsItem   SmsItem[]
+  BrgyItem  BrgyItem[]
+}
+
 model SmsItem {
   id            String          @id @default(cuid())
   description   String?         @db.VarChar(255)
@@ -97,6 +106,8 @@ model SmsItem {
   updatedAt     DateTime        @default(now()) @updatedAt
   isArchive     Boolean         @default(false)
   dosage        String?
+  category_id   String?
+  category      Category?       @relation(fields: [category_id], references: [id], onDelete: SetNull)
   RequestedItem RequestedItem[]
 
   supplierId String?
@@ -145,6 +156,8 @@ model BrgyItem {
   requestId        String?
   isArchive        Boolean            @default(false)
   appointmentItems appointment_item[]
+  category_id      String?
+  category         Category?          @relation(fields: [category_id], references: [id], onDelete: SetNull)
   items            Item[]             @relation("items")
   onhand_items     Item[]             @relation("onhand")
   // notifications     Notification[]

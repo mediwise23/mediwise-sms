@@ -55,13 +55,14 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
   const currentworkSchedules =
     typeof workSchedules.data !== "undefined" && workSchedules?.data?.length > 0
       ? workSchedules.data.map((workSchedule) => {
-          const { doctor } = workSchedule;
+          const { doctor,  } = workSchedule;
           return {
             id: workSchedule?.id,
             title: workSchedule?.title,
             start: workSchedule?.start,
             end: workSchedule?.end,
             allDay: workSchedule?.allDay,
+            specialist: `${doctor.profile.specialist}`,
             doctorName: `${doctor.profile.firstname} ${doctor.profile.lastname}`,
             image: doctor?.image,
           };
@@ -443,6 +444,7 @@ const EventContent: React.FC = (eventInfo: any) => {
         />
         <div className="flex items-center gap-x-3 flex-col">
           <span>{eventInfo.event?._def?.extendedProps?.doctorName}</span>
+          <span>{eventInfo.event?._def?.extendedProps?.specialist}</span>
           <span>
             {formattedStartTime} - {formattedEndTime}
           </span>
@@ -461,6 +463,7 @@ const EventContent: React.FC = (eventInfo: any) => {
         src={eventInfo.event?._def?.extendedProps?.image}
       />
       <span>{eventInfo.event?._def?.extendedProps?.doctorName}</span>
+      <span>{eventInfo.event?._def?.extendedProps?.specialist}</span>
     </div>
   );
 };

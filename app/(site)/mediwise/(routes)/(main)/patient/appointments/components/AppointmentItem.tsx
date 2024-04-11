@@ -35,7 +35,9 @@ const AppointmentItem: React.FC<AppointmentItemProps> = ({
           DR. {data.doctor?.profile?.firstname}{" "}
           {data?.doctor?.profile?.lastname}
         </span>
+        
       </div>
+      <span className="text-center"> {data?.doctor?.profile?.specialist}</span>
       <span className="text-center"> {data?.title}</span>
     </div>
   );
