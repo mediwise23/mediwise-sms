@@ -21,7 +21,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../../ui/input";
 import { useModal } from "@/hooks/useModalStore";
-import { useMutateProcessor } from "@/hooks/useTanstackQuery";
+import { useMutateProcessor, useQueryProcessor } from "@/hooks/useTanstackQuery";
 import { Loader2 } from "../../ui/Loader";
 import {
   TItemBrgy,
@@ -32,6 +32,7 @@ import { Textarea } from "../../ui/textarea";
 import { useToast } from "../../ui/use-toast";
 import { TItemSms, TUpdateSmsItem, UpdateSmsItemSchema } from "@/schema/item-sms";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { TCategorySchema } from "@/schema/category";
 
 const UpdateSmsItemModal = () => {
   const { toast } = useToast();
@@ -50,12 +51,17 @@ const UpdateSmsItemModal = () => {
     },
   });
 
+  const categories = useQueryProcessor<TCategorySchema[]>({
+    url: `/category`,
+    key: ['category']
+  })
+
   useEffect(() => {
     if(data?.smsItem) {
         form.setValue("description", data?.smsItem.description as string);
         form.setValue("name", data?.smsItem.name as string);
         form.setValue("dosage", data?.smsItem.dosage as string);
-        // form.setValue("stock", data?.smsItem.stock as number);
+        form.setValue("category_id", data?.smsItem.category_id as string);
         form.setValue("unit", data?.smsItem.unit as string);
     }
 
@@ -247,6 +253,44 @@ const UpdateSmsItemModal = () => {
                 )}
               />
             </div>
+
+            <div className="w-full">
+              <FormField
+                control={form.control}
+                name="category_id"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                      Category
+                    </FormLabel>
+                    <FormControl>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger className="focus-visible:ring-0  focus-visible:ring-offset-0  bg-transparent">
+                            <SelectValue placeholder="Select a category" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent className="focus-visible:ring-0  focus-visible:ring-offset-0">
+                          {categories?.data?.map((category) => (
+                            <SelectItem
+                              value={category?.id || "null"}
+                              key={category?.id}
+                            >
+                              {category.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            
 
             <DialogFooter className="py-4">
               <Button

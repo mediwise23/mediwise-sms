@@ -46,6 +46,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { TSupplierSchema } from "@/schema/supplier";
+import { TCategorySchema } from "@/schema/category";
 
 const CreateSmsItemModal = () => {
   const { toast } = useToast();
@@ -66,6 +67,11 @@ const CreateSmsItemModal = () => {
     },
     mode: "all",
   });
+
+  const categories = useQueryProcessor<TCategorySchema[]>({
+    url: `/category`,
+    key: ['category']
+  })
 
   const suppliers = useQueryProcessor<TSupplierSchema[]>({
     url: `/supplier`,
@@ -262,11 +268,49 @@ const CreateSmsItemModal = () => {
             <div className="w-full">
               <FormField
                 control={form.control}
+                name="category_id"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                      Category
+                    </FormLabel>
+                    <FormControl>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger className="focus-visible:ring-0  focus-visible:ring-offset-0  bg-transparent">
+                            <SelectValue placeholder="Select a category" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent className="focus-visible:ring-0  focus-visible:ring-offset-0">
+                          {categories?.data?.map((category) => (
+                            <SelectItem
+                              value={category?.id || "null"}
+                              key={category?.id}
+                            >
+                              {category.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+
+            <div className="w-full">
+              <FormField
+                control={form.control}
                 name="supplierId"
                 render={({ field }) => (
                   <FormItem className="w-full">
                     <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
-                      Barangay
+                      supplier
                     </FormLabel>
                     <FormControl>
                       <Select

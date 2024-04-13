@@ -1,4 +1,5 @@
 import { TAppointment } from "@/schema/appointment";
+import { TCategorySchema } from "@/schema/category";
 import { TItemBrgy } from "@/schema/item-brgy";
 import { TItemSms } from "@/schema/item-sms";
 import { TPrescriptionSchema } from "@/schema/prescriptions";
@@ -42,6 +43,8 @@ export type ModalType =
   | "addDoctorSchedule"
   | "updatePrescription"
   | "confirmRequest"
+  | "createCategory"
+  | "updateCategory"
 // you can extend this type if you have more modal
 
 // export type ModalType = "..." | "...." | "...."
@@ -59,7 +62,7 @@ type ModalData = {
     doctor: TUser & { profile: Profile };
     patient: TUser & { profile: Profile };
   };
- 
+  category?: TCategorySchema
 };
 
 type ModalStore = {

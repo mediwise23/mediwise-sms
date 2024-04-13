@@ -63,7 +63,7 @@ export const PATCH = withAuth(
         name: body.data.name,
         description: body.data.description,
         unit: body.data.unit,
-        // stock: body.data.stock,
+        category_id: body.data.category_id,
         dosage: body?.data?.dosage
       });
 

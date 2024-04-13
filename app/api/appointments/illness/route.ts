@@ -10,7 +10,7 @@ export async function GET(req: NextRequest, { params }: { params: {} }) {
             },
             where: {
               illness: {
-                not: ""
+                notIn: ['', "Rather not to say"]
               }
             }
         })

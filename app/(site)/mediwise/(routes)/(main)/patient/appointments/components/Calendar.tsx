@@ -210,7 +210,7 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
       barangayId:
         event?._def.extendedProps.barangayId || currentUser.barangayId,
     } as EventData;
-
+    console.log("event data", eventData)
     createAppointment.mutate(eventData, {
       onSuccess(data, variables, context) {
         console.log(data);

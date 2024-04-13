@@ -26,8 +26,6 @@ export async function GET(req: NextRequest, { params }: { params: {} }) {
       barangayId: queries.data.barangayId
     });
 
-    console.log(item)
-
     return NextResponse.json(item, { status: 200 });
   } catch (error) {
     console.log("[BRGYITEM_GET]", error);

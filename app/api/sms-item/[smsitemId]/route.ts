@@ -64,6 +64,7 @@ export const PATCH = withAuth(
         name: body.data.name,
         description: body.data.description,
         unit: body.data.unit,
+        category_id:body.data.category_id
         // stock: body.data.stock,
       });
 

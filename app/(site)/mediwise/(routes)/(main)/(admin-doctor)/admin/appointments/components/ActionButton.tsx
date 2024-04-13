@@ -4,6 +4,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useToast } from "@/components/ui/use-toast";
 import { useModal } from "@/hooks/useModalStore";
 import { useMutateProcessor } from "@/hooks/useTanstackQuery";
 import { TUpdateAppointment } from "@/schema/appointment";
@@ -21,13 +22,23 @@ type ActionButtonProps = {
 };
 const ActionButton: React.FC<ActionButtonProps> = ({ data }) => {
   const {onOpen} = useModal()
+  const {toast} = useToast()
   const updateAppointment = useMutateProcessor<TUpdateAppointment, unknown>({
     url: `/appointments/${data.id}`,
     key: ['appointments', data.barangayId],
     method: 'PATCH'
   })
 
+  const isDatePastOrToday = (dateStr:string) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const appointmentDate = new Date(dateStr);
+    return appointmentDate <= today;
+  };
+
   const updateAppointmentStatus = (status: AppoinmentStatus) => {
+    // code here
+    
     updateAppointment.mutate({
       status,
     },{
@@ -63,7 +74,21 @@ const ActionButton: React.FC<ActionButtonProps> = ({ data }) => {
           if(data.status === 'CANCELLED' || data.status === 'REJECTED') return null;
           
           if(data.status === 'ACCEPTED') return <DropdownMenuContent align="end">
-          <DropdownMenuItem className="text-xs cursor-pointer hover:bg-zinc-400"  onClick={() => updateAppointmentStatus('COMPLETED')}>
+          <DropdownMenuItem className="text-xs cursor-pointer hover:bg-zinc-400"  onClick={() => {
+            console.log(data?.date)
+            if(!isDatePastOrToday(data?.date + "")) {
+              return toast({
+                title: "Did not mark as completed",
+                variant: 'destructive'
+              })
+            }
+            else {
+              updateAppointmentStatus('COMPLETED')
+              return toast({
+                title: "Mark as completed"
+              })
+            }
+            }}>
             <Pencil className="h-4 w-4 mr-2" />
             Mark as completed
           </DropdownMenuItem>

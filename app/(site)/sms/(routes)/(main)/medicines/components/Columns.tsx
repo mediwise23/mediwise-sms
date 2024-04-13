@@ -17,11 +17,12 @@ import { format } from "date-fns";
 import { TSupplierSchema } from "@/schema/supplier";
 import { TItemSms } from "@/schema/item-sms";
 import { Item } from "@prisma/client";
+import { TCategorySchema } from "@/schema/category";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 const DATE_FORMAT = `MMM d yyyy`;
-export const columns: ColumnDef<TItemSms & {supplier: TSupplierSchema, items: Item[]}>[] = [
+export const columns: ColumnDef<TItemSms & {supplier: TSupplierSchema, category: TCategorySchema, items: Item[]}>[] = [
   {
     accessorKey: "id",
     header: () => {
@@ -141,7 +142,25 @@ export const columns: ColumnDef<TItemSms & {supplier: TSupplierSchema, items: It
       return <div className={` flex items-center`}>{dosage || 'N/A'}</div>;
     },
   },
-
+  {
+    accessorKey: "category",
+    accessorFn: (row) => {
+      const category = row?.category?.name;
+      return category;
+    },
+    header: ({ column }) => (
+      <div
+        className="text-[#181a19] flex items-center cursor-pointer dark:text-white flex-1 line-clamp-1"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Category <ArrowUpDown className="ml-2 h-4 w-4" />
+      </div>
+    ),
+    cell: ({ row }) => {
+      const category = row.original?.category?.name;
+      return <div className={` flex items-center`}>{category|| 'N/A'}</div>;
+    },
+  },
   {
     accessorKey: "supplier",
     accessorFn: (row) => {

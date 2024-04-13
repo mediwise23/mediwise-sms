@@ -54,7 +54,7 @@ export const POST = withAuth(
         );
       }
 
-      const { title, doctorId, patientId, date, status, image_path, barangayId } =
+      const { title, doctorId, patientId, date, illness="", status, image_path, barangayId } =
       body.data;
 
       date.setDate(date.getDate() - 1);
@@ -127,6 +127,7 @@ export const POST = withAuth(
         doctorId,
         patientId,
         barangayId,
+        illness,
         date: date,
         status,
         image_path,
