@@ -175,16 +175,23 @@ export const DELETE = withAuth(
             id: appointments.id
           },
           data: {
-            status: 'CANCELLED'
+            status: 'CANCELLED',
+            isDeleted:true
           }
         })
       return NextResponse.json(appoinmentCancelled);
 
       }
-      const appointmentDeleted = await deleteAppointmentById({
-        id: params.appointmentId,
-      });
-      return NextResponse.json(appointmentDeleted);
+      const appoinmentDeleted = await prisma.appointment.update({
+        where: {
+          id: appointments.id
+        },
+        data: {
+          isDeleted:true,
+          status: 'CANCELLED',
+        }
+      })
+      return NextResponse.json(appoinmentDeleted);
     } catch (error) {
       console.log("[APPOINMENT_DELETE_BY_ID]", error);
       return new NextResponse("Internal error", { status: 500 });

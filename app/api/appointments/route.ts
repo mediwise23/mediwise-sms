@@ -61,7 +61,7 @@ export const POST = withAuth(
       const d = moment.utc(date).tz("Asia/Manila").format();
       const today = moment.tz("Asia/Manila").startOf('day');
 
-      const hasAppointment = await prisma.appointment.findFirst({
+      const hasPendingAppointment = await prisma.appointment.findFirst({
         where: {
           status: 'PENDING',
           patientId,
@@ -70,7 +70,7 @@ export const POST = withAuth(
           }
         }
       })
-      if(hasAppointment) {
+      if(hasPendingAppointment) {
         return NextResponse.json(
           {
             message: "Already have an appointment",
@@ -122,6 +122,29 @@ export const POST = withAuth(
     }
     
     date.setDate(date.getDate() + 1);
+    
+    const startDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    const endDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1);
+    
+    // Query Prisma to find the first appointment that was deleted for this patient on the specified date
+    const hasDeletedAppointmentBefore = await prisma.appointment.findFirst({
+        where: {
+            patientId,        // The ID of the patient
+            isDeleted: true,  // Specifically looking for appointments that were deleted
+            date: {
+                gte: startDate, // The start of the day
+                lt: endDate     // Before the start of the next day
+            }
+        }
+    });
+    
+    // If such an appointment exists, return a response indicating that rebooking is not allowed
+    if (hasDeletedAppointmentBefore) {
+        return NextResponse.json({
+            message: "Cannot create new appointment in this date",
+        }, { status: 400 });
+    }
+      
       const appointment = await createAppointment({
         title,
         doctorId,

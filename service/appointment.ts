@@ -26,6 +26,7 @@ export const getAppointments = async ({
   console.log(moment(d).toDate())
   return await prisma.appointment.findMany({
     where: {
+          isDeleted: false,
           status: status ?? undefined,
           doctorId: doctorId ?? undefined,
           barangayId: barangayId?? undefined,
@@ -58,6 +59,7 @@ export const getAppointmentById = async ({ id }: { id: string }) => {
   return await prisma.appointment.findUnique({
     where: {
       id,
+      isDeleted:false
     },
     include: {
       barangay:true,
