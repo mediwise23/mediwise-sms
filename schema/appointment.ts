@@ -12,6 +12,7 @@ export const AppointmentSchema = z.object({
   doctorId: z.string(),
   patientId: z.string(),
   illness: z.string().nullable(),
+  isDeleted:z.boolean(),
   date: z.date(),
   status: z.nativeEnum(AppoinmentStatus),
   image_path: z.string().nullable(),
