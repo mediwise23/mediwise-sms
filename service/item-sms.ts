@@ -17,7 +17,8 @@ export const getAllSmsItem = async (data: {
     },
     include: {
       supplier:true,
-      items:true
+      items:true,
+      category:true,
     },
     orderBy: {
       createdAt: "desc",

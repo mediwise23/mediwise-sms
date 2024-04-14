@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -79,10 +79,11 @@ const AddAppointmentModal = () => {
     };
   }, [isModalOpen]);
   const onSubmit: SubmitHandler<TCreateAppointment> = async (values) => {
-    
     data.calendarApi?.view?.calendar?.addEvent(values);
     onClose();
   };
+
+  const [isOthers, setIsOthers] = useState(false)
 
   const isLoading = form.formState.isSubmitting;
 
@@ -95,8 +96,11 @@ const AddAppointmentModal = () => {
     }
     return () => {
       form.reset();
+      setIsOthers(false)
     };
   }, [isModalOpen]);
+
+  form.watch(['illness'])
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onHandleClose}>
@@ -149,29 +153,78 @@ const AddAppointmentModal = () => {
               />
             </div>
 
-            <div className="w-full">
-                <FormField
-                  control={form.control}
-                  name="illness"
-                  disabled={isLoading}
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
-                        Sickness (optional)
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={isLoading}
-                          className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0"
-                          placeholder={`Enter illness`}
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
+            
+
+              <div className="w-full">
+                  <FormField
+                    control={form.control}
+                    name="illness"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                          Sickness (optional)
+                        </FormLabel>
+                        <Select
+                          onValueChange={(value) => {
+                            
+                            if(value === 'Others') {
+                              setIsOthers(true)
+                              field.onChange("")
+                            }
+                            else{
+                              field.onChange(value)
+                              setIsOthers(false)
+                            }
+                          }}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0">
+                              <SelectValue placeholder="Select sickness" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent className="focus-visible:ring-0  focus-visible:ring-offset-0">
+                            {["Cough", "Diarrhea", "Headaches", "Stomach Aches", "Others", "Rather not to say"].map((illness, key) => {
+                              return <SelectItem  value={illness} key={key}>
+                                {illness}
+                              </SelectItem>
+                            })}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                {
+                  isOthers && <div className="w-full">
+                  <FormField
+                    control={form.control}
+                    name="illness"
+                    disabled={isLoading}
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
+                          Sickness (optional)
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            disabled={isLoading}
+                            className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0"
+                            placeholder={`Enter illness`}
+                            {...field}
+                            
+                            
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                }
+                
 
 
             {(() => {

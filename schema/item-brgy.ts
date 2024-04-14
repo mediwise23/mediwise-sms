@@ -14,6 +14,7 @@ export const ItemBrgySchema = z.object({
   unit: z.string().nullable(),
   createdAt: z.date(),
   dosage: z.string().nullable(),
+  category_id: z.string().nullable(),
   updatedAt: z.date(),
   barangayId: z.string().nullable(),
   requestId: z.string().nullable(),
@@ -30,12 +31,14 @@ export const CreateBrgyItemSchema = ItemBrgySchema.pick({
   name: true,
   description: true,
   unit: true,
+  category_id:true,
   // stock: true,
   dosage:true
 }).extend({
   brgyId: z.string().cuid(),
   name: z.string().min(1,"Required").max(255),
   description: z.string().min(1,"Required").max(255),
+  category_id: z.string().min(1, "Required"),
   unit: z.string().min(1,"Required").max(255).optional(),
   dosage: z.string().min(1,"Required").max(255),
   // stock: z.string().min(1,"Required").max(255),
@@ -52,6 +55,7 @@ export const UpdateBrgyItemSchema = ItemBrgySchema.pick({
   description: z.string().min(1,"Required").max(255).optional(),
   unit: z.string().min(1,"Required").max(255).optional(),
   dosage: z.string().min(1,"Required").max(255).optional(),
+  category_id: z.string().min(1, "Required"),
   // stock: z.coerce.number().min(1,"Required").max(255).optional(),
 });
 

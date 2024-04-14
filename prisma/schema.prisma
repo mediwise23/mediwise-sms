@@ -220,6 +220,7 @@ model Appointment {
   illness           String?
   patient           User               @relation(name: "patient", fields: [patientId], references: [id], onDelete: Cascade)
   date              DateTime
+  isDeleted         Boolean           @default(false)
   status            AppoinmentStatus   @default(PENDING)
   dispensing_status DispensingStatus   @default(PENDING)
   image_path        String?
@@ -340,14 +341,14 @@ model Profile {
   licenseNo  String? // for doctor only
 
   dateOfBirth DateTime?
-  homeNo      String?
-  street      String?
-  barangay    String?
-  city        String?
+  homeNo      String? @default("N/A")
+  street      String? @default("N/A")
+  barangay    String? @default("N/A")
+  city        String? @default("Caloocan")
   // province    String?
-  contactNo   String?
-  zip         String?
-  district    String?
+  contactNo   String? @default("N/A")
+  zip         String? @default("N/A")
+  district    String? @default("N/A")
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 

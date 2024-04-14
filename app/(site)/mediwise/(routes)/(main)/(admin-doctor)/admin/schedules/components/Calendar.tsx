@@ -163,22 +163,33 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
     // deleteEvent(event.id);
   };
 
+  const disabledTimes = [
+    '09:00', '10:30', '14:00' // Example disabled times
+  ];
+  
+  const isTimeDisabled = (time:any) => {
+    console.log('hello')
+    return disabledTimes.includes(time);
+  };
+
+
+
   return (
-    <div className="w-full h-full flex gap-x-3 flex-col md:flex-row">
+    <div className="w-full h-full flex gap-x-3 flex-col md:flex-row py-10">
       <div className="w-full">
         <FullCalendar
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           headerToolbar={{
             left: "prev,next today",
             center: "title",
-            right: "dayGridMonth,timeGridWeek,timeGridDay",
+            right: "timeGridWeek,timeGridDay",
           }}
           dayHeaderClassNames={"text-sky-700 text-sm font-medium uppercase"}
           validRange={{
             start: new Date(),
           }}
-          height={"100vh"}
-          initialView="dayGridMonth"
+          height={"85vh"}
+          initialView="timeGridWeek"
           // longPressDelay={0}
 
           // selectAllow={(event) => {
@@ -195,6 +206,30 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
 
           //   return Difference_In_Days === 1;
           // }}
+
+          selectConstraint={{
+            startTime: '08:00', // Example start time
+            endTime: '24:00', // Example end time
+            // allDay:true,
+            businessHours: { // Define business hours
+              daysOfWeek: [1, 2, 3, 4, 5], // Monday - Friday
+              startTime: '08:00',
+              endTime: '24:00',
+              
+            },
+            isConstraint: true, // Disable times not within business hours
+            constraint: {
+              startTime: '08:00',
+              endTime: '24:00',
+              
+            },
+            // Custom function to disable specific times
+            constraintCustom: ({ date, start, end }:any) => {
+              const time = start.toTimeString()?.slice(0, 5); // Extract time from DateTime object
+              return !isTimeDisabled(time);
+            }
+          }}
+
           eventContent={EventContent}
           editable={false}
           selectable={true}

@@ -157,30 +157,30 @@ export const columns: ColumnDef<TUser & { profile: Profile }>[] = [
     },
   },
 
-  {
-    accessorKey: "createdAt",
-    accessorFn: (row) => {
-      const createdAt = row.createdAt;
-      return createdAt;
-    },
-    header: ({ column }) => {
-      return (
-        <div
-          className=" text-[#181a19]  flex items-center cursor-pointer dark:text-white flex-1"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          CreatedAt
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </div>
-      );
-    },
-    cell: ({ row }) => {
-      const createdAt = row.original?.createdAt;
-      return (
-        <div className="">{format(new Date(createdAt || new Date()), DATE_FORMAT)}</div>
-      );
-    },
-  },
+  // {
+  //   accessorKey: "createdAt",
+  //   accessorFn: (row) => {
+  //     const createdAt = row.createdAt;
+  //     return createdAt;
+  //   },
+  //   header: ({ column }) => {
+  //     return (
+  //       <div
+  //         className=" text-[#181a19]  flex items-center cursor-pointer dark:text-white flex-1"
+  //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+  //       >
+  //         CreatedAt
+  //         <ArrowUpDown className="ml-2 h-4 w-4" />
+  //       </div>
+  //     );
+  //   },
+  //   cell: ({ row }) => {
+  //     const createdAt = row.original?.createdAt;
+  //     return (
+  //       <div className="">{format(new Date(createdAt || new Date()), DATE_FORMAT)}</div>
+  //     );
+  //   },
+  // },
 
   {
     accessorKey: "updatedAt",

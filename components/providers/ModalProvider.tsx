@@ -33,6 +33,8 @@ import AppointmentSideModal from "../modals/mediwise/AppointmentSideModal";
 import AddDoctorScheduleModal from "../modals/mediwise/AddDoctorScheduleModal";
 import UpdatePrescriptionModal from "../modals/mediwise/UpdatePrescriptionModal";
 import ConfirmRequestModal from "../modals/mediwise/ConfirmRequestModal";
+import CreateCategoryModal from "../modals/sms/CreateCategoryModal";
+import UpdateCategoryModal from "../modals/sms/UpdateCategoryModal";
 
 
 const ModalProvider = () => {
@@ -81,6 +83,8 @@ const ModalProvider = () => {
     <AddDoctorScheduleModal />
     <UpdatePrescriptionModal />
     <ConfirmRequestModal />
+    <CreateCategoryModal />
+    <UpdateCategoryModal />
     </>
   );
 };

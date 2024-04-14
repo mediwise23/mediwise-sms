@@ -2,11 +2,14 @@
 import Avatar from "@/components/Avatar";
 import { DataTable } from "@/components/DataTable";
 import { Badge } from "@/components/ui/badge";
-import { useMutateProcessor, useQueryProcessor } from "@/hooks/useTanstackQuery";
+import {
+  useMutateProcessor,
+  useQueryProcessor,
+} from "@/hooks/useTanstackQuery";
 import { cn } from "@/lib/utils";
 import { TAppointment, TUpdateAppointment } from "@/schema/appointment";
 import { TBarangay } from "@/schema/barangay";
-import { TUser, TUserRaw } from "@/schema/user";
+import { TProfile, TUser, TUserRaw } from "@/schema/user";
 import { format } from "date-fns";
 import { ArrowLeft } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
@@ -19,7 +22,6 @@ import moment from "moment-timezone";
 import { useModal } from "@/hooks/useModalStore";
 import { Button } from "@/components/ui/button";
 
-
 type AppoinmentsDetailClientProps = {
   currentUser: TUserRaw;
 };
@@ -29,15 +31,17 @@ const DATE_FORMAT = `MMM d yyyy`;
 const AppoinmentsDetailClient: React.FC<AppoinmentsDetailClientProps> = ({
   currentUser,
 }) => {
-  
-  
   const params = useParams();
   const router = useRouter();
   const appointmentId = params?.appointmentId;
   const appointment = useQueryProcessor<
     TAppointment & {
-      patient: TUser;
-      doctor: TUser;
+      patient: TUser & {
+        profile: TProfile;
+      };
+      doctor: TUser & {
+        profile: TProfile;
+      };
       barangay: TBarangay;
       appointment_item: appointment_item & { brgyItem: TItemBrgy }[];
     }
@@ -67,12 +71,11 @@ const AppoinmentsDetailClient: React.FC<AppoinmentsDetailClientProps> = ({
       }
     );
   };
-  
 
-  const {onOpen} = useModal()
-  const date = new Date(appointment.data?.date || new Date())
+  const { onOpen } = useModal();
+  const date = new Date(appointment.data?.date || new Date());
 
-  const newDate = moment.utc(date).tz("Asia/Manila").format()
+  const newDate = moment.utc(date).tz("Asia/Manila").format();
   return (
     <div className="flex flex-col bg-white dark:bg-slate-900 shadow-md p-3 md:p-5 rounded-md">
       <ArrowLeft
@@ -98,9 +101,7 @@ const AppoinmentsDetailClient: React.FC<AppoinmentsDetailClientProps> = ({
                   }` ?? ""
                 }
                 className="w-[100px] h-[100px] transition-all"
-                
               />
-
             </div>
 
             {appointment.data?.image_path && (
@@ -110,7 +111,11 @@ const AppoinmentsDetailClient: React.FC<AppoinmentsDetailClientProps> = ({
                   className="w-[150px] h-[150px] transition-all cursor-pointer"
                   src={appointment.data?.image_path}
                   alt=""
-                  onClick={(() => onOpen('viewPhoto', {photoUrl: appointment.data?.image_path as string}))}
+                  onClick={() =>
+                    onOpen("viewPhoto", {
+                      photoUrl: appointment.data?.image_path as string,
+                    })
+                  }
                 />
               </div>
             )}
@@ -121,12 +126,7 @@ const AppoinmentsDetailClient: React.FC<AppoinmentsDetailClientProps> = ({
 
             <div className="flex justify-between">
               <strong>Date</strong>{" "}
-              <span>
-                {format(
-                  new Date(newDate),
-                  DATE_FORMAT
-                )}
-              </span>
+              <span>{format(new Date(newDate), DATE_FORMAT)}</span>
             </div>
             <div className="flex justify-between text-sm md:text-md">
               <strong>Status</strong>{" "}
@@ -141,23 +141,44 @@ const AppoinmentsDetailClient: React.FC<AppoinmentsDetailClientProps> = ({
                     appointment.data?.status === "COMPLETED" && "bg-green-500"
                   )}
                 >
-                  {appointment.data?.status}
+                  {(() => {
+                    if (appointment.data?.status === "PENDING") {
+                      return "Appointment Pending";
+                    }
+
+                    if (appointment.data?.status === "CANCELLED") {
+                      return "Appointment Cancelled";
+                    }
+
+                    if (appointment.data?.status === "REJECTED") {
+                      return "Appointment Rejected";
+                    }
+
+                    if (appointment.data?.status === "ACCEPTED") {
+                      return "Appointment Accepted";
+                    }
+                    if (appointment.data?.status === "COMPLETED") {
+                      return "Appointment Done";
+                    }
+                    return null;
+                  })()}
                 </Badge>
               </span>
             </div>
-            {appointment.data && appointment.data?.appointment_item?.length > 0 && (
-              <div className="flex flex-col gap-y-3 text-sm md:text-md">
-                <strong>Medicine Items</strong>{" "}
-                <div className=" overflow-y-auto">
-                  <DataTable
-                    //@ts-ignore
-                    //@ts-nocheck
-                    columns={columns}
-                    data={appointment.data?.appointment_item || []}
-                  />
+            {appointment.data &&
+              appointment.data?.appointment_item?.length > 0 && (
+                <div className="flex flex-col gap-y-3 text-sm md:text-md">
+                  <strong>Medicine Items</strong>{" "}
+                  <div className=" overflow-y-auto">
+                    <DataTable
+                      //@ts-ignore
+                      //@ts-nocheck
+                      columns={columns}
+                      data={appointment.data?.appointment_item || []}
+                    />
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
           </div>
         </section>
 
@@ -176,8 +197,18 @@ const AppoinmentsDetailClient: React.FC<AppoinmentsDetailClientProps> = ({
 
             <div className="flex justify-between ">
               <strong>Name</strong>{" "}
-              <span>{appointment.data?.patient.name}</span>
+              <span>{appointment.data?.patient?.name}</span>
             </div>
+
+            <div className="flex justify-between ">
+              <strong>Sickness</strong> <span>{appointment.data?.illness}</span>
+            </div>
+
+            <div className="flex justify-between ">
+              <strong>Description</strong>{" "}
+              <span>{appointment.data?.title}</span>
+            </div>
+
             <div className="flex justify-between">
               <strong>Status</strong>{" "}
               <span>
@@ -210,8 +241,14 @@ const AppoinmentsDetailClient: React.FC<AppoinmentsDetailClientProps> = ({
             </div>
 
             <div className="flex justify-between ">
-              <strong>Name</strong> <span>{appointment.data?.doctor.name}</span>
+              <strong>Name</strong>{" "}
+              <span>{appointment.data?.doctor?.name}</span>
             </div>
+            <div className="flex justify-between ">
+              <strong>Specialized</strong>{" "}
+              <span>{appointment.data?.doctor.profile?.specialist}</span>
+            </div>
+
             <div className="flex justify-between">
               <strong>Status</strong>{" "}
               <span>
@@ -229,12 +266,15 @@ const AppoinmentsDetailClient: React.FC<AppoinmentsDetailClientProps> = ({
             </div>
           </div>
         </section>
-        {
-          appointment.data?.patientId === currentUser.id && appointment.data.status === 'ACCEPTED' && (
-            <Button variant={'destructive'} onClick={() => updateAppointmentStatus('CANCELLED')}>Cancel</Button>
-          )
-        }
-        
+        {appointment.data?.patientId === currentUser.id &&
+          appointment.data.status === "ACCEPTED" && (
+            <Button
+              variant={"destructive"}
+              onClick={() => updateAppointmentStatus("CANCELLED")}
+            >
+              Cancel
+            </Button>
+          )}
       </div>
     </div>
   );

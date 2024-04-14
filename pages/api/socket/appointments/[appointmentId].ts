@@ -7,6 +7,9 @@ import { getAppointmentById, updateAppointmentById } from "@/service/appointment
 import { NextApiResponseServerIo } from "@/types/types";
 import { NextApiRequest } from "next";
 import nodeSchedule from "node-schedule"
+import handlebars from 'handlebars'
+import fs from 'fs'
+import moment from "moment-timezone";
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponseServerIo
@@ -83,33 +86,51 @@ export default async function handler(
 
 // Combine the date parts
       const formattedDate = `${appointmentUpdated.date?.getFullYear()}-${(appointmentUpdated.date?.getMonth() + 1)}-${appointmentUpdated.date?.getDate()}`;
-      const timeStart = getTime(appointmentUpdated.workSchedule.start!)
-      const timeEnd = getTime(appointmentUpdated.workSchedule.end!)
-      const content = `
-    <div> 
-      <h3> Hello ${appointmentUpdated.patient.profile?.firstname} ${appointmentUpdated.patient.profile?.lastname} </h3>
-      <p> Your appointment has been ${appointmentUpdated.status.toLocaleLowerCase()}</p>
-      ${appointmentUpdated?.status === 'ACCEPTED' && `<p>Date: ${formattedDate} </p>`}
-      ${appointmentUpdated?.status === 'ACCEPTED' && `<p>Time: ${timeStart} - ${timeEnd}</p>`}
-      ${appointmentUpdated?.status === 'ACCEPTED' && `<p> Queue number: ${appointmentUpdated.queue_number} </p>`}
-      <small> - SMS ADMIN </small>
-    </div>
-    `;
-
-    sendMail({ content, subject: "Appointment", emailTo: appointmentUpdated.patient.email as string });
+      const timeStart = moment.utc(appointmentUpdated.workSchedule.start).toDate()
+      const timeEnd = moment.utc(appointmentUpdated.workSchedule.end).toDate()
+      const start = getTime(timeStart!)
+      const end = getTime(timeEnd!)
+      const source = fs.readFileSync(`${__dirname}/../../../../../../public/template/appointment-confirmation.html`, 'utf-8').toString()
+      const template = handlebars.compile(source)
+      const replacement = {
+        date: formattedDate,
+        concern: appointmentUpdated.title,
+        timeStart:start,
+        timeEnd:end,
+        queue: appointmentUpdated.queue_number,
+        doctor:  `${appointmentUpdated.doctor.profile?.firstname} ${appointmentUpdated.doctor.profile?.lastname}`,
+        specialist:  `${appointmentUpdated.doctor.profile?.specialist}`
+      }
+      const content = template(replacement);
+      
+    //   const content = `
+    // <div> 
+    //   <h3> Hello ${appointmentUpdated.patient.profile?.firstname} ${appointmentUpdated.patient.profile?.lastname} </h3>
+    //   <p> Your appointment has been ${appointmentUpdated.status.toLocaleLowerCase()}</p>
+    //   ${appointmentUpdated?.status === 'ACCEPTED' && `<p>Date: ${formattedDate} </p>`}
+    //   ${appointmentUpdated?.status === 'ACCEPTED' && `<p>Time: ${timeStart} - ${timeEnd}</p>`}
+    //   ${appointmentUpdated?.status === 'ACCEPTED' && `<p> Queue number: ${appointmentUpdated.queue_number} </p>`}
+    //   <small> - SMS ADMIN </small>
+    // </div>
+    // `;
 
     if(appointmentUpdated.status === 'ACCEPTED') {
+      sendMail({ content, subject: "Appointment", emailTo: appointmentUpdated.patient.email as string });
       const reminderTime = new Date(appointmentUpdated.workSchedule?.start! || appointmentUpdated.date);
       reminderTime.setHours(reminderTime.getHours() - 1);
       nodeSchedule.scheduleJob(appointmentUpdated.id, reminderTime, () => {
-        const reminderContent = `
-        <div> 
-          <h3> Hello ${appointmentUpdated.patient.profile?.firstname} ${appointmentUpdated.patient.profile?.lastname} </h3>
-          <p> Reminder that you have an appointment today at ${timeStart}</p>
-          <p> Queue number: ${appointmentUpdated.queue_number} </p>
-          <small> - SMS ADMIN </small>
-        </div>
-        `;
+
+        const source = fs.readFileSync(`${__dirname}/../../../../../../public/template/appointment-reminder.html`, 'utf-8').toString()
+        const template = handlebars.compile(source)
+        const replacement = {
+          date: formattedDate,
+          concern: appointmentUpdated.title,
+          timeStart:start,
+          queue: appointmentUpdated.queue_number,
+          doctor:  `${appointmentUpdated.doctor.profile?.firstname} ${appointmentUpdated.doctor.profile?.lastname}`,
+          specialist:  `${appointmentUpdated.doctor.profile?.specialist}`
+        }
+        const reminderContent = template(replacement);
         sendMail({ content:reminderContent, subject: "Appointment Reminder", emailTo: appointmentUpdated.patient.email as string });
       })
     }
@@ -122,8 +143,6 @@ export default async function handler(
       const Key = `notification:${notification.userId}:create`;
             console.log("new notification socket:", Key);
             res.socket?.server?.io.emit(Key, notification);
-
-
       return res.status(200).json(appointmentUpdated);
 
   } 

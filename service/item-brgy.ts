@@ -55,6 +55,7 @@ export const createBarangayItem = async (
       unit: data.unit,
       description: data.description,
       // stock: Number(data.stock),
+      category_id: data?.category_id,
       barangayId: data.brgyId,
       dosage:data?.dosage
     },

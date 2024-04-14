@@ -26,6 +26,7 @@ export const getAppointments = async ({
   console.log(moment(d).toDate())
   return await prisma.appointment.findMany({
     where: {
+          isDeleted: false,
           status: status ?? undefined,
           doctorId: doctorId ?? undefined,
           barangayId: barangayId?? undefined,
@@ -58,11 +59,20 @@ export const getAppointmentById = async ({ id }: { id: string }) => {
   return await prisma.appointment.findUnique({
     where: {
       id,
+      isDeleted:false
     },
     include: {
       barangay:true,
-      doctor:true,
-      patient:true,
+      doctor:{
+        include:{
+          profile:true
+        }
+      },
+      patient:{
+        include:{
+          profile:true
+        }
+      },
       appointment_item:{
         include: {
           brgyItem:{
@@ -85,7 +95,8 @@ export const createAppointment = async ({
   status,
   image_path,
   barangayId,
-  workScheduleId
+  workScheduleId,
+  illness
 }: {
   title: string;
   doctorId: string;
@@ -95,6 +106,7 @@ export const createAppointment = async ({
   workScheduleId: string;
   status: AppoinmentStatus;
   image_path?: string;
+  illness:string;
 }) => {
   const {randomUUID} = new shortUniqueId({length:5, dictionary: 'number'})
   console.log('iiidd', randomUUID())
@@ -103,6 +115,7 @@ export const createAppointment = async ({
       title,
       doctorId,
       patientId,
+      illness,
       queue_number:randomUUID(),
       date,
       status,

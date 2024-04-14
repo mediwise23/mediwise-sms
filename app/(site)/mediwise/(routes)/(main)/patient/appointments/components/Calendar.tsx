@@ -210,7 +210,7 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
       barangayId:
         event?._def.extendedProps.barangayId || currentUser.barangayId,
     } as EventData;
-
+    console.log("event data", eventData)
     createAppointment.mutate(eventData, {
       onSuccess(data, variables, context) {
         console.log(data);
@@ -279,7 +279,7 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
           headerToolbar={{
             left: "prev,next today",
             center: "title",
-            right: "dayGridMonth,timeGridWeek,timeGridDay",
+            right: "dayGridMonth",
           }}
           dayHeaderClassNames={"text-sky-700 text-sm font-medium uppercase"}
           validRange={{
