@@ -100,7 +100,16 @@ const AddAppointmentModal = () => {
     };
   }, [isModalOpen]);
 
-  form.watch(['illness'])
+  useEffect(() => {
+    if  (availableDoctors.data && availableDoctors?.data?.length > 0) {
+      const randomIndex = Math.floor(Math.random() * availableDoctors.data.length);
+      const randomDoctorId = availableDoctors.data[randomIndex].id;
+      form.setValue("doctorId", randomDoctorId);
+    }
+  }, [availableDoctors.status, form, isModalOpen]);
+
+
+  form.watch(['illness', 'doctorId'])
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onHandleClose}>
@@ -206,7 +215,7 @@ const AddAppointmentModal = () => {
                     render={({ field }) => (
                       <FormItem className="w-full">
                         <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-400">
-                          Sickness (optional)
+                          Specify Sickness (optional)
                         </FormLabel>
                         <FormControl>
                           <Input
@@ -248,8 +257,8 @@ const AddAppointmentModal = () => {
                           Doctors
                         </FormLabel>
                         <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
+                           {...field} // Ensure field props are spread here
+                           defaultValue={field.value} // Set default value
                         >
                           <FormControl>
                             <SelectTrigger className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0">
