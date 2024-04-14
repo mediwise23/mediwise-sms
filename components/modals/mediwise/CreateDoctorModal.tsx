@@ -422,6 +422,18 @@ const CreateDoctorModal = () => {
                         type="number"
                         placeholder={`Enter license no.`}
                         {...field}
+
+                        onChange={(e) => {
+
+                          if(e.target.value.length > 7 ) {
+                            return ;
+                          }
+
+                          // const validatedtext = e.target.value.replace(/\D/g, "");
+                          field.onChange(e.target.value);
+
+                        }}
+
                       />
                     </FormControl>
                     <FormMessage />

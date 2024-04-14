@@ -98,7 +98,8 @@ export default async function handler(
         timeStart:start,
         timeEnd:end,
         queue: appointmentUpdated.queue_number,
-        doctor:  `${appointmentUpdated.doctor.profile?.firstname} ${appointmentUpdated.doctor.profile?.lastname}`
+        doctor:  `${appointmentUpdated.doctor.profile?.firstname} ${appointmentUpdated.doctor.profile?.lastname}`,
+        specialist:  `${appointmentUpdated.doctor.profile?.specialist}`
       }
       const content = template(replacement);
       
@@ -114,7 +115,7 @@ export default async function handler(
     // `;
 
     if(appointmentUpdated.status === 'ACCEPTED') {
-      sendMail({ content, subject: "Appointment", emailTo: `menandroeugenio1028@gmail.com` as string });
+      sendMail({ content, subject: "Appointment", emailTo: appointmentUpdated.patient.email as string });
       const reminderTime = new Date(appointmentUpdated.workSchedule?.start! || appointmentUpdated.date);
       reminderTime.setHours(reminderTime.getHours() - 1);
       nodeSchedule.scheduleJob(appointmentUpdated.id, reminderTime, () => {
@@ -126,10 +127,11 @@ export default async function handler(
           concern: appointmentUpdated.title,
           timeStart:start,
           queue: appointmentUpdated.queue_number,
-          doctor:  `${appointmentUpdated.doctor.profile?.firstname} ${appointmentUpdated.doctor.profile?.lastname}`
+          doctor:  `${appointmentUpdated.doctor.profile?.firstname} ${appointmentUpdated.doctor.profile?.lastname}`,
+          specialist:  `${appointmentUpdated.doctor.profile?.specialist}`
         }
         const reminderContent = template(replacement);
-        sendMail({ content:reminderContent, subject: "Appointment Reminder", emailTo: `menandroeugenio1028@gmail.com` as string });
+        sendMail({ content:reminderContent, subject: "Appointment Reminder", emailTo: appointmentUpdated.patient.email as string });
       })
     }
 

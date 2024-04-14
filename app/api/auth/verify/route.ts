@@ -4,9 +4,10 @@ import { generateRandomString } from "@/lib/random";
 import sendMail from "@/lib/smtp";
 import { VerifyUserSchema } from "@/schema/user";
 import { getUserById, updateProfileById } from "@/service/user";
+import handlebars from "handlebars";
 import { NextResponse } from "next/server";
 import { z } from "zod";
-
+import fs from 'fs'
 export const POST = withAuth(
   async ({ req, session, params }) => {
     try {
@@ -126,17 +127,14 @@ export const GET = withAuth(
           vefificationCode: code,
         },
       });
-
-      const content = `
-      <div> 
-        <h3> hello ${user.email} </h3>
-  
-        <h4>These is your verification code : ${code}</h4>
-        <p> Please use this code to verify your account </p>
-        <small> - MEDIWISE/SMS ADMIN </small>
-      </div>
-      `;
-  
+      const source = fs.readFileSync(`${__dirname}/../../../../../../public/template/send-code.html`, 'utf-8').toString()
+      const template = handlebars.compile(source)
+      const replacement = {
+        code,
+        email: user?.email
+      }
+      const content = template(replacement);
+      
       sendMail({ content, subject: "Email verification", emailTo: user?.email as string });
 
       return new NextResponse("Code has been sent to your email", {

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Appointment Confirmation</title>
+  <title>Appointment Reminder</title>
   <style>
     /* Reset styles */
     body, html {
@@ -16,6 +16,8 @@
     .container {
       width: 100%;
       margin: 0 auto;
+      max-width: 600px;
+
       padding: 20px;
       background-color: #f9f9f9;
       border-radius: 10px;
@@ -23,19 +25,31 @@
     }
     h1, h2 {
       text-align: center;
+      color: #333; /* Dark grey color */
     }
     .appointment-details {
       margin-bottom: 20px;
+      border-bottom: 1px solid #ccc; /* Light grey border */
+      padding-bottom: 20px;
     }
     .appointment-details p {
       margin: 5px 0;
     }
+   
     /* Footer styles */
     footer {
+        width: 100%;
+        margin: 0 auto;
       text-align: center;
       padding: 20px 0;
+      max-width: 640px;
       background-color: #f0f0f0;
       border-radius: 0 0 10px 10px;
+    }
+    footer p {
+      margin: 0;
+      font-size: 14px;
+      color: #666; /* Medium grey color */
     }
   </style>
 </head>
@@ -47,8 +61,9 @@
       <p><strong>Concern:</strong> {{concern}}</p>
       <p><strong>Date:</strong> {{date}}</p>
       <p><strong>Time:</strong> {{timeStart}}</p>
-      <p><strong>Queue no:</strong>{{queue}}</p>
+      <p><strong>Appointment ID:</strong>{{queue}}</p>
       <p><strong>Doctor:</strong> Dr. {{doctor}}</p>
+      <p><strong>Specialization:</strong> {{specialist}}</p>
     </div>
     <p> Reminder that you have an appointment today</p>
   </div>
