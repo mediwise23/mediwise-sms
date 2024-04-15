@@ -26,7 +26,8 @@ export const getAllBarangayItem = async (data: {
     include: {
       items:true,
       onhand_items:true,
-      appointmentItems:true
+      appointmentItems:true,
+      category:true,
     }
   });
 };
@@ -40,7 +41,8 @@ export const getBarangayItemById = async (
       id: id,
     },
     include: {
-      items:true
+      items:true,
+      category:true,
     }
   });
 };

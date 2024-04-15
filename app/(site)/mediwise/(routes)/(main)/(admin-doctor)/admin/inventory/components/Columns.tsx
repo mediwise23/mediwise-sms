@@ -15,11 +15,12 @@ import ActionButton from "./ActionButton";
 import { TItemBrgy } from "@/schema/item-brgy";
 import { format } from "date-fns";
 import { Item, appointment_item } from "@prisma/client";
+import { TCategorySchema } from "@/schema/category";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 const DATE_FORMAT = `MMM d yyyy`;
-export const columns: ColumnDef<TItemBrgy & {items: Item[], onhand_items: Item[], appointmentItems: appointment_item[]}>[] = [
+export const columns: ColumnDef<TItemBrgy & {items: Item[], onhand_items: Item[], category: TCategorySchema, appointmentItems: appointment_item[]}>[] = [
   {
     accessorKey: "id",
     header: () => {
@@ -119,6 +120,27 @@ export const columns: ColumnDef<TItemBrgy & {items: Item[], onhand_items: Item[]
       return <div className={` flex items-center`}>{stock}</div>;
     },
   },
+
+  {
+    accessorKey: "category",
+    accessorFn: (row) => {
+      const category = row?.category?.name;
+      return category;
+    },
+    header: ({ column }) => (
+      <div
+        className="text-[#181a19] flex items-center cursor-pointer dark:text-white flex-1 line-clamp-1"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Category <ArrowUpDown className="ml-2 h-4 w-4" />
+      </div>
+    ),
+    cell: ({ row }) => {
+      const category = row.original?.category?.name;
+      return <div className={` flex items-center`}>{category|| 'N/A'}</div>;
+    },
+  },
+
 
   {
     accessorKey: "outhand",
