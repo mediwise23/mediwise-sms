@@ -185,7 +185,15 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
 
   useEffect(() => {
     currentAppointment.refetch();
+
   }, [selectInfo]);
+
+  useEffect(() => {
+    if(currentAppointment.status === 'success' && limitExceeded && selectInfo) {
+      onOpen("appointmentWarning", { calendarApi: selectInfo });
+    }
+  }, [currentAppointment.data])
+
 
   const appointments = currentAppointment.data?.filter(
     (appointment) =>

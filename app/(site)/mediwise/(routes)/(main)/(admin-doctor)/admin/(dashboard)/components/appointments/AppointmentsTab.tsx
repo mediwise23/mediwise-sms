@@ -21,7 +21,7 @@ const currentYear = new Date().getFullYear();
 
 // Generate an array with a 10-year span starting from the current year
 const years = Array.from({ length: 10 }, (_, index) =>
-  (currentYear - index).toString()
+  (currentYear + index).toString()
 );
 
 export type AppointmentsTotalType = {

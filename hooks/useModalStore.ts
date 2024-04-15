@@ -45,6 +45,7 @@ export type ModalType =
   | "confirmRequest"
   | "createCategory"
   | "updateCategory"
+  | "appointmentWarning"
 // you can extend this type if you have more modal
 
 // export type ModalType = "..." | "...." | "...."
