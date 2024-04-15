@@ -46,7 +46,7 @@ export const columns: ColumnDef<TCategorySchema>[] = [
           className="text-[#181a19] flex items-center cursor-pointer dark:text-white flex-1 line-clamp-1"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Item name <ArrowUpDown className="ml-2 h-4 w-4" />
+          Category name <ArrowUpDown className="ml-2 h-4 w-4" />
         </div>
       );
     },
