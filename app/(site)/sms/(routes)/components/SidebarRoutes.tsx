@@ -11,7 +11,8 @@ import {
   Box,
   StickyNote,
   GitPullRequestArrow,
-  Users2
+  Users2,
+  
 } from "lucide-react";
 import { MdHive } from "react-icons/md";
 import { SidebarItem } from "./SidebarItem";
@@ -60,6 +61,12 @@ const routesList: routeListType[] = [
     icon: BaggageClaim,
     label: "Supplier List",
     href: "/supplier",
+    roles: ["STOCK_MANAGER"],
+  },
+  {
+    icon: Table,
+    label: "Category",
+    href: "/category",
     roles: ["STOCK_MANAGER"],
   },
 ];
