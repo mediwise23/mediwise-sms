@@ -20,7 +20,7 @@ const page = async () => {
       <Navbar />
     <div className="flex flex-col  w-full mx-auto items-center gap-y-16 dark:bg-dark overflow-x-hidden">
       <div
-        className="w-full flex justify-center  h-fit md:h-[800px] items-center bg-[#def0db]  dark:bg-gray-800"
+        className="w-full flex justify-center  h-fit md:h-[800px] items-center bg-[#f0e3db]  dark:bg-gray-800"
         id="home"
       >
         <CarouselComponent />

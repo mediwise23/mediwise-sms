@@ -8,7 +8,7 @@ const Page = () => {
 
   return (
     <div className="flex flex-col items-center w-full gap-y-32 pb-10">
-      <div className=" bg-[#def0db] w-full min-h-[700px] flex items-center">
+      <div className=" bg-[#f0e3db] w-full min-h-[700px] flex items-center">
         <div className="container mx-auto flex flex-col lg:flex-row items-center">
           {/* Left Column (Image) */}
           <div className="lg:w-1/2 mb-10 lg:mb-0">
@@ -23,7 +23,7 @@ const Page = () => {
           <div className="w-full  lg:pl-10 text-black gap-y-3 py-10 overflow-x-hidden">
             <h1 className="text-4xl lg:text-5xl font-bold mb-4  text-wrap">
               {" "}
-              <span className="text-[#147174]">Bringin Health</span> To <br />{" "}
+              <span className="text-[#744a14]">Bringin Health</span> To <br />{" "}
               Life For The Whole Family
             </h1>
             <p className="text-md text-black mb-8">
@@ -31,7 +31,7 @@ const Page = () => {
               contemporary medicine, We strive to get the best results possible
             </p>
             <Button
-              className="bg-[#147174]"
+              className="bg-[#af5c18]"
               onClick={() => {
                 router.push("patient/appointments");
               }}
@@ -61,13 +61,13 @@ const Page = () => {
 
       <section className=" flex flex-col justify-between w-[90%] lg:w-[60%] ">
         <div className="w-full flex flex-col font-semibold gap-y-3 ">
-          <span className="text-[#5CA15D] text-[20px]">
+          <span className="text-[#d38545] text-[20px]">
             Welcome To MediWise Barangay Health Center
           </span>
 
           <h1 className="text-5xl ">
             We Care About Your{" "}
-            <span className="text-[#5CA15D]">
+            <span className="text-[#d38545]">
               {" "}
               <br /> Health
             </span>

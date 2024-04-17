@@ -327,8 +327,8 @@ const Calendar: React.FC<CalendarClientProps> = ({ currentUser }) => {
           selectMirror={true}
           droppable={true}
           dayMaxEvents={1}
-          eventBackgroundColor={"#449e65"}
-          eventColor={"#449e65"}
+          eventBackgroundColor={"#FD7E14"}
+          eventColor={"#FD7E14"}
           weekends={true}
           dayCellDidMount={dayCellContent}
           // dayCellContent={dayCellContent}

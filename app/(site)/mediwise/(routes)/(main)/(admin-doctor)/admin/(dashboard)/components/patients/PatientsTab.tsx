@@ -45,7 +45,7 @@ const PatientsTab:React.FC<PatientsTabProps> = ({currentUser}) => {
   });
 
   return (
-    <div className="grid grid-cols-5 gap-5">
+    <div className="grid grid-cols-2 gap-5">
       <div className="col-span-5 md:col-span-3 flex flex-col gap-5">
         <div className="shadow-md rounded-md p-5 dark:shadow-none dark:bg-slate-900 dark:text-white">
           <div className="flex flex-wrap items-center gap-5 md:gap-10 h-full">
@@ -71,12 +71,12 @@ const PatientsTab:React.FC<PatientsTabProps> = ({currentUser}) => {
           <AppointmentsChart data={patients.data || []} />
         </div>
       </div>
-      <div className="col-span-5 md:col-span-2 h-full max-h-[660px] shadow-md rounded-md p-4 md:p-8 pb-10 dark:shadow-none dark:bg-slate-900 dark:text-white">
+      {/* <div className="col-span-5 md:col-span-2 h-full max-h-[660px] shadow-md rounded-md p-4 md:p-8 pb-10 dark:shadow-none dark:bg-slate-900 dark:text-white">
         <h2 className="text-center font-bold text-xl sticky top-0">SUMMARY</h2>
         <div className="overflow-y-auto h-[90%] mt-2">
           <AppointmentSummary data={patients.data || []} />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

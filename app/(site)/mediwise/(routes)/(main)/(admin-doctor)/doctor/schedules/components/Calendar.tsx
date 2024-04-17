@@ -193,8 +193,8 @@ const Calendar:React.FC<CalendarClientProps> = ({currentUser}) => {
 
         dayMaxEvents={true}
         
-        eventBackgroundColor={"#449e65"}
-        eventColor={"#449e65"}
+        eventBackgroundColor={"#FD7E14"}
+        eventColor={"#FD7E14"}
         weekends={true}
         // @ts-ignore
           // @ts-nocheck

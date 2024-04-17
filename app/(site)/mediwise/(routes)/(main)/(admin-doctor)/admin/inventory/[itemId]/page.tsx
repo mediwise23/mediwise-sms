@@ -32,17 +32,17 @@ const ItemPage = () => {
 
   return (
     <div className="p-5 flex flex-col">
-      <h1 className="text-3xl font-bold text-[#17A2B8] mb-10">Manage item</h1>
+      <h1 className="text-3xl font-bold text-[#b85217] mb-10">Manage item</h1>
       <section className="flex flex-col gap-y-3 items-start">
         <span>
-          <label htmlFor="" className="font-semibold text-[#17A2B8]">
+          <label htmlFor="" className="font-semibold text-[#b85217]">
             Item Name
           </label>
           <p> {brgyItem.data?.name}</p>
         </span>
 
         <span>
-          <label htmlFor="" className="font-semibold text-[#17A2B8]">
+          <label htmlFor="" className="font-semibold text-[#b85217]">
             Description
           </label>
           <p className="text-sm">
@@ -51,7 +51,7 @@ const ItemPage = () => {
         </span>
 
         <span className="flex flex-col">
-          <label htmlFor="" className="font-semibold text-[#17A2B8]">
+          <label htmlFor="" className="font-semibold text-[#b85217]">
             Dosage
           </label>
           <p> {brgyItem.data?.dosage}</p>

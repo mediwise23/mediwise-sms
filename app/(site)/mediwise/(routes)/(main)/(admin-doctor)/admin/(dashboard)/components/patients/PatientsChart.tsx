@@ -40,7 +40,7 @@ export default function PatientChart({ data }: PatientChartProps) {
           dataKey="numberOfPatients"
           stackId="1"
           stroke="#0d2b13"
-          fill="#247c37"
+          fill="#FD7E14"
         />
         {/* <Area
           type="monotone"

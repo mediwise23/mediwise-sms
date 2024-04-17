@@ -63,7 +63,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
                       href={`/mediwise/${currentUser?.role.toLowerCase()}${
                         route.href
                       }`}
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                      className="block px-4 py-2 text-sm dark:text-orange-500 hover:bg-gray-100 dark:hover:bg-gray-600  "
                     >
                       {route.label}
                     </Link>
@@ -109,7 +109,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
                   href={`/mediwise/${currentUser?.role.toLowerCase()}${
                     route.href
                   }`}
-                  className="block py-2 px-3 text-white bg-green-700 rounded md:bg-transparent md:text-green-700 md:p-0 md:dark:text-green-500"
+                  className="block py-2 px-3 text-white bg-[#FD7E14] rounded md:bg-transparent md:text-[#FD7E14] md:p-0 md:dark:text-[#FD7E14] "
                 >
                   {route.label}
                 </Link>
