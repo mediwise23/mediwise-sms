@@ -23,7 +23,7 @@ const Page = () => {
           <div className="w-full  lg:pl-10 text-black gap-y-3 py-10 overflow-x-hidden">
             <h1 className="text-4xl lg:text-5xl font-bold mb-4  text-wrap">
               {" "}
-              <span className="text-[#744a14]">Bringin Health</span> To <br />{" "}
+              <span className="text-primary">Bringin Health</span> To <br />{" "}
               Life For The Whole Family
             </h1>
             <p className="text-md text-black mb-8">
@@ -61,13 +61,13 @@ const Page = () => {
 
       <section className=" flex flex-col justify-between w-[90%] lg:w-[60%] ">
         <div className="w-full flex flex-col font-semibold gap-y-3 ">
-          <span className="text-[#d38545] text-[20px]">
+          <span className="text-primary text-[20px]">
             Welcome To MediWise Barangay Health Center
           </span>
 
           <h1 className="text-5xl ">
             We Care About Your{" "}
-            <span className="text-[#d38545]">
+            <span className="text-primary">
               {" "}
               <br /> Health
             </span>
