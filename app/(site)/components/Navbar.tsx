@@ -26,24 +26,24 @@ const Navbar = () => {
           alt=""
         />
         <ul className="flex items-center gap-x-1 md:gap-x-5 text-sm">
-          <Link href="#home" className="hidden md:block px-5 py-3 font-semibold text-[16px]">
+          <Link href="#home" className="hidden md:block px-5 py-3 font-semibold text-[16px]  hover:text-primary">
             Home
           </Link>
           <Link
             href="#about-us"
-            className="hidden md:block px-5 py-3 font-semibold text-[16px]"
+            className="hidden md:block px-5 py-3 font-semibold text-[16px]  hover:text-primary"
           >
             About us
           </Link>
           <Link
             href="#guidelines"
-            className="hidden md:block px-5 py-3 font-semibold text-[16px]"
+            className="hidden md:block px-5 py-3 font-semibold text-[16px]  hover:text-primary"
           >
             Guidelines
           </Link>
           <Link
             href="#contact-us"
-            className="hidden md:block px-5 py-3 font-semibold text-[16px]"
+            className="hidden md:block px-5 py-3 font-semibold text-[16px] hover:text-primary"
           >
             Contact Us
           </Link>
