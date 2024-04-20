@@ -70,7 +70,7 @@ const UpdatePrescriptionModal = () => {
         </DialogHeader>
         
       <h1 className="font-semibold text-xl text-start">Raw Image</h1>
-      <div className="overflow-auto max-h-[300px]">
+      <div className="overflow-auto max-h-[400px]">
         <img
           src={data?.prescription?.image || ""}
           alt="photo"
@@ -93,8 +93,8 @@ const UpdatePrescriptionModal = () => {
                       </FormLabel>
                       <FormControl>
                         <Textarea
-                        cols={7}
-                        rows={7}
+                        cols={8}
+                        rows={8}
                           disabled={isLoading}
                           className="focus-visible:ring-0 focus-visible:ring-offset-0 resize-none bg-transparent w-full"
                           placeholder={`Update Converted Text`}

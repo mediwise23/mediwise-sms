@@ -34,6 +34,9 @@ export async function GET(req: NextRequest, { params }: { params: {} }) {
             profile:true
           }
         }
+      },
+      orderBy: {
+        createdAt:'desc'
       }
     })
     

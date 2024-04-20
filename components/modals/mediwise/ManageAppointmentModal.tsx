@@ -65,11 +65,11 @@ const ManageAppointmentModal = () => {
   const [itemsState, setItemsState] = useState<any>([]);
   useEffect(() => {
     setItemsState(
-      items?.data?.map((item) => ({
+      items?.data?.filter((item) => item.items?.length > 0)?.map((item) => ({
         itemId: item?.id,
         quantity: 0,
         name: item?.name,
-        stock: item?.stock,
+        stock: item?.items.length,
         unit: item?.unit,
         items: item.items
       }))
@@ -116,8 +116,25 @@ const ManageAppointmentModal = () => {
     mutationFn: (value) => mutationFn({ url: `/appointments/${data?.appointment?.id}/appointment-items`,method: "POST", value: value 
     })
   })
-  const dispatchItem = () => {
+  const dispatchItem = async () => {
     const items = itemsState.filter((item: any) => item.quantity > 0 && {});
+    const image = form.getValues('image')
+    if(image) {
+      const file = dataURItoBlob(image);
+      const { public_id, url } = await uploadPhoto(file as File);
+
+      uploadPrescription.mutate(
+        { image: url },
+        {
+          onSuccess(data, variables, context) {
+            onClose();
+          },
+          onError(error, variables, context) {
+            console.error(error);
+          },
+        }
+      );
+    }
     submitItem.mutate(items, {
       onSuccess(data, variables, context) {
         onClose();

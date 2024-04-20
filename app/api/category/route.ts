@@ -13,6 +13,8 @@ export async function GET(req: NextRequest, { params }: { params: {} }) {
   const categories = await prisma.category.findMany({})
 
   try {
+
+    
     return NextResponse.json(categories, { status: 200 });
 
   } catch (error) {

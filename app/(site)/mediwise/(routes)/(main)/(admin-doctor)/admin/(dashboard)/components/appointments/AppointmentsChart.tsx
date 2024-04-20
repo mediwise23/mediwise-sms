@@ -31,6 +31,8 @@ export default function AppointmentsChart({ data }: AppointmentsChartProps) {
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="month" />
+          <YAxis   />
+        
         <Tooltip contentStyle={{
         color:"black"
       }}  />

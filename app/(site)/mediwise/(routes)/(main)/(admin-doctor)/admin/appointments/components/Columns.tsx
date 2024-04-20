@@ -161,7 +161,7 @@ export const columns: ColumnDef<
             className={cn(
               "dark:text-white bg-slate-500",
               status === "PENDING" && "bg-slate-500",
-              status === "REJECTED" && "bg-rose-700",
+              (status === "REJECTED" || status === "CANCELLED") && "bg-rose-700",
               status === "ACCEPTED" && "bg-[#107736]",
               status === "COMPLETED" && "bg-[#16A34A]"
             )}
@@ -170,6 +170,11 @@ export const columns: ColumnDef<
               if (status === "PENDING") {
                 return "Appointment Pending";
               }
+
+              if (status === "CANCELLED") {
+                return "Appointment Cancelled";
+              }
+
 
               if (status === "REJECTED") {
                 return "Appointment Rejected";

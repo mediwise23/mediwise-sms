@@ -21,6 +21,8 @@ import AdminListTab from "./admin-list/AdminListTab";
 import { TBarangay } from "@/schema/barangay";
 import SuppliersTab from "./suppliers/SuppliersTab";
 import Analytics from "./Analytics";
+import { TCategorySchema } from "@/schema/category";
+import CategoriesTab from "./categories/CategoriesTab";
 type DashboardClientProps = {
   tab: string;
   currentUser: Session['user']
@@ -50,6 +52,13 @@ const DashboardClient = ({ tab = "requests", currentUser }: DashboardClientProps
       role: Role.ADMIN
     }
   })
+
+  const categoryList = useQueryProcessor<(TCategorySchema)[]>({
+    url: `/category`,
+    key: ['categories'],
+    
+  })
+
 
   const illness = useQueryProcessor<({
 		_count: {
@@ -109,7 +118,7 @@ const handleSelectedTab = (tab: string) => {
 
   return (
     <div className="p-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-5">
       <div onClick={() => handleSelectedTab("requests")}>
           <Widget
             title="Barangay requests"
@@ -124,6 +133,9 @@ const handleSelectedTab = (tab: string) => {
 
         <div onClick={() => handleSelectedTab("illness")}>
           <Widget title="Common Illness" total={illness?.data?.length || 0} showTotal icon={StickyNote} />
+        </div>
+        <div onClick={() => handleSelectedTab("categories")}>
+          <Widget title="Categories" total={categoryList?.data?.length || 0} showTotal icon={StickyNote} />
         </div>
         <div onClick={() => handleSelectedTab("suppliers")}>
           <Widget title="Suppliers" total={suppliers?.data?.length || 0}  showTotal icon={Box} />
@@ -140,6 +152,7 @@ const handleSelectedTab = (tab: string) => {
           if (tab === "requests") return <PatientsTab data={data} />;
           if (tab === "items") return <ItemsTab data={items?.data} currentUser={currentUser} />;
           if (tab === "illness") return <IllnessTab data={illness?.data || []}  />;
+          if (tab === "categories") return <CategoriesTab />;
           if (tab === "admin-list") return <AdminListTab data={adminList?.data || []}  />;
           if (tab === "suppliers") return <SuppliersTab data={suppliers?.data || []}  />;
         })()}
