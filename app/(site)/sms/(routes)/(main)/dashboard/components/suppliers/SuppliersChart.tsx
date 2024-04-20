@@ -45,6 +45,7 @@ export default function SuppliersChart({ data }: SuppliersChartProps) {
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" />
+        <YAxis />
         <Tooltip contentStyle={{
         color:"black"
       }} />

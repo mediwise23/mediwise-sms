@@ -25,6 +25,7 @@ import qs from "query-string";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useQueryProcessor } from "@/hooks/useTanstackQuery";
 import ItemsTab from "./items/ItemsTab";
+import CategoriesTab from "./categories/ItemsTab";
 import { Session } from "next-auth";
 import PatientsTab from "./patients/PatientsTab";
 
@@ -79,6 +80,10 @@ const DashboardClient = ({
         <div onClick={() => handleSelectedTab("items")}>
           <Widget title="Inventory Items" total={100 || 0} icon={Columns} />
         </div>
+        {/* <div onClick={() => handleSelectedTab("categories")}>
+          <Widget title="Categories" total={100 || 0} icon={Columns} />
+        </div> */}
+
         <div onClick={() => handleSelectedTab("patients")}>
           <Widget title="Patients" total={100 || 0} icon={LucideUserSquare2} />
         </div>
@@ -87,6 +92,7 @@ const DashboardClient = ({
         {(() => {
           if (tab === "appointments") return <AppointmentsTab currentUser={currentUser}/>;
           if (tab === "items") return <ItemsTab currentUser={currentUser} />;
+          // if (tab === "categories") return <CategoriesTab currentUser={currentUser} />;
           else if (tab === "patients") return <PatientsTab currentUser={currentUser} />;
           // if (tab === "patients") return <JobTab />;
         })()}

@@ -160,6 +160,7 @@ const InventoryDashboard: React.FC<InventoryDashboard> = ({
       <CartesianGrid strokeDasharray="3 3" />
       <XAxis dataKey="name" />
       {/* <YAxis /> */}
+      <YAxis />
       <Tooltip contentStyle={{
         color:"black"
       }} />

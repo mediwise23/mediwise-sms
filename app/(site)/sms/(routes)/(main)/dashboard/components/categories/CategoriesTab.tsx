@@ -6,25 +6,16 @@ import { TItemBrgy } from '@/schema/item-brgy';
 import { Session } from 'next-auth';
 
 
-type ItemsTabProps = {
-  currentUser: Session['user']
+type CategoriesTabProps = {
 };
 
-const ItemsTab:React.FC<ItemsTabProps> = ({currentUser}) => {
+const CategoriesTab:React.FC<CategoriesTabProps> = () => {
   // Example inventory data (you can replace this with data from your database)
 
-  const items = useQueryProcessor<TItemBrgy[]>({
-    url: `/brgy-item`,
-    key: ['brgy-item-dashboard'],
-    queryParams: {
-        barangayId: currentUser.barangayId
-    },
-    options: {
-        enabled: !!currentUser.barangayId
-    }
+  const items = useQueryProcessor<{categoryName: string; count:number}[]>({
+    url: `/category/count`,
+    key: ['sms-category-dashboard'],
   })
-
-  console.log(items.data)
 
   return (
     <div>
@@ -33,4 +24,4 @@ const ItemsTab:React.FC<ItemsTabProps> = ({currentUser}) => {
   );
 };
 
-export default ItemsTab;
+export default CategoriesTab;

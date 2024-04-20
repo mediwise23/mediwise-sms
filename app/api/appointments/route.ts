@@ -12,7 +12,6 @@ export async function GET(req: NextRequest, { params }: { params: {} }) {
   const queries = getQueryParams(req, AppointmentGetQuerySchema);
   if (!queries.success) {
 
-    console.log('errrorrr')
     return NextResponse.json(
       {
         errors: queries.error.flatten().fieldErrors,

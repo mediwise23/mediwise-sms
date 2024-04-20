@@ -397,6 +397,13 @@ const CreateDoctorModal = () => {
                         className="bg-transparent focus-visible:ring-0  focus-visible:ring-offset-0"
                         placeholder={`Enter specialized`}
                         {...field}
+
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          const validatedtext = value.replace(/[0-9]/g, "");
+                          field.onChange(validatedtext);
+                        }}
+                        
                       />
                     </FormControl>
                     <FormMessage />
