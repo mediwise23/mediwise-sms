@@ -24,6 +24,17 @@ export default async function handler(
   const appointment = await prisma.appointment.findUnique({
     where: {
       id: appointmentId as string,
+    },
+    include: {
+      workSchedule: {
+        include: {
+          appointments: {
+            where: {
+              status: 'ACCEPTED'
+            }
+          }
+        }
+      }
     }
   })
 
@@ -57,6 +68,7 @@ export default async function handler(
           date,
           status,
           image_path,
+          queue_number: (appointment.workSchedule.appointments.length + 1) + '',
         },
         include: {
           workSchedule:true,

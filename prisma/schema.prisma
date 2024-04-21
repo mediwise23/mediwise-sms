@@ -212,7 +212,7 @@ model User {
 
 model Appointment {
   id                String             @id @unique @default(cuid())
-  queue_number      String?            @unique
+  queue_number      String?            
   title             String             @db.VarChar(255)
   doctorId          String
   doctor            User               @relation(name: "doctor", fields: [doctorId], references: [id], onDelete: Cascade)
