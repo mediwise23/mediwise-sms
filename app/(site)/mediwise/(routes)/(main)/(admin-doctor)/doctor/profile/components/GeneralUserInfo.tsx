@@ -68,7 +68,7 @@ const GeneralUserInfo: React.FC<GeneralUserInfoProps> = ({ data }) => {
       <div className="flex justify-evenly">
         <div className="flex flex-col items-start flex-1">
           <p className="text-md dark:text-zinc-400">City</p>
-          <span className="text-sm"> {data?.profile?.city || "-"}</span>
+          <span className="text-sm"> {'Caloocan' || "-"}</span>
         </div>
         <div className="flex flex-col items-start flex-1">
           <p className="text-md dark:text-zinc-400">Date created</p>
