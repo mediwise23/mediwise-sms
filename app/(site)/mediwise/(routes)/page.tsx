@@ -176,11 +176,11 @@ const page = async () => {
                       Team
                     </a>
                   </li>
-                  <li>
+                  {/* <li>
                     <a href="#home" className="hover:underline">
                       Our mission
                     </a>
-                  </li>
+                  </li> */}
                 </ul>
               </div>
               <div>
