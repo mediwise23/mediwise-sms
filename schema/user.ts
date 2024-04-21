@@ -292,6 +292,31 @@ export const UpdateUserSchema = UserSchema.pick({
 export const VerifyUserSchema = z.object({
   code: z.string().min(1, "Required").max(50),
 });
+export type TVerifyEmailSchema = z.infer<typeof VerifyEmail>;
+export const VerifyEmail = z.object({
+  email:  z.string().min(1, "Required").email(),
+})
+
+export type TChangePasswordSchema = z.infer<typeof ChangePassword>;
+export const ChangePassword = z.object({
+  userId: z.string().min(1, "Required"),
+  code: z.string().min(1, "Required"),
+  password: z
+      .string()
+      .refine(
+        (value) =>
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/.test(
+            value
+          ),
+        "Must contain 8 Characters, one uppercase, lowercase, one number and one special case character"
+      ),
+    confirmPassword: z.string(),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"],
+});
+
+
 export type TVerifyUserSchema = z.infer<typeof VerifyUserSchema>;
 export const SetupAccountSchema = z
   .object({

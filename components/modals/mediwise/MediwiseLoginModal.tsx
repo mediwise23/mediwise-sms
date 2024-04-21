@@ -31,6 +31,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Checkbox } from "../../ui/checkbox";
 import { Eye, EyeOff } from "lucide-react";
+import Link from "next/link";
 const MediwiseLoginModal = () => {
   const { isOpen, type, onClose } = useModal();
   const isModalOpen = isOpen && type === "mediwiseLogin";
@@ -67,7 +68,8 @@ const MediwiseLoginModal = () => {
       }
       if (variants == "LOGIN") {
         const response = await signIn("credentials", {
-          ...values, type: "mediwise",
+          ...values,
+          type: "mediwise",
           redirect: false,
         });
 
@@ -94,11 +96,10 @@ const MediwiseLoginModal = () => {
     try {
       const response = await signIn(
         action,
-        { redirect: false, },
-        { role: "PATIENT",  },
-        
+        { redirect: false },
+        { role: "PATIENT" }
       );
-        console.log("response", response)
+      console.log("response", response);
       if (response?.error) {
         toast.error("invalid credentials");
       }
@@ -109,7 +110,6 @@ const MediwiseLoginModal = () => {
     } catch (error) {
       console.error(error);
     } finally {
-
     }
   };
 
@@ -178,15 +178,35 @@ const MediwiseLoginModal = () => {
                           className="focus-visible:ring-0  focus-visible:ring-offset-0 resize-none bg-transparent border-none"
                           placeholder={`Enter Password`}
                           {...field}
-                          />
-                          <Button type="button" variant={'ghost'} size={'icon'} onClick={() => setShowPass((prev) => !prev)} > {!showPass ? <Eye/> : <EyeOff />} </Button>
-                        </div>
+                        />
+                        <Button
+                          type="button"
+                          variant={"ghost"}
+                          size={"icon"}
+                          onClick={() => setShowPass((prev) => !prev)}
+                        >
+                          {" "}
+                          {!showPass ? <Eye /> : <EyeOff />}{" "}
+                        </Button>
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
+
+            <span
+              onClick={() => {
+                onHandleClose();
+                router.push("/mediwise/find-your-account");
+              }}
+              className="underline ml-2 w-fit cursor-pointer text-sm text-zinc-500"
+            >
+              Forgot password?
+            </span>
+
+            {/* <Link href={} className="text-sm  ml-2 text-zinc-500 underline w-fit"></Link> */}
 
             {/* <div className="flex gap-x-3 items-center">
               <Checkbox
@@ -254,7 +274,7 @@ const MediwiseLoginModal = () => {
               icon={BsGithub}
               onClick={() => socialActions("github")}
             />
-             {/* <AuthSocialButton
+            {/* <AuthSocialButton
               icon={BsFacebook}
               onClick={() => socialActions("auth0")}
             />  */}
