@@ -31,7 +31,7 @@ const UserCard: React.FC<UserCardProps> = ({ data }) => {
     imageUrl: z.string().min(1),
   });
 
-  const router = useRouter()
+   const router = useRouter()
   type formSchemaType = z.infer<typeof formSchema>;
   const form = useForm<formSchemaType>({
     defaultValues: {

@@ -47,7 +47,7 @@ const GeneralInfo: React.FC<GeneralInfoProps> = ({ data }) => {
       lastname: data?.profile?.lastname as string,
       middlename: data?.profile?.middlename as string,
       email: data?.email as string,
-      city: data?.profile?.city as string,
+      city: 'Caloocan' as string,
       street: data?.profile?.street as string,
       homeNo: data?.profile?.homeNo as string,
       contactNo: data?.profile?.contactNo as string,
