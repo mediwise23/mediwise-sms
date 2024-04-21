@@ -451,7 +451,7 @@ const EventContent: React.FC = (eventInfo: any) => {
           src={eventInfo.event?._def?.extendedProps?.image}
         />
         <div className="flex items-center gap-x-3 flex-col">
-          <span>{eventInfo.event?._def?.extendedProps?.doctorName}</span>
+          <span>Dr. {eventInfo.event?._def?.extendedProps?.doctorName}</span>
           <span>{eventInfo.event?._def?.extendedProps?.specialist}</span>
           <span>
             {formattedStartTime} - {formattedEndTime}

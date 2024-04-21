@@ -136,7 +136,7 @@ const Page = () => {
             <div className="text-center text-gray-500 dark:text-gray-400">
                 <img className=" object-cover mx-auto mb-4 w-36 h-36 rounded-full" src="/images/team/Justine Faith B. Ligutan.jpg" alt="Michael Avatar"/>
                 <h3 className="mb-1 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                    <a href="#">Justine Faith Liguan</a>
+                    <a href="#">Justine Faith Ligutan</a>
                 </h3>
                 <p>Developer</p>
                 <ul className="flex justify-center mt-4 space-x-4">
