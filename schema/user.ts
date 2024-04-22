@@ -386,8 +386,8 @@ export const UpdateUsersSchemaWithPassword = CreateUserSchema.pick({
   homeNo: true,
   street: true,
   contactNo: true,
-  password: true,
-  
+  // password: true,
+
 })
   .extend({
     firstname: z.string(),
