@@ -89,7 +89,7 @@ import {
             <SelectContent>
               {
                 barangay.data?.map((brgy) => {
-                  return  <SelectItem value={brgy.id}>{brgy.name}</SelectItem>
+                  return  <SelectItem key={brgy.id} value={brgy.id}>{brgy.name}</SelectItem>
                 })
               }
             </SelectContent>

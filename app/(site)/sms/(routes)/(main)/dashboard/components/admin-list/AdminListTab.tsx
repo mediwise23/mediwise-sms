@@ -54,7 +54,7 @@ const AdminListTab: React.FC<AdminListTabProps> = ({ data }) => {
             <SelectContent>
               {
                 barangays.data?.map((brgy) => {
-                  return  <SelectItem value={brgy.id}>{brgy.name}</SelectItem>
+                  return  <SelectItem key={brgy.id} value={brgy.id}>{brgy.name}</SelectItem>
                 })
               }
             </SelectContent>
