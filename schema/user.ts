@@ -377,7 +377,7 @@ export type TSetupAccountSchema = z.infer<typeof SetupAccountSchema>;
 //   console.log(result.error.flatten().fieldErrors);
 // }
 
-export const UpdateUsersSchemaWithPassword = UserSchema.pick({
+export const UpdateUsersSchemaWithPassword = CreateUserSchema.pick({
   firstname: true,
   lastname: true,
   email: true,
@@ -387,6 +387,7 @@ export const UpdateUsersSchemaWithPassword = UserSchema.pick({
   street: true,
   contactNo: true,
   password: true,
+  
 })
   .extend({
     firstname: z.string(),
