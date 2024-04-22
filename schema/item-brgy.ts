@@ -27,7 +27,7 @@ export const ItemBrgyGetQuerySchema = z.object({
 });
 
 export const CreateBrgyItemSchema = ItemBrgySchema.pick({
-  brgyId: true,
+  // brgyId: true,
   name: true,
   description: true,
   unit: true,
