@@ -41,7 +41,7 @@ const BarangayClient: React.FC<BarangayClientProps> = ({ currentUser }) => {
   const onFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
     setGlobalFilter(e.target.value);
   };
-  console.log(barangay.data)
+  
   return (
     <div className="flex flex-col p-10">
       <div className="flex justify-end gap-x-5">

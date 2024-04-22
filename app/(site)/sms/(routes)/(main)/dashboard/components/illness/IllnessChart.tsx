@@ -46,8 +46,8 @@ export default function IllnessChart({ data }: IllnessChartProps) {
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
     return (
-      <text x={x} y={y} fill="black">
-        {illness} - {_count.illness}
+      <text x={x} y={y} fill="white">
+         {_count.illness}
       </text>
     );
   };
@@ -77,7 +77,6 @@ export default function IllnessChart({ data }: IllnessChartProps) {
       <div className="flex flex-col">
         {data.map((illness, index) => {
 
-          console.log(colors[index % colors.length])
           return (
             <div className="flex items-center gap-2" key={index}>
               <div

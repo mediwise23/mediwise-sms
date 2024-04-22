@@ -114,7 +114,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({ data }) => {
                   onClick={() => updateAppointmentStatus("COMPLETED")}
                 >
                   <Check className="h-4 w-4 mr-2" />
-                  Mark as completed
+                  Done Appointment
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   className="text-xs cursor-pointer text-yellow-600 hover:!text-yellow-600 hover:!bg-yellow-100"

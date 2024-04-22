@@ -2,7 +2,7 @@ import { useQueryProcessor } from "@/hooks/useTanstackQuery";
 import { TBarangay } from "@/schema/barangay";
 import { TUser } from "@/schema/user";
 import { Item, ItemTransaction, RequestedItem } from "@prisma/client";
-import React, { PureComponent } from "react";
+import React, { PureComponent, useState } from "react";
 import {
   AreaChart,
   Area,
@@ -13,7 +13,13 @@ import {
   ResponsiveContainer,
   Brush,
 } from "recharts";
-
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
   function Analytics() {
 
@@ -21,7 +27,7 @@ import {
       url: `/barangay/items`,
       key: ['barangay', 'items'],
     })
-    
+
     // const monthlyRequestCounts:any = {};
 
     // // Iterate through the data and update the count for each month
@@ -52,9 +58,9 @@ import {
     // });
 
   // 768px
+  const [barangayId, setBarangayId] = useState<null | string>(null);
 
-    const newData = barangay?.data?.map((barangay) => {
-
+    const newData = barangay?.data?.filter((brgy) => barangayId ? brgy.id === barangayId : true)?.map((barangay) => {
         const transactionCount = barangay?.ItemTransaction?.length;
 
         const itemsCount = barangay?.ItemTransaction?.reduce((total, data) => {
@@ -75,6 +81,20 @@ import {
   return (
     <div className="w-[100%] h-[100%] flex flex-col">
         <h1 className="text-lg font-semibold">Number of item dispatched per barangay</h1>
+
+        <Select onValueChange={(value) => setBarangayId(prev => value == "ALL" ? null : value)}>
+            <SelectTrigger className="w-[180px] ml-auto">
+              <SelectValue placeholder="Select Barangay" />
+            </SelectTrigger>
+            <SelectContent>
+              {
+                barangay.data?.map((brgy) => {
+                  return  <SelectItem value={brgy.id}>{brgy.name}</SelectItem>
+                })
+              }
+            </SelectContent>
+          </Select>
+
     <ResponsiveContainer width="100%" height="100%">
       <AreaChart
         width={500}

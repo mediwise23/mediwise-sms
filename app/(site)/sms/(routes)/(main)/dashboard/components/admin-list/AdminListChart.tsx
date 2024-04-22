@@ -18,10 +18,15 @@ type AdminListProps = {
 export default function AdminList({ data }: AdminListProps) {
   // 768px
 
+  
   const newData = data.map((barangay) => {
+
+    const adminCount = barangay?.users?.reduce((total, user) => {
+      return user.role == "ADMIN" ? total + 1 : total
+    }, 0)
     return {
       name: barangay?.name,
-      count: barangay?.users?.length || 0
+      count: adminCount|| 0
     }
   })
   return (

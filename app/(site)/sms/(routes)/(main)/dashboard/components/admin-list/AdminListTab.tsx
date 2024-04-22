@@ -13,6 +13,7 @@ import AdminListTabChart from "./AdminListChart";
 import AdminListTabummary from "./AdminListSummary";
 import { TUser } from "@/schema/user";
 import { TBarangay } from "@/schema/barangay";
+import { useQueryProcessor } from "@/hooks/useTanstackQuery";
 
 // Get the current year
 const currentYear = new Date().getFullYear();
@@ -29,19 +30,37 @@ export type AdminListTabTotalType = {
 };
 
 type AdminListTabProps = {
-  data: (TBarangay & {users: TUser[]})[]
-}
-const AdminListTab:React.FC<AdminListTabProps> = ({data}) => {
+  data: (TBarangay & { users: TUser[] })[];
+};
+const AdminListTab: React.FC<AdminListTabProps> = ({ data }) => {
+  const [barangayId, setBarangayId] = useState<null | string>(null);
+  const barangays = useQueryProcessor<(TBarangay & { users: TUser[] })[]>({
+    url: `/barangay`,
+    key: ['barangayss']
+  })
 
+  const filterBarangay = barangays.data?.filter((brgy) => barangayId ? brgy.id === barangayId : true) || []
   return (
     <div className="grid grid-cols-5 gap-5">
       <div className="col-span-5 md:col-span-3 flex flex-col gap-5">
-        <div className="shadow-md rounded-md p-5 dark:shadow-none dark:bg-slate-900 dark:text-white">
-          
-        </div>
+        <div className="shadow-md rounded-md p-5 dark:shadow-none dark:bg-slate-900 dark:text-white"></div>
         <div className="h-[550px] shadow-md rounded-md p-4 md:p-8 pb-10 dark:shadow-none dark:bg-slate-900 dark:text-white">
           <h2 className="text-center font-bold text-xl">GRAPH</h2>
-          <AdminListTabChart data={data} />
+
+          <Select onValueChange={(value) => setBarangayId(prev => value == "ALL" ? null : value)}>
+            <SelectTrigger className="w-[180px] ml-auto">
+              <SelectValue placeholder="Select Barangay" />
+            </SelectTrigger>
+            <SelectContent>
+              {
+                barangays.data?.map((brgy) => {
+                  return  <SelectItem value={brgy.id}>{brgy.name}</SelectItem>
+                })
+              }
+            </SelectContent>
+          </Select>
+
+          <AdminListTabChart data={filterBarangay} />
         </div>
       </div>
       <div className="col-span-5 md:col-span-2 h-full max-h-[660px] shadow-md rounded-md p-4 md:p-8 pb-10 dark:shadow-none dark:bg-slate-900 dark:text-white">

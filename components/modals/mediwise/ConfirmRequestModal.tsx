@@ -32,7 +32,7 @@ const ConfirmRequestModal = () => {
   const updateRequestStatus = (id: string, status: ItemTransactionStatus) => {
     updateStatus.mutate(
       {
-        status: "CANCELLED",
+        status: "COMPLETED",
         id,
       },
       {
