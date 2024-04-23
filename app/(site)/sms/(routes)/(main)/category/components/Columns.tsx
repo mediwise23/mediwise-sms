@@ -71,7 +71,7 @@ export const columns: ColumnDef<TCategorySchema>[] = [
           className=" text-[#181a19]  flex items-center cursor-pointer dark:text-white flex-1"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          CreatedAt
+          Onset Date
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </div>
       );
@@ -90,7 +90,7 @@ export const columns: ColumnDef<TCategorySchema>[] = [
         <div
           className=" text-[#181a19]  flex items-center cursor-pointer dark:text-white flex-1"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
+        >Intervention
         </div>
       );
     },

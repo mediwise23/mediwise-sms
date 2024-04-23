@@ -39,7 +39,7 @@ const InitialUserInfo: React.FC<IntialUserInfoProps> = ({ data }) => {
       <div className="flex flex-col gap-y-1">
         <p className="text-md text-zinc-700 dark:text-zinc-400">Home address</p>
         <span className="flex text-sm gap-x-1 text-black font-semibold dark:text-white">
-           {data?.profile?.city}{" "}
+           Caloocan{" "}
           {data?.profile?.street} {data?.profile?.homeNo}{" "}
           {data?.barangay?.name || ''}{" "}
         </span>

@@ -100,7 +100,8 @@ export const columns: ColumnDef<TItemTransaction & {barangay: Barangay}>[] = [
         status === 'PENDING' && 'bg-zinc-400',
         status === 'ONGOING' && 'bg-blue-400',
         (status === 'REJECTED' || status === 'CANCELLED') && 'bg-rose-400',
-        status === 'COMPLETED' && 'bg-primary',
+        status === "ACCEPTED" && "bg-[#107736]",
+        status === "COMPLETED" && "bg-[#16A34A]"
         )}>
           {status}
         </Badge>
@@ -120,7 +121,7 @@ export const columns: ColumnDef<TItemTransaction & {barangay: Barangay}>[] = [
           className=" text-[#181a19]  flex items-center cursor-pointer dark:text-white flex-1"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          CreatedAt
+          Onset Date
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </div>
       );
@@ -139,7 +140,7 @@ export const columns: ColumnDef<TItemTransaction & {barangay: Barangay}>[] = [
         <div
           className=" text-[#181a19]  flex items-center cursor-pointer dark:text-white flex-1"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
+        >Intervention
         </div>
       );
     },

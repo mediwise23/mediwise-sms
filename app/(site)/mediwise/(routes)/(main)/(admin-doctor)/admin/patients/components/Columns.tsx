@@ -190,6 +190,7 @@ export const columns: ColumnDef<TUser & { profile: Profile }>[] = [
           className=" text-[#181a19]  flex items-center cursor-pointer dark:text-white flex-1"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
+          Intervention
         </div>
       );
     },

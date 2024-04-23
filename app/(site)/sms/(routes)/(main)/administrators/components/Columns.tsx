@@ -153,7 +153,7 @@ export const columns: ColumnDef<TUser & { profile: Profile, barangay: TBarangay 
           className=" text-[#181a19]  flex items-center cursor-pointer dark:text-white flex-1"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          CreatedAt
+          Onset Date
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </div>
       );
@@ -179,7 +179,7 @@ export const columns: ColumnDef<TUser & { profile: Profile, barangay: TBarangay 
         <div
           className=" text-[#181a19]  flex items-center cursor-pointer dark:text-white flex-1"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        ></div>
+        >Intervention</div>
       );
     },
     cell: ({ row }) => {
