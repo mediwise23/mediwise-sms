@@ -197,7 +197,7 @@ const AppoinmentsDetailClient: React.FC<AppoinmentsDetailClientProps> = ({
 
             <div className="flex justify-between ">
               <strong>Name</strong>{" "}
-              <span>{appointment.data?.patient?.name}</span>
+              <span>{appointment.data?.patient?.name || `${appointment.data?.patient?.profile.firstname} ${appointment.data?.patient?.profile.lastname}`}</span>
             </div>
 
             <div className="flex justify-between ">
