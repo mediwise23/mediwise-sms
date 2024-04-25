@@ -23,7 +23,6 @@ async function getCurrentUserPages(req: NextApiRequest, res: NextApiResponse) {
     if (!user) {
       return null;
     }
-
     const { hashedPassword, ...props } = user;
     return {
       ...props,
