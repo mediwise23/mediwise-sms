@@ -93,7 +93,7 @@ const TransactionDetails: React.FC<TransactionDetailsProps> = ({
   console.log(transaction.data);
   const newDate = moment.utc(date).tz("Asia/Manila").format();
   return (
-    <div className="flex flex-col bg-white h-[97vh] overflow-y-auto dark:bg-slate-900 shadow-md p-3 md:p-5 rounded-md">
+    <div className="flex flex-col bg-white border-primary h-[97vh] overflow-y-auto dark:bg-slate-900 shadow-md p-3 md:p-5 rounded-md">
       <div className="flex justify-center w-full flex-col items-center gap-5">
         <ArrowLeft
           className="w-7 h-7 cursor-pointer self-start rounded-md text-black dark:text-white"
