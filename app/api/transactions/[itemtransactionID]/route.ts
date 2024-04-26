@@ -119,7 +119,7 @@ export const PATCH = withAuth(
       const transaction = await getItemTransactionById({
         id: params.itemtransactionID,
       });
-
+      
       if (
         !transaction ||
         !transaction.requested_items ||
@@ -184,6 +184,7 @@ export const PATCH = withAuth(
         transaction.status === ItemTransactionStatus.PENDING &&
         isStatusAllowed(body.data.status, ["ONGOING", "CANCELLED"])
       ) {
+
         /* 
           if the current transaction is pending and if the stock manager accepts or rejects the transaction
 
@@ -207,7 +208,7 @@ export const PATCH = withAuth(
         );
 
       } else if (
-        session.user.role === Role.STOCK_MANAGER &&
+        (session.user.role === Role.STOCK_MANAGER || session.user.role === Role.ADMIN) &&
         transaction.status === ItemTransactionStatus.ONGOING &&
         isStatusAllowed(body.data.status, ["COMPLETED"])
       ) {

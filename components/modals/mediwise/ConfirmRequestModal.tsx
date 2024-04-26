@@ -12,43 +12,54 @@ import { useModal } from "@/hooks/useModalStore";
 import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 import { useMutateProcessor } from "@/hooks/useTanstackQuery";
-import { TUpdateItemTransactionSchemaStatus } from "@/schema/item-transaction";
+import { TUpdateItemTransaction, TUpdateItemTransactionSchemaStatus } from "@/schema/item-transaction";
 import { ItemTransactionStatus } from "@prisma/client";
 import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 
 const ConfirmRequestModal = () => {
   const { isOpen, type, onClose, data } = useModal();
   const isModalOpen = isOpen && type === "confirmRequest";
+  const router = useRouter()
 
   const updateStatus = useMutateProcessor<
-    TUpdateItemTransactionSchemaStatus,
+  TUpdateItemTransaction,
     unknown
   >({
-    url: "/transactions/barangay",
+    url: `/transactions/${data?.transactionRequest?.id}`,
     method: "PATCH",
-    key: ["transactions-barangay"],
+    key:["view-transaction"],
   });
   const { toast } = useToast();
-  const updateRequestStatus = (id: string, status: ItemTransactionStatus) => {
+  const updateRequestStatus = () => {
     updateStatus.mutate(
       {
         status: "COMPLETED",
-        id,
       },
       {
         onSuccess(data) {
+          console.log(data)
         //   toast({
         //     title: `Request has been updated`,
         //   });
           onClose();
+          toast({
+            title: "Items accepted"
+          })
         },
         onError(error, variables, context) {
         //   toast({
         //     title: `Something went wrong`,
         //     variant: "destructive",
         //   });
+        toast({
+          title: "Something went wrong"
+        })
           onClose();
         },
+        onSettled: ()=> {
+          router.refresh()
+        }
       }
     );
   };
@@ -79,7 +90,7 @@ const ConfirmRequestModal = () => {
             <Button
               className="text-white"
               disabled={updateStatus.isPending}
-              onClick={() => updateRequestStatus(data?.transactionRequest?.id as string, 'COMPLETED')}
+              onClick={() => updateRequestStatus()}
               variant={"default"}
             >
               Confirm
