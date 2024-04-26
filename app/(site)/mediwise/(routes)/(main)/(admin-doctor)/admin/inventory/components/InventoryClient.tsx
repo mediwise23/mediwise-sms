@@ -17,7 +17,7 @@ import {
   PanelLeftClose,
   Search,
 } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DataTable } from "@/components/DataTable";
 import { columns } from "./Columns";
 import { Session } from "next-auth";
@@ -43,6 +43,11 @@ const InventoryClient: React.FC<InventoryClientProps> = ({ currentUser }) => {
       enabled: !!currentUser.barangayId
     }
   });
+
+  useEffect(() => {
+    currentRequest.refetch()
+    items.refetch()
+  }, [])
 
   const currentRequest = useQueryProcessor<ItemTransaction>({
     url: `/transactions/barangay`,

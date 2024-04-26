@@ -1,6 +1,6 @@
 "use client"
 import { DataTable } from "@/components/DataTable";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {columns} from './components/Columns'
 import { useParams } from "next/navigation";
 import { useQueryProcessor } from "@/hooks/useTanstackQuery";
@@ -27,6 +27,11 @@ const ItemPage = () => {
     url: `/brgy-item/${id}`,
     key: ['brgy-item', id]
   })
+
+
+  useEffect(() => {
+    brgyItem.refetch()
+  }, [])
 
   const items = brgyItem?.data?.items?.map(item => item)
 

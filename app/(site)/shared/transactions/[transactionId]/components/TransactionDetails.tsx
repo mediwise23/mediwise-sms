@@ -2,7 +2,7 @@
 import Avatar from "@/components/Avatar";
 import { DataTable } from "@/components/DataTable";
 import { Badge } from "@/components/ui/badge";
-import { useQueryProcessor } from "@/hooks/useTanstackQuery";
+import { useMutateProcessor, useQueryProcessor } from "@/hooks/useTanstackQuery";
 import { cn } from "@/lib/utils";
 import { TAppointment } from "@/schema/appointment";
 import { TBarangay } from "@/schema/barangay";
@@ -10,15 +10,17 @@ import { TProfile, TUser, TUserRaw } from "@/schema/user";
 import { format } from "date-fns";
 import { ArrowLeft } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import QRCode from "react-qr-code";
 import { columns } from "./Columns";
-import { ItemTransaction, appointment_item } from "@prisma/client";
+import { ItemTransaction, ItemTransactionStatus, appointment_item } from "@prisma/client";
 import { TItemBrgy } from "@/schema/item-brgy";
 import moment from "moment-timezone";
 import { useModal } from "@/hooks/useModalStore";
-import { TRequestedItem } from "@/schema/item-transaction";
+import { TRequestedItem, TUpdateItemTransactionSchemaStatus } from "@/schema/item-transaction";
 import { TItemSms } from "@/schema/item-sms";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 
 type TransactionDetailsProps = {
   currentUser: TUserRaw;
@@ -32,7 +34,6 @@ const TransactionDetails: React.FC<TransactionDetailsProps> = ({
   const params = useParams();
   const router = useRouter();
   const transactionId = params?.transactionId;
-
   const transaction = useQueryProcessor<
     ItemTransaction & {
       barangay: TBarangay;
@@ -44,6 +45,10 @@ const TransactionDetails: React.FC<TransactionDetailsProps> = ({
     key: ["view-transaction"],
   });
 
+  useEffect(() => {
+    transaction.refetch()
+  }, [])
+
   const [globalFilter, setGlobalFilter] = useState("");
 
   const onFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,6 +57,38 @@ const TransactionDetails: React.FC<TransactionDetailsProps> = ({
 
   const { onOpen } = useModal();
 
+  const updateStatus = useMutateProcessor<
+    TUpdateItemTransactionSchemaStatus,
+    unknown
+  >({
+    url: "/transactions/barangay",
+    method: "PATCH",
+    key: ["transactions-barangay", transactionId],
+  });
+  const { toast } = useToast();
+  
+  const updateRequestStatus = (id: string, status: ItemTransactionStatus) => {
+    updateStatus.mutate(
+      {
+        status: "CANCELLED",
+        id,
+      },
+      {
+        onSuccess(data) {
+          toast({
+            title: `transaction cancelled`,
+          });
+          router.back()
+        },
+        onError(error, variables, context) {
+          toast({
+            title: `Something went wrong`,
+            variant: "destructive",
+          });
+        },
+      }
+    );
+  };
   const date = new Date(transaction.data?.createdAt || new Date());
   console.log(transaction.data);
   const newDate = moment.utc(date).tz("Asia/Manila").format();
@@ -132,6 +169,22 @@ const TransactionDetails: React.FC<TransactionDetailsProps> = ({
                       }
                     />
                   </div>
+                </div>
+              )}
+            {transaction.data?.barangayUserId === currentUser.id &&
+              transaction.data.status === "ONGOING" && (
+                <div className="flex justify-center gap-x-3">
+                  <Button type="button" onClick={() => updateRequestStatus(transaction.data?.id || "", "CANCELLED")}>Reject</Button>
+                  <Button
+                    type="button"
+                    onClick={() =>
+                      onOpen("confirmRequest", {
+                        transactionRequest: transaction.data,
+                      })
+                    }
+                  >
+                    Mark as completed
+                  </Button>
                 </div>
               )}
           </div>
