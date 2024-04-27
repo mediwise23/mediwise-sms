@@ -88,7 +88,7 @@ const AppoinmentsDetailClient: React.FC<AppoinmentsDetailClientProps> = ({
 
       <div className="flex justify-center w-full flex-col items-center gap-5">
         <section className="flex flex-col mt-10  w-[80vw] lg:w-[50vw] gap-y-5">
-          <h1 className="text-3xl font-semibold">Appointment detail</h1>
+          <h1 className="text-3xl font-semibold text-primary">Appointment detail</h1>
           <div className="flex flex-col mt-10 gap-y-5">
             <div className="flex justify-between text-sm md:text-md">
               <strong>Qr code provided</strong>
