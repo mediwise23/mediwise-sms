@@ -64,7 +64,7 @@ export const GET = withAuth(async ({ req, session }) => {
       where: {
         barangayId: session.user.barangayId ?? undefined,
         AND: {
-          createdAt: {
+          date: {
             gte: new Date(selectedYear, i, 1),
             lt: new Date(selectedYear, i + 1, 1),
           },
