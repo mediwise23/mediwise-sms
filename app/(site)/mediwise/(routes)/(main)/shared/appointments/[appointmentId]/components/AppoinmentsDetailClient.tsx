@@ -183,7 +183,7 @@ const AppoinmentsDetailClient: React.FC<AppoinmentsDetailClientProps> = ({
         </section>
 
         <section className="flex flex-col mt-10 w-[50vw] gap-y-5">
-          <h1 className="text-3xl font-semibold">Patient detail</h1>
+          <h1 className="text-3xl font-semibold text-primary">Patient detail</h1>
           <div className="flex flex-col mt-10 gap-y-5">
             <div className="flex justify-between ">
               <strong>Photo</strong>
@@ -228,7 +228,7 @@ const AppoinmentsDetailClient: React.FC<AppoinmentsDetailClientProps> = ({
         </section>
 
         <section className="flex flex-col mt-10 w-[50vw] gap-y-5">
-          <h1 className="text-3xl font-semibold">Doctor detail</h1>
+          <h1 className="text-3xl font-semibold text-primary">Doctor detail</h1>
           <div className="flex flex-col mt-10 gap-y-5">
             <div className="flex justify-between ">
               <strong>Photo</strong>
