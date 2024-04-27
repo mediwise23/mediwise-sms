@@ -1,14 +1,14 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useModal } from "@/hooks/useModalStore";
 
 import { PDFExport } from "@progress/kendo-react-pdf";
 import { Button } from "@progress/kendo-react-buttons";
 import { cn } from "@/lib/utils";
-
 const InventoryReportModal = () => {
   const { isOpen, onClose, type, data } = useModal();
+  const messagesEndRef = useRef<null | HTMLDivElement>(null)
 
   const isModalOpen = isOpen && type === "inventoryReport";
   const totalStocks = data?.brgyItems?.reduce(
@@ -21,10 +21,11 @@ const InventoryReportModal = () => {
   const handleExportYearlyPdf = (e: any) => {
     if (pdfExportYearComponent.current) {
       setReportClcked(true);
+      pdfExportYearComponent.current?.save();
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
       setTimeout(() => {
-        pdfExportYearComponent.current?.save();
         setReportClcked(false);
-      }, 0);
+      }, 1000);
     }
   };
 
@@ -42,6 +43,11 @@ const InventoryReportModal = () => {
     "Nov",
     "Dec",
   ];
+
+  useEffect(() => {
+    setTimeout(() => {
+    }, 1000)
+  }, [] )
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
@@ -71,9 +77,10 @@ const InventoryReportModal = () => {
                 <p>Total stocks: {totalStocks}</p>
               </div>
               <div
+              ref={messagesEndRef}
                 className={cn(
                   "max-h-[30vh] overflow-auto",
-                  reportClicked && "overflow-visible max-h-max"
+                  reportClicked && "overflow-visible max-h-[100vh]"
                 )}
               >
                 <table className="min-w-full bg-white dark:text-black shadow-md rounded-lg mt-10  ">
