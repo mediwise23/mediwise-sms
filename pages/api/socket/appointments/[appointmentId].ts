@@ -30,7 +30,9 @@ export default async function handler(
         include: {
           appointments: {
             where: {
-              status: 'ACCEPTED'
+              status: {
+                in: ['ACCEPTED', 'COMPLETED']
+              }
             }
           }
         }
