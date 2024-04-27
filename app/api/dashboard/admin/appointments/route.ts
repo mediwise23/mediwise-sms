@@ -68,6 +68,7 @@ export const GET = withAuth(async ({ req, session }) => {
             gte: new Date(selectedYear, i, 1),
             lt: new Date(selectedYear, i + 1, 1),
           },
+          status: "COMPLETED"
         },
       },
     });
