@@ -4,6 +4,9 @@ import { apiClient } from "@/hooks/useTanstackQuery";
 import { Role } from "@prisma/client";
 import imageCompression from "browser-image-compression";
 import axios from "axios";
+//@ts-ignore
+//@ts-nocheck
+// import * as pdfToText from "react-pdftotext";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -115,4 +118,14 @@ export const handleImageCompression = async (file: File) => {
 export const getTime = (date: Date) => {
   const formattedTime = date.toLocaleString('en-US', {timeZone: "Asia/Manila",  hour: '2-digit', minute: '2-digit', hour12: true });
   return formattedTime
+}
+
+export async function extractText(pdf_url:string) {
+  const file = await fetch(pdf_url)
+      .then(res => res.blob())
+      .catch(error => console.error(error))
+
+  // pdfToText(file)
+  //     .then((text:string) => console.log("pdfff",text))
+  //     .catch((error:any) => console.error("Failed to extract text from pdf"))
 }

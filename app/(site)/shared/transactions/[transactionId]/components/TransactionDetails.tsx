@@ -3,7 +3,7 @@ import Avatar from "@/components/Avatar";
 import { DataTable } from "@/components/DataTable";
 import { Badge } from "@/components/ui/badge";
 import { useMutateProcessor, useQueryProcessor } from "@/hooks/useTanstackQuery";
-import { cn } from "@/lib/utils";
+import { cn, extractText } from "@/lib/utils";
 import { TAppointment } from "@/schema/appointment";
 import { TBarangay } from "@/schema/barangay";
 import { TProfile, TUser, TUserRaw } from "@/schema/user";
@@ -21,6 +21,7 @@ import { TRequestedItem, TUpdateItemTransactionSchemaStatus } from "@/schema/ite
 import { TItemSms } from "@/schema/item-sms";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
+import { isGeneratorFunction } from "util/types";
 
 type TransactionDetailsProps = {
   currentUser: TUserRaw;
@@ -48,6 +49,13 @@ const TransactionDetails: React.FC<TransactionDetailsProps> = ({
   useEffect(() => {
     transaction.refetch()
   }, [])
+
+  useEffect(() => {
+
+    if(transaction.data?.fileReport) {
+      // extractText(transaction.data?.fileReport);
+    }
+  }, [transaction.data])
 
   const [globalFilter, setGlobalFilter] = useState("");
 

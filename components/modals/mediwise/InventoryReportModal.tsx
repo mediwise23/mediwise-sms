@@ -73,7 +73,7 @@ const InventoryReportModal = () => {
               <div
                 className={cn(
                   "max-h-[30vh] overflow-auto",
-                  reportClicked && "overflow-visible"
+                  reportClicked && "overflow-visible max-h-max"
                 )}
               >
                 <table className="min-w-full bg-white dark:text-black shadow-md rounded-lg mt-10  ">

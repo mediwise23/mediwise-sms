@@ -85,6 +85,7 @@
     "react-multi-carousel": "^2.8.4",
     "react-native-svg": "^14.1.0",
     "react-pdf": "^7.7.1",
+    "react-pdftotext": "^1.2.0",
     "react-qr-code": "^2.0.12",
     "react-resizable-panels": "^1.0.9",
     "react-spinners": "^0.13.8",
