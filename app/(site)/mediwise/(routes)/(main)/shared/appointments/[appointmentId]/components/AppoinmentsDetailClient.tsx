@@ -270,7 +270,16 @@ const AppoinmentsDetailClient: React.FC<AppoinmentsDetailClientProps> = ({
           appointment.data.status === "ACCEPTED" && (
             <Button
               variant={"destructive"}
-              onClick={() => updateAppointmentStatus("CANCELLED")}
+              onClick={() => {
+                onOpen("deleteModal", {
+                  id: appointmentId as string,
+                  title: "Cancel appointment",
+                  description: "This appointment will be",
+                  action: "cancelled",
+                  mutatekey: ["view-appointment"],
+                  url: `/socket/appointments/${appointmentId}`,
+                })
+              }}
             >
               Cancel
             </Button>

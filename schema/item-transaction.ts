@@ -78,4 +78,11 @@ export const UpdateItemTransactionSchemaStatus = ItemTransactionSchema.pick({
   status: z.nativeEnum(ItemTransactionStatus),
 });
 
+
+export const CancelItemTransactionSchemaStatus = ItemTransactionSchema.pick({
+  id: true,
+}).extend({
+});
+
+
 export type TUpdateItemTransactionSchemaStatus = z.infer<typeof UpdateItemTransactionSchemaStatus>

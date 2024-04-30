@@ -32,6 +32,7 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 // import PDFViewer from 'pdf-viewer-reactjs'
 import { Document, Page } from 'react-pdf';
+import { useModal } from "@/hooks/useModalStore";
 type TransactionDetailClientProps = {
   currentUser: Session["user"];
 };
@@ -43,6 +44,8 @@ const TransactionDetailClient: React.FC<TransactionDetailClientProps> = ({
   const onFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
     setGlobalFilter(e.target.value);
   };
+
+  const { onOpen } = useModal()
 
   const searchParams = useParams();
   const transactionId = searchParams?.transactionId;
@@ -256,9 +259,22 @@ const TransactionDetailClient: React.FC<TransactionDetailClientProps> = ({
                 </div>
 
                 <div className="flex gap-x-3 mx-auto">
-                  <Button className="flex w-fit" variant={"destructive"}>
-                    Cancel
-                  </Button>
+                  <Button
+                      className="flex w-fit"
+                      variant={"destructive"}
+                      onClick={() => {
+                        onOpen("deleteModal", {
+                          id: transactionId as string,
+                          title: "Cancel transaction",
+                          description: "This transaction will be",
+                          action: "cancelled",
+                          mutatekey: ["transactions", transactionId as string],
+                          url: `/transactions/${transactionId}/cancel`,
+                        })
+                      }}
+                    >
+                      Cancel
+                    </Button>
                   <Button className="flex w-fit" onClick={onSubmit}>
                     Submit
                   </Button>
@@ -296,9 +312,14 @@ const TransactionDetailClient: React.FC<TransactionDetailClientProps> = ({
                       className="flex w-fit"
                       variant={"destructive"}
                       onClick={() => {
-                        updateStatus.mutate({
-                          status: "CANCELLED",
-                        });
+                        onOpen("deleteModal", {
+                          id: transactionId as string,
+                          title: "Cancel transaction",
+                          description: "This transaction will be",
+                          action: "cancelled",
+                          mutatekey: ["transactions", transactionId as string],
+                          url: `/transactions/${transactionId}/cancel`,
+                        })
 
                       }}
                     >

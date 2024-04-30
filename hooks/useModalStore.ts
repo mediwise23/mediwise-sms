@@ -46,6 +46,7 @@ export type ModalType =
   | "createCategory"
   | "updateCategory"
   | "appointmentWarning"
+  | "deleteModal"
 // you can extend this type if you have more modal
 
 // export type ModalType = "..." | "...." | "...."
@@ -63,7 +64,13 @@ type ModalData = {
     doctor: TUser & { profile: Profile };
     patient: TUser & { profile: Profile };
   };
-  category?: TCategorySchema
+  category?: TCategorySchema;
+  id?: string;
+  url?:string;
+  title?:string;
+  description?:string;
+  mutatekey?: (string | number | object)[]
+  action?: string;
 };
 
 type ModalStore = {

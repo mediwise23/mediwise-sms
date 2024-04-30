@@ -24,7 +24,7 @@ import ActionButton from "./ActionButton";
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 
-const DATE_FORMAT = `MMM d yyyy`;
+const DATE_FORMAT = `MMM d yyyy hh:mm aaaaa'm`;
 export const columns: ColumnDef<Appointment & { doctor: TUser & { profile: Profile }, patient: TUser & { profile: Profile } }>[] = [
   {
     accessorKey: "id",

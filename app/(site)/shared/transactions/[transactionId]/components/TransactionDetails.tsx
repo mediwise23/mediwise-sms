@@ -2,7 +2,10 @@
 import Avatar from "@/components/Avatar";
 import { DataTable } from "@/components/DataTable";
 import { Badge } from "@/components/ui/badge";
-import { useMutateProcessor, useQueryProcessor } from "@/hooks/useTanstackQuery";
+import {
+  useMutateProcessor,
+  useQueryProcessor,
+} from "@/hooks/useTanstackQuery";
 import { cn, extractText } from "@/lib/utils";
 import { TAppointment } from "@/schema/appointment";
 import { TBarangay } from "@/schema/barangay";
@@ -13,11 +16,18 @@ import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import QRCode from "react-qr-code";
 import { columns } from "./Columns";
-import { ItemTransaction, ItemTransactionStatus, appointment_item } from "@prisma/client";
+import {
+  ItemTransaction,
+  ItemTransactionStatus,
+  appointment_item,
+} from "@prisma/client";
 import { TItemBrgy } from "@/schema/item-brgy";
 import moment from "moment-timezone";
 import { useModal } from "@/hooks/useModalStore";
-import { TRequestedItem, TUpdateItemTransactionSchemaStatus } from "@/schema/item-transaction";
+import {
+  TRequestedItem,
+  TUpdateItemTransactionSchemaStatus,
+} from "@/schema/item-transaction";
 import { TItemSms } from "@/schema/item-sms";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
@@ -47,15 +57,14 @@ const TransactionDetails: React.FC<TransactionDetailsProps> = ({
   });
 
   useEffect(() => {
-    transaction.refetch()
-  }, [])
+    transaction.refetch();
+  }, []);
 
   useEffect(() => {
-
-    if(transaction.data?.fileReport) {
+    if (transaction.data?.fileReport) {
       // extractText(transaction.data?.fileReport);
     }
-  }, [transaction.data])
+  }, [transaction.data]);
 
   const [globalFilter, setGlobalFilter] = useState("");
 
@@ -65,40 +74,9 @@ const TransactionDetails: React.FC<TransactionDetailsProps> = ({
 
   const { onOpen } = useModal();
 
-  const updateStatus = useMutateProcessor<
-    TUpdateItemTransactionSchemaStatus,
-    unknown
-  >({
-    url: "/transactions/barangay",
-    method: "PATCH",
-    key: ["transactions-barangay", transactionId],
-  });
   const { toast } = useToast();
-  
-  const updateRequestStatus = (id: string, status: ItemTransactionStatus) => {
-    updateStatus.mutate(
-      {
-        status: "CANCELLED",
-        id,
-      },
-      {
-        onSuccess(data) {
-          toast({
-            title: `transaction cancelled`,
-          });
-          router.back()
-        },
-        onError(error, variables, context) {
-          toast({
-            title: `Something went wrong`,
-            variant: "destructive",
-          });
-        },
-      }
-    );
-  };
+
   const date = new Date(transaction.data?.createdAt || new Date());
-  console.log(transaction.data);
   const newDate = moment.utc(date).tz("Asia/Manila").format();
   return (
     <div className="flex flex-col bg-white border-primary h-[97vh] overflow-y-auto dark:bg-slate-900 shadow-md p-3 md:p-5 rounded-md">
@@ -182,7 +160,21 @@ const TransactionDetails: React.FC<TransactionDetailsProps> = ({
             {transaction.data?.barangayUserId === currentUser.id &&
               transaction.data.status === "ONGOING" && (
                 <div className="flex justify-center gap-x-3">
-                  <Button type="button" onClick={() => updateRequestStatus(transaction.data?.id || "", "CANCELLED")}>Reject</Button>
+                  <Button
+                    variant={"destructive"}
+                    onClick={() => {
+                      onOpen("deleteModal", {
+                        id: transactionId as string,
+                        title: "Cancel transaction",
+                        description: "This transaction will be",
+                        action: "cancelled",
+                        mutatekey: ["view-transaction"],
+                        url: `/transactions/${transactionId}/barangay`,
+                      });
+                    }}
+                  >
+                    Cancel
+                  </Button>
                   <Button
                     type="button"
                     onClick={() =>

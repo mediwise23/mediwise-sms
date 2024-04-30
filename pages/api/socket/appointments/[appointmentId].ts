@@ -248,6 +248,32 @@ export default async function handler(
       return res.status(200).json(appointmentUpdated);
   } 
   
+  else if (req.method === "DELETE") {
+    const cancelAppointment = await prisma.appointment.update({
+      where: {
+        id: appointment.id,
+      },
+      data: {
+        status: 'CANCELLED',
+      }
+    })
+
+    const notification = await prisma.notification.create({
+      data: {
+        content: `Your appointment has been cancelled`,
+        appointmentId: cancelAppointment.id,
+        userId: cancelAppointment.patientId,
+      }
+    })
+
+    nodeSchedule.cancelJob(cancelAppointment.id)
+
+    const Key = `notification:${notification.userId}:create`;
+            console.log("new notification socket:", Key);
+            res.socket?.server?.io.emit(Key, notification);
+      return res.status(200).json(cancelAppointment);
+
+  }
   
   else {
     // Handle any other HTTP method
